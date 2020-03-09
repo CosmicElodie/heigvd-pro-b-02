@@ -21,7 +21,11 @@ export default function SignInSide(props) {
     const classes = useLoginStyles(); 
     
     // main context state -> main data repository
-    const [ user, setUser, login, setLogin ] = useContext(MainContext);
+    const { 
+      user:user, 
+      setUser:setUser, 
+      setLogin:setLogin 
+    } = useContext(MainContext);
 
     // keep track of the input states 
     // each keystroke (onChange event listener) is saved within the state
