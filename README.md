@@ -6,7 +6,7 @@ An application for collaboratively tagging and annotating historical
 images from the canton of Vaud.
 
 This software was developed as semester project (PRO) at HEIG-VD,
-academic year 2018/19.
+academic year 2019/20.
 
 Development team:
 
