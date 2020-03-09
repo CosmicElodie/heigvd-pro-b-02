@@ -134,7 +134,7 @@ const useLoginStyles = makeStyles(theme => ({
       transition: '200ms right ease-in-out'
     },
     grid_container : {
-      borderRadius: '10px'
+      
     },
     image: {
       backgroundRepeat: 'no-repeat',
