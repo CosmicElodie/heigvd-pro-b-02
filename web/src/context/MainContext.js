@@ -10,7 +10,7 @@ export const MainProvider = ( props ) => {
         
     return (
         
-        <MainContext.Provider value = { [ user, setUser, login, setLogin ] }>
+        <MainContext.Provider value = { { user, setUser, login, setLogin } }>
             { props.children }
         </MainContext.Provider>
     );

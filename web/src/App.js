@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, Component } from 'react';
-import { MainContext, MainProvider } from './context/MainContext';
+import React from 'react';
+import { MainProvider } from './context/MainContext';
 import Menu from './layout/Menu'
 import User from './layout/User'
 import Login from './layout/Login'
@@ -8,15 +8,7 @@ import About from './pages/About'
 import './css/App.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-
-
-const App = ( props ) => {
-    //const context = useContext(MainContext);
-    
-    useEffect(() => { 
-      //console.log(context);
-    }, []);
-
+const App = ( ) => {
     return (
       <MainProvider>
         <Router>
