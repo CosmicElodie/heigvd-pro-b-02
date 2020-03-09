@@ -16,62 +16,15 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://heig-vd.ch//">
-        Heig-VD
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    height: '400px',
-    width: '500px',
-    display:'none',
-    position: 'absolute',
-    right: '20px',
-    top: '50px'
-  },
-  grid_container : {
-    borderRadius: '10px'
-  },
-  image: {
-    backgroundRepeat: 'no-repeat',
-    backgroundColor:
-      theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[50],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-  },
-  paper: {
-    padding:'25px 0px',
-    margin: theme.spacing(4, 4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
 export default function SignInSide(props) {
-    const classes = useStyles();
+    // css classes are defined bellow -> scroll down
+    const classes = useLoginStyles(); 
+    
+    // main context state -> main data repository
     const [ user, setUser, login, setLogin ] = useContext(MainContext);
 
+    // keep track of the input states 
+    // each keystroke (onChange event listener) is saved within the state
     const { value:email,        bind:bindEmail      } = useInput('');
     const { value:password,     bind:bindPassword   } = useInput('');
     
@@ -162,5 +115,59 @@ export default function SignInSide(props) {
         </div>
       </Grid>
     </Grid>
+  );
+}
+
+
+const useLoginStyles = makeStyles(theme => ({
+  root: {
+    height: '400px',
+    width: '500px',
+    display:'none',
+    position: 'absolute',
+    right: '20px',
+    top: '50px'
+  },
+  grid_container : {
+    borderRadius: '10px'
+  },
+  image: {
+    backgroundRepeat: 'no-repeat',
+    backgroundColor:
+      theme.palette.type === 'dark' ? theme.palette.grey[900] : theme.palette.grey[50],
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+  paper: {
+    padding:'25px 0px',
+    margin: theme.spacing(4, 4),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://heig-vd.ch//">
+        Heig-VD
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
   );
 }
