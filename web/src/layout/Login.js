@@ -51,7 +51,7 @@ const Login = () => {
     }
 
     return (
-        <Grid container={true} component="main" className={ classes.root + " " + ( login.is_open ? 'visible' : '' )}>
+        <Grid container={true} component="section" className={ classes.root + " " + ( login.is_open ? 'login-form-visible' : '' )}>
           <CssBaseline />
           <Grid className={classes.grid_container} item component={Paper} elevation={10} square>
             <div className={classes.paper}>
@@ -126,10 +126,12 @@ const useLoginStyles = makeStyles(theme => ({
     root: {
       height: '400px',
       width: '500px',
-      display:'none',
       position: 'absolute',
       right: '20px',
-      top: '50px'
+      top: '70px',
+      right: '-500px',
+      visibility: 'hidden',
+      transition: '200ms right ease-in-out'
     },
     grid_container : {
       borderRadius: '10px'

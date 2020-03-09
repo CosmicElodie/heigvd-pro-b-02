@@ -3,7 +3,6 @@ import { MainContext } from '../context/MainContext';
 import { makeStyles } from '@material-ui/core';
 import { Button, Avatar } from '@material-ui/core';
 
-
 /*
     tool to console.log within JSX
     const ConsoleLog = ({ children }) => {

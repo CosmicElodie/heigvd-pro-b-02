@@ -10,9 +10,11 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App = ( ) => {
     return (
+      
       <MainProvider>
         <Router>
-          <section className="App">
+        <section className="App">
+            <Login />
             <section className="header">
               <Menu /> 
               <User  />
@@ -22,11 +24,13 @@ const App = ( ) => {
                 <Route exact path="/" component={Home} />
                 <Route path="/about" component={About} />
               </Switch>
-              <Login />
             </section>
-          </section>
+          </section> 
+          
           </Router>
+          
       </MainProvider>
+     
     )
 }
 

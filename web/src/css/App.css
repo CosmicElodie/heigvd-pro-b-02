@@ -1,7 +1,8 @@
 .App {
-  width:calc(100vw);
-  height:calc(100vh);
-  position: relative;
+  width:100vw;
+  height:100vh;
+  overflow-x:hidden;
+  position:fixed;
 }
 
 .App .header{
@@ -23,7 +24,7 @@
   display:flex;
   flex-direction: row;  
   max-width: 400px;
-  border-right:1px solid rgb(121, 153, 243);
+  border-right:1px solid rgb(187, 195, 216);
 }
 
 .App .header ul.menu li{
@@ -43,7 +44,7 @@
 }
 
 .App .zone-user .sign-in:hover{
-  color:rgb(121, 153, 243);
+  color:rgb(121, 154, 243);
   cursor:pointer;
 }
 
@@ -102,8 +103,9 @@
   padding:60px 25px;
 }
 
-.App .visible{
-  display:block !important;
+.App .login-form-visible{
+  right:20px;
+  visibility: visible;
 }
 
 .App .floating-form header{
