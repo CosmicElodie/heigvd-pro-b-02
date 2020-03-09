@@ -32,8 +32,8 @@ const Menu = () => {
         <Tabs
             value={value}
             onChange={handleChange}
-            variant="fullWidth"
-            textColor="secondary"
+            variant="scrollable"
+            textColor="primary"
             aria-label="icon label tabs example"
         >
             <Tab 
