@@ -28,3 +28,18 @@ export const MainProvider = ( props ) => {
     );
 
 }
+
+/*
+
+Dialog Object example : 
+{
+    login_success: {
+        is_open: true,
+        data : { 
+            firstname: "Stefan",
+            lastname: "Teofanovic"
+        }
+    }
+}
+
+*/

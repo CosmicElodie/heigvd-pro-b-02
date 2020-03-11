@@ -23,16 +23,24 @@ const Dialog = () => {
             return {...latest, ...which}; 
         });
     };
-    return (
-        <section className={classes.root}>
+    
+    let dialogRender;
+    
+    if(dialog.login_success){
+        dialogRender = dialog.login_success.is_open &&
             <Snackbar 
-                    open = { dialog.login_success } 
-                    onClose = { () => handleClose({ login_success: false }) } 
+                    open = "true"
+                    onClose = { () => handleClose({ login_success: { is_open : false } }) } 
                     autoHideDuration={6000} >
                 <Alert variant="filled" severity="success">
-                Welcome on board!
+                    Welcome on board { dialog.login_success.data.firstname + " " + dialog.login_success.data.lastname }!
                 </Alert>
-            </Snackbar>
+            </Snackbar>;
+    }
+
+    return (
+        <section className={classes.root}>
+           { dialogRender }
         </section>
     );
 }

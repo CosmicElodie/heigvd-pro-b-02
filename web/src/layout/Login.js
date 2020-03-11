@@ -48,7 +48,15 @@ const Login = () => {
                 ...latest,
                 is_open : !latest.is_open
             }));
-            setDialog({ login_success: true });
+            setDialog({
+              login_success: {
+                  is_open: true,
+                  data : { 
+                      firstname: response.data.firstname,
+                      lastname: response.data.lastname
+                  }
+              }
+          });
         })
     }
 
