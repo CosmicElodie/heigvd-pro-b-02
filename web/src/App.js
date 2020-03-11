@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { MainProvider } from './context/MainContext';
 import Menu from './layout/Menu'
 import User from './layout/User'
@@ -13,7 +13,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 const App = ( ) => {
 
     return (
-      
       <MainProvider>
         <Router>
         <section className="App">
@@ -32,7 +31,6 @@ const App = ( ) => {
           </Router>
           <Dialog />
       </MainProvider>
-     
     )
 }
 

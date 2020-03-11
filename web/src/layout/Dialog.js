@@ -22,12 +22,12 @@ const Dialog = () => {
                         onClose = { () => handleClose({ login_success: { is_open : false } }) } 
                         autoHideDuration={6000} >
                     <Alert variant="filled" severity="success">
-                        Bienvenu { dialog.login_success.data && (dialog.login_success.data.firstname + " " + dialog.login_success.data.lastname) }!
+                        Bienvenu { dialog.login_success.data && ( dialog.login_success.data.firstname + " " + dialog.login_success.data.lastname ) }!
                     </Alert>
                 </Snackbar> 
             }
 
-{ 
+            { 
                 dialog && dialog.login_failed &&
                 <Snackbar 
                         open = { dialog.login_failed.is_open }
