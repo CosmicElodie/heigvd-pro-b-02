@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { MainProvider } from './context/MainContext';
 import Menu from './layout/Menu'
 import User from './layout/User'
 import Login from './layout/Login'
+import Dialog from './layout/Dialog'
 import Home from './pages/Home'
 import About from './pages/About'
+
 import './css/App.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App = ( ) => {
+
     return (
       
       <MainProvider>
@@ -26,9 +29,8 @@ const App = ( ) => {
               </Switch>
             </section>
           </section> 
-          
           </Router>
-          
+          <Dialog />
       </MainProvider>
      
     )

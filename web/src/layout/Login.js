@@ -24,7 +24,8 @@ const Login = () => {
     const { 
       login, 
       setUser, 
-      setLogin 
+      setLogin,
+      setDialog 
     } = useContext(MainContext);
 
     // keep track of the input states 
@@ -47,6 +48,7 @@ const Login = () => {
                 ...latest,
                 is_open : !latest.is_open
             }));
+            setDialog({ login_success: true });
         })
     }
 
