@@ -18,7 +18,10 @@ const Dialog = () => {
     const { dialog, setDialog } = useContext(MainContext);
     const classes = useStyles();
     const handleClose = (which) => {
-        setDialog(which);
+        setDialog((latest) => { 
+            // merge 2 objets JSON, l'attribut de which sera prioritaire
+            return {...latest, ...which}; 
+        });
     };
     return (
         <section className={classes.root}>
