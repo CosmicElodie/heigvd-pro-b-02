@@ -10,7 +10,7 @@ export const MainProvider = ( props ) => {
     // it can be a list of objects
     const [ user, setUser ]      = useState({ is_authenticated : false });
     const [ login, setLogin ]    = useState({ is_open : false });
-    const [ dialog, setDialog ]  = useState({ });
+    const [ dialog, setDialog ]  = useState();
 
     let context = {
         user, 

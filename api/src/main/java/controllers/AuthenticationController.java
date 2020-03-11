@@ -31,7 +31,7 @@ public class AuthenticationController {
                 responseObject.put("data", Utils.mergeJSON(((User) auth.getPrincipal()).getJSON(), authenticated));
                 responseObject.put("authorities", auth.getAuthorities());
             }else{
-                responseObject.put("id", "not-authenticated");
+                responseObject.put("id", "not_authenticated");
                 responseObject.put("data", authenticated);
             }
             return responseObject.toString();
@@ -44,8 +44,7 @@ public class AuthenticationController {
         JSONObject authenticated = new JSONObject();
         if(user == null || !user.getPassword().equals(password)){
             authenticated.put("is_authenticated", false);
-            responseObject.put("status", "error");
-            responseObject.put("id", "authentication-failed");
+            responseObject.put("dialog_id", "login_failed");
             responseObject.put("data", authenticated);
             return responseObject.toString();
         }
@@ -55,8 +54,7 @@ public class AuthenticationController {
             SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL);
             SecurityContextHolder.getContext().setAuthentication(auth);
             authenticated.put("is_authenticated", true);
-            responseObject.put("status", "ok");
-            responseObject.put("id", "welcome");
+            responseObject.put("dialog_id", "login_success");
             responseObject.put("data", Utils.mergeJSON(user.getJSON(), authenticated));
         }
         return responseObject.toString();
