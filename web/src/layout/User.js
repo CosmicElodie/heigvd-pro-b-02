@@ -13,7 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 */ 
 
 const User = ( props ) => {
-
+   
     // MainContext => see file ./context/MainContext.js
     const { user, setUser, setLogin, setDialog  } = useContext(MainContext);
     const [ button, setButton ] = useState({ color : 'primary' });
@@ -70,29 +70,21 @@ const User = ( props ) => {
     const user_logout = () => {
         
        fetch('http://localhost:8080/authentication/user_logout', {
-            method: 'GET'
+            method: 'GET',
+            credentials: 'include'
         })
         .then(response => response.json())
         .then(response => {
-            setUser({
-                [response.data]: {
-                    is_authenticated : {...response.data}
-                }
-            });
-            console.log(response.data)
+            
+            setUser(response.data);
             setDialog({
                 [response.dialog_id]: {
-                    is_open: true,
-                    data : {...response.data}
+                    is_open: true
                 }
             });
             
         })
-      
-
-    {/**/}
-
-      
+          
     
     };    
 

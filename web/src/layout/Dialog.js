@@ -27,6 +27,18 @@ const Dialog = () => {
                 </Snackbar> 
             }
 
+{ 
+                dialog && dialog.logout_success &&
+                <Snackbar 
+                        open = { dialog.logout_success.is_open }
+                        onClose = { () => handleClose({ logout_success: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="info">
+                        Au revoir...
+                    </Alert>
+                </Snackbar> 
+            }
+
             { 
                 dialog && dialog.login_failed &&
                 <Snackbar 
