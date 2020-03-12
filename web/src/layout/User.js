@@ -17,6 +17,7 @@ const User = ( props ) => {
     // MainContext => see file ./context/MainContext.js
     const { user, setUser, setLogin, setDialog  } = useContext(MainContext);
     const [ button, setButton ] = useState({ color : 'primary' });
+    const [ anchorEl, setAnchorEl ] = React.useState(null);
 
     useEffect(() => { 
         // useEffect => sort of 'DOM Ready' equivalent 
@@ -57,13 +58,11 @@ const User = ( props ) => {
 
     const classes = useStyles();
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
     const handleClick = event => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = () => {
+    const handleMenuClose = () => {
         setAnchorEl(null);
     };    
 
@@ -81,11 +80,8 @@ const User = ( props ) => {
                 [response.dialog_id]: {
                     is_open: true
                 }
-            });
-            
+            });  
         })
-          
-    
     };    
 
     return (
@@ -115,11 +111,11 @@ const User = ( props ) => {
                         anchorEl={anchorEl}
                         keepMounted
                         open={Boolean(anchorEl)}
-                        onClose={handleClose}
+                        onClose={ handleMenuClose }
                     >
-                        <MenuItem onClick={handleClose}>Profile</MenuItem>
-                        <MenuItem onClick={handleClose}>My account</MenuItem>
-                        <MenuItem onClick={handleClose, user_logout}>Logout</MenuItem>
+                        <MenuItem onClick={ handleMenuClose }>Profile</MenuItem>
+                        <MenuItem onClick={ handleMenuClose }>My account</MenuItem>
+                        <MenuItem onClick={ handleMenuClose, user_logout }>Logout</MenuItem>
                         </Menu>                     
                     </Avatar>
                     <section className="details">
