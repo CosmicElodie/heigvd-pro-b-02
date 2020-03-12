@@ -60,6 +60,32 @@ public class AuthenticationController {
         return responseObject.toString();
     }
 
+    @GetMapping("/authentication/user_logout")
+    public String userLogout(){
+        JSONObject responseObject = new JSONObject();
+        JSONObject authenticated = new JSONObject();
+        SecurityContextHolder.clearContext();
+        authenticated.put("is_authenticated", false);
+        responseObject.put("dialog_id", "logout_success");
+        responseObject.put("data", authenticated);
+      return responseObject.toString();
+    }
+
+    @RequestMapping(value = {"/logout"}, method = RequestMethod.POST)
+    public String logoutDo(HttpServletRequest request,HttpServletResponse response){
+        HttpSession session= request.getSession(false);
+        SecurityContextHolder.clearContext();
+        session= request.getSession(false);
+        if(session != null) {
+            session.invalidate();
+        }
+        for(Cookie cookie : request.getCookies()) {
+            cookie.setMaxAge(0);
+        }
+
+        return "logout";
+    }
+
     @GetMapping("/authentication/user")
     public String currentUserName(Principal principal) {
         return principal.getName();

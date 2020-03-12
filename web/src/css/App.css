@@ -74,6 +74,17 @@
   background-size: 36px 36px;
 }
 
+
+.App .person .avatar .button{
+  font-size: 13px;
+  font-weight: 500;
+  color: white;
+  top: 0px;
+  left: 0;
+}
+
+
+
 .App .person .details{
   padding: 0 8px;
   box-sizing: border-box;

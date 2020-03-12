@@ -2,6 +2,8 @@ import React, { useEffect, useContext, useState } from 'react';
 import { MainContext } from '../context/MainContext';
 import { makeStyles } from '@material-ui/core';
 import { Button, Avatar } from '@material-ui/core';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 /*
     tool to console.log within JSX
@@ -11,8 +13,9 @@ import { Button, Avatar } from '@material-ui/core';
 */ 
 
 const User = ( props ) => {
+
     // MainContext => see file ./context/MainContext.js
-    const { user, setUser, setLogin } = useContext(MainContext);
+    const { user, setUser, setLogin, setDialog  } = useContext(MainContext);
     const [ button, setButton ] = useState({ color : 'primary' });
 
     useEffect(() => { 
@@ -54,31 +57,89 @@ const User = ( props ) => {
 
     const classes = useStyles();
 
-    return (
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = event => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };    
+
+    const user_logout = () => {
         
-        <section className= { classes.user }>
-        { 
-            !user.is_authenticated &&  // Conditional Rendering
-            <Button
-                size="small"
-                variant="outlined"
-                { ...button }
-                className={ classes.button }
-                onClick = { (event) => toggleSingIn(event) }
-            >
-                Sing In
-            </Button>
-        }
-        { 
-            user.is_authenticated && // Conditional Rendering
-            <section className="person">
-                <Avatar className="avatar">{ user.initials }</Avatar>
-                <section className="details">
-                    <section className="full-name"> { user.firstname + " " + user.lastname } </section>
-                </section>
-            </section>  
-        }
+       fetch('http://localhost:8080/authentication/user_logout', {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(response => {
+            setUser({
+                [response.data]: {
+                    is_authenticated : {...response.data}
+                }
+            });
+            console.log(response.data)
+            setDialog({
+                [response.dialog_id]: {
+                    is_open: true,
+                    data : {...response.data}
+                }
+            });
+            
+        })
+      
+
+    {/**/}
+
+      
+    
+    };    
+
+    return (
+        <section>
+            <section className= { classes.user }>
+            { 
+                !user.is_authenticated &&  // Conditional Rendering
+                <Button
+                    size="small"
+                    variant="outlined"
+                    { ...button }
+                    className={ classes.button }
+                    onClick = { (event) => toggleSingIn(event) }
+                >
+                    Sing In
+                </Button>
+            }
+            { 
+                user.is_authenticated && // Conditional Rendering
+                <section className="person">
+                    <Avatar className="avatar">            
+                        <Button className="button" aria-haspopup="true" onClick={handleClick}>
+                            {user.initials}
+                        </Button>
+                        <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                    >
+                        <MenuItem onClick={handleClose}>Profile</MenuItem>
+                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                        <MenuItem onClick={handleClose, user_logout}>Logout</MenuItem>
+                        </Menu>                     
+                    </Avatar>
+                    <section className="details">
+                        <section className="full-name"> { user.firstname + " " + user.lastname } </section>
+                    </section>
+                </section>  
+            }
+            </section>
+
+
         </section>
+        
           
     );
 }
