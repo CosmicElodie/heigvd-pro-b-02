@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core';
 import { Button, Avatar } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { useHistory } from "react-router-dom";
 
 /*
     tool to console.log within JSX
@@ -18,6 +19,7 @@ const User = ( props ) => {
     const { user, setUser, setLogin, setDialog  } = useContext(MainContext);
     const [ button, setButton ] = useState({ color : 'primary' });
     const [ anchorEl, setAnchorEl ] = React.useState(null);
+    let history = useHistory(); // hook that allows URL change -> navigation
 
     useEffect(() => { 
         // useEffect => sort of 'DOM Ready' equivalent 
@@ -73,8 +75,7 @@ const User = ( props ) => {
             credentials: 'include'
         })
         .then(response => response.json())
-        .then(response => {
-            
+        .then(response => {            
             setUser(response.data);
             setDialog({
                 [response.dialog_id]: {
@@ -82,10 +83,15 @@ const User = ( props ) => {
                 }
             });  
         })
-
         setAnchorEl(null);
+        redirectPage("/");
 
     };    
+    const redirectPage = (link) => {
+            // Will change the URL, behaves like a link
+            history.push(link);         
+        setAnchorEl(null);
+    }; 
 
     return (
         <section>
@@ -116,7 +122,7 @@ const User = ( props ) => {
                         open={Boolean(anchorEl)}
                         onClose={ handleMenuClose }
                     >
-                        <MenuItem onClick={ handleMenuClose }>Profile</MenuItem>
+                        <MenuItem onClick={ () => redirectPage("/profile")}>Profile</MenuItem>
                         <MenuItem onClick={ handleMenuClose }>My account</MenuItem>
                         <MenuItem onClick={ user_logout }>Logout</MenuItem>
                         </Menu>                     
