@@ -60,7 +60,7 @@ public class AuthenticationController {
         return responseObject.toString();
     }
 
-    @GetMapping("/authentication/user_logout")
+    @PostMapping("/authentication/user_logout")
     public String userLogout(){
         JSONObject responseObject = new JSONObject();
         JSONObject authenticated = new JSONObject();

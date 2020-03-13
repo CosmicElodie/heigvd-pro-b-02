@@ -67,9 +67,9 @@ const User = ( props ) => {
     };    
 
     const user_logout = () => {
-        
+
        fetch('http://localhost:8080/authentication/user_logout', {
-            method: 'GET',
+            method: 'POST',
             credentials: 'include'
         })
         .then(response => response.json())
@@ -118,7 +118,7 @@ const User = ( props ) => {
                     >
                         <MenuItem onClick={ handleMenuClose }>Profile</MenuItem>
                         <MenuItem onClick={ handleMenuClose }>My account</MenuItem>
-                        <MenuItem onClick={ user_logout}>Logout</MenuItem>
+                        <MenuItem onClick={ user_logout }>Logout</MenuItem>
                         </Menu>                     
                     </Avatar>
                     <section className="details">

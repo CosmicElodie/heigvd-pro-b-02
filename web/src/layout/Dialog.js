@@ -27,7 +27,7 @@ const Dialog = () => {
                 </Snackbar> 
             }
 
-{ 
+            { 
                 dialog && dialog.logout_success &&
                 <Snackbar 
                         open = { dialog.logout_success.is_open }
