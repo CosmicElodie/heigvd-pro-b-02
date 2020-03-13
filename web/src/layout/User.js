@@ -36,7 +36,7 @@ const User = ( props ) => {
     // Lambda Function called by sign-in click event
     // Opens the login form by updating the login related state
     // within the MainContext
-    const toggleSingIn = (e) => {
+    const toggleSignIn = (e) => {
         setButton({ color: button.color === 'secondary' ?  'primary' : 'secondary' })
         // "latest" is the latest rendered state of the login context state object
         // this example updates a single attribute nested in the login state object in MainContext
@@ -82,6 +82,9 @@ const User = ( props ) => {
                 }
             });  
         })
+
+        setAnchorEl(null);
+
     };    
 
     return (
@@ -94,9 +97,9 @@ const User = ( props ) => {
                     variant="outlined"
                     { ...button }
                     className={ classes.button }
-                    onClick = { (event) => toggleSingIn(event) }
+                    onClick = { (event) => toggleSignIn(event) }
                 >
-                    Sing In
+                    Sign In
                 </Button>
             }
             { 
@@ -115,7 +118,7 @@ const User = ( props ) => {
                     >
                         <MenuItem onClick={ handleMenuClose }>Profile</MenuItem>
                         <MenuItem onClick={ handleMenuClose }>My account</MenuItem>
-                        <MenuItem onClick={ handleMenuClose, user_logout }>Logout</MenuItem>
+                        <MenuItem onClick={ user_logout}>Logout</MenuItem>
                         </Menu>                     
                     </Avatar>
                     <section className="details">

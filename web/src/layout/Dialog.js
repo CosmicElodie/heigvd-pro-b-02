@@ -34,7 +34,7 @@ const Dialog = () => {
                         onClose = { () => handleClose({ logout_success: { is_open : false } }) } 
                         autoHideDuration={6000} >
                     <Alert variant="filled" severity="info">
-                        Au revoir...
+                        Déconnecté
                     </Alert>
                 </Snackbar> 
             }
