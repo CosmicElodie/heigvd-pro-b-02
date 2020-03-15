@@ -18,7 +18,7 @@ const User = ( ) => {
    
     // MainContext => see file ./context/MainContext.js
     const { user, setUser, setDialog  } = useContext(MainContext);
-    const [ anchorEl, setAnchorEl ] = React.useState(null);
+    const [ anchorEl, setAnchorEl ] = useState(null);
     let history = useHistory(); // hook that allows URL change -> navigation
 
     useEffect(() => { 

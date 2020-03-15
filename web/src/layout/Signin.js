@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { MainContext } from '../context/MainContext';
 import { useInput } from '../hooks/input';
 import Avatar from '@material-ui/core/Avatar';
@@ -23,7 +23,6 @@ const Signin = ( props ) => {
     // main context state -> main data repository
     const { 
       setUser, 
-      setLogin,
       setDialog 
     } = useContext(MainContext);
 
