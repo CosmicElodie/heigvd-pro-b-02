@@ -22,7 +22,7 @@ const Menu = () => {
         let active = parseInt(localStorage.getItem('Menu') ? localStorage.getItem('Menu') : 0);
         if(!active) localStorage.setItem('Menu', 0);
         setActive(active);
-    });
+    },[]);
 
     const handleTabChange = (event, newActive) => {
         // will handle the state of the main nav menu

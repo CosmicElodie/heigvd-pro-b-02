@@ -1,5 +1,5 @@
-import React, { useContext, useEffect }  from 'react'
-import { MainContext, MainProvider } from './context/MainContext'
+import React  from 'react'
+import { MainProvider } from './context/MainContext'
 import Signin  from './layout/Signin'
 import AppLayout  from './layout/AppLayout'
 import ProtectedRoute from './layout/ProtectedRoute'

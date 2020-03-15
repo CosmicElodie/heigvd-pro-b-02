@@ -13,9 +13,9 @@ export const MainProvider = ( props ) => {
 
     useEffect(() => { 
         let userFromStore = JSON.parse(localStorage.getItem('User'));
-        if(userFromStore && user.id != userFromStore.id && userFromStore.is_authenticated)
+        if(userFromStore && user.id !== userFromStore.id && userFromStore.is_authenticated)
             setUser(userFromStore);
-    });
+    }, [user.id]);
 
     let context = {
         user, 

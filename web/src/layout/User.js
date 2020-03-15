@@ -37,7 +37,7 @@ const User = ( ) => {
                 }
             }
         )
-    }, []);   
+    }, [history, setUser]);   
     
   
     const useStyles = makeStyles(theme => ({
