@@ -19,11 +19,8 @@ const Menu = () => {
     let history = useHistory(); // hook that allows URL change -> navigation
 
     useEffect(() => {
-        let active = parseInt(localStorage.getItem('Menu'));
-        if(!active){
-            localStorage.setItem('Menu', 0);
-            active = 0;
-        }
+        let active = parseInt(localStorage.getItem('Menu') ? localStorage.getItem('Menu') : 0);
+        if(!active) localStorage.setItem('Menu', 0);
         setActive(active);
     });
 
