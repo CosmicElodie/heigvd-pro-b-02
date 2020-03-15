@@ -2,10 +2,7 @@ import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 const ProtectedRoute = ( { component: Component }, ...rest ) => {
-    let test = localStorage.getItem('User');
-    console.log(test);
-    console.log( JSON.parse(test));
-    let user = JSON.parse(test); // persistant user 
+    let user = JSON.parse(localStorage.getItem('User')); // persistant user 
     return (
         <Route 
         {...rest}

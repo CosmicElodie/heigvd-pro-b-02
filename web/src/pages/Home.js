@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
+import Typography from '@material-ui/core/Typography';
 
 class Home extends Component {
     render(){
       return (
-        <div>
-          <h2>Home</h2>
-        </div>
+        <Typography variant="h5" component="h5" gutterBottom>Home</Typography>
       );
     }
 }

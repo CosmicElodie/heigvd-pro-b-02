@@ -29,11 +29,11 @@ const User = ( ) => {
             credentials: 'include' // mandatory for every JSON fetch
         })
         .then(response => response.json())
-        .then(({ data:user }) => {
+        .then(({ data : user }) => {
                 // update user object in the MainContext
                 setUser(user);
                 if(!user.is_authenticated) {
-                    localStorage.setItem("User", JSON.stringify({ is_authenticated : false }));
+                    localStorage.setItem("User", JSON.stringify(user));
                     history.push("/signin");
                 }
             }

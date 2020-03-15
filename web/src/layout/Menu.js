@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -14,14 +14,24 @@ const useTabStyles = makeStyles({
 
 const Menu = () => {
     const classes = useTabStyles();
-    const [value, setValue] = useState(0); // Tabs state -> tracking active tab
+    const [active, setActive] = useState(0); // Tabs state -> tracking active tab
     
     let history = useHistory(); // hook that allows URL change -> navigation
 
-    const handleTabChange = (event, newValue) => {
+    useEffect(() => {
+        let active = parseInt(localStorage.getItem('Menu'));
+        if(!active){
+            localStorage.setItem('Menu', 0);
+            active = 0;
+        }
+        setActive(active);
+    });
+
+    const handleTabChange = (event, newActive) => {
         // will handle the state of the main nav menu
         // keep track of the active tab
-        setValue(newValue);
+        localStorage.setItem('Menu', newActive);
+        setActive(newActive);
      };
 
      const handleClick = (link) => {
@@ -32,11 +42,11 @@ const Menu = () => {
     return (
         <Paper square className={classes.root}>
             <Tabs
-                value={value}
-                onChange= { handleTabChange }
-                variant="scrollable"
-                textColor="primary"
-                aria-label="icon label tabs example"
+                value = { active }
+                onChange = { handleTabChange }
+                variant = "scrollable"
+                textColor = "primary"
+                aria-label = "icon label tabs example"
             >
                 <Tab 
                     label="Home" 
