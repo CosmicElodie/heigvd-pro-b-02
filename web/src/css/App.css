@@ -37,18 +37,6 @@
   padding: 20px 40px;
 }
 
-.App .zone-user .sign-in{
-  height:48px;
-  vertical-align: middle;
-  display: table-cell;
-  font-weight: bold;
-}
-
-.App .zone-user .sign-in:hover{
-  color:rgb(121, 154, 243);
-  cursor:pointer;
-}
-
 .App .person{
   display: inline-flex;
   align-items: center;
@@ -76,17 +64,6 @@
   background-size: 36px 36px;
 }
 
-
-.App .person .avatar .button{
-  font-size: 13px;
-  font-weight: 500;
-  color: white;
-  top: 0px;
-  left: 0;
-}
-
-
-
 .App .person .details{
   padding: 0 8px;
   box-sizing: border-box;
@@ -101,57 +78,4 @@
     text-overflow: ellipsis;
     overflow: hidden;
     display: block;
-}
-
-
-.App .floating-form{
-  display:none;
-  position:absolute;
-  top:60px;
-  right:40px;
-  width:300px;
-  background:white;
-  border:1px solid rgb(202, 215, 250);
-  border-radius: 5px;
-  padding:60px 25px;
-}
-
-.App .login-form-visible{
-  right:20px;
-  visibility: visible;
-}
-
-.App .floating-form header{
-  height:35px;
-  width:calc(100% - 50px);
-  border-bottom: 1px solid rgb(202, 215, 250);
-  position:absolute;
-  top:0;
-  padding-top:10px;
-}
-
-
-.App .floating-form input{
-  border-radius:3px;
-  border: 1px solid rgb(202, 215, 250);
-}
-
-.App .floating-form input:hover{
-  border: 1px solid #101e48;
-}
-
-.App .floating-form .row{
-  display:flex;
-}
-
-.App .floating-form .row .label{
-  width:120px;
-}
-
-
-.App .floating-form footer{
-  position:absolute;
-  bottom:0px;
-  height:35px;
-  padding-top:10px;
 }
