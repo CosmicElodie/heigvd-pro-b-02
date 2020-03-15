@@ -1,38 +1,22 @@
-import React, { Profiler } from 'react';
-import { MainProvider } from './context/MainContext';
-import Menu from './layout/Menu'
-import User from './layout/User'
-import Login from './layout/Login'
-import Dialog from './layout/Dialog'
-import Home from './pages/Home'
-import About from './pages/About'
-import Profile from './pages/Profile'
+import React, { useContext, useEffect }  from 'react'
+import { MainContext, MainProvider } from './context/MainContext'
+import Signin  from './layout/Signin'
+import AppLayout  from './layout/AppLayout'
+import ProtectedRoute from './layout/ProtectedRoute'
 
-import './css/App.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App = ( ) => {
-
+    
     return (
       <MainProvider>
         <Router>
-        <section className="App">
-            <Login />
-            <section className="header">
-              <Menu /> 
-              <User  />
-            </section>
-            <section className="main">
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route path="/about" component={About} />
-                <Route path="/profile" component={Profile} />
-              </Switch>
-            </section>
-          </section> 
-          </Router>
-          <Dialog />
-      </MainProvider>
+          <Switch>
+               <Route exact path="/signin" component={ Signin } />
+               <ProtectedRoute component={ AppLayout } />
+          </Switch>
+        </Router>
+       </MainProvider>
     )
 }
 

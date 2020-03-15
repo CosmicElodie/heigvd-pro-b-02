@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect  } from 'react';
 
 export const MainContext = createContext();
 /*
@@ -11,6 +11,12 @@ export const MainProvider = ( props ) => {
     const [ user, setUser ]      = useState({ is_authenticated : false });
     const [ login, setLogin ]    = useState({ is_open : false });
     const [ dialog, setDialog ]  = useState();
+
+    useEffect(() => { 
+        let userFromStore = JSON.parse(localStorage.getItem('User'));
+        if(userFromStore && user.id != userFromStore.id && userFromStore.is_authenticated)
+            setUser(userFromStore);
+    });
 
     let context = {
         user, 

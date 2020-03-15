@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { MainContext } from '../context/MainContext';
 import { useInput } from '../hooks/input';
 import Avatar from '@material-ui/core/Avatar';
@@ -15,19 +15,19 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
-const Login = () => {
+const Signin = ( props ) => {
     
     // css classes are defined bellow -> scroll down
     const classes = useLoginStyles(); 
     
     // main context state -> main data repository
     const { 
-      login, 
       setUser, 
       setLogin,
       setDialog 
     } = useContext(MainContext);
 
+ 
     // keep track of the input states 
     // each keystroke (onChange event listener) is saved within the state
     const { value:email,        bind:bindEmail      } = useInput('');
@@ -43,6 +43,7 @@ const Login = () => {
             })
         .then(response => response.json())
         .then(response => {
+            localStorage.setItem("User", JSON.stringify(response.data));
             setUser(response.data);
             setLogin(latest => ({
                 ...latest,
@@ -54,13 +55,15 @@ const Login = () => {
                   data : { ...response.data }
               }
           });
+          
+          props.history.push("/");
         })
     }
 
     return (
-        <Grid container={true} component="section" className={ classes.root + " " + ( login.is_open ? 'login-form-visible' : '' )}>
+        <Grid container={true} component="section" className={ classes.root }>
           <CssBaseline />
-          <Grid className={classes.grid_container} item component={Paper} elevation={10} square>
+          <Grid className={classes.grid_container} item component={Paper} elevation={0} square>
             <div className={classes.paper}>
               <Avatar className={classes.avatar}>
                 <LockOutlinedIcon />
@@ -131,17 +134,16 @@ const Login = () => {
 
 const useLoginStyles = makeStyles(theme => ({
     root: {
-      height: '400px',
-      width: '500px',
+      height: '575px',
+      width: '600px',
       position: 'absolute',
-      right: '20px',
       top: '70px',
-      right: '-500px',
-      visibility: 'hidden',
-      transition: '200ms right ease-in-out'
+      right: 'calc(50% - 300px)'
     },
     grid_container : {
       
+      
+      border: '1px solid rgba(0, 0, 0, 0.05)'
     },
     image: {
       backgroundRepeat: 'no-repeat',
@@ -184,5 +186,5 @@ const useLoginStyles = makeStyles(theme => ({
     );
   }
 
-export default Login;
+export default Signin;
 
