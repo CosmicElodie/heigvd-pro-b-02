@@ -45,10 +45,6 @@ const Signin = ( props ) => {
         .then(response => {
             localStorage.setItem("User", JSON.stringify(response.data));
             setUser(response.data);
-            setLogin(latest => ({
-                ...latest,
-                is_open : !latest.is_open
-            }));
             setDialog({
               [response.dialog_id]: {
                   is_open: true,

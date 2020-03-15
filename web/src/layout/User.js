@@ -17,8 +17,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 const User = ( ) => {
    
     // MainContext => see file ./context/MainContext.js
-    const { user, setUser, setLogin, setDialog  } = useContext(MainContext);
-    const [ button, setButton ] = useState({ color : 'primary' });
+    const { user, setUser, setDialog  } = useContext(MainContext);
     const [ anchorEl, setAnchorEl ] = React.useState(null);
     let history = useHistory(); // hook that allows URL change -> navigation
 
@@ -40,19 +39,7 @@ const User = ( ) => {
         )
     }, []);   
     
-    // Lambda Function called by sign-in click event
-    // Opens the login form by updating the login related state
-    // within the MainContext
-    const toggleSignIn = (e) => {
-        setButton({ color: button.color === 'secondary' ?  'primary' : 'secondary' })
-        // "latest" is the latest rendered state of the login context state object
-        // this example updates a single attribute nested in the login state object in MainContext
-        setLogin(latest => ({
-            ...latest,
-            is_open : !latest.is_open
-        }));
-    }
-    
+  
     const useStyles = makeStyles(theme => ({
         button: {
           margin: theme.spacing(1),
@@ -87,8 +74,8 @@ const User = ( ) => {
                     is_open: true
                 }
             });  
-            localStorage.setItem("User", JSON.stringify({ is_authenticated : false }));
-            history.push("/signin");
+            localStorage.setItem("User", JSON.stringify(response.data));
+            setTimeout(() => history.push("/signin"), 2000);
 
         })
         setAnchorEl(null);
