@@ -32,6 +32,10 @@ const User = ( ) => {
         .then(({ data:user }) => {
                 // update user object in the MainContext
                 setUser(user);
+                if(!user.is_authenticated) {
+                    localStorage.setItem("User", JSON.stringify({ is_authenticated : false }));
+                    history.push("/signin");
+                }
             }
         )
     }, []);   
