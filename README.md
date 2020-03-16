@@ -15,7 +15,7 @@ Development team:
 | Elodie Lagier                           | elodie.lagier@heig-vd.ch     | CosmicElodie  |
 | Guillaume Valvona (project lead)       | guillaume.valvona@heig-vd.ch | Linois        |
 | Michael Triponez                        | michael.triponez@heig-vd.ch  | ??? |
-| Christophe Junod                        | christophe.junod@heig-vd.ch  | ??? |
+| Christophe Junod                        | christophe.junod@heig-vd.ch  | JunodChristophe |
 | Dalia Maillefer (deputy project lead)   | dalia.maillefer@heig-vd.ch   | AliceThunderWind |
 | Stefan Teofanovic 					  | stefan.teofanovic@heig-vd.ch | Ovich |
 
