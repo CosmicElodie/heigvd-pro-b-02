@@ -14,9 +14,9 @@ const ForumList = ( props ) => {
     return (
         <List className="forum">
             { 
-                forums.map(( { id, name, created, creator, description }, index ) => 
+                forums.map(( { forum_id, name, created, creator, description }, index ) => 
                     <ListItem 
-                        key={ id }
+                        key={ forum_id }
                         alignItems = 'flex-start'
                         dense
                         divider
@@ -33,7 +33,7 @@ const ForumList = ( props ) => {
                                 <Typography>
                                 <Grid container direction="row"> <Icon className="forum-icon" /> <Typography variant="h6" gutterBottom noWrap>{ name } </Typography></Grid>
                                 </Typography>
-                                <Typography variant="overline" display="block" gutterBottom>
+                                <Typography variant="overline" gutterBottom>
                                     <Moment fromNow >{ created }</Moment>
                                 </Typography>
                             </Grid>

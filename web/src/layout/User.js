@@ -12,7 +12,7 @@ const User = ( ) => {
     const { user, setUser, setDialog  } = useContext(MainContext);
     const [ anchorEl, setAnchorEl ] = useState(null);
     let history = useHistory(); // hook that allows URL change -> navigation
-
+    
     useEffect(() => { 
         // useEffect => sort of 'DOM Ready' equivalent 
 
