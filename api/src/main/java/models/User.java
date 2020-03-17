@@ -87,7 +87,7 @@ public class User implements UserDetails {
 
         return json;
     }
-    
+
 
     public int getId() {
         return id;
