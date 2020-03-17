@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,11 +18,17 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private int id;
 
+    @Column(name = "username")
+    private String username;
+
     @Column(name = "firstname")
     private String firstname;
 
     @Column(name = "lastname")
     private String lastname;
+
+    @Column(name = "birth")
+    private Date birth;
 
     @Column(name = "initials")
     private String initials;
@@ -32,6 +39,24 @@ public class User implements UserDetails {
     @JsonIgnore
     @Column(name = "password")
     private String password;
+
+    @Column(name = "active")
+    private int active;
+
+    @Column(name = "last_online")
+    private Date last_online;
+
+    @Column(name = "created")
+    private Date created;
+
+    @Column(name = "role_id")
+    private int role_id;
+
+    @Column(name = "status_id")
+    private int status_id;
+
+    @Column(name = "house_id")
+    private int house_id;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="user_roles",
@@ -47,12 +72,22 @@ public class User implements UserDetails {
     public JSONObject getJSON(){
         JSONObject json = new JSONObject();
         json.put("id", this.id);
+        json.put("username", this.username);
         json.put("firstname", this.firstname);
         json.put("lastname", this.lastname);
         json.put("initials", this.initials);
         json.put("email", this.email);
+        json.put("birth", this.birth);
+        json.put("active", this.active);
+        json.put("last_online", this.last_online);
+        json.put("role_id", this.created);
+        json.put("created", this.role_id);
+        json.put("status_id", this.status_id);
+        json.put("house_id", this.house_id);
+
         return json;
     }
+    
 
     public int getId() {
         return id;
