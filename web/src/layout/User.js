@@ -1,18 +1,10 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { MainContext } from '../context/MainContext';
-import { makeStyles } from '@material-ui/core';
-import { Avatar } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useHistory } from "react-router-dom";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-
-/*
-    tool to console.log within JSX
-    const ConsoleLog = ({ children }) => {
-        return false;
-    };
-*/ 
+import Person from './Person';
 
 const User = ( ) => {
    
@@ -23,6 +15,7 @@ const User = ( ) => {
 
     useEffect(() => { 
         // useEffect => sort of 'DOM Ready' equivalent 
+
         fetch('http://localhost:8080/authentication/user_data', {
             method: 'GET',
             credentials: 'include' // mandatory for every JSON fetch
@@ -40,19 +33,7 @@ const User = ( ) => {
     }, [history, setUser]);   
     
   
-    const useStyles = makeStyles(theme => ({
-        button: {
-          margin: theme.spacing(1),
-        },
-        user: {
-            position:'absolute',
-            right:'20px'
-        }
-    }));
-
-    const classes = useStyles();
-
-    const handleClick = event => {
+    const handleMenuOpen = event => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -88,38 +69,22 @@ const User = ( ) => {
     }; 
 
     return (
-        <section>
-            <section className= { classes.user }>
-            { 
-                user.is_authenticated && // Conditional Rendering
-                <ClickAwayListener onClickAway={ handleMenuClose }>
-                    <section className="person"  onClick={handleClick}>
-                        <Avatar className="avatar">            
-                        
-                                {user.initials}
-                        
-                            <Menu
-                            id="simple-menu"
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={Boolean(anchorEl)}
-                            onClose={ handleMenuClose }
-                        >
-                            <MenuItem onClick={ () => redirectPage("/profile")}>Profile</MenuItem>
-                            <MenuItem onClick={ handleMenuClose }>My account</MenuItem>
-                            <MenuItem onClick={ user_logout }>Logout</MenuItem>
-                            </Menu>                     
-                        </Avatar>
-                        <section className="details">
-                            <section className="full-name"> { user.firstname + " " + user.lastname } </section>
-                        </section>
-                    </section>  
-                </ClickAwayListener>
-            }
-            </section>
-
-
-        </section>
+        <ClickAwayListener onClickAway={ handleMenuClose }>
+            <section className="user" onClick={ handleMenuOpen } >
+                <Person {...user} />
+                <Menu
+                    id="simple-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={ handleMenuClose }
+                >
+                    <MenuItem onClick={ () => redirectPage("/profile")}>Profile</MenuItem>
+                    <MenuItem onClick={ handleMenuClose }>My account</MenuItem>
+                    <MenuItem onClick={ user_logout }>Logout</MenuItem>
+                </Menu>     
+            </section>                                           
+        </ClickAwayListener>
         
           
     );

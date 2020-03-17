@@ -37,45 +37,75 @@
   padding: 20px 40px;
 }
 
+.App .user{
+  position:fixed;
+  top:0px;
+  right:0px;
+}
+
 .App .person{
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: 46px;
-  cursor: pointer;
+  max-width:240px;
 }
 
 .App .person .avatar{
-  text-align: center;
-  height: 32px;
-  width: 32px;
-  border-radius: 50%;
-  background-color: rgb(121, 153, 243);
+  background-color: #3f51b5;
   font-size: 12px;
   font-weight: 600;
   color: white;
-  position: absolute;
-  line-height: 32px;
+  line-height: 36px;
   transition: all 250ms ease-in-out;
-  cursor: pointer;
-  top: 7px;
-  left: 0;
   background-position: center center;
   background-size: 36px 36px;
+  width: 36px;
+  height: 36px;
 }
 
 .App .person .details{
-  padding: 0 8px;
-  box-sizing: border-box;
-  max-width: 140px;
-  min-width: 140px;
-  margin-left: 30px;
+  display: inline-block;
+  position: relative;
+  height: 48px;
+  padding:0px 5px;
 }
 
 .App .person .full-name{
-    font-size: 13px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: block;
+  font-size: 13px;
+  font-weight: 600;
+  display: block;
+  position: relative;
+  height: 14px;
+  padding-top: 6px;
+  text-overflow: ellipsis;
+}
+
+.App .person .email{
+  font-size: 12px;
+  display: inline-block;
+  position: relative;
+  height: 14px;
+  letter-spacing: 0.01em;
+  color: #6d7784;
+  text-overflow: ellipsis;
+}
+
+.forum .forum-topic{
+  cursor:pointer;
+}
+
+.forum .forum-topic a{
+  color:rgba(0, 0, 0, 0.87);
+}
+
+.forum .topicview-post{
+  width:50%;
+  min-width: 400px;
+  margin: 24px 0px;
+  cursor: default;
+}
+
+.forum .topicview-post .topic-post-card{
+  padding:12px 24px;
 }

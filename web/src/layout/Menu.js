@@ -55,6 +55,12 @@ const Menu = () => {
                     to="/about"      
                     onClick={ () => handleClick("/about") }  
                 />
+
+                <Tab 
+                    label="Forum" 
+                    to="/forum"      
+                    onClick={ () => handleClick("/forum") }  
+                />
                 
             </Tabs>
         </Paper>
