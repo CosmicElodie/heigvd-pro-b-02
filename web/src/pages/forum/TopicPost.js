@@ -9,7 +9,7 @@ const TopicPost = ( ) => {
     return (
         <Box mt={2}>
             <FormControl>
-                <Card className="topic-post-card" raised elevation={4} >
+                <Card className="topic-post-card" elevation={3} >
                     <Box p={2}>
                         <Grid
                             container

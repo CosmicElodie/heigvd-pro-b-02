@@ -4,14 +4,9 @@ import TopicView from './TopicView';
 import ForumList from './ForumList';
 import "../../css/icons.css";
 
-
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Route } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
-
-const breadcrumbNameMap = {
-    '/forum': 'Forum'
-  };
 
 const Forum = (  ) => {
     const forums = data;
@@ -91,21 +86,9 @@ const data = [
                         "last_update": "2020-03-15 16:52:45"
                     }
                 ]
-            },{
-                "id": 2,
-                "name": "Nam finibus semper ipsum vitae mattis. In tempor ligula et imperdiet posuere.",
-                "created": "2020-03-15 15:52:45",
-                "creator_id" : 1,
-                "creator" : {
-                    "id": 1,
-                    "username": "Ovich",
-                    "firstname": "Stefan",
-                    "lastname": "Teofanovic",
-                    "email": "stefan.teofanovic@heig-vd.com"
-                }
             }
         ]
-        }
+    }
 
 ];
 
