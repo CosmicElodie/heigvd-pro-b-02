@@ -6,7 +6,7 @@ import "../../css/icons.css";
 
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Route } from 'react-router';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Switch } from 'react-router-dom';
 
 const Forum = (  ) => {
     const forums = data;
@@ -42,9 +42,12 @@ const Forum = (  ) => {
                         )                              
                     }
                 </Breadcrumbs>
-                <ForumList forums={forums} />
+                <Switch>
+                    <Route exact path="/forum" component={() => <ForumList forums={forums} />} />
+                    <Route exact path="/forum/:id" component={() => <TopicView />} />
+                </Switch>
             </Route>
-            <TopicView />
+            
         </Fragment>
     )
 
