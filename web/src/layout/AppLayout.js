@@ -4,7 +4,7 @@ import User from './User'
 import Dialog from './Dialog'
 import Home from '../pages/Home'
 import About from '../pages/About'
-import Profile from '../pages/Profile'
+import Profile from '../pages/profile/Profile'
 import Forum from '../pages/forum/Forum'
 import { Switch, Route } from "react-router-dom"
 
