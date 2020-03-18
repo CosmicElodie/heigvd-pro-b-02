@@ -5,7 +5,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { useHistory } from "react-router-dom";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Person from './Person';
-
 const User = ( ) => {
    
     // MainContext => see file ./context/MainContext.js
