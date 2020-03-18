@@ -21,8 +21,8 @@ const ForumList = ( ) => {
                     { 
                         display.map(( { forum_id, name, created, creator, description }, index ) =>    
                         <Spring
-                            from={{ opacity: 1, marginTop:'-60px' }}
-                            to={{ opacity: 1, marginTop:'0px' }}>
+                            from={{ opacity: 0.7, left:'-100vw' }}
+                            to={{ opacity: 1, left:'0vw' }}>
                             { transition => 
                                 <ListItem 
                                     style={ transition } 
