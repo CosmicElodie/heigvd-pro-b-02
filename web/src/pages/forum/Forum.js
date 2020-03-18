@@ -1,15 +1,15 @@
 //🍆🍈🍉🍊🍋🍌🍍🍎🍏🍐🍑🍒🍓👤
-import React, { Fragment,  useContext, useEffect } from 'react';
-import { Typography, Link } from '@material-ui/core';
+import React, { useContext, useEffect } from 'react';
+import { Typography, Link, Paper } from '@material-ui/core';
 import { ForumContext } from '../../context/ForumContext';
 import TopicView from './TopicView';
 import ForumList from './ForumList';
-import { spring, AnimatedSwitch } from 'react-router-transition';
+import { spring } from 'react-router-transition';
 import "../../css/icons.css";
 
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Route } from 'react-router';
-import { Link as RouterLink, useLocation, useHistory } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useHistory, Switch } from 'react-router-dom';
 
 var fruits = new Map();
 fruits.set('🍎', '🍋');  
@@ -39,29 +39,29 @@ const Forum = (  ) => {
     }, [location, setBreadcrumbs]);
 
     const handleBreadcrumbClick = ( index ) => index >= 0 ? history.push(breadcrumbs[index].path) : history.push('/forum');
-
+    
     return (
-        <Fragment>
-            <Typography variant="h5" component="h5" gutterBottom> Forum </Typography>
-            <Route>
-                <Breadcrumbs aria-label="breadcrumb" maxItems={3} >
-                    <LinkRouter color="primary" onClick = { () => handleBreadcrumbClick(-1) }  to="/forum">
-                        Forums
-                    </LinkRouter>
-                    {
-                        breadcrumbs.map(( { name }, index ) =>  
-                            <LinkRouter color="primary" onClick = { () => handleBreadcrumbClick(index) } >
-                                { name } 
-                            </LinkRouter>
-                        )
-                    }
-                </Breadcrumbs>
-                <Switch>
-                    <Route path="/forum" component={() => <ForumList />} />
-                    <Route path="/forum/:forumid" component={() => <TopicView />} />
-                </Switch>
-            </Route>
-        </Fragment>
+      <Route>
+            <Paper elevation={0}>
+              <Typography variant="h5" component="h5" gutterBottom> Forum </Typography>
+              <Breadcrumbs aria-label="breadcrumb" maxItems={3} >
+                  <LinkRouter color="primary" onClick = { () => handleBreadcrumbClick(-1) }  to="/forum">
+                      Forums
+                  </LinkRouter>
+                  {
+                      breadcrumbs.map(( { name }, index ) =>  
+                          <LinkRouter color="primary" onClick = { () => handleBreadcrumbClick(index) } >
+                              { name } 
+                          </LinkRouter>
+                      )
+                  }
+              </Breadcrumbs>
+            </Paper>
+            <Switch>
+                <Route path="/forum" component={() => <ForumList />} />
+                <Route path="/forum/:forumid" component={() => <TopicView />} />
+            </Switch>
+        </Route>
     )
 }
 

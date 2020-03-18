@@ -91,12 +91,17 @@
   text-overflow: ellipsis;
 }
 
+.forum {
+  overflow: hidden;
+}
+
 .forum .forum-topic{
   cursor:pointer;
+  background:white;
 }
 
 .forum .forum-topic a{
-  color:rgba(0, 0, 0, 0.87);
+  color:rgba(7, 5, 5, 0.87);
 }
 
 .forum .topicview-post{
@@ -134,3 +139,26 @@
   opacity:1;
   transition:opacity 300ms linear;
 }
+
+.fade-exit{
+  opacity:1;
+}
+
+.fade-exit.fade-exit-active{
+  opacity:0;
+  transition:opacity 300ms linear;
+}
+
+.fade-exit-done{
+  opacity:0;
+}
+
+.fade-enter{
+  opacity:0;
+}
+
+.fade-enter.fade-enter-active{
+  opacity:1;
+  transition:opacity 300ms linear;
+}
+

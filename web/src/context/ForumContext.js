@@ -56,7 +56,7 @@ const static_data = [
             "email": "stefan.teofanovic@heig-vd.com"
         },
         "forums" : [{
-            "forum_id": 1,
+            "forum_id": 2,
             "name": "2Lorem ipsum dolor sit amet",
             "description": "In hac habitasse platea dictumst. Sed sollicitudin bibendum nisi, eu porttitor nulla convallis sed. Proin finibus dignissim leo, at varius erat eleifend et. Suspendisse velit dui, commodo eget hendrerit faucibus, rhoncus in dui. Nullam suscipit nec mi eget maximus. Quisque id lorem quam. Sed ultrices facilisis convallis. Nam cursus fringilla est, non faucibus justo porta sit amet. Duis molestie ut tortor id ornare. Curabitur non ante vitae ligula dapibus semper.",
             "created": "2020-03-16 18:52:45",
@@ -70,7 +70,7 @@ const static_data = [
                 "email": "stefan.teofanovic@heig-vd.com"
             },
             "forums": [{
-                "forum_id": 1,
+                "forum_id": 3,
                 "name": "3Lorem ipsum dolor sit amet",
                 "description": "In hac habitasse platea dictumst. Sed sollicitudin bibendum nisi, eu porttitor nulla convallis sed. Proin finibus dignissim leo, at varius erat eleifend et. Suspendisse velit dui, commodo eget hendrerit faucibus, rhoncus in dui. Nullam suscipit nec mi eget maximus. Quisque id lorem quam. Sed ultrices facilisis convallis. Nam cursus fringilla est, non faucibus justo porta sit amet. Duis molestie ut tortor id ornare. Curabitur non ante vitae ligula dapibus semper.",
                 
@@ -84,7 +84,7 @@ const static_data = [
                     "email": "stefan.teofanovic@heig-vd.com"
                 },
                 "forums" : [{
-                    "forum_id": 1,
+                    "forum_id": 4,
                     "name": "4Lorem ipsum dolor sit amet",
                     "description": "In hac habitasse platea dictumst. Sed sollicitudin bibendum nisi, eu porttitor nulla convallis sed. Proin finibus dignissim leo, at varius erat eleifend et. Suspendisse velit dui, commodo eget hendrerit faucibus, rhoncus in dui. Nullam suscipit nec mi eget maximus. Quisque id lorem quam. Sed ultrices facilisis convallis. Nam cursus fringilla est, non faucibus justo porta sit amet. Duis molestie ut tortor id ornare. Curabitur non ante vitae ligula dapibus semper.",
                     "created": "2020-03-16 18:52:45",
@@ -148,7 +148,7 @@ const static_data = [
             }
         ]
     },{
-        "forum_id": 2,
+        "forum_id": 5,
         "name": "8Lorem ipsum dolor sit amet",
         "description": "In hac habitasse platea dictumst. Sed sollicitudin bibendum nisi, eu porttitor nulla convallis sed. Proin finibus dignissim leo, at varius erat eleifend et. Suspendisse velit dui, commodo eget hendrerit faucibus, rhoncus in dui. Nullam suscipit nec mi eget maximus. Quisque id lorem quam. Sed ultrices facilisis convallis. Nam cursus fringilla est, non faucibus justo porta sit amet. Duis molestie ut tortor id ornare. Curabitur non ante vitae ligula dapibus semper.",
         
@@ -162,7 +162,7 @@ const static_data = [
             "email": "stefan.teofanovic@heig-vd.com"
         },
         "forums" : [{
-            "forum_id": 1,
+            "forum_id": 6,
             "name": "9Lorem ipsum dolor sit amet",
             "description": "In hac habitasse platea dictumst. Sed sollicitudin bibendum nisi, eu porttitor nulla convallis sed. Proin finibus dignissim leo, at varius erat eleifend et. Suspendisse velit dui, commodo eget hendrerit faucibus, rhoncus in dui. Nullam suscipit nec mi eget maximus. Quisque id lorem quam. Sed ultrices facilisis convallis. Nam cursus fringilla est, non faucibus justo porta sit amet. Duis molestie ut tortor id ornare. Curabitur non ante vitae ligula dapibus semper.",
             "created": "2020-03-16 18:52:45",
