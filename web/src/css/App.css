@@ -109,3 +109,28 @@
 .forum .topicview-post .topic-post-card{
   padding:12px 24px;
 }
+
+.switch-wrapper {
+  position: relative;
+}
+
+.switch-wrapper > div {
+  position: absolute;
+}
+
+.route-wrapper {
+  position: relative;
+}
+
+.route-wrapper > div {
+  position: absolute;
+}
+
+.fade-appear{
+  opacity: 0;
+}
+
+.fade-appear.fade-appear-active{
+  opacity:1;
+  transition:opacity 300ms linear;
+}

@@ -1,100 +1,107 @@
-import React, { Fragment, useState } from 'react';
+//🍆🍈🍉🍊🍋🍌🍍🍎🍏🍐🍑🍒🍓👤
+import React, { Fragment,  useContext, useEffect } from 'react';
 import { Typography, Link } from '@material-ui/core';
+import { ForumContext } from '../../context/ForumContext';
 import TopicView from './TopicView';
 import ForumList from './ForumList';
+import { spring, AnimatedSwitch } from 'react-router-transition';
 import "../../css/icons.css";
 
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Route } from 'react-router';
-import { Link as RouterLink, Switch } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useHistory } from 'react-router-dom';
+
+var fruits = new Map();
+fruits.set('🍎', '🍋');  
+fruits.set('🍋', '🍇');
+console.log(fruits.get('🍎'));
+for(var [key, val] of fruits) console.log(key,val);
 
 const Forum = (  ) => {
-    const forums = data;
-    
-    const [topics, setTopic] = useState(forums);
+        
+    const { breadcrumbs, setBreadcrumbs } = useContext(ForumContext);
+    const location = useLocation(); 
+    const history = useHistory(); 
 
-    const [path, setPath] = useState({
-        visit_forum:0,
-        visit_subject:-1
-    });
+    useEffect(() => {
+      // Preparer les crumbs
+      let path = location.pathname.split('/');
+      let crumbs = [];
+      if(path.length > 2){
+        for(let i = 2; i < path.length; ++i){
+          crumbs.push({ 
+            name : path[i],
+            path: path.slice(0,i+1).join('/')
+          });
+        }
+      }
+      setBreadcrumbs(crumbs);
+    }, [location, setBreadcrumbs]);
 
-    const LinkRouter = props => <Link {...props} component={RouterLink} />;
+    const handleBreadcrumbClick = ( index ) => index >= 0 ? history.push(breadcrumbs[index].path) : history.push('/forum');
 
     return (
         <Fragment>
             <Typography variant="h5" component="h5" gutterBottom> Forum </Typography>
             <Route>
-                <Breadcrumbs aria-label="breadcrumb">
-                    <LinkRouter color="primary" to="/forum">
+                <Breadcrumbs aria-label="breadcrumb" maxItems={3} >
+                    <LinkRouter color="primary" onClick = { () => handleBreadcrumbClick(-1) }  to="/forum">
                         Forums
                     </LinkRouter>
                     {
-                        path.visit_forum >= 0 && (
-                            <LinkRouter color="primary" to={'/forum/' + path.visit_forum } >
-                                { topics[path.visit_forum].name }
+                        breadcrumbs.map(( { name }, index ) =>  
+                            <LinkRouter color="primary" onClick = { () => handleBreadcrumbClick(index) } >
+                                { name } 
                             </LinkRouter>
-                        )  
-                    } {                  
-                        path.visit_subject >= 0 && (
-                            <LinkRouter color="primary" to={'/forum/' + path.visit_forum + '/' + path.visit_subject }>
-                                { topics[path.visit_forum].subjects[path.visit_subject].name }
-                            </LinkRouter>
-                        )                              
+                        )
                     }
                 </Breadcrumbs>
                 <Switch>
-                    <Route exact path="/forum" component={() => <ForumList forums={forums} />} />
-                    <Route exact path="/forum/:id" component={() => <TopicView />} />
+                    <Route path="/forum" component={() => <ForumList />} />
+                    <Route path="/forum/:forumid" component={() => <TopicView />} />
                 </Switch>
             </Route>
-            
         </Fragment>
     )
-
 }
 
-const data = [
-    {
-        "forum_id": 1,
-        "name": "Lorem ipsum dolor sit amet",
-        "description": "In hac habitasse platea dictumst. Sed sollicitudin bibendum nisi, eu porttitor nulla convallis sed. Proin finibus dignissim leo, at varius erat eleifend et. Suspendisse velit dui, commodo eget hendrerit faucibus, rhoncus in dui. Nullam suscipit nec mi eget maximus. Quisque id lorem quam. Sed ultrices facilisis convallis. Nam cursus fringilla est, non faucibus justo porta sit amet. Duis molestie ut tortor id ornare. Curabitur non ante vitae ligula dapibus semper.",
-        "created": "2020-03-16 18:52:45",
-        "creator_id" : 1,
-        "is_mine": 1,
-        "creator": {
-            "user_id": 1,
-            "username": "Ovich",
-            "firstname": "Stefan",
-            "lastname": "Teofanovic",
-            "initials" : "ST",
-            "email": "stefan.teofanovic@heig-vd.com"
-        },
-        "subjects" : [
-            {
-                "subject_id": 1,
-                "name": "Aenean vel neque egestas.",
-                "created": "2020-03-16 18:52:45",
-                "creator_id" : 1,
-                "creator" : {
-                    "user_id": 1,
-                    "username": "Ovich",
-                    "firstname": "Stefan",
-                    "lastname": "Teofanovic",
-                    "email": "stefan.teofanovic@heig-vd.com"
-                },
-                "posts" : [
-                    {
-                        "post_id": 1,
-                        "message": 1,
-                        "created": "2020-03-15 15:52:45",
-                        "last_update": "2020-03-15 16:52:45"
-                    }
-                ]
-            }
-        ]
-    }
+const LinkRouter = props => <Link {...props} component={RouterLink} />;
 
-];
+// wrap the `spring` helper to use a bouncy config
+function bounce(val) {
+    return spring(val, {
+      stiffness: 330,
+      damping: 22,
+    });
+  }
+  
+  // child matches will...
+  const bounceTransition = {
+    // start in a transparent, upscaled state
+    atEnter: {
+      opacity: 0,
+      scale: 1.2,
+    },
+    // leave in a transparent, downscaled state
+    atLeave: {
+      opacity: bounce(0),
+      scale: bounce(0.8),
+    },
+    // and rest at an opaque, normally-scaled state
+    atActive: {
+      opacity: bounce(1),
+      scale: bounce(1),
+    },
+  };
 
+  // we need to map the `scale` prop we define below
+// to the transform style property
+function mapStyles(styles) {
+    return {
+      opacity: styles.opacity,
+      transform: `scale(${styles.scale})`,
+    };
+  }
+  
 
 export default Forum;

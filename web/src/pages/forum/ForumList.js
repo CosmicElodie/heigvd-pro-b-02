@@ -1,28 +1,34 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { ForumContext } from '../../context/ForumContext';
 import Moment from 'react-moment';
 import Person from '../../layout/Person';
 import Icon from '@material-ui/core/Icon';
-import { Typography, Box, List, Grid, ListItem, ListItemText, Badge , Tooltip, Link } from '@material-ui/core';
+import { Typography, Box, List, Grid, ListItem, ListItemText, Badge , Tooltip } from '@material-ui/core';
+import { useHistory, useLocation } from "react-router-dom";
 
 import { Link as RouterLink } from 'react-router-dom';
 
-const ForumList = ( props ) => {
-    const { forums } = props;
-    
-    const [topics, setTopic] = useState(forums);
+const ForumList = ( ) => {
+    const history = useHistory(); 
+    const location = useLocation(); 
+    const { data, display, setDisplay } = useContext(ForumContext);
 
+    useEffect(() => setDisplay(prepareDisplay(location, data)), [location, data, setDisplay]);
+    const handleListItemClick = (name) => history.push(location.pathname + '/' + name);
+    
     return (
         <List className="forum">
             { 
-                forums.map(( { forum_id, name, created, creator, description }, index ) => 
+                display.map(( { forum_id, name, created, creator, description } ) => 
                     <ListItem 
                         key={ forum_id }
                         alignItems = 'flex-start'
                         dense
                         divider
                         className="forum-topic"
+                        onClick={ () => handleListItemClick(name) }
                     >
-                        <ListItemLink to={'/forum/' + index}>
+                        <ListItemLink>
                             <ListItemText>
                             <Grid
                                 container
@@ -68,12 +74,34 @@ const ForumList = ( props ) => {
 
 function ListItemLink(props) {
     const { to } = props;
-  
     return (
         <ListItem component={RouterLink} to={to}>
-          <ListItemText>{ props.children }</ListItemText>
+            <ListItemText>{ props.children }</ListItemText>
         </ListItem>
     );
-  }
+} 
+
+const findIndexByName = (what, list) => {
+    for (var i = 0; i < list.length; i++){
+        if(list[i].name === what) return i;
+    }
+    return -1;
+};
+
+const prepareDisplay = (location, data) => {
+    let path = location.pathname.trim("/").split("/");
+    let newData = data;
+    if(path.length > 2){
+        for (var i = 2; i < path.length; i++){
+            let where = findIndexByName(path[i], newData);
+            if(where >= 0){
+                newData = newData[where].forums;
+            }else{
+                return [];
+            }
+        }
+    }
+    return newData;
+}
 
 export default ForumList;

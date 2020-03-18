@@ -1,12 +1,15 @@
 import React from 'react';
 import TopicPost from './TopicPost';
+import { useParams, useLocation } from 'react-router-dom'
 
-
-const TopicView = ( topic ) => {
-
+const TopicView = ( props ) => {
+    let { forumid } = useParams();
+    let location = useLocation();
+    console.log(forumid);
+    console.log(location);
     return (
         <section className="topic-view">
-            <TopicPost />
+            { forumid } <TopicPost />
         </section>
     )
 
