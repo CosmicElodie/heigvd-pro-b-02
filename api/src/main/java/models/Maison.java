@@ -1,0 +1,35 @@
+package models;
+
+import org.json.JSONObject;
+import org.springframework.security.core.GrantedAuthority;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "maison")
+public class Maison {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private int id;
+
+    @Column(name = "name")
+    private String name;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public JSONObject getJSON(){
+        JSONObject json = new JSONObject();
+        json.put("id", this.id);
+        json.put("name", this.name);
+        return json;
+    }
+
+}

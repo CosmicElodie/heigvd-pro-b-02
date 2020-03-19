@@ -55,8 +55,14 @@ public class User implements UserDetails {
     @Column(name = "status_id")
     private int status_id;
 
-    @Column(name = "house_id")
-    private int house_id;
+//    @Column(name = "house_id")
+//    private int house_id;
+
+
+
+    @OneToOne(fetch = FetchType.EAGER)
+    private Maison maison;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="user_roles",
@@ -83,7 +89,10 @@ public class User implements UserDetails {
         json.put("role_id", this.created);
         json.put("created", this.role_id);
         json.put("status_id", this.status_id);
-        json.put("house_id", this.house_id);
+        if(this.maison != null){
+            json.put("maison", this.maison.getJSON());
+        }
+//        json.put("house_id", this.house_id);
 
         return json;
     }
