@@ -86,7 +86,7 @@ const HOUSE_DATA = {
 }
 
 
-export default function SimpleCard() {
+export default function Profile() {
   const { user } = useContext(MainContext);
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -158,7 +158,7 @@ export default function SimpleCard() {
               <br />
               <b>Maison :</b>
               <br />
-              <span className={classes.margin}>embedded computing</span>{/* faire que le json renvois aussi le nom de la maison*/}
+              <span className={classes.margin}>{user.maison && user.maison.name} </span>{/* faire que le json renvois aussi le nom de la maison*/}
               <br />       
               <ClickAwayListener onClickAway={ handleClickAway }>
                 <div className={classes.wrapper}>
@@ -168,7 +168,7 @@ export default function SimpleCard() {
                   <br />
                   <b>email :</b>
                   <br />
-                  <span className={classes.margin}>{user.email}</span>/>
+                  <span className={classes.margin}>{user.email}</span>
                 </div>
               </ClickAwayListener>
               
