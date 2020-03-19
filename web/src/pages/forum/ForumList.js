@@ -17,7 +17,7 @@ const ForumList = ( ) => {
     const handleListItemClick = ( forum ) => history.push(history.location.pathname + '/' + forum.name);
     
     return (
-        <List className="forum" >
+        <List>
             { 
                 display && display.forums && display.forums.length > 0 && display.forums.map(( { forum_id, name, created, creator, description }, index ) =>    
                 <Spring
@@ -35,21 +35,10 @@ const ForumList = ( ) => {
                         >
                             <ListItemLink>
                                 <ListItemText>
-                                    <Grid
-                                        container
-                                        direction="row"
-                                        justify="space-between"
-                                        alignItems="center"
-                                        >
-                                        <Box display="flex"
-                                            container
-                                            direction="row"
-                                            justify="flex-start"
-                                            alignItems="center"
-                                        >
+                                    <Grid container direction="row" justify="space-between" alignItems="center" >
+                                        <Box display="flex" container direction="row" justify="flex-start" alignItems="center">
                                             <Icon className="forum-icon" /> <Typography variant="h6" gutterBottom noWrap>{ name } </Typography>
-                                        </Box>
-                                                                            
+                                        </Box>                    
                                         <Tooltip title="Nombre total de posts" aria-label="Nombre total de posts">
                                             <Badge badgeContent={4} color="primary">
                                                 <Icon className="forum-icon-summary-posts" />

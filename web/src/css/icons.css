@@ -31,6 +31,18 @@
     margin-right: 10px;
 }
 
+.forum .forum-open-icon{
+    
+    background-image: url(../svg/forum/book-open-2.svg);
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 36px 36px;
+    min-width: 36px;
+    min-height: 36px;
+    margin-right: 10px;
+}
+
+
 .forum .forum-icon-summary-posts{
     background-image: url(../svg/forum/summary/b-meeting.svg);
     background-repeat: no-repeat;

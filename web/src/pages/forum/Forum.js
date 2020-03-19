@@ -53,11 +53,11 @@ const Forum = (  ) => {
                       Forums
                   </LinkRouter>
                   {
-                      breadcrumbs.map(( { name }, index ) =>  
-                          <LinkRouter color="primary" onClick = { () => handleBreadcrumbClick(index) } >
-                              { name } 
-                          </LinkRouter>
-                      )
+                    breadcrumbs.map(( { name }, index ) =>  
+                        <LinkRouter color="primary" onClick = { () => handleBreadcrumbClick(index) } >
+                            { name } 
+                        </LinkRouter>
+                    )
                   }
               </Breadcrumbs>
             </Paper>
