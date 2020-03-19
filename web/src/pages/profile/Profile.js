@@ -4,6 +4,8 @@ import { blue, blueGrey, HUE } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { MainContext } from '../../context/MainContext';
+import { FormControlLabel, TextField, Checkbox, CssBaseline, Link, Paper, Box, Icon } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
 
 
 const useStyles = makeStyles(theme => ({
@@ -54,12 +56,7 @@ const useStyles = makeStyles(theme => ({
     width:250,
     alignItems: 'right',
   },
-  margin:{
-    marginLeft: 100,
-  },
-  edit:{
-    marginLeft: 100,
-  },
+
   wrapper: {
     position: 'relative',
   },
@@ -89,6 +86,7 @@ const HOUSE_DATA = {
 export default function Profile() {
   const { user } = useContext(MainContext);
   const classes = useStyles();
+  const SPACING = 3;
   const [open, setOpen] = React.useState(false);
   const bull = <span className={classes.bullet}>•</span>;
 
@@ -131,6 +129,7 @@ export default function Profile() {
       </Card>
         <Card className={classes.InfoBox}>
           <CardContent >
+            {/*
             <Typography variant="h5" component="h2">
               {bull}Info 
             </Typography>
@@ -140,25 +139,21 @@ export default function Profile() {
 
             <Typography variant="body2" >
               
-              <b>Nom :</b>
-              <br />
-              <span className={classes.margin}>{user.lastname}</span>
+              
               <br />
               <b>Prenom :</b>
-              <br />
               <span className={classes.margin}>{user.firstname}</span>
               <br />             
               <b>Birthdate :</b>
-              <br />
-              <span className={classes.margin}>{user.birth}</span>
+              
+              <span className={classes.margin}><Moment format="DD/MM/YYYY">{user.birth}</Moment></span>
+              
               <br />
               <b>Created on :</b>
-              <br />
               <span className={classes.margin}>{user.created}</span>
               <br />
               <b>Maison :</b>
-              <br />
-              <span className={classes.margin}>{user.maison && user.maison.name} </span>{/* faire que le json renvois aussi le nom de la maison*/}
+              <span className={classes.margin}>{user.maison && user.maison.name} </span>{/* faire que le json renvois aussi le nom de la maison -----------
               <br />       
               <ClickAwayListener onClickAway={ handleClickAway }>
                 <div className={classes.wrapper}>
@@ -170,13 +165,94 @@ export default function Profile() {
                   <br />
                   <span className={classes.margin}>{user.email}</span>
                 </div>
-              </ClickAwayListener>
+              </ClickAwayListener>*
               
-            </Typography>
+              </Typography>*/}
+
+             
+                        <CssBaseline />
+                        <Grid className={classes.grid_container} item component={Paper} elevation={0}>
+                          <div className={classes.paper}>
+                            
+                            
+                            
+                            <Typography component="h1" variant="h4"spacing={10}>
+                              Info
+                            </Typography>
+
+                            <br />
+                            <br />
+
+                          <Typography component="h1" >
+                            <Grid container spacing={SPACING}>
+                                <Grid item xs>
+                                <b>Nom :</b>  
+                                </Grid>
+                                <Grid item>
+                                  <span >{user.lastname}</span>
+                                </Grid>
+                              </Grid>
+                              
+                              <Grid container spacing={SPACING}>
+                                <Grid item xs>
+                                <b>Prenom :</b>
+                                </Grid>
+                                <Grid item>
+                                 <span >{user.firstname}</span>
+                                </Grid>
+                              </Grid>
+                              
+                              <Grid container spacing={SPACING}>
+                                <Grid item xs>
+                                <b>Birthdate :</b>
+                                </Grid>
+                                <Grid item>
+                                <span >{user.created}</span>              
+                                </Grid>
+                              </Grid>
+                              
+                              <Grid container spacing={SPACING}>
+                                <Grid item xs>
+                                <b>Maison :</b> 
+                                </Grid>
+                                <Grid item>
+                                <span >{user.maison && user.maison.name} </span>
+                                </Grid>
+                              </Grid>
+                              
+                              <Grid container spacing={SPACING}>
+                                <Grid item xs>
+                                <b>Username :</b>  
+                                </Grid>
+                                <Grid item>
+
+                                <IconButton aria-label="edit"  size="small">
+                                  <EditIcon style={{ fontSize: 10, color: blue[500] }} onClick={handleClick}/>  
+                                </IconButton>
+                                
+                                <span >{user.username}</span> 
+                                </Grid>
+                              </Grid>
+
+                              <Grid container spacing={SPACING}>
+                                <Grid item xs>
+                                <b>email :</b>
+                                </Grid>
+                                <Grid item>
+                                <span >{user.email}</span>
+                                </Grid>
+                              </Grid>
+                            </Typography>
+                          
+                       
+                          </div>
+                        </Grid>
+                      
+                 
+
 
         </CardContent>
       </Card>
   </div>
   );
 }
-
