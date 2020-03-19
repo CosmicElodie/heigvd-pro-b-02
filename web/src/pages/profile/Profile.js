@@ -104,7 +104,7 @@ export default function Profile() {
       <Card className={classes.bannerBox}>
         <CardContent className={classes.house} >
           <Grid container spacing={3}>
-            <Grid item xs={10}>
+            <Grid item xs>
               <Typography className={classes.title} color="textSecondary" gutterBottom>
                 Profile
               </Typography>
@@ -116,7 +116,7 @@ export default function Profile() {
                 </Avatar>
               </Avatar>
             </Grid>
-            <Grid item xs={1}>
+            <Grid item>
               <img className={classes.banner} src={HOUSE_DATA.img}>
               </img>
             </Grid>
@@ -129,46 +129,6 @@ export default function Profile() {
       </Card>
         <Card className={classes.InfoBox}>
           <CardContent >
-            {/*
-            <Typography variant="h5" component="h2">
-              {bull}Info 
-            </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              whesh gros
-            </Typography>
-
-            <Typography variant="body2" >
-              
-              
-              <br />
-              <b>Prenom :</b>
-              <span className={classes.margin}>{user.firstname}</span>
-              <br />             
-              <b>Birthdate :</b>
-              
-              <span className={classes.margin}><Moment format="DD/MM/YYYY">{user.birth}</Moment></span>
-              
-              <br />
-              <b>Created on :</b>
-              <span className={classes.margin}>{user.created}</span>
-              <br />
-              <b>Maison :</b>
-              <span className={classes.margin}>{user.maison && user.maison.name} </span>{/* faire que le json renvois aussi le nom de la maison -----------
-              <br />       
-              <ClickAwayListener onClickAway={ handleClickAway }>
-                <div className={classes.wrapper}>
-                  <b>Username :</b>
-                  <br />
-                  <span className={classes.margin} >{user.username}</span> <EditIcon style={{ fontSize: 10, color: blue[500] }} onClick={handleClick}/>     
-                  <br />
-                  <b>email :</b>
-                  <br />
-                  <span className={classes.margin}>{user.email}</span>
-                </div>
-              </ClickAwayListener>*
-              
-              </Typography>*/}
-
              
                         <CssBaseline />
                         <Grid className={classes.grid_container} item component={Paper} elevation={0}>
@@ -226,6 +186,7 @@ export default function Profile() {
                                 </Grid>
                                 <Grid item>
 
+                                  
                                 <IconButton aria-label="edit"  size="small">
                                   <EditIcon style={{ fontSize: 10, color: blue[500] }} onClick={handleClick}/>  
                                 </IconButton>
