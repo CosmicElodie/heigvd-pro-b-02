@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, {useContext} from 'react';
 import { makeStyles, Card, CardActions, CardContent, Button, Typography, Avatar, Grid } from '@material-ui/core';
-import { indigo, blueGrey, HUE } from '@material-ui/core/colors';
+import { blue, blueGrey, HUE } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
-
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import { MainContext } from '../../context/MainContext';
 
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  bannerBox: {
     minWidth: 275,
     Height: 300 
   },
-  root2: {
+  InfoBox: {
     marginTop: 20,
     maxWidth: 400,
     Height: 300 
@@ -59,6 +60,18 @@ const useStyles = makeStyles(theme => ({
   edit:{
     marginLeft: 100,
   },
+  wrapper: {
+    position: 'relative',
+  },
+  div: {
+    position: 'absolute',
+    top: 28,
+    right: 0,
+    left: 0,
+    border: '1px solid',
+    padding: theme.spacing(1),
+    backgroundColor: theme.palette.background.paper,
+  },
 }));
 
 const USER_DATA = {
@@ -73,14 +86,24 @@ const HOUSE_DATA = {
 }
 
 
-
 export default function SimpleCard() {
+  const { user } = useContext(MainContext);
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
   const bull = <span className={classes.bullet}>•</span>;
 
+  const handleClick = () => {
+    console.log('Le lien a été cliqué.');
+    setOpen(prev => !prev);
+  };
+
+  const handleClickAway = () => {
+    setOpen(false);
+  };
+  
   return (
     <div>
-      <Card className={classes.root}>
+      <Card className={classes.bannerBox}>
         <CardContent className={classes.house} >
           <Grid container spacing={3}>
             <Grid item xs={10}>
@@ -88,8 +111,8 @@ export default function SimpleCard() {
                 Profile
               </Typography>
 
-              <Avatar className={classes.contour} classes > 
-                <Avatar className={classes.large} classes > 
+              <Avatar className={classes.contour} > 
+                <Avatar className={classes.large} > 
                   <img className={classes.resize} src={USER_DATA.img}>
                   </img>
                 </Avatar>
@@ -106,7 +129,7 @@ export default function SimpleCard() {
   
 
       </Card>
-        <Card className={classes.root2}>
+        <Card className={classes.InfoBox}>
           <CardContent >
             <Typography variant="h5" component="h2">
               {bull}Info 
@@ -115,36 +138,39 @@ export default function SimpleCard() {
               whesh gros
             </Typography>
 
-            <Typography variant="body2" component="p">
+            <Typography variant="body2" >
               
-              <b>Nom:</b>
+              <b>Nom :</b>
               <br />
-              <span class={classes.margin}>Triponez</span>
+              <span className={classes.margin}>{user.lastname}</span>
               <br />
-              <b>Prenom:</b>
+              <b>Prenom :</b>
               <br />
-              <span class={classes.margin}>Michael</span>
+              <span className={classes.margin}>{user.firstname}</span>
+              <br />             
+              <b>Birthdate :</b>
               <br />
-              <b>Username:</b>
+              <span className={classes.margin}>{user.birth}</span>
               <br />
-              <span class={classes.margin}>Mich</span> <EditIcon style={{ fontSize: 10 }} />     
+              <b>Created on :</b>
               <br />
-              <b>Maison:</b>
+              <span className={classes.margin}>{user.created}</span>
               <br />
-              <span class={classes.margin}>embedded computing</span>
+              <b>Maison :</b>
               <br />
-              <b>Passions:</b>
-              <br />
-              <span class={classes.margin}>Bulles de savon</span> <EditIcon style={{ fontSize: 10 }} /> 
-              
-              <br />
-              <b>Truc:</b>
-              <br />
-              <span class={classes.margin}>machin</span> <EditIcon style={{ fontSize: 10 }} />          
-              <br />
-              <b>Bidule:</b>
-              <br />
-              <span class={classes.margin}>blabla</span> <EditIcon style={{ fontSize: 10 }} /> 
+              <span className={classes.margin}>embedded computing</span>{/* faire que le json renvois aussi le nom de la maison*/}
+              <br />       
+              <ClickAwayListener onClickAway={ handleClickAway }>
+                <div className={classes.wrapper}>
+                  <b>Username :</b>
+                  <br />
+                  <span className={classes.margin} >{user.username}</span> <EditIcon style={{ fontSize: 10, color: blue[500] }} onClick={handleClick}/>     
+                  <br />
+                  <b>email :</b>
+                  <br />
+                  <span className={classes.margin}>{user.email}</span>/>
+                </div>
+              </ClickAwayListener>
               
             </Typography>
 
