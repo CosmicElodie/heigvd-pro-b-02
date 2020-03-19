@@ -8,20 +8,15 @@ between all the components.
 export const ForumProvider = ( props ) => {
     // useState can only handle 1 object
     // it can be a list of objects
-    const [ breadcrumbs, setBreadcrumbs ]  = useState(
-        [
-            { 
-                name : 'lorem ipsum'
-            },{ 
-                name : 'lorem ipsum 2'
-            },{ 
-                name : 'lorem ipsum 3'
-            }
-
-        ]);
+    const [ breadcrumbs, setBreadcrumbs ] = useState([]);
 
     const [ data, setData ] = useState(static_data);
-    const [ display, setDisplay ] = useState(static_data);
+    const [ display, setDisplay ] = useState({
+        selected : null, 
+        rendered: false,
+        forums : []
+    });
+
     let context = {
         breadcrumbs, 
         setBreadcrumbs,
@@ -45,58 +40,21 @@ const static_data = [
         "forum_id": 1,
         "name": "1Lorem ipsum dolor sit amet",
         "description": "In hac habitasse platea dictumst. Sed sollicitudin bibendum nisi, eu porttitor nulla convallis sed. Proin finibus dignissim leo, at varius erat eleifend et. Suspendisse velit dui, commodo eget hendrerit faucibus, rhoncus in dui. Nullam suscipit nec mi eget maximus. Quisque id lorem quam. Sed ultrices facilisis convallis. Nam cursus fringilla est, non faucibus justo porta sit amet. Duis molestie ut tortor id ornare. Curabitur non ante vitae ligula dapibus semper.",
-        
-        "creator_id" : 1,
-        "creator": {
-            "user_id": 1,
-            "username": "Ovich",
-            "firstname": "Stefan",
-            "lastname": "Teofanovic",
-            "initials" : "ST",
-            "email": "stefan.teofanovic@heig-vd.com"
-        },
         "forums" : [{
             "forum_id": 2,
             "name": "2Lorem ipsum dolor sit amet",
             "description": "In hac habitasse platea dictumst. Sed sollicitudin bibendum nisi, eu porttitor nulla convallis sed. Proin finibus dignissim leo, at varius erat eleifend et. Suspendisse velit dui, commodo eget hendrerit faucibus, rhoncus in dui. Nullam suscipit nec mi eget maximus. Quisque id lorem quam. Sed ultrices facilisis convallis. Nam cursus fringilla est, non faucibus justo porta sit amet. Duis molestie ut tortor id ornare. Curabitur non ante vitae ligula dapibus semper.",
-            "created": "2020-03-16 18:52:45",
-            "creator_id" : 1,
-            "creator": {
-                "user_id": 1,
-                "username": "Ovich",
-                "firstname": "Stefan",
-                "lastname": "Teofanovic",
-                "initials" : "ST",
-                "email": "stefan.teofanovic@heig-vd.com"
-            },
+            
             "forums": [{
                 "forum_id": 3,
                 "name": "3Lorem ipsum dolor sit amet",
                 "description": "In hac habitasse platea dictumst. Sed sollicitudin bibendum nisi, eu porttitor nulla convallis sed. Proin finibus dignissim leo, at varius erat eleifend et. Suspendisse velit dui, commodo eget hendrerit faucibus, rhoncus in dui. Nullam suscipit nec mi eget maximus. Quisque id lorem quam. Sed ultrices facilisis convallis. Nam cursus fringilla est, non faucibus justo porta sit amet. Duis molestie ut tortor id ornare. Curabitur non ante vitae ligula dapibus semper.",
                 
-                "creator_id" : 1,
-                "creator": {
-                    "user_id": 1,
-                    "username": "Ovich",
-                    "firstname": "Stefan",
-                    "lastname": "Teofanovic",
-                    "initials" : "ST",
-                    "email": "stefan.teofanovic@heig-vd.com"
-                },
                 "forums" : [{
                     "forum_id": 4,
                     "name": "4Lorem ipsum dolor sit amet",
                     "description": "In hac habitasse platea dictumst. Sed sollicitudin bibendum nisi, eu porttitor nulla convallis sed. Proin finibus dignissim leo, at varius erat eleifend et. Suspendisse velit dui, commodo eget hendrerit faucibus, rhoncus in dui. Nullam suscipit nec mi eget maximus. Quisque id lorem quam. Sed ultrices facilisis convallis. Nam cursus fringilla est, non faucibus justo porta sit amet. Duis molestie ut tortor id ornare. Curabitur non ante vitae ligula dapibus semper.",
-                    "created": "2020-03-16 18:52:45",
-                    "creator_id" : 1,
-                    "creator": {
-                        "user_id": 1,
-                        "username": "Ovich",
-                        "firstname": "Stefan",
-                        "lastname": "Teofanovic",
-                        "initials" : "ST",
-                        "email": "stefan.teofanovic@heig-vd.com"
-                    },
+                    
                     "forums": []
                 }],
                 "subjects" : [
@@ -151,30 +109,12 @@ const static_data = [
         "forum_id": 5,
         "name": "8Lorem ipsum dolor sit amet",
         "description": "In hac habitasse platea dictumst. Sed sollicitudin bibendum nisi, eu porttitor nulla convallis sed. Proin finibus dignissim leo, at varius erat eleifend et. Suspendisse velit dui, commodo eget hendrerit faucibus, rhoncus in dui. Nullam suscipit nec mi eget maximus. Quisque id lorem quam. Sed ultrices facilisis convallis. Nam cursus fringilla est, non faucibus justo porta sit amet. Duis molestie ut tortor id ornare. Curabitur non ante vitae ligula dapibus semper.",
-        
-        "creator_id" : 1,
-        "creator": {
-            "user_id": 1,
-            "username": "Ovich",
-            "firstname": "Stefan",
-            "lastname": "Teofanovic",
-            "initials" : "ST",
-            "email": "stefan.teofanovic@heig-vd.com"
-        },
+       
         "forums" : [{
             "forum_id": 6,
             "name": "9Lorem ipsum dolor sit amet",
             "description": "In hac habitasse platea dictumst. Sed sollicitudin bibendum nisi, eu porttitor nulla convallis sed. Proin finibus dignissim leo, at varius erat eleifend et. Suspendisse velit dui, commodo eget hendrerit faucibus, rhoncus in dui. Nullam suscipit nec mi eget maximus. Quisque id lorem quam. Sed ultrices facilisis convallis. Nam cursus fringilla est, non faucibus justo porta sit amet. Duis molestie ut tortor id ornare. Curabitur non ante vitae ligula dapibus semper.",
-            "created": "2020-03-16 18:52:45",
-            "creator_id" : 1,
-            "creator": {
-                "user_id": 1,
-                "username": "Ovich",
-                "firstname": "Stefan",
-                "lastname": "Teofanovic",
-                "initials" : "ST",
-                "email": "stefan.teofanovic@heig-vd.com"
-            },
+           
             "forums": []
         }],
         "subjects" : [

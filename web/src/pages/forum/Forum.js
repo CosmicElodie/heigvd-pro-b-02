@@ -1,10 +1,10 @@
 //🍆🍈🍉🍊🍋🍌🍍🍎🍏🍐🍑🍒🍓👤
 import React, { useContext, useEffect } from 'react';
-import { Typography, Link, Paper } from '@material-ui/core';
+import { Typography, Link, Paper, Box } from '@material-ui/core';
 import { ForumContext } from '../../context/ForumContext';
 import TopicView from './TopicView';
-import ForumList from './ForumList';
-import { spring } from 'react-router-transition';
+import ForumView from './ForumView';
+import Icon from '@material-ui/core/Icon';
 import "../../css/icons.css";
 
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
@@ -19,7 +19,7 @@ for(var [key, val] of fruits) console.log(key,val);
 
 const Forum = (  ) => {
         
-    const { breadcrumbs, setBreadcrumbs } = useContext(ForumContext);
+    const { breadcrumbs, setBreadcrumbs, setForum } = useContext(ForumContext);
     const location = useLocation(); 
     const history = useHistory(); 
 
@@ -36,14 +36,18 @@ const Forum = (  ) => {
         }
       }
       setBreadcrumbs(crumbs);
-    }, [location, setBreadcrumbs]);
+    }, [location, setBreadcrumbs, setForum]);
 
     const handleBreadcrumbClick = ( index ) => index >= 0 ? history.push(breadcrumbs[index].path) : history.push('/forum');
     
     return (
       <Route>
             <Paper elevation={0}>
-              <Typography variant="h5" component="h5" gutterBottom> Forum </Typography>
+              <Box display="flex" justify="flex-start" alignItems="center" >
+                <Icon className="forum-title" />  
+                <Typography variant="h5" component="h5" gutterBottom> Forum </Typography>
+              </Box>
+              <Box mb={1} />
               <Breadcrumbs aria-label="breadcrumb" maxItems={3} >
                   <LinkRouter color="primary" onClick = { () => handleBreadcrumbClick(-1) }  to="/forum">
                       Forums
@@ -58,7 +62,7 @@ const Forum = (  ) => {
               </Breadcrumbs>
             </Paper>
             <Switch>
-                <Route path="/forum" component={() => <ForumList />} />
+                <Route path="/forum" component={() => <ForumView />} />
                 <Route path="/forum/:forumid" component={() => <TopicView />} />
             </Switch>
         </Route>
@@ -67,41 +71,6 @@ const Forum = (  ) => {
 
 const LinkRouter = props => <Link {...props} component={RouterLink} />;
 
-// wrap the `spring` helper to use a bouncy config
-function bounce(val) {
-    return spring(val, {
-      stiffness: 330,
-      damping: 22,
-    });
-  }
-  
-  // child matches will...
-  const bounceTransition = {
-    // start in a transparent, upscaled state
-    atEnter: {
-      opacity: 0,
-      scale: 1.2,
-    },
-    // leave in a transparent, downscaled state
-    atLeave: {
-      opacity: bounce(0),
-      scale: bounce(0.8),
-    },
-    // and rest at an opaque, normally-scaled state
-    atActive: {
-      opacity: bounce(1),
-      scale: bounce(1),
-    },
-  };
 
-  // we need to map the `scale` prop we define below
-// to the transform style property
-function mapStyles(styles) {
-    return {
-      opacity: styles.opacity,
-      transform: `scale(${styles.scale})`,
-    };
-  }
-  
 
 export default Forum;
