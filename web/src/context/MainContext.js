@@ -12,7 +12,7 @@ export const MainProvider = ( props ) => {
     const [ dialog, setDialog ]  = useState();
 
     useEffect(() => { 
-        let userFromStore = JSON.parse(localStorage.getItem('User'));
+        let userFromStore = JSON.parse(localStorage.getItem('User') ? localStorage.getItem('User') : '{}' );
         if(userFromStore && user.id !== userFromStore.id && userFromStore.is_authenticated)
             setUser(userFromStore);
     }, [user.id]);

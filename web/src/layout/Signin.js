@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { MainContext } from '../context/MainContext';
 import { useInput } from '../hooks/input';
-import { FormControlLabel, TextField, Checkbox, Avatar, Button, CssBaseline, Link, Paper, Box, Grid, Icon, Typography } from '@material-ui/core';
+import { FormControlLabel, TextField, Checkbox, Button, CssBaseline, Link, Paper, Box, Grid, Icon, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const Signin = ( props ) => {
