@@ -4,6 +4,7 @@ import User from './User'
 import Dialog from './Dialog'
 import Home from '../pages/Home'
 import About from '../pages/About'
+import Event from '../pages/event/Event'
 import Profile from '../pages/profile/Profile'
 import Forum from '../pages/forum/Forum'
 import { ForumProvider } from '../context/ForumContext';
@@ -23,6 +24,7 @@ const AppLayout = () => {
             <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
+            <Route path="/event" component={Event} />
             <Route path="/profile" component={Profile} />
             <ForumProvider>
                 <Route path="/forum" component={Forum} />
