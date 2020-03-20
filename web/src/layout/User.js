@@ -70,7 +70,7 @@ const User = ( ) => {
     return (
         <ClickAwayListener onClickAway={ handleMenuClose }>
             <section className="user" onClick={ handleMenuOpen } >
-                <Person {...user} />
+                <Person {...user} collapsed={true}/>
                 <Menu
                     id="simple-menu"
                     anchorEl={anchorEl}

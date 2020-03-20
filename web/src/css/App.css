@@ -40,7 +40,7 @@
 .App .user{
   position:fixed;
   top:0px;
-  right:0px;
+  right:10px;
 }
 
 .App .person{
@@ -97,12 +97,10 @@
 }
 
 
-.App .person:hover .details{
+.App .person:not(.no-hover):hover .details{
   max-width:240px;
   padding:0px 5px;
 } 
-
-
 
 .App .person .full-name{
   font-size: 13px;
@@ -158,6 +156,13 @@
   min-width: 400px;
   margin: 24px 0px;
   cursor: default;
+}
+
+.forum .subject-list,
+.forum .subject-details {
+  -webkit-box-shadow: 0px 0px 10px -7px rgba(63,81,181,1);
+-moz-box-shadow: 0px 0px 10px -7px rgba(63,81,181,1);
+box-shadow: 0px 0px 10px -7px rgba(63,81,181,1);
 }
 
 .forum .topicview-post .topic-post-card{
@@ -216,4 +221,18 @@ box-shadow: 0px 2px 10px -5px rgba(63,81,181,1);
 
 .route-wrapper > div {
   position: absolute;
+}
+
+.App .typo-headline-4{
+  font-size:12px;
+  font-weight: 600;;
+}
+
+.App .typo-body-4{
+  font-size:12px;
+}
+
+
+.App .typo-body-3{
+  font-size:14px;
 }

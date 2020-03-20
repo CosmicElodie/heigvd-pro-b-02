@@ -7,9 +7,16 @@ import Moment from 'react-moment';
 
 const styles = {
     List: {
-        marginLeft:'28px',
-        marginRight:'28px',
-        position:'relative'
+        position:'relative',
+        background: '#f4f4f4f0',
+	    border: '1px solid #e8e8e8f0',
+	    padding: '20px'
+    },
+    subjectDetails : {
+        background:'white',
+        minHeight: '60px',
+        padding:'10px',
+        border: '1px solid #e8e8e8f0'
     },
     ListItem : {
         display:'flex',
@@ -24,48 +31,45 @@ const SubjectList = ( { selected } ) => {
             from={{ opacity: 0.3, top:'-100vh' }}
             to={{ opacity: 1, top:'0vh' }}>
                 { ({opacity, top}) => 
-                    <List style={ {
+                    <List className="subject-list" style={ {
                             ...styles.List,
                                 'opacity' : opacity,
                                 'top' : top
                             }}>
-                            { selected && selected.subjects && <Typography variant="h6" gutterBottom>Liste des Sujets</Typography> }
+                            { selected && selected.subjects && 
+                             <Grid container direction="row" alignItems="center" spacing={1}> <Icon className="forum-subject" />  <Typography variant="h7" gutterBottom>Liste des Sujets</Typography></Grid>  }
                             { selected && selected.subjects && selected.subjects.length > 0 
                             && selected.subjects.map(( { subject_id, created, creator, creator_id, name, posts }, index ) =>    
                                 <Grid container component="div" style={ styles.ListItem } key={ subject_id } justify="space-between"  alignItems="center" spacing={3} direction="row" >                                    
                                     <Grid item>
-                                        <Box mt={1} />
-                                        <Grid container direction="row" alignItems="center" >
+                                        <Box mt={2} />
+                                        <Grid container direction="row" alignItems="center" spacing={1}>
                                             
-                                            <Grid item xs={0}>
-                                                <Grid container alignItems="flex-start" direction="column" >
-                                                    <Typography variant="h7" noWrap>  </Typography>  
+                                            <Grid item >
+                                                <Typography variant="h7" noWrap>  </Typography>      
+                                            </Grid>
+                                            <Grid item >
+                                                <Person { ...creator } collapsed={true} />
+                                            </Grid>
+                                            <Grid item >
+                                                <Grid container className="subject-details" style={ styles.subjectDetails }  justify="space-around" alignItems="flex-start" direction="column" >
+                                                    <Grid container direction="row" spacing={1}> 
+                                                        <Grid item>
+                                                            <Typography className="typo-headline-4" noWrap> { creator.firstname + ' ' + creator.lastname } </Typography> 
+                                                        </Grid>
+                                                        <Grid item>
+                                                            <Typography className="typo-body-4"  noWrap><Moment fromNow>{ created }</Moment></Typography>
+                                                        </Grid>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <Typography className="typo-body-3"  noWrap> { name } </Typography>
+                                                    </Grid>
                                                     
                                                 </Grid>
                                             </Grid>
-                                            <Grid item xs={0}>
-                                                <Person { ...creator } collapsed={true} />
-                                            </Grid>
-                                            <Grid item>
-                                                
-                                                <Box className="speech-bubble"> { name } 
-                                                    <Box className="speach-moment">
-                                                    <Typography variant="caption" noWrap><Moment fromNow>{ created }</Moment></Typography>
-                                                    </Box>
-                                                </Box>
-                                            </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid item>
-                                        <Grid container alignItems="center" direction="row" >
-                                            <Grid item xs={0}>
-                                                <Icon className="forum-subject" /> 
-                                            </Grid>
-                                            <Grid item xs={0}>
-                                                <Typography variant="caption" noWrap><Moment fromNow>{ created }</Moment></Typography>
-                                            </Grid>
-                                        </Grid>
-                                    </Grid>
+                                    
                                 </Grid>
                             )
                         }
