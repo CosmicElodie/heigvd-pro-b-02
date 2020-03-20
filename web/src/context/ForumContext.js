@@ -79,6 +79,50 @@ const static_data = [
                                 "last_update": "2020-03-15 16:52:45"
                             }
                         ]
+                    },
+                    {
+                        "subject_id": 1,
+                        "name": "5Aenean vel neque egestas.",
+                        "created": "2020-03-16 18:52:45",
+                        "creator_id" : 1,
+                        "creator" : {
+                            "user_id": 1,
+                            "initials": "ST",
+                            "username": "Ovich",
+                            "firstname": "Stefan",
+                            "lastname": "Teofanovic",
+                            "email": "stefan.teofanovic@heig-vd.com"
+                        },
+                        "posts" : [
+                            {
+                                "post_id": 1,
+                                "message": 1,
+                                "created": "2020-03-15 15:52:45",
+                                "last_update": "2020-03-15 16:52:45"
+                            }
+                        ]
+                    },
+                    {
+                        "subject_id": 1,
+                        "name": "5Aenean vel neque egestas.",
+                        "created": "2020-03-16 18:52:45",
+                        "creator_id" : 1,
+                        "creator" : {
+                            "user_id": 1,
+                            "initials": "ST",
+                            "username": "Ovich",
+                            "firstname": "Stefan",
+                            "lastname": "Teofanovic",
+                            "email": "stefan.teofanovic@heig-vd.com"
+                        },
+                        "posts" : [
+                            {
+                                "post_id": 1,
+                                "message": 1,
+                                "created": "2020-03-15 15:52:45",
+                                "last_update": "2020-03-15 16:52:45"
+                            }
+                        ]
                     }
                 ]
             },{
