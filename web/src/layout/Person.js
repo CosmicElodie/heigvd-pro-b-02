@@ -1,11 +1,11 @@
 import React from 'react';
 import { Grid, Avatar, Typography } from '@material-ui/core';
 
-const Person = ( { firstname, lastname, email, initials  } ) => {
-    
+const Person = ( { firstname, lastname, email, initials, variant  } ) => {
+    let variantClass = variant ? variant : '';
     return (           
         <Grid
-            className="person"
+            className={"person " + variantClass}
             container
             direction="row"
             justify="space-between"

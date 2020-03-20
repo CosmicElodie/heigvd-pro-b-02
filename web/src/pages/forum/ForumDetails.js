@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Icon, Typography, Grid} from '@material-ui/core';
+import { Paper, Icon, Typography, Grid, Box} from '@material-ui/core';
 import { Spring } from 'react-spring/renderprops';
 
 const ForumDetails = ( { selected } ) => {
@@ -18,6 +18,7 @@ const ForumDetails = ( { selected } ) => {
                         <Icon className="forum-open-icon" /> 
                         <Typography variant="h6" gutterBottom noWrap> { selected.name } </Typography>
                     </Grid>
+                    <Box mb={1} />
                     <Typography variant="body2" gutterBottom noWrap>{ selected.description }</Typography>
                 </Paper>
             }

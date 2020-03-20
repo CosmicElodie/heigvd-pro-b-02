@@ -48,7 +48,7 @@ const Forum = (  ) => {
                 <Typography variant="h5" component="h5" gutterBottom> Forum </Typography>
               </Box>
               <Box mb={1} />
-              <Breadcrumbs aria-label="breadcrumb" maxItems={3} >
+              <Breadcrumbs aria-label="breadcrumb" maxItems={4} >
                   <LinkRouter color="primary" onClick = { () => handleBreadcrumbClick(-1) }  to="/forum">
                       Forums
                   </LinkRouter>

@@ -65,6 +65,7 @@ const static_data = [
                         "creator_id" : 1,
                         "creator" : {
                             "user_id": 1,
+                            "initials": "ST",
                             "username": "Ovich",
                             "firstname": "Stefan",
                             "lastname": "Teofanovic",
@@ -100,6 +101,7 @@ const static_data = [
                         "creator_id" : 1,
                         "creator" : {
                             "user_id": 1,
+                            "initials": "ST",
                             "username": "Ovich",
                             "firstname": "Stefan",
                             "lastname": "Teofanovic",

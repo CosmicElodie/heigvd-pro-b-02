@@ -3,7 +3,7 @@ import { ForumContext } from '../../context/ForumContext';
 import Moment from 'react-moment';
 import Person from '../../layout/Person';
 import Icon from '@material-ui/core/Icon';
-import { Typography, List, Grid, ListItem, ListItemText, Badge , Tooltip, Box } from '@material-ui/core';
+import { Typography, Grid, List, ListItem, ListItemText, Badge , Tooltip, Box } from '@material-ui/core';
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import { Spring } from 'react-spring/renderprops';
 
@@ -27,7 +27,6 @@ const ForumList = ( ) => {
                         <ListItem 
                             style={ transition } 
                             key={ forum_id }
-                            alignItems = 'flex-start'
                             dense
                             divider
                             className="forum-topic"
@@ -35,8 +34,8 @@ const ForumList = ( ) => {
                         >
                             <ListItemLink>
                                 <ListItemText>
-                                    <Grid container direction="row" justify="space-between" alignItems="center" >
-                                        <Box display="flex" container direction="row" justify="flex-start" alignItems="center">
+                                    <Grid container direction="row" justify="space-between">
+                                        <Box display="flex" container direction="row" justify="flex-start">
                                             <Icon className="forum-icon" /> <Typography variant="h6" gutterBottom noWrap>{ name } </Typography>
                                         </Box>                    
                                         <Tooltip title="Nombre total de posts" aria-label="Nombre total de posts">
@@ -46,7 +45,9 @@ const ForumList = ( ) => {
                                         </Tooltip>
                                     </Grid>
                                 </ListItemText>
+                               
                                 <ListItemText>
+                                    <Box mb={2} />
                                     <Typography variant="body2" align="justify" gutterBottom> { description  } </Typography>
                                 </ListItemText>                                                    
                             </ListItemLink>                      

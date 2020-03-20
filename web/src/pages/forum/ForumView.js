@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, Fragment } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ForumContext } from '../../context/ForumContext';
 import { useLocation } from "react-router-dom";
 import ForumList from './ForumList';
 import ForumDetails from './ForumDetails';
+import SubjectList from './SubjectList';
 
 const ForumView = () => {
 
@@ -48,6 +49,7 @@ const ForumView = () => {
         <section className="forum">
             <ForumDetails { ...display } />
             <ForumList />
+            <SubjectList { ...display } />
         </section>
     )
 }
