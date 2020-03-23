@@ -6,8 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "maison")
-public class Maison {
+@Table(name = "house")
+public class House {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

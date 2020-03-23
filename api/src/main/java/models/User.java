@@ -61,7 +61,7 @@ public class User implements UserDetails {
 
 
     @OneToOne(fetch = FetchType.EAGER)
-    private Maison maison;
+    private House house;
 
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -89,8 +89,8 @@ public class User implements UserDetails {
         json.put("role_id", this.created);
         json.put("created", this.role_id);
         json.put("status_id", this.status_id);
-        if(this.maison != null){
-            json.put("maison", this.maison.getJSON());
+        if(this.house != null){
+            json.put("maison", this.house.getJSON());
         }
 //        json.put("house_id", this.house_id);
 
