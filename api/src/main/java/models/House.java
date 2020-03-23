@@ -11,7 +11,7 @@ public class House {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "house_id")
     private int id;
 
     @Column(name = "name")
@@ -27,7 +27,7 @@ public class House {
 
     public JSONObject getJSON(){
         JSONObject json = new JSONObject();
-        json.put("id", this.id);
+        json.put("house_id", this.id);
         json.put("name", this.name);
         return json;
     }
