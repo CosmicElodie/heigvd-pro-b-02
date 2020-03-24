@@ -50,6 +50,57 @@ const Dialog = () => {
                     </Alert>
                 </Snackbar> 
             }
+
+            { 
+                dialog && dialog.insufficient_post_length &&
+                <Snackbar 
+                        open = { dialog.insufficient_post_length.is_open }
+                        onClose = { () => handleClose({ insufficient_post_length: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Votre post n'est pas suffisamment long.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.insufficient_subject_length &&
+                <Snackbar 
+                        open = { dialog.insufficient_subject_length.is_open }
+                        onClose = { () => handleClose({ insufficient_subject_length: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Votre sujet n'est pas suffisamment long.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.post_posted &&
+                <Snackbar 
+                        open = { dialog.post_posted.is_open }
+                        onClose = { () => handleClose({ post_posted: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Votre post a été publié
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.subject_deleted &&
+                <Snackbar 
+                        open = { dialog.subject_deleted.is_open }
+                        onClose = { () => handleClose({ subject_deleted: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Le sujet est supprimé.
+                    </Alert>
+                </Snackbar> 
+            }
+
+
+
         </section>
     );
 }

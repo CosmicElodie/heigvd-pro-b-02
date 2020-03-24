@@ -19,7 +19,7 @@ for(var [key, val] of fruits) console.log(key,val);
 
 const Forum = (  ) => {
         
-    const { breadcrumbs, setBreadcrumbs, setForum } = useContext(ForumContext);
+    const { breadcrumbs, setBreadcrumbs, setForum, setEffectActive } = useContext(ForumContext);
     const location = useLocation(); 
     const history = useHistory(); 
 
@@ -38,7 +38,10 @@ const Forum = (  ) => {
       setBreadcrumbs(crumbs);
     }, [location, setBreadcrumbs, setForum]);
 
-    const handleBreadcrumbClick = ( index ) => index >= 0 ? history.push(breadcrumbs[index].path) : history.push('/forum');
+    const handleBreadcrumbClick = ( index ) => { 
+      setEffectActive({ active : true });
+      index >= 0 ? history.push(breadcrumbs[index].path) : history.push('/forum');
+    }
     
     return (
       <Route>

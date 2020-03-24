@@ -25,10 +25,9 @@
    /* background-image: url(../svg/forum/book-open-2.svg);*/
     background-repeat: no-repeat;
     background-position: center; 
-    background-size: 36px 36px;
-    min-width: 36px;
-    min-height: 36px;
-    margin-right: 10px;
+    background-size: 48px 48px;
+    min-width: 48px;
+    min-height: 48px;
 }
 
 .forum .forum-open-icon{
@@ -80,4 +79,73 @@
     min-width: 36px;
     min-height: 36px;
     margin-right: 10px;
+}
+
+.forum .posts-toggle-show{
+    background-image: url(../svg/forum/subject/priority-low.svg);
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 16px 16px;
+    min-width: 16px;
+    min-height: 16px;
+    margin-right: 10px;
+}
+
+.forum .subject-edit-button{
+    background-image: url(../svg/forum/subject/edit-note.svg);
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 24px 24px;
+    min-width: 28px;
+    min-height: 28px;
+    margin-right: 5px;
+}
+
+.forum .subject-edit-button:hover{
+    background-image: url(../svg/forum/subject/edit-note-active.svg);
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 24px 24px;
+    min-width: 28px;
+    min-height: 28px;
+    margin-right: 5px;
+    box-shadow: 0px 0px 10px -4px rgba(63,81,181,1);
+}
+
+
+.forum .subject-delete-button{
+    background-image: url(../svg/forum/subject/delete-forever.svg);
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 24px 24px;
+    min-width: 28px;
+    min-height: 28px;
+}
+
+.forum .subject-delete-button:hover{
+    background-image: url(../svg/forum/subject/delete-forever-active.svg);
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 24px 24px;
+    min-width: 28px;
+    min-height: 28px;
+    box-shadow: 0px 0px 10px -4px rgba(63,81,181,1);
+}
+
+.forum .post-delete-button{
+    background-image: url(../svg/forum/subject/c-remove.svg);
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 20px 20px;
+    min-width: 20px;
+    min-height: 20px;
+    background-color:white;
+    border-radius: 50%;
+    max-width:20px;
+    max-height:20px;
+    position:absolute;
+    right:-10px;
+    top:-10px;
+    z-index:500;
+    cursor:pointer;
 }
