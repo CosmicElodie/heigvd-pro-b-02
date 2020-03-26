@@ -17,7 +17,7 @@ export const ForumProvider = ( props ) => {
     });
 
     const [ effectActive, setEffectActive] = useState({
-        active:true
+        active:false
     });
 
     const [ forumListEffect, setForumListEffect ] = useState({
@@ -30,10 +30,10 @@ export const ForumProvider = ( props ) => {
         to      : { opacity: 1, scale: 1 }
     });
 
-    const [ subjectListEffect, setSubjectListEffect ] = useState({
+    /*const [ subjectListEffect, setSubjectListEffect ] = useState({
         from    : { opacity: 0.3, top:'-100vh' },
         to      : { opacity: 1, top:'0vw' }
-    });
+    });*/
 
     let context = {
         breadcrumbs, 
@@ -46,8 +46,6 @@ export const ForumProvider = ( props ) => {
         setForumListEffect,
         forumDetailsEffect,
         setForumDetailsEffect,
-        subjectListEffect,
-        setSubjectListEffect,
         effectActive,
         setEffectActive
     }

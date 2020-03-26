@@ -21,7 +21,7 @@ const ForumList = ( ) => {
             from={ effectActive.active ? forumListEffect.from : forumListEffect.to }
             to={ forumListEffect.to }>
             { transition => 
-                <List>
+                <List className="forum-list">
                     { 
                     current && current.forums && current.forums.length > 0 && current.forums.map(( { forum_id, name, created, creator, description }, index ) =>    
                     <ListItem 
@@ -29,7 +29,7 @@ const ForumList = ( ) => {
                         key={ forum_id }
                         dense
                         divider
-                        className="forum-topic"
+                        className="forum-list-element"
                         onClick={ () => handleListItemClick({ name }) }
                     >
                             <Grid container direction="row" justify="space-between" alignItems="center" wrap="nowrap">

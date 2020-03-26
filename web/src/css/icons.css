@@ -92,41 +92,43 @@
 }
 
 .forum .subject-edit-button{
-    background-image: url(../svg/forum/subject/edit-note.svg);
+    background-image: url(../svg/forum/subject/m-edit.svg);
     background-repeat: no-repeat;
     background-position: center; 
-    background-size: 24px 24px;
+    background-size: 16px 16px;
     min-width: 28px;
     min-height: 28px;
-    margin-right: 5px;
+    border-radius: 50%;
+    transition: 200ms box-shadow ease-in-out;
 }
 
 .forum .subject-edit-button:hover{
-    background-image: url(../svg/forum/subject/edit-note-active.svg);
+    background-image: url(../svg/forum/subject/m-edit.svg);
     background-repeat: no-repeat;
     background-position: center; 
-    background-size: 24px 24px;
+    background-size: 16px 16px;
     min-width: 28px;
     min-height: 28px;
-    margin-right: 5px;
     box-shadow: 0px 0px 10px -4px rgba(63,81,181,1);
 }
 
 
 .forum .subject-delete-button{
-    background-image: url(../svg/forum/subject/delete-forever.svg);
+    background-image: url(../svg/forum/subject/trash-can.svg);
     background-repeat: no-repeat;
     background-position: center; 
-    background-size: 24px 24px;
+    background-size: 16px 16px;
     min-width: 28px;
     min-height: 28px;
+    border-radius: 50%;
+    transition: 200ms box-shadow ease-in-out;
 }
 
 .forum .subject-delete-button:hover{
-    background-image: url(../svg/forum/subject/delete-forever-active.svg);
+    background-image: url(../svg/forum/subject/trash-can.svg);
     background-repeat: no-repeat;
     background-position: center; 
-    background-size: 24px 24px;
+    background-size: 16px 16px;
     min-width: 28px;
     min-height: 28px;
     box-shadow: 0px 0px 10px -4px rgba(63,81,181,1);
@@ -148,4 +150,34 @@
     top:-10px;
     z-index:500;
     cursor:pointer;
+}
+
+
+.forum .subject-edit-ok-button{
+    background-image: url(../svg/forum/subject/d-check.svg);
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 24px 24px;
+    min-width: 28px;
+    min-height: 28px;
+    border-radius: 50%;
+}
+
+.forum .subject-edit-ok-button:hover{
+    box-shadow: 0px 0px 10px -4px rgba(63,81,181,1);
+}
+
+
+.forum .subject-edit-cancel-button{
+    background-image: url(../svg/forum/subject/i-remove.svg);
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 24px 24px;
+    min-width: 28px;
+    min-height: 28px;
+    border-radius: 50%;
+}
+
+.forum .subject-edit-cancel-button:hover{
+    box-shadow: 0px 0px 10px -4px rgba(63,81,181,1);
 }

@@ -88,6 +88,18 @@ const Dialog = () => {
             }
 
             { 
+                dialog && dialog.subject_created &&
+                <Snackbar 
+                        open = { dialog.subject_created.is_open }
+                        onClose = { () => handleClose({ subject_created: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Le sujet a été crée.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
                 dialog && dialog.subject_deleted &&
                 <Snackbar 
                         open = { dialog.subject_deleted.is_open }
@@ -99,10 +111,20 @@ const Dialog = () => {
                 </Snackbar> 
             }
 
-
+            { 
+                dialog && dialog.subject_updated &&
+                <Snackbar 
+                        open = { dialog.subject_updated.is_open }
+                        onClose = { () => handleClose({ subject_updated: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Le sujet est modifié.
+                    </Alert>
+                </Snackbar> 
+            }
 
         </section>
-    );
+    )
 }
 
 export default Dialog;

@@ -2,7 +2,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Typography, Link, Paper, Box } from '@material-ui/core';
 import { ForumContext } from '../../context/ForumContext';
-import TopicView from './TopicView';
 import ForumView from './ForumView';
 import Icon from '@material-ui/core/Icon';
 import "../../css/icons.css";
@@ -48,7 +47,7 @@ const Forum = (  ) => {
             <Paper elevation={0}>
               <Box display="flex" justify="flex-start" alignItems="center" >
                 <Icon className="forum-title" />  
-                <Typography variant="h5" component="h5" gutterBottom> Forum </Typography>
+                <Typography variant="h5" component="h5" gutterBottom>Forum</Typography>
               </Box>
               <Box mb={1} />
               <Breadcrumbs aria-label="breadcrumb" maxItems={4} >
@@ -66,7 +65,6 @@ const Forum = (  ) => {
             </Paper>
             <Switch>
                 <Route path="/forum" component={() => <ForumView />} />
-                <Route path="/forum/:forumid" component={() => <TopicView />} />
             </Switch>
         </Route>
     )

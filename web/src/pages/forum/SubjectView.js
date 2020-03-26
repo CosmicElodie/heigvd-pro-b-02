@@ -26,6 +26,7 @@ const SubjectView = ( { subject_id, posts, isOpen } ) => {
             return;
         }
         let { reference, index } = traverseForums('subjects', subject_id, data, getSubjectByID);
+        if(!reference[index].posts) reference[index].posts = [];
         reference[index].posts.unshift({
                 "post_id": 99,
                 "message": message,

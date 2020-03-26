@@ -12,7 +12,7 @@ const SubjectDelete = ( { is_open, subject_id, handleClose } ) => {
     const handleConfirm = () => {
         // L'utilisateur a cliquer sur ok dans le dialog de confirmation
 
-        let { reference, index } = traverseForums('subjects', subject_id, data, getSubjectByID)
+        let { reference, index } = traverseForums('subjects', subject_id, data, getSubjectByID);
         reference.splice(index, 1);
         
         setData(JSON.parse(JSON.stringify(data)));
