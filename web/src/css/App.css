@@ -145,6 +145,7 @@
   cursor:pointer;
   background:white;
   z-index:0;
+  padding: 15px;
 }
 
 .forum .topicview-post{
