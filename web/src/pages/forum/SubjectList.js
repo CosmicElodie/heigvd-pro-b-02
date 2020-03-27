@@ -45,7 +45,7 @@ const SubjectList = ( ) => {
     
 
     const handleSubjectClick = ( event, index ) => { 
-        if(event.target.classList.contains('no-open') || event.target.tagName == 'INPUT') return;
+        if(event.target.classList.contains('no-open') || event.target.tagName === 'INPUT') return;
         
         // garder les etat des sujets ouverts de manière persistante
         let set = new Set(
