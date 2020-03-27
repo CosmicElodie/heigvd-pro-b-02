@@ -123,6 +123,44 @@ const Dialog = () => {
                 </Snackbar> 
             }
 
+            { 
+                dialog && dialog.forum_created &&
+                <Snackbar 
+                        open = { dialog.forum_created.is_open }
+                        onClose = { () => handleClose({ forum_created: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Le forum a été ajouté.
+                    </Alert>
+                </Snackbar> 
+            }
+            
+            { 
+                dialog && dialog.forum_edited &&
+                <Snackbar 
+                        open = { dialog.forum_edited.is_open }
+                        onClose = { () => handleClose({ forum_edited: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Le forum a été modifié.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.forum_deleted &&
+                <Snackbar 
+                        open = { dialog.forum_deleted.is_open }
+                        onClose = { () => handleClose({ forum_deleted: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Le forum a été supprimé.
+                    </Alert>
+                </Snackbar> 
+            }
+
+
+
         </section>
     )
 }

@@ -19,11 +19,11 @@ const SubjectList = ( ) => {
 
     const [ subjectEditInputs, setSubjectEditInputs ] = useState(new Map());
  
-    const [ subjectAddDialogState, setsubjectAddDialogState ] = useState({
+    const [ subjectAddDialogState, setSubjectAddDialogState ] = useState({
         is_open : false
     });
 
-    const [ subjectDeleteDialogState, setsubjectDeleteDialogState ] = useState({
+    const [ subjectDeleteDialogState, setSubjectDeleteDialogState ] = useState({
         is_open : false
     });
 
@@ -72,19 +72,19 @@ const SubjectList = ( ) => {
     }
     
     const handleAddSubjectClick = () => {
-        setsubjectAddDialogState({ is_open : true });
+        setSubjectAddDialogState({ is_open : true });
     }
 
     const handleAddSubjectClose = () => {
-        setsubjectAddDialogState({ is_open : false });
+        setSubjectAddDialogState({ is_open : false });
     }
 
     const handleDeleteSubjectClick = ( subject_id ) => {
-        setsubjectDeleteDialogState({ is_open : true, subject_id : subject_id });
+        setSubjectDeleteDialogState({ is_open : true, subject_id : subject_id });
     }
     
     const handleDeleteClose = () => {
-        setsubjectDeleteDialogState({ is_open : false });
+        setSubjectDeleteDialogState({ is_open : false });
     }
 
     const handleEditSubjectClick = ( name, index ) => {
@@ -99,7 +99,7 @@ const SubjectList = ( ) => {
 
     const handleSubjectEditOkClick = ( idx, subject_id ) => {
         let { reference, index } = traverseForums('subjects', subject_id, data, getSubjectByID);
-        reference[index].name = subjectEditInputs.get(idx);
+        reference.subjects[index].name = subjectEditInputs.get(idx);
         setData(JSON.parse(JSON.stringify(data)));
         setDialog( { subject_updated : {
             is_open: true
@@ -123,7 +123,7 @@ const SubjectList = ( ) => {
                             </Grid>
                         </Grid>
                         <Grid item>
-                            <Button variant="outlined" color="primary" onClick={ handleAddSubjectClick }>Ajouter</Button>
+                            <Button color="primary" onClick={ handleAddSubjectClick }>Nouveau sujet</Button>
                         </Grid>
                 </Grid> }
                 { selected && selected.subjects && selected.subjects.length > 0 

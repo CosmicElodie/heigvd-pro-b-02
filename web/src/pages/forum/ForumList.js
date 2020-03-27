@@ -58,55 +58,5 @@ const ForumList = ( ) => {
         </Spring>  
     )
 }
-/*
- <ListItem 
-                                    style={ transition } 
-                                    key={ forum_id }
-                                    alignItems = 'flex-start'
-                                    dense
-                                    divider
-                                    className="forum-topic"
-                                    onClick={ () => handleListItemClick(name) }
-                                >
-                                
-                                    <ListItemLink>
-                                        <ListItemText>
-                                        <Grid
-                                            container
-                                            direction="row"
-                                            justify="space-between"
-                                            alignItems="center"
-                                            >
-                                            <Typography>
-                                            <Grid container direction="row"> <Icon className="forum-icon" /> <Typography variant="h6" gutterBottom noWrap>{ name } </Typography></Grid>
-                                            </Typography>
-                                            <Typography variant="overline" gutterBottom>
-                                                <Moment fromNow >{ created }</Moment>
-                                            </Typography>
-                                        </Grid>
-                                        </ListItemText>
-                                        <ListItemText>
-                                            <Grid
-                                                container
-                                                direction="row"
-                                                justify="space-between"
-                                                alignItems="center"
-                                                >
-                                            <Box m="25">
-                                                <Person { ...creator } />
-                                            </Box>
-                                            <Tooltip title="Nombre total de posts" aria-label="Nombre total de posts">
-                                            <Badge badgeContent={4} color="primary">
-                                                <Icon className="forum-icon-summary-posts" />
-                                            </Badge>
-                                            </Tooltip>
-                                            </Grid>
-                                        </ListItemText>
-                                        <ListItemText>
-                                            <Typography variant="body2" align="justify" gutterBottom> { description  } </Typography>
-                                        </ListItemText>                                                    
-                                    </ListItemLink>                      
-                                </ListItem> 
-*/ 
 
 export default ForumList;

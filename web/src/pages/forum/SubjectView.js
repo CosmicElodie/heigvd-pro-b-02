@@ -26,8 +26,8 @@ const SubjectView = ( { subject_id, posts, isOpen } ) => {
             return;
         }
         let { reference, index } = traverseForums('subjects', subject_id, data, getSubjectByID);
-        if(!reference[index].posts) reference[index].posts = [];
-        reference[index].posts.unshift({
+        if(!reference.subjects[index].posts) reference.subjects[index].posts = [];
+        reference.subjects[index].posts.unshift({
                 "post_id": 99,
                 "message": message,
                 "created": new Date().toISOString().slice(0, 19).replace('T', ' '),

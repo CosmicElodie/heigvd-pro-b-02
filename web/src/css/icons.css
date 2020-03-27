@@ -181,3 +181,20 @@
 .forum .subject-edit-cancel-button:hover{
     box-shadow: 0px 0px 10px -4px rgba(63,81,181,1);
 }
+
+.forum .forum-delete-button{
+    background-image: url(../svg/forum/trash.svg);
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 16px 16px;
+    color:white;
+}
+
+
+.forum .forum-edit-button{
+    background-image: url(../svg/forum/wrench-tool.svg);
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 16px 16px;
+    color:white;
+}

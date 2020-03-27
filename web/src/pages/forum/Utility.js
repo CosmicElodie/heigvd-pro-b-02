@@ -10,20 +10,27 @@
     Retourne : la paire référence parent, index
    Voir : getSubjectByID
    Ex : traverseForums('subjects', subject_id, data, getSubjectByID)
+   where = '' -> chercher un forum et non pas un element contenu dans un forum
 */
 export const traverseForums = ( where, what, forums, fn ) => {
-    for (const entry of forums) {
+    for (const [i, entry] of forums.entries()) {
+        let index;
 
-        let index = entry.hasOwnProperty(where) 
-        ? fn(entry[where], what) 
-        : -1;
-
-        if(index >= 0) 
-            return { reference: entry[where], index : index } ;
+        if(where.length > 0){
+            index = entry.hasOwnProperty(where) ? fn(entry[where], what) : -1;
+        }else{
+            index = fn(entry, what, i);
+        }
+     
+        if(index > -1) 
+            return { reference: entry, index : index } ;
 
         if(entry.hasOwnProperty('forums')) {
             let value = traverseForums( where, what, entry.forums, fn );
-            if(value) return value;
+            if(value){
+                if(!value.hasOwnProperty('parent')) value.parent = entry;
+                return value;
+            } 
         }
     }
 }
@@ -46,6 +53,9 @@ export const getSubjectByID = ( subjects, subject_id ) => {
     return found ? index : -1;
 }
 
+/* Cherche le Subject par rapport à subject_id */
+
+export const getForumByID = ( forum, forum_id, index ) => forum.forum_id === forum_id ? index : -1;
 
 export const findIndexByName = (what, list) => {
     for (var i = 0; i < list.length; i++){
@@ -65,7 +75,7 @@ export const findCurrentPathForum = (location, data) => {
                 forum = next[where];
                 next = next[where].forums;
             }else{
-                return [];
+                return {};
             }
         }
     }

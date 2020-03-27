@@ -9,15 +9,16 @@ const SubjectAdd = ( { is_open, handleClose } ) => {
     /*
         Le parent "SubjectList" est le gérant de l'état du modal SubjectAdd
     */ 
-    const { value:subject, bind:bindSubject } = useInput('');
+    const { value:subject, bind:bindSubject, setError:setSubjectError } = useInput('');
     const { current, data, setData } = useContext(ForumContext);
     const { user, setDialog } = useContext(MainContext);
 
     const handleAddSubjectClick = () => {
         if(subject.length < 10){
-            setDialog( { insufficient_subject_length : {
-                is_open: true
-            }});
+            setSubjectError( {
+                error:true,
+                helperText: 'Le sujet est trop court'
+            });
             return;
         }
         

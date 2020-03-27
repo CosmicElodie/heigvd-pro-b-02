@@ -1,8 +1,9 @@
 //🍆🍈🍉🍊🍋🍌🍍🍎🍏🍐🍑🍒🍓👤
-import React, { useContext, useEffect } from 'react';
-import { Typography, Link, Paper, Box } from '@material-ui/core';
+import React, { useContext, useEffect, useState, Fragment } from 'react';
+import { Typography, Link, Paper, Box, Button, Grid } from '@material-ui/core';
 import { ForumContext } from '../../context/ForumContext';
 import ForumView from './ForumView';
+import ForumAdd from './ForumAdd';
 import Icon from '@material-ui/core/Icon';
 import "../../css/icons.css";
 
@@ -19,6 +20,10 @@ for(var [key, val] of fruits) console.log(key,val);
 const Forum = (  ) => {
         
     const { breadcrumbs, setBreadcrumbs, setForum, setEffectActive } = useContext(ForumContext);
+    const [ forumAddDialogState, setForumAddDialogState ] = useState({
+        is_open : false
+    });
+
     const location = useLocation(); 
     const history = useHistory(); 
 
@@ -42,15 +47,24 @@ const Forum = (  ) => {
       index >= 0 ? history.push(breadcrumbs[index].path) : history.push('/forum');
     }
     
+    const handleAddForumSectionClick = () => setForumAddDialogState({ is_open : true });
+    const handleAddForumSectionClose = () => setForumAddDialogState({ is_open : false });
+
     return (
+      <Fragment>
       <Route>
             <Paper elevation={0}>
-              <Box display="flex" justify="flex-start" alignItems="center" >
-                <Icon className="forum-title" />  
-                <Typography variant="h5" component="h5" gutterBottom>Forum</Typography>
-              </Box>
+              <Grid container direction="row" alignItems="center" justify="space-between" spacing={1}> 
+                <Grid item style={ { display: 'flex' } }>
+                  <Icon className="forum-title" />  
+                  <Typography variant="h5" component="h5" gutterBottom>Forum</Typography>
+                </Grid>
+                <Grid item>
+                  <Button variant="outlined" color="primary" onClick={ handleAddForumSectionClick }>Nouvelle section</Button>
+                </Grid>
+              </Grid>
               <Box mb={1} />
-              <Breadcrumbs aria-label="breadcrumb" maxItems={4} >
+              <Breadcrumbs aria-label="breadcrumb" maxItems={3} >
                   <LinkRouter color="primary" onClick = { () => handleBreadcrumbClick(-1) }  to="/forum">
                       Forums
                   </LinkRouter>
@@ -67,6 +81,8 @@ const Forum = (  ) => {
                 <Route path="/forum" component={() => <ForumView />} />
             </Switch>
         </Route>
+        <ForumAdd { ...{...forumAddDialogState, ...{ handleClose : handleAddForumSectionClose }} } /> 
+        </Fragment>
     )
 }
 
