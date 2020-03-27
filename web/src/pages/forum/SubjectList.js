@@ -11,7 +11,7 @@ import AutosizeInput from 'react-input-autosize';
 import { getSubjectByID, traverseForums } from './Utility';
 
 const SubjectList = ( ) => {
-    const { current, data, setData } = useContext(ForumContext);
+    const { current, data, setData, setEffectActive } = useContext(ForumContext);
     const { setDialog } = useContext(MainContext);
     const { selected } = current;
     
@@ -98,6 +98,7 @@ const SubjectList = ( ) => {
     }
 
     const handleSubjectEditOkClick = ( idx, subject_id ) => {
+        setEffectActive({ active : false });
         let { reference, index } = traverseForums('subjects', subject_id, data, getSubjectByID);
         reference.subjects[index].name = subjectEditInputs.get(idx);
         setData(JSON.parse(JSON.stringify(data)));

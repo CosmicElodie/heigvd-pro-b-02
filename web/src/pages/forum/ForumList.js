@@ -23,7 +23,7 @@ const ForumList = ( ) => {
             { transition => 
                 <List className="forum-list">
                     { 
-                    current && current.forums && current.forums.length > 0 && current.forums.map(( { forum_id, name, created, creator, description }, index ) =>    
+                    current && current.forums && current.forums.length > 0 && current.forums.map(( { forum_id, name, description }, index ) =>    
                     <ListItem 
                         style={ transition } 
                         key={ forum_id }

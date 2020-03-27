@@ -47,8 +47,13 @@ const Forum = (  ) => {
       index >= 0 ? history.push(breadcrumbs[index].path) : history.push('/forum');
     }
     
-    const handleAddForumSectionClick = () => setForumAddDialogState({ is_open : true });
-    const handleAddForumSectionClose = () => setForumAddDialogState({ is_open : false });
+    const handleAddForumSectionClick = () => {
+      setForumAddDialogState({ is_open : true });
+      setEffectActive({ active : false });
+    }
+    const handleAddForumSectionClose = () => { 
+      setForumAddDialogState({ is_open : false });
+    }
 
     return (
       <Fragment>

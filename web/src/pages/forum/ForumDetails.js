@@ -44,8 +44,8 @@ const ForumDetails = ( { selected } ) => {
                                 </Grid>
                                 <Grid item>
                                     <Grid container direction="row" alignItems="center" spacing={1}> 
-                                        <Grid item><Button variant="contained" color="primary" onClick={ handleEditForumSectionClick }><Icon className="forum-edit-button"/></Button></Grid>
-                                        <Grid item><Button variant="contained" color="secondary" onClick={ handleDeleteForumSectionClick }><Icon className="forum-delete-button"/></Button></Grid>
+                                        <Grid item><Button size="small" variant="contained" color="primary" onClick={ handleEditForumSectionClick }><Icon className="forum-edit-button"/></Button></Grid>
+                                        <Grid item><Button size="small" variant="contained" color="secondary" onClick={ handleDeleteForumSectionClick }><Icon className="forum-delete-button"/></Button></Grid>
                                     </Grid>
                                 </Grid>
                         </Grid>
