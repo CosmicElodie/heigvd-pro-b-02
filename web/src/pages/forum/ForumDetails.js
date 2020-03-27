@@ -37,7 +37,7 @@ const ForumDetails = ( { selected } ) => {
                     } } >
                         <Grid container alignItems="center" justify="space-between" className="subjects-header"> 
                                 <Grid item>
-                                    <Grid container direction="row" spacing={1}> 
+                                    <Grid container direction="row" alignItems="center" spacing={1}> 
                                         <Icon className="forum-open-icon" /> 
                                         <Typography className="typo-headline" gutterBottom> { selected.name } </Typography>
                                     </Grid>
