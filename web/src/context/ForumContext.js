@@ -2,8 +2,8 @@ import React, { createContext, useState  } from 'react';
 
 export const ForumContext = createContext();
 /*
-MainContext is a global data repository intended to contain the states to be shared 
-between all the components.
+ForumProvider is a data repository intended to contain the states to be shared 
+between all Forum the components.
 */
 export const ForumProvider = ( props ) => {
     // useState can only handle 1 object

@@ -16,7 +16,6 @@ const ForumDetails = ( { selected } ) => {
     const [ forumEditDialogState, setForumEditDialogState ] = useState({
         is_open : false
     });
-
    
     const handleDeleteForumSectionClick = () => setForumDeleteDialogState({ is_open : true });
     const handleDeleteForumSectionClose = () => setForumDeleteDialogState({ is_open : false });
