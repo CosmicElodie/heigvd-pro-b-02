@@ -230,7 +230,7 @@
   cursor:pointer;
   transition: 300ms background ease-in-out;
   position:sticky;
-  top:67px;
+  top:61px;
   z-index:500;
 }
 

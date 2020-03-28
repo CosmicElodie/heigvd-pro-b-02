@@ -65,7 +65,7 @@ const Forum = (  ) => {
                   <Typography variant="h5" component="h5" gutterBottom>Forum</Typography>
                 </Grid>
                 <Grid item>
-                  <Button variant="outlined" color="primary" onClick={ handleAddForumSectionClick }>Nouvelle section</Button>
+                  <Button variant="outlined" size="small" color="primary" onClick={ handleAddForumSectionClick }>Nouvelle section</Button>
                 </Grid>
               </Grid>
               <Box mb={1} />
