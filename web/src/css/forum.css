@@ -5,6 +5,9 @@
 	position: relative;
 }
 
+.forum .forum-list{
+  overflow:hidden;
+}
 
 .forum .forum-list-element{
   cursor:pointer;
