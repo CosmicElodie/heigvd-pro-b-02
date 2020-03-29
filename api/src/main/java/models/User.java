@@ -55,11 +55,6 @@ public class User implements UserDetails {
     @Column(name = "status_id")
     private int status_id;
 
-//    @Column(name = "house_id")
-//    private int house_id;
-
-
-
     @OneToOne(fetch = FetchType.EAGER)
     private House house;
 

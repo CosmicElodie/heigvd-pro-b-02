@@ -12,6 +12,7 @@ import { Switch, Route } from "react-router-dom"
 
 import '../css/App.css'; 
 import '../css/typo.css'; 
+import "../css/icons.css";
 
 const AppLayout = () => {
     

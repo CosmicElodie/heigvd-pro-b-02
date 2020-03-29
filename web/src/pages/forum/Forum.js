@@ -5,7 +5,7 @@ import { ForumContext } from '../../context/ForumContext';
 import ForumView from './ForumView';
 import ForumAdd from './ForumAdd';
 import Icon from '@material-ui/core/Icon';
-import "../../css/icons.css";
+import "../../css/forum.css";
 
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Route } from 'react-router';

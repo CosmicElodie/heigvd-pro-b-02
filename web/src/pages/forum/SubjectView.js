@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Icon, Box, TextField, Button } from '@material-ui/core';
 import Bubble from '../../layout/Bubble';
 import Person from '../../layout/Person';
@@ -12,6 +12,12 @@ const SubjectView = ( { subject_id, posts, isOpen } ) => {
     const { data, setData, setEffectActive } = useContext(ForumContext);
     const { user, setDialog } = useContext(MainContext);
     const { value:message, bind:bindPost } = useInput('');
+
+    useEffect(() => {
+        setTimeout(() => {
+            document.querySelector('.main').style.height = 'auto';
+        }, 300);
+    }, [data]);
 
     const buttonSendPost = (e) => {
         e.preventDefault();
