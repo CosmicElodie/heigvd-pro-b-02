@@ -51,9 +51,8 @@ const Forum = (  ) => {
       setForumAddDialogState({ is_open : true });
       setEffectActive({ active : false });
     }
-    const handleAddForumSectionClose = () => { 
-      setForumAddDialogState({ is_open : false });
-    }
+
+    const handleAddForumSectionClose = () => setForumAddDialogState({ is_open : false });
 
     return (
       <Fragment>
@@ -92,7 +91,5 @@ const Forum = (  ) => {
 }
 
 const LinkRouter = props => <Link {...props} component={RouterLink} />;
-
-
 
 export default Forum;

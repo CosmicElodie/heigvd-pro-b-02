@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
+import { Typography, Grid, List, ListItem, Badge , Tooltip, Icon } from '@material-ui/core';
 import { ForumContext } from '../../context/ForumContext';
-import Icon from '@material-ui/core/Icon';
-import { Typography, Grid, List, ListItem, Badge , Tooltip } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import { Spring } from 'react-spring/renderprops';
 

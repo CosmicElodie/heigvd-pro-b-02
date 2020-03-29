@@ -24,25 +24,25 @@ const ForumDelete = ( { is_open, handleClose } ) => {
     
     return(
         <Dialog
-        open={ is_open }
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        onClose={ handleClose }
-    >
-        <DialogTitle id="alert-dialog-title">Supprimer le forum?</DialogTitle>
-        <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-            Tous les sujets et tous les posts en relation avec ce forum seront supprimés.
-        </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-        <Button onClick={ handleClose } color="primary">
-            Non
-        </Button>
-        <Button onClick={ handleConfirm } color="primary" autoFocus>
-            D'accord
-        </Button>
-        </DialogActions>
+            open={ is_open }
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            onClose={ handleClose }
+        >
+            <DialogTitle id="alert-dialog-title">Supprimer le forum?</DialogTitle>
+            <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+                Tous les sujets et tous les posts en relation avec ce forum seront supprimés.
+            </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+            <Button onClick={ handleClose } color="primary">
+                Non
+            </Button>
+            <Button onClick={ handleConfirm } color="primary" autoFocus>
+                D'accord
+            </Button>
+            </DialogActions>
     </Dialog>
     )
 }

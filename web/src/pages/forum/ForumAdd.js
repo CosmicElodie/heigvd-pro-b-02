@@ -62,7 +62,6 @@ const ForumAdd = ( { is_open, handleClose } ) => {
         >
             <DialogTitle id="alert-dialog-title">Ajouter un nouveau forum</DialogTitle>
             <DialogContent>
-            
                 <TextField
                         fullWidth
                         id="filled-required"

@@ -12,8 +12,7 @@ import AutosizeInput from 'react-input-autosize';
 import { getSubjectByID, traverseForums } from './Utility';
 
 const SubjectList = ( ) => {
-    const { current } = useContext(ForumContext);
-    const { selected } = current;
+    const { current: { selected } } = useContext(ForumContext);
     
     const subjectEls = useRef([]);
  
@@ -65,7 +64,6 @@ const SubjectList = ( ) => {
                 Array.from(set)
             )
         );
-        
     }
     
     const handleAddSubjectClick = () => {
@@ -97,25 +95,18 @@ const SubjectList = ( ) => {
             </Grid> }
             { selected && selected.subjects && selected.subjects.length > 0 
             && selected.subjects.map(( subject, index ) =>    
-
                 subject && <section class="list-item-subject" key={ subject.subject_id } ref = { (el) => subjectEls.current[index] = el } >
                     <section className="subject" onClick={ (event) => handleSubjectClick(event, index) } >
                         <section className="list-item-subjects-person"> 
                             <Person { ...subject.creator } collapsed={true} noExtend={true} /> 
                         </section>                                       
-                        <SubjectDetails { ...{ 
-                            index,
-                            subject,
-                            subjectEls,
-                            setSubjectDeleteDialogState
-                        } } />
+                        <SubjectDetails { ...{ index, subject, subjectEls, setSubjectDeleteDialogState } } />
                     </section>
                     <SubjectView { ...subject } />
                 </section>
                 )
             }
             </List>                
-
             <SubjectDelete { ...{...subjectDeleteDialogState, ...{ handleClose : handleDeleteClose }} }  />
             <SubjectAdd { ...{...subjectAddDialogState, ...{ handleClose : handleAddSubjectClose }} } />
         </Fragment>
@@ -183,10 +174,7 @@ const SubjectDetails = ( { // Component local non-exporté
                                 </Grid>
                                 <Grid item>
                                     <Typography className="display-name typo-body-3"  noWrap> { subject.name } </Typography>
-                                    <section className="edit-subject-inline-input">
-                                        <AutosizeInput 
-                                            { ...bindSubject } />
-                                    </section>
+                                    <section className="edit-subject-inline-input"> <AutosizeInput { ...bindSubject } /></section>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -225,6 +213,5 @@ const styles = {
         border: '1px solid #e8e8e8f0'
     }
 }
-
 
 export default SubjectList;

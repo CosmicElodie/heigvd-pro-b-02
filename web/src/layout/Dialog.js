@@ -7,10 +7,9 @@ import { Alert } from '@material-ui/lab';
 const Dialog = () => {
     const { dialog, setDialog } = useContext(MainContext);
     const handleClose = (which) => {
-        setDialog((latest) => { 
-            // merge 2 objets JSON, l'attribut de which sera prioritaire
-            return {...latest, ...which}; 
-        });
+        setDialog((latest) => ({ 
+            ...latest, ...which 
+        }));
     };
     
     return (
