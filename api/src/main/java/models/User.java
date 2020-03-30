@@ -55,19 +55,14 @@ public class User implements UserDetails {
     @Column(name = "status_id")
     private int status_id;
 
-//    @Column(name = "house_id")
-//    private int house_id;
-
-
-
     @OneToOne(fetch = FetchType.EAGER)
     private House house;
 
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="user_roles",
+    @JoinTable(name="user_role",
             joinColumns = {@JoinColumn(name="user_id", referencedColumnName="user_id")},
-            inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="id")})
+            inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName="role_id")})
     private List<Role> roles;
 
     @Override
@@ -77,7 +72,7 @@ public class User implements UserDetails {
 
     public JSONObject getJSON(){
         JSONObject json = new JSONObject();
-        json.put("id", this.id);
+        json.put("user_id", this.id);
         json.put("username", this.username);
         json.put("firstname", this.firstname);
         json.put("lastname", this.lastname);
@@ -90,7 +85,7 @@ public class User implements UserDetails {
         json.put("created", this.role_id);
         json.put("status_id", this.status_id);
         if(this.house != null){
-            json.put("house_id", this.house.getJSON());
+            json.put("house", this.house.getJSON());
         }
 //        json.put("house_id", this.house_id);
 

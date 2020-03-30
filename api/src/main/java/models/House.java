@@ -30,7 +30,7 @@ public class House {
 
     public JSONObject getJSON(){
         JSONObject json = new JSONObject();
-        json.put("id", this.id);
+        json.put("house_id", this.id);
         json.put("name", this.name);
         json.put("shortname", this.shortname);
         return json;

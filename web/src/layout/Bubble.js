@@ -2,10 +2,10 @@ import React from 'react';
 import { Typography, Box } from '@material-ui/core';
 import Moment from 'react-moment';
 
-const Bubble = ( { text, time } ) => {
-
+const Bubble = ( { text, time, className, orientation } ) => {
+    let classOrientation = orientation === 'right' ? 'right' : 'left';
     return (
-        <Box className="speech-bubble"> { text } 
+        <Box className={ "speech-bubble " + className + ' ' + classOrientation }> { text } 
             <Box className="speach-moment">
             <Typography variant="caption" noWrap><Moment fromNow>{ time }</Moment></Typography>
             </Box>

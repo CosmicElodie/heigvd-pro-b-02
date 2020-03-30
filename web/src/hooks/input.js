@@ -7,16 +7,24 @@ import { useState } from 'react';
 
 export const useInput = data => {
     const [value, setValue] = useState(data);
+    const [error, setError] = useState({
+            error: false,
+            helperText:''
+    });
     
     return {
         value, 
         setValue,
+        setError,
         reset: () => setValue(""),
         bind:{
             value,
+            ...error,
             onChange: event => {
                 setValue(event.target.value);
+                setError({ error: false });
             }
+
         }
     }
 

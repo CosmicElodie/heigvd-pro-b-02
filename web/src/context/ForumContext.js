@@ -2,28 +2,52 @@ import React, { createContext, useState  } from 'react';
 
 export const ForumContext = createContext();
 /*
-MainContext is a global data repository intended to contain the states to be shared 
-between all the components.
+ForumProvider is a data repository intended to contain the states to be shared 
+between all Forum the components.
 */
 export const ForumProvider = ( props ) => {
     // useState can only handle 1 object
     // it can be a list of objects
     const [ breadcrumbs, setBreadcrumbs ] = useState([]);
-
     const [ data, setData ] = useState(static_data);
-    const [ display, setDisplay ] = useState({
+    const [ current, setCurrent ] = useState({
         selected : null, 
         rendered: false,
         forums : []
     });
+
+    const [ effectActive, setEffectActive] = useState({
+        active:false
+    });
+
+    const [ forumListEffect, setForumListEffect ] = useState({
+        from    : { opacity: 0.3, top:'-100vh' },
+        to      : { opacity: 1, top:'0vw' }
+    });
+
+    const [ forumDetailsEffect, setForumDetailsEffect ] = useState({
+        from    : { opacity: 0.5, scale: 0.85 },
+        to      : { opacity: 1, scale: 1 }
+    });
+
+    /*const [ subjectListEffect, setSubjectListEffect ] = useState({
+        from    : { opacity: 0.3, top:'-100vh' },
+        to      : { opacity: 1, top:'0vw' }
+    });*/
 
     let context = {
         breadcrumbs, 
         setBreadcrumbs,
         data,
         setData,
-        display,
-        setDisplay
+        current,
+        setCurrent,
+        forumListEffect,
+        setForumListEffect,
+        forumDetailsEffect,
+        setForumDetailsEffect,
+        effectActive,
+        setEffectActive
     }
 
     return (
@@ -59,7 +83,7 @@ const static_data = [
                 }],
                 "subjects" : [
                     {
-                        "subject_id": 1,
+                        "subject_id": 6,
                         "name": "5Aenean vel neque egestas.",
                         "created": "2020-03-16 18:52:45",
                         "creator_id" : 1,
@@ -74,14 +98,22 @@ const static_data = [
                         "posts" : [
                             {
                                 "post_id": 1,
-                                "message": 1,
+                                "message": "Gl",
                                 "created": "2020-03-15 15:52:45",
-                                "last_update": "2020-03-15 16:52:45"
+                                "last_update": "2020-03-15 16:52:45",
+                                "creator" : {
+                                    "user_id": 1,
+                                    "initials": "ST",
+                                    "username": "Ovich",
+                                    "firstname": "Stefan",
+                                    "lastname": "Teofanovic",
+                                    "email": "stefan.teofanovic@heig-vd.com"
+                                }
                             }
                         ]
                     },
                     {
-                        "subject_id": 1,
+                        "subject_id": 7,
                         "name": "5Aenean vel neque egestas.",
                         "created": "2020-03-16 18:52:45",
                         "creator_id" : 1,
@@ -96,14 +128,22 @@ const static_data = [
                         "posts" : [
                             {
                                 "post_id": 1,
-                                "message": 1,
+                                "message": "lkjsdftr",
                                 "created": "2020-03-15 15:52:45",
-                                "last_update": "2020-03-15 16:52:45"
+                                "last_update": "2020-03-15 16:52:45",
+                                "creator" : {
+                                    "user_id": 1,
+                                    "initials": "ST",
+                                    "username": "Ovich",
+                                    "firstname": "Stefan",
+                                    "lastname": "Teofanovic",
+                                    "email": "stefan.teofanovic@heig-vd.com"
+                                }
                             }
                         ]
                     },
                     {
-                        "subject_id": 1,
+                        "subject_id": 8,
                         "name": "5Aenean vel neque egestas.",
                         "created": "2020-03-16 18:52:45",
                         "creator_id" : 1,
@@ -118,8 +158,30 @@ const static_data = [
                         "posts" : [
                             {
                                 "post_id": 1,
-                                "message": 1,
+                                "message": "lkjsdftr",
                                 "created": "2020-03-15 15:52:45",
+                                "creator" : {
+                                    "user_id": 1,
+                                    "initials": "ST",
+                                    "username": "Ovich",
+                                    "firstname": "Stefan",
+                                    "lastname": "Teofanovic",
+                                    "email": "stefan.teofanovic@heig-vd.com"
+                                },
+                                "last_update": "2020-03-15 16:52:45"
+                            },
+                            {
+                                "post_id": 1,
+                                "message": "lkjsdftr",
+                                "created": "2020-03-15 15:52:45",
+                                "creator" : {
+                                    "user_id": 1,
+                                    "initials": "ST",
+                                    "username": "Ovich",
+                                    "firstname": "Stefan",
+                                    "lastname": "Teofanovic",
+                                    "email": "stefan.teofanovic@heig-vd.com"
+                                },
                                 "last_update": "2020-03-15 16:52:45"
                             }
                         ]
@@ -139,7 +201,7 @@ const static_data = [
                 }],
                 "subjects" : [
                     {
-                        "subject_id": 1,
+                        "subject_id": 9,
                         "name": "5Aenean vel neque egestas.",
                         "created": "2020-03-16 18:52:45",
                         "creator_id" : 1,
@@ -154,9 +216,17 @@ const static_data = [
                         "posts" : [
                             {
                                 "post_id": 1,
-                                "message": 1,
+                                "message": "lkjsdftr",
                                 "created": "2020-03-15 15:52:45",
-                                "last_update": "2020-03-15 16:52:45"
+                                "last_update": "2020-03-15 16:52:45",
+                                "creator" : {
+                                    "user_id": 1,
+                                    "initials": "ST",
+                                    "username": "Ovich",
+                                    "firstname": "Stefan",
+                                    "lastname": "Teofanovic",
+                                    "email": "stefan.teofanovic@heig-vd.com"
+                                }
                             }
                         ]
                     }
@@ -165,7 +235,7 @@ const static_data = [
         }],
         "subjects" : [
             {
-                "subject_id": 1,
+                "subject_id": 10,
                 "name": "7Aenean vel neque egestas.",
                 "created": "2020-03-16 18:52:45",
                 "creator_id" : 1,
@@ -179,9 +249,17 @@ const static_data = [
                 "posts" : [
                     {
                         "post_id": 1,
-                        "message": 1,
+                        "message": "lkjsdftr",
                         "created": "2020-03-15 15:52:45",
-                        "last_update": "2020-03-15 16:52:45"
+                        "last_update": "2020-03-15 16:52:45",
+                        "creator" : {
+                            "user_id": 1,
+                            "initials": "ST",
+                            "username": "Ovich",
+                            "firstname": "Stefan",
+                            "lastname": "Teofanovic",
+                            "email": "stefan.teofanovic@heig-vd.com"
+                        }
                     }
                 ]
             }
@@ -200,7 +278,7 @@ const static_data = [
         }],
         "subjects" : [
             {
-                "subject_id": 1,
+                "subject_id": 11,
                 "name": "10Aenean vel neque egestas.",
                 "created": "2020-03-16 18:52:45",
                 "creator_id" : 1,
@@ -214,9 +292,17 @@ const static_data = [
                 "posts" : [
                     {
                         "post_id": 1,
-                        "message": 1,
+                        "message": "lkjsdftr",
                         "created": "2020-03-15 15:52:45",
-                        "last_update": "2020-03-15 16:52:45"
+                        "last_update": "2020-03-15 16:52:45",
+                        "creator" : {
+                            "user_id": 1,
+                            "initials": "ST",
+                            "username": "Ovich",
+                            "firstname": "Stefan",
+                            "lastname": "Teofanovic",
+                            "email": "stefan.teofanovic@heig-vd.com"
+                        }
                     }
                 ]
             }

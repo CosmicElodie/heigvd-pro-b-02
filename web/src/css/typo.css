@@ -1,0 +1,21 @@
+
+.App .typo-headline{
+    font-size: 1rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 500;
+    line-height: 2em;
+    letter-spacing: 0.0675em;
+}
+
+.App .typo-headline-4{
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.App .typo-body-4{
+    font-size: 0.75rem;
+}  
+
+.App .typo-body-3{
+    font-size: 0.85rem;
+}
