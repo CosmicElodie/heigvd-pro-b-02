@@ -90,7 +90,7 @@ public class User implements UserDetails {
         json.put("created", this.role_id);
         json.put("status_id", this.status_id);
         if(this.house != null){
-            json.put("maison", this.house.getJSON());
+            json.put("house_id", this.house.getJSON());
         }
 //        json.put("house_id", this.house_id);
 
