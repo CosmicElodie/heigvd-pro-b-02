@@ -82,7 +82,8 @@ const useStyles = makeStyles(theme => ({
     cardMedia: {
         paddingTop: '75%',
         flexDirection: 'row',
-        justify: 'space-evenly'
+        justify: 'space-evenly',
+        borderRadius: '50%'
     },
     cardContent: {
         flexGrow: 1,
@@ -96,7 +97,7 @@ export default function Event() {
         <React.Fragment>
             <CssBaseline/>
             <main>
-                <Grid container direction="row" justify="space-evenly" alignItems="center">
+                <Grid container direction="row" justify="space-evenly" alignItems="flex-start">
 
                     <Card className={classes.card}>
                         <CardMedia
