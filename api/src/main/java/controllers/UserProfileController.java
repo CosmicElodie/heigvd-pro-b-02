@@ -21,6 +21,7 @@ public class UserProfileController {
     @PostMapping("/profile")
     public String fetchUser(@RequestParam("user_id") int user_id) throws SQLException {
 
+
         String result;
 
         try (Connection conn = dataSource.getConnection()) {
