@@ -15,6 +15,7 @@ const ForumAdd = ( { is_open, handleClose } ) => {
     const { setDialog } = useContext(MainContext);
 
     const handleAddForumClick = () => {
+        
         if(name.length < 10){
             setErrorName({
                 error:true,
@@ -22,6 +23,7 @@ const ForumAdd = ( { is_open, handleClose } ) => {
             });
             return;
         }
+
         if(description.length < 10){
             setErrorDescription({
                 error:true,
@@ -29,26 +31,36 @@ const ForumAdd = ( { is_open, handleClose } ) => {
             });
             return;
         }
+        let parent_id = current.selected ? current.selected.forum_section_id : null;
+        let post_body = "name=" + name + "&description=" + description;
+        if(parent_id) post_body += "&parent_forum_section_id=" + parent_id;
+        fetch('http://localhost:8080/forum/insert_section', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+                
+        })
+        .then(response => response.json())
+        .then(response => {
+            
+            if(response.status === 'ok'){
+                if(current.selected){
+                    let forum = searchForumByID(current.selected.forum_section_id, data);  
+                    forum && ( !forum.forums ? forum.forums = Array(response.data) : forum.forums.unshift(response.data));
+                }else{
+                    // ajout d'un forum racine
+                    data.unshift(response.data);
+                }
+                setData(JSON.parse(JSON.stringify(data)));
+            }
 
-        let newForum = {
-            "forum_section_id": Math.random(),
-            "name": name,
-            "description": description,
-            "created": new Date().toISOString().slice(0, 19).replace('T', ' '),
-        };
-
-        if(current.selected){
-            let forum = searchForumByID(current.selected.forum_section_id, data);  
-            forum && ( !forum.forums ? forum.forums = Array(newForum) : forum.forums.unshift(newForum));
-        }else{
-            // ajout d'un forum racine
-            data.unshift(newForum);
-        }
-
-        setData(JSON.parse(JSON.stringify(data)));
-        setDialog( { forum_created : {
-            is_open: true
-        }});
+            setDialog({
+                [response.dialog_id]: {
+                    is_open: true
+                }
+            });
+        }); 
     }
     
     return(

@@ -1,12 +1,22 @@
 package controllers;
 
+import models.User;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
 import javax.sql.DataSource;
+import java.io.StringReader;
+import java.security.Principal;
 import java.sql.*;
 
 @RestController
@@ -33,29 +43,66 @@ public class ForumController {
     ///////////////////////////////////////////////// INSERTION PART ////////////////////////////////////
 
     //TODO : get informations from FrontEnd
-    @GetMapping("forum/testInsSec")
-    public void insertionSection(@RequestParam("name") String title, @RequestParam("description") String desc,
-                              @RequestParam("parent_forum_section_id") int parent,
-                              @RequestParam("house_id") int house) throws SQLException {
+    @PostMapping("forum/insert_section")
+    public String insertionSection(@RequestParam("name") String title, @RequestParam("description") String desc,
+                              @RequestParam(value  = "parent_forum_section_id", required = false) Integer parent,
+                              @RequestParam(value  = "house_id", required = false) Integer house) throws SQLException {
+
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+
+        if(title.length() < 10 || desc.length() < 10){
+            responseObject.add("status", "error");
+            responseObject.add("dialog_id", "insufficient_input_length");
+            return responseObject.build().toString();
+        }
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(user.getAccessLevel() < 75){
+            responseObject.add("status", "error");
+            responseObject.add("dialog_id", "forum_insert_insufficient_permission");
+            return responseObject.build().toString();
+        }
 
         try (Connection conn = dataSource.getConnection()) {
 
             CallableStatement insertSection = conn.prepareCall("{call DEV.insertSection(?,?,?,?)}");
             insertSection.setString(1, title);
             insertSection.setString(2, desc);
-            insertSection.setInt(3, parent);
-            insertSection.setString(4, (String) (house == 0 ? "NULL" : house));
-            insertSection.executeUpdate();
 
+            if(parent == null){
+                insertSection.setNull(3, Types.INTEGER);
+            }else{
+                insertSection.setInt(3, parent);
+            }
+
+            if(house == null){
+                insertSection.setNull(4, Types.INTEGER);
+            }else{
+                insertSection.setInt(4, house);
+            }
+
+            boolean hasRs = insertSection.execute();
+            if (hasRs) {
+                ResultSet rs = insertSection.getResultSet();
+                rs.next();
+                JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
+                responseObject.add("status", "ok");
+                responseObject.add("dialog_id", "forum_created");
+                responseObject.add("data", reader.readValue());
+            }
         }
+        return responseObject.build().toString();
+
     }
 
     //TODO: get informations from FrontEnd
 
     @GetMapping("forum/testInsSub")
-    public void insertionSubject(@RequestParam("name") String title, @RequestParam("forum_section_id") int sectionId,
-                              @RequestParam("user_id") int userId,
-                              @RequestParam("message") String message ) throws SQLException {
+    public void insertionSubject(Principal userPrincipal, @RequestParam("name") String title, @RequestParam("forum_section_id") int sectionId,
+                                 @RequestParam("user_id") int userId,
+                                 @RequestParam("message") String message ) throws SQLException {
+
         try (Connection conn = dataSource.getConnection()) {
 
             CallableStatement insertSubject = conn.prepareCall("{CALL insertSubject(?,?,?,?)}");

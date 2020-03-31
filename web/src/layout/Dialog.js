@@ -133,6 +133,18 @@ const Dialog = () => {
                     </Alert>
                 </Snackbar> 
             }
+
+{ 
+            dialog && dialog.forum_insert_insufficient_permission &&
+                <Snackbar 
+                        open = { dialog.forum_insert_insufficient_permission.is_open }
+                        onClose = { () => handleClose({ forum_insert_insufficient_permission: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Vous n'avez pas assez de permission.
+                    </Alert>
+                </Snackbar> 
+            }
             
             { 
                 dialog && dialog.forum_edited &&
