@@ -9,7 +9,7 @@
     Prends en argument une fonction permettant de trouver la référece
     Retourne : la paire référence parent, index
    Voir : getSubjectByID
-   Ex : traverseForums('subjects', subject_id, data, getSubjectByID)
+   Ex : traverseForums('subjects', forum_subject_id, data, getSubjectByID)
    where = '' -> chercher un forum et non pas un element contenu dans un forum
 */
 export const traverseForums = ( where, what, forums, fn ) => {
@@ -35,27 +35,27 @@ export const traverseForums = ( where, what, forums, fn ) => {
     }
 }
 
-export const searchForumByID = (forum_id, forums) => {
-    for (const entry of forums) {
-        if(entry.forum_id === forum_id) return entry;
+export const searchForumByID = (forum_section_id, data) => {
+    for (const entry of data) {
+        if(entry.forum_section_id === forum_section_id) return entry;
         if(entry.hasOwnProperty('forums')) {
-            let value = searchForumByID( forum_id, entry.forums);
+            let value = searchForumByID( forum_section_id, entry.forums);
             if(value) return value;
         }        
     }
 }
 
-/* Cherche le Subject par rapport à subject_id */
+/* Cherche le Subject par rapport à forum_subject_id */
 
-export const getSubjectByID = ( subjects, subject_id ) => {
+export const getSubjectByID = ( subjects, forum_subject_id ) => {
     let index;
-    let found = subjects && subjects.some((item, i) => { index = i; return item.subject_id === subject_id; });
+    let found = subjects && subjects.some((item, i) => { index = i; return item.forum_subject_id === forum_subject_id; });
     return found ? index : -1;
 }
 
-/* Cherche le Subject par rapport à subject_id */
+/* Cherche le Subject par rapport à forum_subject_id */
 
-export const getForumByID = ( forum, forum_id, index ) => forum.forum_id === forum_id ? index : -1;
+export const getForumByID = ( forum, forum_section_id, index ) => forum.forum_section_id === forum_section_id ? index : -1;
 
 export const findIndexByName = (what, list) => {
     for (var i = 0; i < list.length; i++){
@@ -65,6 +65,7 @@ export const findIndexByName = (what, list) => {
 };
 
 export const findCurrentPathForum = (location, data) => {
+    if(!data) return {};
     let path = location.pathname.trim("/").split("/");
     let next = data;
     let forum = null;

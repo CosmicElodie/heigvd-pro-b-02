@@ -22,10 +22,10 @@ const SubjectAdd = ( { is_open, handleClose } ) => {
             return;
         }
         
-        let forum = searchForumByID(current.selected.forum_id, data);
+        let forum = searchForumByID(current.selected.forum_section_id, data);
                 
         let newSubject = {
-            "subject_id": Math.random(),
+            "forum_subject_id": Math.random(),
             "name": subject,
             "created": new Date().toISOString().slice(0, 19).replace('T', ' '),
             "creator_id" : user.id,

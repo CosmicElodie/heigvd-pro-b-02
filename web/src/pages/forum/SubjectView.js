@@ -7,7 +7,7 @@ import { ForumContext } from '../../context/ForumContext';
 import { MainContext } from '../../context/MainContext';
 import { traverseForums, getSubjectByID  } from './Utility';
 
-const SubjectView = ( { subject_id, posts, isOpen } ) => {
+const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
     
     const { data, setData, setEffectActive } = useContext(ForumContext);
     const { user, setDialog } = useContext(MainContext);
@@ -31,7 +31,7 @@ const SubjectView = ( { subject_id, posts, isOpen } ) => {
             }});
             return;
         }
-        let { reference, index } = traverseForums('subjects', subject_id, data, getSubjectByID);
+        let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
         if(!reference.subjects[index].posts) reference.subjects[index].posts = [];
         reference.subjects[index].posts.unshift({
                 "post_id": 99,

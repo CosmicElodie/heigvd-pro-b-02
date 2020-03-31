@@ -22,10 +22,10 @@ const ForumList = ( ) => {
             { transition => 
                 <List className="forum-list">
                     { 
-                    current && current.forums && current.forums.length > 0 && current.forums.map(( { forum_id, name, description }, index ) =>    
+                    current && current.forums && current.forums.length > 0 && current.forums.map(( { forum_section_id, name, description }, index ) =>    
                     <ListItem 
                         style={ transition } 
-                        key={ forum_id }
+                        key={ forum_section_id }
                         dense
                         divider
                         className="forum-list-element"

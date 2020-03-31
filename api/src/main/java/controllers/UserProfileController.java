@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 @RestController
-public class ProfileController {
+public class UserProfileController {
 
     @Autowired
     private DataSource dataSource;

@@ -29,7 +29,7 @@ const SubjectList = ( ) => {
         // les etat open des sujet sont stockés dans le localStorage
         if(selected && selected.subjects ) { 
             subjectEls.current = subjectEls.current.slice(0, selected.subjects.length);
-            let openStates = JSON.parse(localStorage.getItem('forum-subjects-open-' + selected.forum_id)) || [];
+            let openStates = JSON.parse(localStorage.getItem('forum-subjects-open-' + selected.forum_section_id)) || [];
             if(openStates.length > 0){
                 for (const index of openStates) {
                     // ajouter la classe open sur un sujet
@@ -46,7 +46,7 @@ const SubjectList = ( ) => {
         // garder les etat des sujets ouverts de manière persistante
         let set = new Set(
             JSON.parse(
-                localStorage.getItem('forum-subjects-open-' + selected.forum_id)
+                localStorage.getItem('forum-subjects-open-' + selected.forum_section_id)
             )
         );
         
@@ -59,7 +59,7 @@ const SubjectList = ( ) => {
             set.add(index);
         }
         
-        localStorage.setItem('forum-subjects-open-' + selected.forum_id, 
+        localStorage.setItem('forum-subjects-open-' + selected.forum_section_id, 
             JSON.stringify(
                 Array.from(set)
             )
@@ -95,7 +95,7 @@ const SubjectList = ( ) => {
             </Grid> }
             { selected && selected.subjects && selected.subjects.length > 0 
             && selected.subjects.map(( subject, index ) =>    
-                subject && <section class="list-item-subject" key={ subject.subject_id } ref = { (el) => subjectEls.current[index] = el } >
+                subject && <section class="list-item-subject" key={ subject.forum_subject_id } ref = { (el) => subjectEls.current[index] = el } >
                     <section className="subject" onClick={ (event) => handleSubjectClick(event, index) } >
                         <section className="list-item-subjects-person"> 
                             <Person { ...subject.creator } collapsed={true} noExtend={true} /> 
@@ -125,9 +125,9 @@ const SubjectDetails = ( { // Component local non-exporté
     
     const { value, setValue, bind:bindSubject, setError:setSubjectError } = useInput();
 
-    const handleSubjectEditOkClick = ( idx, subject_id ) => {
+    const handleSubjectEditOkClick = ( idx, forum_forum_subject_id ) => {
         setEffectActive({ active : false });
-        let { reference, index } = traverseForums('subjects', subject_id, data, getSubjectByID);
+        let { reference, index } = traverseForums('subjects', forum_forum_subject_id, data, getSubjectByID);
         reference.subjects[index].name = value;
         setData(JSON.parse(JSON.stringify(data)));
         setDialog( { subject_updated : {
@@ -151,8 +151,8 @@ const SubjectDetails = ( { // Component local non-exporté
         subjectEls.current[index].classList.remove('edit-subject');
     }
     
-    const handleDeleteSubjectClick = ( subject_id ) => {
-        setSubjectDeleteDialogState({ is_open : true, subject_id : subject_id });
+    const handleDeleteSubjectClick = ( forum_subject_id ) => {
+        setSubjectDeleteDialogState({ is_open : true, forum_subject_id : forum_subject_id });
     }
     
     return (
@@ -183,11 +183,11 @@ const SubjectDetails = ( { // Component local non-exporté
                                 <Icon className="no-open subject-edit-button" 
                                     onClick={ () => handleEditSubjectClick(subject.name, index) } />
                                 <Icon className="no-open subject-delete-button" 
-                                    onClick={ () => handleDeleteSubjectClick(subject.subject_id) } />  
+                                    onClick={ () => handleDeleteSubjectClick(subject.forum_forum_subject_id) } />  
                             </section>
                             <section className="edit-subject-buttons">
                                 <Icon className="no-open subject-edit-ok-button" 
-                                    onClick={ () => handleSubjectEditOkClick( index, subject.subject_id ) } />
+                                    onClick={ () => handleSubjectEditOkClick( index, subject.forum_forum_subject_id ) } />
                                 <Icon className="no-open subject-edit-cancel-button"  
                                     onClick={ () => handleSubjectEditCancelClick( index ) }  />  
                             </section>

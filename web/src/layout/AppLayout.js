@@ -26,6 +26,7 @@ const AppLayout = () => {
             <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
+           
             <Route path="/event" component={Event} />
             <Route path="/profile" component={Profile} />
             <ForumProvider>

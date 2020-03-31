@@ -31,14 +31,14 @@ const ForumAdd = ( { is_open, handleClose } ) => {
         }
 
         let newForum = {
-            "forum_id": Math.random(),
+            "forum_section_id": Math.random(),
             "name": name,
             "description": description,
             "created": new Date().toISOString().slice(0, 19).replace('T', ' '),
         };
 
         if(current.selected){
-            let forum = searchForumByID(current.selected.forum_id, data);  
+            let forum = searchForumByID(current.selected.forum_section_id, data);  
             forum && ( !forum.forums ? forum.forums = Array(newForum) : forum.forums.unshift(newForum));
         }else{
             // ajout d'un forum racine

@@ -38,7 +38,7 @@ const ForumEdit = ( { is_open, handleClose } ) => {
             return;
         }
 
-        let forum = searchForumByID(current.selected.forum_id, data);         
+        let forum = searchForumByID(current.selected.forum_section_id, data);         
         forum.name = name;
         forum.description = description;
         setData(JSON.parse(JSON.stringify(data)));

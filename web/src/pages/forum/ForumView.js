@@ -12,26 +12,26 @@ const ForumView = () => {
     const history = useHistory(); 
     const { data, current, setCurrent } = useContext(ForumContext);
 
-
     useEffect(() => {
         // ForumView gère le FormContext par rapport au chemin url
         // Permet une navigation multi-niveau dans la hierarchie récursive (parent / enfants) des forums
-        
+        console.log(data);
+        if(data){
             let forum = findCurrentPathForum(location, data);
             if(forum === null){
                 // Répertoire racine /forums
-            !current.rendered && 
+                !current.rendered && 
                 setCurrent((latest) => ({ 
-                        ...latest,
-                        selected : null,
-                        rendered : true,
-                        forums : data 
+                    ...latest,
+                    selected : null,
+                    rendered : true,
+                    forums : data 
                 }));
             }else{
                 
-                // Si le forum est un objet vide (sans attr forum_id) on remonte l'url d'un niveau, 
+                // Si le forum est un objet vide (sans attr forum_section_id) on remonte l'url d'un niveau, 
                 // il s'agit d'une suppression ou de 404
-                if(!forum.hasOwnProperty('forum_id')) history.push(location.pathname.split('/').slice(0, -1).join("/"));
+                if(!forum.hasOwnProperty('forum_section_id')) history.push(location.pathname.split('/').slice(0, -1).join("/"));
 
                 // Navigation dans un forum
                 !current.rendered &&
@@ -42,12 +42,13 @@ const ForumView = () => {
                     forums: forum.forums
                 }));
             }
+        }
         return () => {
             // On unmount
             current.rendered && 
             setCurrent((latest) => ({ 
-                    ...latest,
-                    rendered : false
+                ...latest,
+                rendered : false
             }));
         }
     }, [setCurrent, current, location, data, history]);
@@ -60,8 +61,5 @@ const ForumView = () => {
         </section>
     )
 }
-
-
-/*  data browsing helpers */ 
 
 export default ForumView;

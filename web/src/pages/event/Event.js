@@ -19,6 +19,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import { ForumContext } from '../../context/ForumContext';
+
 const StyledTableCell = withStyles(theme => ({
     head: {
         backgroundColor: theme.palette.common.black,
@@ -92,7 +94,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Event() {
     const classes = useStyles();
-
+    
     return (
         <React.Fragment>
             <CssBaseline/>

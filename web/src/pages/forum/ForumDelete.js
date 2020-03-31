@@ -12,11 +12,11 @@ const ForumDelete = ( { is_open, handleClose } ) => {
     const { setDialog } = useContext(MainContext);
 
     const handleConfirm = () => {
-        let { parent, index } = traverseForums('', current.selected.forum_id, data, getForumByID);
+        let { parent, index } = traverseForums('', current.selected.forum_section_id, data, getForumByID);
         parent && parent.forums && parent.forums.splice(index, 1);
         !parent && data.splice(index, 1); // Est une section root
 
-        setData(JSON.parse(JSON.stringify(data)));
+        setData(data.length > 0 ? JSON.parse(JSON.stringify(data)) : []);
         setDialog( { forum_deleted : {
             is_open: true
         }});
