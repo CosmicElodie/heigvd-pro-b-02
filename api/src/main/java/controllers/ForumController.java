@@ -36,7 +36,7 @@ public class ForumController {
     @GetMapping("forum/testInsSec")
     public void insertionSection(@RequestParam("name") String title, @RequestParam("description") String desc,
                               @RequestParam("parent_forum_section_id") int parent,
-                              @RequestParam("house_id") String house) throws SQLException {
+                              @RequestParam("house_id") int house) throws SQLException {
 
         try (Connection conn = dataSource.getConnection()) {
 
@@ -44,7 +44,7 @@ public class ForumController {
             insertSection.setString(1, title);
             insertSection.setString(2, desc);
             insertSection.setInt(3, parent);
-            insertSection.setString(4, (house == null ? "NULL" : house));
+            insertSection.setString(4, (String) (house == 0 ? "NULL" : house));
             insertSection.executeUpdate();
 
         }
