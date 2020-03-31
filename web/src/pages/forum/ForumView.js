@@ -15,7 +15,7 @@ const ForumView = () => {
     useEffect(() => {
         // ForumView gère le FormContext par rapport au chemin url
         // Permet une navigation multi-niveau dans la hierarchie récursive (parent / enfants) des forums
-        console.log(data);
+        
         if(data){
             let forum = findCurrentPathForum(location, data);
             if(forum === null){
