@@ -55,6 +55,9 @@ public class User implements UserDetails {
     @Column(name = "status_id")
     private int status_id;
 
+    @Column(name = "access_level")
+    private int access_level;
+
     @OneToOne(fetch = FetchType.EAGER)
     private House house;
 
@@ -84,6 +87,7 @@ public class User implements UserDetails {
         json.put("role_id", this.created);
         json.put("created", this.role_id);
         json.put("status_id", this.status_id);
+        json.put("access_level", this.access_level);
         if(this.house != null){
             json.put("house", this.house.getJSON());
         }
@@ -91,7 +95,6 @@ public class User implements UserDetails {
 
         return json;
     }
-
 
     public int getId() {
         return id;
@@ -166,7 +169,8 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-
-
+    public int getAccessLevel() {
+        return access_level;
+    }
 
 }
