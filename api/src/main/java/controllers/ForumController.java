@@ -35,18 +35,15 @@ public class ForumController {
         return result;
     }
 
-
-    ///////////////////////////////////////////////// INSERTION PART ////////////////////////////////////
-
     //TODO : get informations from FrontEnd
     @PostMapping("forum/insert_section")
     public String insertionSection(@RequestParam("name") String title, @RequestParam("description") String desc,
-                              @RequestParam(value  = "parent_forum_section_id", required = false) Integer parent,
-                              @RequestParam(value  = "house_id", required = false) Integer house) throws SQLException {
+                                   @RequestParam(value = "parent_forum_section_id", required = false) Integer parent,
+                                   @RequestParam(value = "house_id", required = false) Integer house) throws SQLException {
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
 
-        if(title.length() < 10 || desc.length() < 10){
+        if (title.length() < 10 || desc.length() < 10) {
             responseObject.add("status", "error");
             responseObject.add("dialog_id", "insufficient_input_length");
             return responseObject.build().toString();
@@ -54,7 +51,7 @@ public class ForumController {
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if(user.getAccessLevel() < 75){
+        if (user.getAccessLevel() < 75) {
             responseObject.add("status", "error");
             responseObject.add("dialog_id", "forum_insert_insufficient_permission");
             return responseObject.build().toString();
@@ -66,15 +63,15 @@ public class ForumController {
             insertSection.setString(1, title);
             insertSection.setString(2, desc);
 
-            if(parent == null){
+            if (parent == null) {
                 insertSection.setNull(3, Types.INTEGER);
-            }else{
+            } else {
                 insertSection.setInt(3, parent);
             }
 
-            if(house == null){
+            if (house == null) {
                 insertSection.setNull(4, Types.INTEGER);
-            }else{
+            } else {
                 insertSection.setInt(4, house);
             }
 
@@ -99,7 +96,7 @@ public class ForumController {
                                    @RequestParam("forum_section_id") int section_id) throws SQLException {
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
-        if(title.length() < 10){
+        if (title.length() < 10) {
             responseObject.add("status", "error");
             responseObject.add("dialog_id", "insufficient_input_length");
             return responseObject.build().toString();
@@ -130,7 +127,7 @@ public class ForumController {
     @PostMapping("forum/insert_post")
     public String insertionPost(@RequestParam("message") String message, @RequestParam("forum_section_id") int section_id) throws SQLException {
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
-        if(message.length() < 10){
+        if (message.length() < 10) {
             responseObject.add("status", "error");
             responseObject.add("dialog_id", "insufficient_input_length");
             return responseObject.build().toString();
@@ -159,31 +156,129 @@ public class ForumController {
     }
 
     ///////////////////////////////////////////////// UPDATE PART ////////////////////////////////////
-    public void updatePost(@RequestParam("forum_post_id") int post_id,
-                           @RequestParam("message") String message) throws SQLException {
+
+    @PostMapping("forum/update_section")
+    public String updateSection(@RequestParam("name") String title,
+                                @RequestParam("description") String desc,
+                                @RequestParam("forum_section_id") int section_id) throws SQLException {
+
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+
+        if (title.length() < 10 || desc.length() < 10) {
+            responseObject.add("status", "error");
+            responseObject.add("dialog_id", "insufficient_input_length");
+            return responseObject.build().toString();
+        }
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (user.getAccessLevel() < 75) {
+            responseObject.add("status", "error");
+            responseObject.add("dialog_id", "forum_insert_insufficient_permission");
+            return responseObject.build().toString();
+        }
+
         try (Connection conn = dataSource.getConnection()) {
 
-            CallableStatement insertSubject = conn.prepareCall("{CALL insertPost(?,?,?,?)}");
-            insertSubject.setInt(1, post_id);
-            insertSubject.setString(2, message);
-            insertSubject.executeUpdate();
+            CallableStatement updateSection = conn.prepareCall("{CALL updateSection(?,?,?)}");
+            updateSection.setString(1, title);
+            updateSection.setString(2, desc);
+            updateSection.setInt(3, section_id);
+
+            boolean hasRs = updateSection.execute();
+            if (hasRs) {
+                ResultSet rs = updateSection.getResultSet();
+                rs.next();
+                JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
+                responseObject.add("status", "ok");
+                responseObject.add("dialog_id", "forum_updated");
+                responseObject.add("data", reader.readValue());
+            }
         }
+        return responseObject.build().toString();
     }
 
+    @PostMapping("forum/update_subject")
+    public String updateSubject(@RequestParam("name") String title,
+                                @RequestParam("forum_subject_id") int subject_id) throws SQLException {
 
-    @GetMapping("/forum/user")
-    public String fetchMe(@RequestParam("user_id") int user_id) throws SQLException {
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
 
-        String result = null;
+        if (title.length() < 10) {
+            responseObject.add("status", "error");
+            responseObject.add("dialog_id", "insufficient_input_length");
+            return responseObject.build().toString();
+        }
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         try (Connection conn = dataSource.getConnection()) {
-            Statement stmt = conn.createStatement();
-            ResultSet forums = stmt.executeQuery("select DEV.getUserJSON(" + user_id + ") AS forum_result");
+            Statement statement = conn.createStatement();
+            String test = "SELECT user_id FROM forum_subject WHERE forum_subject_id = " + subject_id;
+            int user_id = statement.executeQuery(test).getInt("user_id");
 
-            forums.next();
-            result = forums.getString("forum_result");
+            if (user.getId() != user_id) {
+                responseObject.add("status", "error");
+                responseObject.add("dialog_id", "forum_update_wrong_creator");
+                return responseObject.build().toString();
+            }
+
+            CallableStatement updateSubject = conn.prepareCall("{CALL updateSection(?,?)}");
+            updateSubject.setString(1, title);
+            updateSubject.setInt(2, subject_id);
+
+            boolean hasRs = updateSubject.execute();
+            if (hasRs) {
+                ResultSet rs = updateSubject.getResultSet();
+                rs.next();
+                JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
+                responseObject.add("status", "ok");
+                responseObject.add("dialog_id", "subject_updated");
+                responseObject.add("data", reader.readValue());
+            }
         }
-        return result;
+        return responseObject.build().toString();
     }
 
+    @PostMapping("forum/update_post")
+    public String updatePost(@RequestParam("forum_post_id") int post_id,
+                             @RequestParam("message") String message) throws SQLException {
+
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+
+        if (message.length() < 10) {
+            responseObject.add("status", "error");
+            responseObject.add("dialog_id", "insufficient_input_length");
+            return responseObject.build().toString();
+        }
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement statement = conn.createStatement();
+            String test = "SELECT user_id FROM forum_post WHERE forum_post_id = " + post_id;
+            int user_id = statement.executeQuery(test).getInt("user_id");
+
+            if (user.getId() != user_id) {
+                responseObject.add("status", "error");
+                responseObject.add("dialog_id", "forum_update_wrong_creator");
+                return responseObject.build().toString();
+            }
+
+            CallableStatement updateSubject = conn.prepareCall("{CALL updateSection(?,?)}");
+            updateSubject.setString(1, message);
+            updateSubject.setInt(2, post_id);
+
+            boolean hasRs = updateSubject.execute();
+            if (hasRs) {
+                ResultSet rs = updateSubject.getResultSet();
+                rs.next();
+                JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
+                responseObject.add("status", "ok");
+                responseObject.add("dialog_id", "post_updated");
+                responseObject.add("data", reader.readValue());
+            }
+        }
+        return responseObject.build().toString();
+    }
 }
