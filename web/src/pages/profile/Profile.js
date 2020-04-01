@@ -84,7 +84,7 @@ const HOUSE_DATA = {
 
 
 export default function Profile() {
-  const { user } = useContext(MainContext);
+  const { user, setDialog } = useContext(MainContext);
   const classes = useStyles();
   const SPACING = 3;
   const [open, setOpen] = React.useState(false);
@@ -94,6 +94,12 @@ export default function Profile() {
     console.log('Le lien a été cliqué.');
     setOpen(prev => !prev);
   };
+
+  const bla =() =>{
+    setDialog( { show_profile : {
+      is_open: true
+  }});
+  }
 
   const handleClickAway = () => {
     setOpen(false);
@@ -125,7 +131,16 @@ export default function Profile() {
 
         </CardContent>
   
-
+        <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick= { bla }
+                >
+                  bla
+                </Button>
       </Card>
         <Card className={classes.InfoBox}>
           <CardContent >

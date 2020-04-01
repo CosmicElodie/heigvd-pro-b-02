@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { MainContext } from '../context/MainContext';
+import ModalProfile from '../pages/profile/ModalProfile';
 
 import Snackbar from '@material-ui/core/Snackbar';
 import { Alert } from '@material-ui/lab';
@@ -167,6 +168,16 @@ const Dialog = () => {
                     <Alert variant="filled" severity="success">
                         Le forum a été supprimé.
                     </Alert>
+                </Snackbar> 
+            }
+            
+            { 
+                dialog && dialog.show_profile &&
+                <Snackbar 
+                        open = { dialog.show_profile.is_open }
+                        onClose = { () => handleClose({ show_profile: { is_open : false } }) } 
+                        >
+                    <ModalProfile/>
                 </Snackbar> 
             }
 
