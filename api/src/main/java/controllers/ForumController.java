@@ -94,7 +94,7 @@ public class ForumController {
 
     //TODO: get informations from FrontEnd
 
-    @GetMapping("forum/testInsSub")
+    @PostMapping("forum/insert_subject")
     public String insertionSubject(@RequestParam("name") String title,
                                    @RequestParam("forum_section_id") int section_id) throws SQLException {
 
@@ -113,7 +113,6 @@ public class ForumController {
             insertSubject.setString(1, title);
             insertSubject.setInt(2, section_id);
             insertSubject.setInt(3, user.getId());
-            insertSubject.executeUpdate();
 
             boolean hasRs = insertSubject.execute();
             if (hasRs) {
@@ -126,20 +125,37 @@ public class ForumController {
             }
         }
         return responseObject.build().toString();
-
     }
 
-    @GetMapping("forum/testInsPost")
-    public void insertionPost(@RequestParam("message") String message, @RequestParam("forum_section_id") int section_id,
-                           @RequestParam("user_id") int user_id) throws SQLException {
+    @PostMapping("forum/insert_post")
+    public String insertionPost(@RequestParam("message") String message, @RequestParam("forum_section_id") int section_id) throws SQLException {
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+        if(message.length() < 10){
+            responseObject.add("status", "error");
+            responseObject.add("dialog_id", "insufficient_input_length");
+            return responseObject.build().toString();
+        }
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         try (Connection conn = dataSource.getConnection()) {
 
-            CallableStatement insertSubject = conn.prepareCall("{CALL insertPost(?,?,?,?)}");
-            insertSubject.setString(1, message);
-            insertSubject.setInt(2, section_id);
-            insertSubject.setInt(3, user_id);
-            insertSubject.executeUpdate();
+            CallableStatement insertionPost = conn.prepareCall("{CALL insertPost(?,?,?)}");
+            insertionPost.setString(1, message);
+            insertionPost.setInt(2, section_id);
+            insertionPost.setInt(3, user.getId());
+
+            boolean hasRs = insertionPost.execute();
+            if (hasRs) {
+                ResultSet rs = insertionPost.getResultSet();
+                rs.next();
+                JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
+                responseObject.add("status", "ok");
+                responseObject.add("dialog_id", "post_created");
+                responseObject.add("data", reader.readValue());
+            }
         }
+        return responseObject.build().toString();
     }
 
     ///////////////////////////////////////////////// UPDATE PART ////////////////////////////////////
