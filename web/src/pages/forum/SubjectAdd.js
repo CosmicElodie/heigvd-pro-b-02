@@ -22,22 +22,29 @@ const SubjectAdd = ( { is_open, handleClose } ) => {
             return;
         }
         
-        let forum = searchForumByID(current.selected.forum_section_id, data);
-                
-        let newSubject = {
-            "forum_subject_id": Math.random(),
-            "name": subject,
-            "created": new Date().toISOString().slice(0, 19).replace('T', ' '),
-            "creator_id" : user.id,
-            "creator" : user
-        };
+        fetch('http://localhost:8080/forum/insert_subject', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'name=' + subject + '&forum_section_id=' + current.selected.forum_section_id 
+        })
+        .then(response => response.json())
+        .then(response => {
+            
+            if(response.status === 'ok'){
+                let forum = searchForumByID(current.selected.forum_section_id, data);
+                forum && ( !forum.subjects ? forum.subjects = Array(response.data) : forum.subjects.unshift(response.data));
+                setData(JSON.parse(JSON.stringify(data)));
+            }
+            handleClose();
+            setDialog({
+                [response.dialog_id]: {
+                    is_open: true
+                }
+            });
+        }); 
 
-        forum && ( !forum.subjects ? forum.subjects = Array(newSubject) : forum.subjects.unshift(newSubject));
 
-        setData(JSON.parse(JSON.stringify(data)));
-        setDialog( { subject_created : {
-            is_open: true
-        }});
     }
     
     return(
