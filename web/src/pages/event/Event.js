@@ -1,77 +1,26 @@
-import React, {Component} from 'react';
+import React, {useContext} from 'react';
 import Typography from '@material-ui/core/Typography';
 
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
+import {Button, Card, CardActions, CardContent, CardMedia, CssBaseline, Grid, Table, TableBody, TableCell, TableHead, TableContainer, TableRow, Paper} from '@material-ui/core';
 
-import {withStyles, makeStyles} from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-
-import { ForumContext } from '../../context/ForumContext';
-
-const StyledTableCell = withStyles(theme => ({
-    head: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
-}))(TableCell);
-
-const Title = withStyles(theme => ({
-    head: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-        fontSize: 20
-    },
-}))(TableCell);
-
-const StyledTableRow = withStyles(theme => ({
-    root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.background.default,
-        },
-    },
-}))(TableRow);
-
-function createData(name, date, nbParticipants) {
-    return {name, date, nbParticipants};
-}
+import {makeStyles} from '@material-ui/core/styles';
+import { EventContext } from '../../context/EventContext';
 
 //DEBUT data pour tests
 
 //TODO : faire en sorte que cet élément récupère la maison de l'utilisateur
-const houseName = "Maison Logicielle"
+//const houseName = "Maison Logicielle"
 
 //TODO : faire en sorte que ces données s'affichent selon la maison de l'utilisateur
-const houseRows = [
-    createData('Coding jam IL', '12/04/2020', 8),
-    createData('Workshop - Comment coder avec classe', '15/04/2020', 23),
-    createData('Séance révisions POO2', '19/04/2020', 12),
-    createData('Workshop - How to make a sandwich', '03/05/2020', 8),
-    createData('Workshop - To log or not to log ?', '12/05/2020', 4)
-];
+
 
 //TODO : il s'agit des événements globaux à toutes les maisons. Il faut simplement récupérer les données qui sont
 //censées être accessibles à tout le monde
-const globalRows = [
+/*const globalRows = [
   createData('À venir', '00/00/0000', 0),
   createData('À venir', '00/00/0000', 0),
     createData('À venir', '00/00/0000', 0)
-];
+];*/
 //FIN data pour tests
 
 const useStyles = makeStyles(theme => ({
@@ -84,8 +33,7 @@ const useStyles = makeStyles(theme => ({
     cardMedia: {
         paddingTop: '75%',
         flexDirection: 'row',
-        justify: 'space-evenly',
-        borderRadius: '50%'
+        justify: 'space-evenly'
     },
     cardContent: {
         flexGrow: 1,
@@ -94,13 +42,15 @@ const useStyles = makeStyles(theme => ({
 
 export default function Event() {
     const classes = useStyles();
-    
+
+    const {data, setData} = useContext(EventContext);
+
     return (
         <React.Fragment>
             <CssBaseline/>
             <main>
-                <Grid container direction="row" justify="space-evenly" alignItems="flex-start">
-
+                <Grid container direction="row" justify="space-evenly" alignItems="center">
+                {data && data.map(({event_id, name, description, is_competitive, difficulty, status, price, deadline_reservation, date_begin, date_end, location, house_id}) =>
                     <Card className={classes.card}>
                         <CardMedia
                             className={classes.cardMedia}
@@ -109,7 +59,7 @@ export default function Event() {
                         />
                         <CardContent className={classes.cardContent}>
                             <Typography gutterBottom variant="h5" component="h2">
-                              { houseName /*affiche le nom de la maison */} 
+                              {house_id /*affiche le nom de la maison */} 
                             </Typography>
                             <Typography>
 
@@ -123,15 +73,13 @@ export default function Event() {
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {houseRows.map(row => (
-                                                <TableRow key={row.name}>
+                                                <TableRow key={name}>
                                                     <TableCell component="th" scope="row">
-                                                        {row.name}
+                                                        {name}
                                                     </TableCell>
-                                                    <TableCell align="right">{row.date}</TableCell>
-                                                    <TableCell align="right">{row.nbParticipants}</TableCell>
+                                                    <TableCell align="right">{date_begin}</TableCell>
+                                                    <TableCell align="right">{location}</TableCell>
                                                 </TableRow>
-                                            ))}
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
@@ -143,48 +91,9 @@ export default function Event() {
                             </Button>
                         </CardActions>
                     </Card>
+                )}
                     <br/><br/>
-                    <Card className={classes.card}>
-                        <CardMedia
-                            className={classes.cardMedia}
-                            image="https://heig-vd.ch/images/default-source/img-global-superpicture/formation-bachelor-filiere-energieettechniquesenvironnementales/energie-et-techniques-environnementales--xs.jpg"
-                            title="Image title"
-                        />
-                        <CardContent className={classes.cardContent}>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                Événements globaux
-                            </Typography>
-                            <Typography>
-                            <TableContainer component={Paper}>
-                                    <Table className={classes.table} aria-label="simple table">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Nom événement</TableCell>
-                                                <TableCell align="right">Date</TableCell>
-                                                <TableCell align="right">Nb personnes</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {globalRows.map(row => (
-                                                <TableRow key={row.name}>
-                                                    <TableCell component="th" scope="row">
-                                                        {row.name}
-                                                    </TableCell>
-                                                    <TableCell align="right">{row.date}</TableCell>
-                                                    <TableCell align="right">{row.nbParticipants}</TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small" color="primary">
-                                Voir plus...
-                            </Button>
-                        </CardActions>
-                    </Card>
+                    
                 </Grid>
             </main>
         </React.Fragment>
