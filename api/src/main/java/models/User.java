@@ -55,7 +55,7 @@ public class User implements UserDetails {
     @Column(name = "access_level")
     private int access_level;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="house_id")
     private House house;
 
@@ -89,9 +89,8 @@ public class User implements UserDetails {
         json.put("status_id", this.status_id);
         json.put("access_level", this.access_level);
         if(this.house != null){
-          //  json.put("house", this.house.getJSON());
+            json.put("house", this.house.getJSON());
         }
-//        json.put("house_id", this.house_id);
 
         return json;
     }
