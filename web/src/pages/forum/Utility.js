@@ -25,7 +25,7 @@ export const traverseForums = ( where, what, forums, fn ) => {
         if(index > -1) 
             return { reference: entry, index : index } ;
 
-        if(entry.hasOwnProperty('forums')) {
+        if(entry.hasOwnProperty('forums') && entry.forums) {
             let value = traverseForums( where, what, entry.forums, fn );
             if(value){
                 if(!value.hasOwnProperty('parent')) value.parent = entry;
@@ -38,7 +38,7 @@ export const traverseForums = ( where, what, forums, fn ) => {
 export const searchForumByID = (forum_section_id, data) => {
     for (const entry of data) {
         if(entry.forum_section_id === forum_section_id) return entry;
-        if(entry.hasOwnProperty('forums')) {
+        if(entry.hasOwnProperty('forums') && entry.forums) {
             let value = searchForumByID( forum_section_id, entry.forums);
             if(value) return value;
         }        

@@ -125,9 +125,9 @@ const SubjectDetails = ( { // Component local non-exporté
     
     const { value, setValue, bind:bindSubject, setError:setSubjectError } = useInput();
 
-    const handleSubjectEditOkClick = ( idx, forum_forum_subject_id ) => {
+    const handleSubjectEditOkClick = ( idx, forum_subject_id ) => {
         setEffectActive({ active : false });
-        let { reference, index } = traverseForums('subjects', forum_forum_subject_id, data, getSubjectByID);
+        let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
         reference.subjects[index].name = value;
         setData(JSON.parse(JSON.stringify(data)));
         setDialog( { subject_updated : {
@@ -183,11 +183,11 @@ const SubjectDetails = ( { // Component local non-exporté
                                 <Icon className="no-open subject-edit-button" 
                                     onClick={ () => handleEditSubjectClick(subject.name, index) } />
                                 <Icon className="no-open subject-delete-button" 
-                                    onClick={ () => handleDeleteSubjectClick(subject.forum_forum_subject_id) } />  
+                                    onClick={ () => handleDeleteSubjectClick(subject.forum_subject_id) } />  
                             </section>
                             <section className="edit-subject-buttons">
                                 <Icon className="no-open subject-edit-ok-button" 
-                                    onClick={ () => handleSubjectEditOkClick( index, subject.forum_forum_subject_id ) } />
+                                    onClick={ () => handleSubjectEditOkClick( index, subject.forum_subject_id ) } />
                                 <Icon className="no-open subject-edit-cancel-button"  
                                     onClick={ () => handleSubjectEditCancelClick( index ) }  />  
                             </section>

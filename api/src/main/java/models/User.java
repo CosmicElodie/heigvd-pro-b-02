@@ -30,9 +30,6 @@ public class User implements UserDetails {
     @Column(name = "birth")
     private Date birth;
 
-    @Column(name = "initials")
-    private String initials;
-
     @Column(name = "email")
     private String email;
 
@@ -74,12 +71,14 @@ public class User implements UserDetails {
     }
 
     public JSONObject getJSON(){
+        String initials = Character.toUpperCase(this.firstname.charAt(0))
+                + Character.toString(Character.toUpperCase(this.lastname.charAt(0)));
         JSONObject json = new JSONObject();
         json.put("user_id", this.id);
         json.put("username", this.username);
         json.put("firstname", this.firstname);
         json.put("lastname", this.lastname);
-        json.put("initials", this.initials);
+        json.put("initials", initials);
         json.put("email", this.email);
         json.put("birth", this.birth);
         json.put("active", this.active);
@@ -118,14 +117,6 @@ public class User implements UserDetails {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
-    }
-
-    public String getInitials() {
-        return initials;
-    }
-
-    public void setInitials(String initials) {
-        this.initials = initials;
     }
 
     public String getEmail() {

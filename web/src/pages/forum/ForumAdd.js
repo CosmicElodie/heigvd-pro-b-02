@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Icon, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Box } from '@material-ui/core';
+import React, { useContext, useEffect } from 'react';
+import { Icon, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Box, FormControl, Select } from '@material-ui/core';
 import { useInput } from '../../hooks/input';
 import { searchForumByID } from './Utility';
 import { ForumContext } from '../../context/ForumContext';
@@ -9,10 +9,17 @@ const ForumAdd = ( { is_open, handleClose } ) => {
     /*
         Le parent "SubjectList" est le gérant de l'état du modal SubjectAdd
     */ 
-    const { value:name, bind:bindName, setError:setErrorName } = useInput('');
-    const { value:description, bind:bindDescription, setError:setErrorDescription } = useInput('');
+    const { value:name, setValue:setName, bind:bindName, setError:setErrorName }    = useInput('');
+    const { value:description, setValue:setDescription, bind:bindDescription, setError:setErrorDescription } = useInput('');
+    const { value:house, setValue:setHouse, bind:bindHouse }                        = useInput('');
     const { current, data, setData } = useContext(ForumContext);
-    const { setDialog } = useContext(MainContext);
+    const { global, setDialog } = useContext(MainContext);
+
+    useEffect(() => {
+        setHouse('');
+        setName('');
+        setDescription('');
+    },[current]);
 
     const handleAddForumClick = () => {
         
@@ -31,15 +38,15 @@ const ForumAdd = ( { is_open, handleClose } ) => {
             });
             return;
         }
-        let parent_id = current.selected ? current.selected.forum_section_id : null;
+        
         let post_body = "name=" + name + "&description=" + description;
-        if(parent_id) post_body += "&parent_forum_section_id=" + parent_id;
+        if(current.selected) post_body += "&parent_forum_section_id=" + current.selected.forum_section_id;
+        if(house) post_body += "&house_id=" + house; 
         fetch('http://localhost:8080/forum/insert_section', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: post_body
-                
         })
         .then(response => response.json())
         .then(response => {
@@ -54,7 +61,7 @@ const ForumAdd = ( { is_open, handleClose } ) => {
                 }
                 setData(JSON.parse(JSON.stringify(data)));
             }
-
+            handleClose();
             setDialog({
                 [response.dialog_id]: {
                     is_open: true
@@ -62,7 +69,9 @@ const ForumAdd = ( { is_open, handleClose } ) => {
             });
         }); 
     }
+
     
+
     return(
         <Dialog
             open={ is_open }
@@ -74,6 +83,7 @@ const ForumAdd = ( { is_open, handleClose } ) => {
         >
             <DialogTitle id="alert-dialog-title">Ajouter un nouveau forum</DialogTitle>
             <DialogContent>
+
                 <TextField
                         fullWidth
                         id="filled-required"
@@ -93,6 +103,24 @@ const ForumAdd = ( { is_open, handleClose } ) => {
                         variant="outlined"
                         { ...bindDescription } 
                         />
+
+                        <Box m={2} />
+                       { !current.selected && 
+                            <FormControl variant="outlined" style={ styles.HouseDropDown }>
+                                <Select
+                                    native
+                                    { ...bindHouse }
+                                >
+                                    <option value={""}>Toutes les maisons</option>
+                                   {
+                                    global && global.houses && global.houses.map(( { house_id, name } ) => 
+                                        <option value={ house_id }>{ name } </option>
+                                    )
+                                   } 
+                                    
+                                </Select>
+                            </FormControl> 
+                        } 
             </DialogContent>
             <DialogActions>
             
@@ -107,5 +135,13 @@ const ForumAdd = ( { is_open, handleClose } ) => {
         </Dialog>
     )
 }
+
+const styles = {
+    HouseDropDown : {
+        width:'100%'
+    }
+}
+
+
 
 export default ForumAdd;

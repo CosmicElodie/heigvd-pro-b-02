@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState, Fragment } from 'react';
 import { Typography, Link, Paper, Box, Button, Grid } from '@material-ui/core';
 import { ForumContext } from '../../context/ForumContext';
+import { MainContext } from '../../context/MainContext';
 import ForumView from './ForumView';
 import ForumAdd from './ForumAdd';
 import Icon from '@material-ui/core/Icon';
@@ -20,6 +21,7 @@ for(var [key, val] of fruits) console.log(key,val);
 const Forum = (  ) => {
         
     const { breadcrumbs, setBreadcrumbs, setForum, setEffectActive } = useContext(ForumContext);
+    const { user } = useContext(MainContext);
     const [ forumAddDialogState, setForumAddDialogState ] = useState({
         is_open : false
     });
@@ -64,7 +66,7 @@ const Forum = (  ) => {
                   <Typography variant="h5" component="h5" gutterBottom>Forum</Typography>
                 </Grid>
                 <Grid item>
-                  <Button variant="outlined" size="small" color="primary" onClick={ handleAddForumSectionClick }>Nouvelle section</Button>
+                  { user && user.access_level >= 75 && <Button variant="outlined" size="small" color="primary" onClick={ handleAddForumSectionClick }>Nouvelle section</Button> }
                 </Grid>
               </Grid>
               <Box mb={1} />
