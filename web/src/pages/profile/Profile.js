@@ -1,10 +1,9 @@
-import React, {useContext} from 'react';
-import { makeStyles, Card, CardActions, CardContent, Button, Typography, Avatar, Grid } from '@material-ui/core';
-import { blue, blueGrey, HUE } from '@material-ui/core/colors';
+import React, {useContext,useEffect} from 'react';
+import { makeStyles, Card,  CardContent, Button, Typography, Avatar, Grid } from '@material-ui/core';
+import { blue, blueGrey } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { MainContext } from '../../context/MainContext';
-import { FormControlLabel, TextField, Checkbox, CssBaseline, Link, Paper, Box, Icon } from '@material-ui/core';
+import {    CssBaseline,  Paper,   } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 
 
@@ -84,7 +83,9 @@ const HOUSE_DATA = {
 
 
 export default function Profile() {
-  const { user, setDialog } = useContext(MainContext);
+  const { user, setDialog, setShownUser,setShowProfile } = useContext(MainContext);
+
+  const tst = user ;
   const classes = useStyles();
   const SPACING = 3;
   const [open, setOpen] = React.useState(false);
@@ -96,7 +97,7 @@ export default function Profile() {
   };
 
   const bla =() =>{
-    setDialog( { show_profile : {
+    setShowProfile( { show_profile : {
       is_open: true
   }});
   }
@@ -105,6 +106,13 @@ export default function Profile() {
     setOpen(false);
   };
   
+
+  
+
+useEffect(() => { 
+  setShownUser(user);
+  },[user,setShownUser]);
+
   return (
     <div>
       <Card className={classes.bannerBox}>
@@ -137,11 +145,12 @@ export default function Profile() {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
-                  onClick= { bla }
+                  onClick = {bla}
                 >
-                  bla
+                    bla
                 </Button>
       </Card>
+
         <Card className={classes.InfoBox}>
           <CardContent >
              
@@ -182,7 +191,7 @@ export default function Profile() {
                                 <b>Birthdate :</b>
                                 </Grid>
                                 <Grid item>
-                                <span >{user.created}</span>              
+                                <span >{user.birth}</span>              
                                 </Grid>
                               </Grid>
                               
@@ -191,7 +200,7 @@ export default function Profile() {
                                 <b>Maison :</b> 
                                 </Grid>
                                 <Grid item>
-                                <span >{user.maison && user.maison.name} </span>
+                                <span >{user.house && user.house.name} </span>
                                 </Grid>
                               </Grid>
                               

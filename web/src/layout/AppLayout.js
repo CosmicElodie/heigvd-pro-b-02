@@ -2,6 +2,7 @@ import React from 'react'
 import Menu from './Menu'
 import User from './User'
 import Dialog from './Dialog'
+import ShowProfile from './ShowProfile'
 import Home from '../pages/Home'
 import About from '../pages/About'
 import Event from '../pages/event/Event'
@@ -36,6 +37,7 @@ const AppLayout = () => {
             </Switch>
         </section>
         <Dialog />
+        <ShowProfile/>
         </section> 
     )
 

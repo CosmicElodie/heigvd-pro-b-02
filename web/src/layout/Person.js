@@ -1,22 +1,35 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import { MainContext } from '../context/MainContext';
 import { Avatar, Typography } from '@material-ui/core';
 
-const Person = ( { firstname, lastname, email, initials, variant, collapsed, noExtend  } ) => {
+
+
+const Person = ( { user, variant, collapsed, noExtend , blabla  }  ) => {
+    
+   /*  { firstname, lastname, email, initials, variant, collapsed, noExtend  }  */
+   const {setShowProfile} = useContext(MainContext);
+
     let variantClass = variant ? variant : '';
     let collapsedClass = collapsed ? 'collapsed' : '';
     let onHoverClass = noExtend ? noExtend ? 'no-hover' : '' : '';
+
+    const handlePersonClick =(user) =>{
+        setShowProfile(user);
+      }
     
+
     return (           
         <section
             className={"person " + variantClass + ' ' + collapsedClass + ' ' + onHoverClass }
+            onClick = {()=>handlePersonClick(user)}
             >
-                <Avatar className="avatar"> { initials } </Avatar> 
+                <Avatar className="avatar"> { user.initials } </Avatar> 
                 <section className="details">
                     <Typography className="full-name" component="span">
-                        { firstname + " " + lastname } 
+                        { user.irstname + " " + user.lastname } 
                     </Typography>
                     <Typography className="email" component="span">
-                        { email }
+                        { user.email }
                     </Typography>
                 </section>
         </section>

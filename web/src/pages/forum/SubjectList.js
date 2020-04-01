@@ -98,7 +98,7 @@ const SubjectList = ( ) => {
                 subject && <section class="list-item-subject" key={ subject.forum_subject_id } ref = { (el) => subjectEls.current[index] = el } >
                     <section className="subject" onClick={ (event) => handleSubjectClick(event, index) } >
                         <section className="list-item-subjects-person"> 
-                            <Person { ...subject.creator } collapsed={true} noExtend={true} /> 
+                            <Person user = { subject.creator } collapsed={true} noExtend={true} /> 
                         </section>                                       
                         <SubjectDetails { ...{ index, subject, subjectEls, setSubjectDeleteDialogState } } />
                     </section>

@@ -55,7 +55,7 @@ const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
                                 <Icon className="post-delete-button" />
                                 <Bubble orientation="left" className="post-bubble" text={ message } time={ created } />
                             </section>
-                            <Person { ...creator } variant="tiny" />
+                            <Person user = { creator } variant="tiny" />
                         </section>
                     ) 
                 }
