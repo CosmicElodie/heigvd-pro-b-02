@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "house")
@@ -19,6 +20,9 @@ public class House {
 
     @Column(name = "shortname")
     private String shortname;
+
+    @OneToMany(mappedBy = "house")
+    private List<User> users;
 
     public int getId() {
         return id;

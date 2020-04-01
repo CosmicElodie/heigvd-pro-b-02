@@ -55,7 +55,8 @@ public class User implements UserDetails {
     @Column(name = "access_level")
     private int access_level;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="house_id", insertable=false, updatable=false)
     private House house;
 
 
