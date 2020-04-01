@@ -191,7 +191,7 @@ export default function Profile() {
                                 <b>Maison :</b> 
                                 </Grid>
                                 <Grid item>
-                                <span >{user.maison && user.maison.name} </span>
+                                <span >{user.house && user.house.name} </span>
                                 </Grid>
                               </Grid>
                               

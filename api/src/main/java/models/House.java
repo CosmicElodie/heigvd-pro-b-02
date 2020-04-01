@@ -4,10 +4,12 @@ import org.json.JSONObject;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "house")
-public class House {
+public class House implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

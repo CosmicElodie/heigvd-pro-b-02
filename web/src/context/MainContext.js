@@ -9,6 +9,13 @@ export const MainProvider = ( props ) => {
     // useState can only handle 1 object
     // it can be a list of objects
     const [ user, setUser ]      = useState({ is_authenticated : false });
+
+    /*
+        Global contient des données potentiellement necessaires dans toute l'application
+        Ex : liste des maisons
+    */
+    const [ global, setGlobal ]  = useState({ houses : [] });
+
     const [ dialog, setDialog ]  = useState();
 
     useEffect(() => { 
@@ -21,7 +28,19 @@ export const MainProvider = ( props ) => {
         }
     }, [user.id]);
 
+    useEffect(() => { 
+        user && fetch('http://localhost:8080/global/data', {
+            method: 'GET',
+            credentials: 'include' // mandatory for every JSON fetch
+        })
+        .then(response => response.json())
+        .then((data) => {
+            setGlobal(data);       
+        })
+    }, [user, setGlobal]);
+
     let context = {
+        global,
         user, 
         setUser, 
         dialog,

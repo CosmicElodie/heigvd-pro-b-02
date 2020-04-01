@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { MainContext } from '../context/MainContext';
+import ModalProfile from '../pages/profile/ModalProfile';
 
 import Snackbar from '@material-ui/core/Snackbar';
 import { Alert } from '@material-ui/lab';
@@ -133,6 +134,18 @@ const Dialog = () => {
                     </Alert>
                 </Snackbar> 
             }
+
+{ 
+            dialog && dialog.forum_insert_insufficient_permission &&
+                <Snackbar 
+                        open = { dialog.forum_insert_insufficient_permission.is_open }
+                        onClose = { () => handleClose({ forum_insert_insufficient_permission: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Vous n'avez pas assez de permission.
+                    </Alert>
+                </Snackbar> 
+            }
             
             { 
                 dialog && dialog.forum_edited &&
@@ -155,6 +168,16 @@ const Dialog = () => {
                     <Alert variant="filled" severity="success">
                         Le forum a été supprimé.
                     </Alert>
+                </Snackbar> 
+            }
+            
+            { 
+                dialog && dialog.show_profile &&
+                <Snackbar 
+                        open = { dialog.show_profile.is_open }
+                        onClose = { () => handleClose({ show_profile: { is_open : false } }) } 
+                        >
+                    <ModalProfile/>
                 </Snackbar> 
             }
 
