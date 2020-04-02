@@ -87,8 +87,8 @@ public class User implements UserDetails {
         json.put("birth", this.birth);
         json.put("active", this.active);
         json.put("last_online", this.last_online);
-        json.put("role_id", this.created);
-        json.put("created", this.role_id);
+        json.put("role_id", this.role_id);
+        json.put("created", this.created);
         json.put("status_id", this.status_id);
         json.put("access_level", this.access_level);
         json.put("avatar", this.avatar);
