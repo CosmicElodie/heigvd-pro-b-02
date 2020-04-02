@@ -47,14 +47,14 @@ public class UserProfileController {
         String pattern = "(\\w|-)+\\.(\\w|-)+@heig-vd\\.ch";
         if (!email.matches(pattern)) {
             responseObject.add("status", "error");
-            responseObject.add("dialog_id", "Invalid email you must register with an email from heigvd.");
+            responseObject.add("dialog_id", "invalid_email_syntax");
             return responseObject.build().toString();
         }
 
         if (firstname.length() == 0 || lastname.length() == 0 ||
                 username.length() == 0 || password.length() == 0) {
             responseObject.add("status", "error");
-            responseObject.add("dialog_id", "Detected an empty required field.");
+            responseObject.add("dialog_id", "empty_field");
             return responseObject.build().toString();
         }
 
@@ -63,7 +63,7 @@ public class UserProfileController {
             // Test si l'email existe déjà dans la base de donnée.
             if (conn.createStatement().executeQuery("SELECT user_id FROM user WHERE email = " + email).next()) {
                 responseObject.add("status", "error");
-                responseObject.add("dialog_id", "This email already exist.");
+                responseObject.add("dialog_id", "email_already_exist");
                 return responseObject.build().toString();
             }
 
@@ -104,7 +104,7 @@ public class UserProfileController {
         if (firstname.length() == 0 || lastname.length() == 0 ||
                 username.length() == 0 || password.length() == 0) {
             responseObject.add("status", "error");
-            responseObject.add("dialog_id", "insufficient_input_length");
+            responseObject.add("dialog_id", "empty_field");
             return responseObject.build().toString();
         }
 
