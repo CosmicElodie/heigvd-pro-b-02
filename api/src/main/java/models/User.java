@@ -6,9 +6,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
 
 @Entity
 @Table(name = "user")
@@ -84,7 +86,12 @@ public class User implements UserDetails {
         json.put("lastname", this.lastname);
         json.put("initials", initials);
         json.put("email", this.email);
-        json.put("birth", this.birth);
+        Date temp = birth;
+        String pattern = "dd MMMM yyyy";
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        String birthString = formatter.format(temp);
+        json.put("birth", birthString);
+//        json.put("birth", this.birth);
         json.put("active", this.active);
         json.put("last_online", this.last_online);
         json.put("role_id", this.role_id);
