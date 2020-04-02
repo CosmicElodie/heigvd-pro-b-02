@@ -39,7 +39,8 @@ public class UserProfileController {
                                 @RequestParam("firstname") String firstname,
                                 @RequestParam("lastname") String lastname,
                                 @RequestParam("password") String password,
-                                @RequestParam("username") String username
+                                @RequestParam("username") String username,
+                                @RequestParam("house_id") int house_id
                                 ) throws SQLException {
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
 
@@ -59,13 +60,21 @@ public class UserProfileController {
 
         try (Connection conn = dataSource.getConnection()) {
 
-            CallableStatement insertionUser = conn.prepareCall("{CALL insertUser(?,?,?,?,?,?)}");
+            // Test si l'email existe déjà dans la base de donnée.
+            if (conn.createStatement().executeQuery("SELECT user_id FROM user WHERE email = " + email).next()) {
+                responseObject.add("status", "error");
+                responseObject.add("dialog_id", "This email already exist.");
+                return responseObject.build().toString();
+            }
+
+            CallableStatement insertionUser = conn.prepareCall("{CALL insertUser(?,?,?,?,?,?,?)}");
             insertionUser.setDate(1, birth);
             insertionUser.setString(2, email);
             insertionUser.setString(3, firstname);
             insertionUser.setString(4, lastname);
             insertionUser.setString(5, password);
             insertionUser.setString(6, username);
+            insertionUser.setInt(7, house_id);
 
             boolean hasRs = insertionUser.execute();
             if (hasRs) {
