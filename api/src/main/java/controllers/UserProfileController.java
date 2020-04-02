@@ -36,8 +36,8 @@ public class UserProfileController {
     @PostMapping("profile/sign_up")
     public String insertionUser(@RequestParam("birth") Date birth,
                                 @RequestParam("email") String email,
-                                @RequestParam("password") String firstname,
-                                @RequestParam("password") String lastname,
+                                @RequestParam("firstname") String firstname,
+                                @RequestParam("lastname") String lastname,
                                 @RequestParam("password") String password,
                                 @RequestParam("username") String username
                                 ) throws SQLException {
@@ -83,8 +83,8 @@ public class UserProfileController {
     @PostMapping("profile/update")
     public String updateUser(@RequestParam("user_id") int user_id,
                              @RequestParam("birth") Date birth,
-                             @RequestParam("password") String firstname,
-                             @RequestParam("password") String lastname,
+                             @RequestParam("firstname") String firstname,
+                             @RequestParam("lastname") String lastname,
                              @RequestParam("password") String password,
                              @RequestParam("username") String username,
                              @RequestParam("avatar") String avatar
