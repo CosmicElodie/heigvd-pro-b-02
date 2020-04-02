@@ -220,16 +220,11 @@ public class ForumController {
             CallableStatement updateSubject = conn.prepareCall("{CALL updateSection(?,?)}");
             updateSubject.setString(1, title);
             updateSubject.setInt(2, subject_id);
+            updateSubject.execute();
 
-            boolean hasRs = updateSubject.execute();
-            if (hasRs) {
-                ResultSet rs = updateSubject.getResultSet();
-                rs.next();
-                JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
-                responseObject.add("status", "ok");
-                responseObject.add("dialog_id", "subject_updated");
-                responseObject.add("data", reader.readValue());
-            }
+            responseObject.add("status", "ok");
+            responseObject.add("dialog_id", "subject_updated");
+
         }
         return responseObject.build().toString();
     }
@@ -252,11 +247,9 @@ public class ForumController {
             Statement statement = conn.createStatement();
             String test = "SELECT user_id FROM forum_post WHERE forum_post_id = " + post_id;
 
-            int user_id = 0;
             ResultSet rs = statement.executeQuery(test);
-            if(rs.next()){
-                user_id = rs.getInt("user_id");
-            }
+            rs.next();
+            int user_id = rs.getInt("user_id");
 
             if (user.getId() != user_id) {
                 responseObject.add("status", "error");
@@ -267,8 +260,90 @@ public class ForumController {
             CallableStatement updateSubject = conn.prepareCall("{CALL updatePost(?,?)}");
             updateSubject.setString(1, message);
             updateSubject.setInt(2, post_id);
-
             updateSubject.execute();
+
+            responseObject.add("status", "ok");
+            responseObject.add("dialog_id", "post_updated");
+        }
+        return responseObject.build().toString();
+    }
+
+    ///////////////////////////////////////////// DELETE PART ///////////////////////////////////////
+    @PostMapping("forum/delete_section")
+    public String deleteSection(@RequestParam("forum_section_id") int section_id) throws SQLException {
+
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (user.getAccessLevel() < 75) {
+            responseObject.add("status", "error");
+            responseObject.add("dialog_id", "forum_delete_insufficient_permission");
+            return responseObject.build().toString();
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+            CallableStatement deleteSection = conn.prepareCall("{CALL deleteSection(?)}");
+            deleteSection.setInt(1, section_id);
+            deleteSection.execute();
+            responseObject.add("status", "ok");
+            responseObject.add("dialog_id", "forum_deleted");
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("forum/delete_subject")
+    public String deleteSubject(@RequestParam("forum_subject_id") int subject_id) throws SQLException {
+
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement statement = conn.createStatement();
+            String test = "SELECT user_id FROM forum_subject WHERE forum_subject_id = " + subject_id;
+            int user_id = statement.executeQuery(test).getInt("user_id");
+
+            if (user.getId() != user_id) {
+                responseObject.add("status", "error");
+                responseObject.add("dialog_id", "forum_delete_wrong_creator");
+                return responseObject.build().toString();
+            }
+
+            CallableStatement deleteSubject = conn.prepareCall("{CALL deleteSection(?)}");
+            deleteSubject.setInt(1, subject_id);
+            deleteSubject.execute();
+
+            responseObject.add("status", "ok");
+            responseObject.add("dialog_id", "subject_deleted");
+
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("forum/delete_post")
+    public String deletePost(@RequestParam("forum_post_id") int post_id) throws SQLException {
+
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement statement = conn.createStatement();
+            String test = "SELECT user_id FROM forum_post WHERE forum_post_id = " + post_id;
+
+            ResultSet rs = statement.executeQuery(test);
+            rs.next();
+            int user_id = rs.getInt("user_id");
+
+            if (user.getId() != user_id) {
+                responseObject.add("status", "error");
+                responseObject.add("dialog_id", "forum_update_wrong_creator");
+                return responseObject.build().toString();
+            }
+
+            CallableStatement updateSubject = conn.prepareCall("{CALL deletePost(?)}");
+            updateSubject.setInt(1, post_id);
+            updateSubject.execute();
+
             responseObject.add("status", "ok");
             responseObject.add("dialog_id", "post_updated");
         }
