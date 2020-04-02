@@ -21,12 +21,12 @@ const Person = ( { user, variant, collapsed, noExtend , blabla  }  ) => {
     return (           
         <section
             className={"person " + variantClass + ' ' + collapsedClass + ' ' + onHoverClass }
-            onClick = {()=>handlePersonClick(user)}
+            onClick = { () => handlePersonClick(user) }
             >
                 <Avatar className="avatar"> { user.initials } </Avatar> 
                 <section className="details">
                     <Typography className="full-name" component="span">
-                        { user.irstname + " " + user.lastname } 
+                        { user.firstname + " " + user.lastname } 
                     </Typography>
                     <Typography className="email" component="span">
                         { user.email }

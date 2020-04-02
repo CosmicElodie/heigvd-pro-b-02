@@ -37,15 +37,30 @@ const ForumEdit = ( { is_open, handleClose } ) => {
             });
             return;
         }
-
-        let forum = searchForumByID(current.selected.forum_section_id, data);         
-        forum.name = name;
-        forum.description = description;
-        setData(JSON.parse(JSON.stringify(data)));
-        setDialog( { forum_edited : {
-            is_open: true
-        }});
-        history.push(history.location.pathname.split('/').slice(0, -1).join("/") + '/' + name);
+        let pathAfterUpdate = history.location.pathname.split('/').slice(0, -1).join("/") + '/' + name;
+        let dialogTimeout = 0;
+        fetch('http://localhost:8080/forum/update_section', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&name=" + name + "&description=" + description + "&forum_section_id=" + current.selected.forum_section_id
+        })
+        .then(response => response.json())
+        .then(({ status, dialog_id }) => {
+            if(status == 'ok'){
+                let forum = searchForumByID(current.selected.forum_section_id, data);         
+                forum.name = name;
+                forum.description = description;
+                setData(JSON.parse(JSON.stringify(data)));
+                history.push(pathAfterUpdate);
+                dialogTimeout = 500;
+            }
+            setTimeout(() => 
+                setDialog( { [dialog_id] : {
+                    is_open: true
+                }}), 
+                dialogTimeout);
+        });   
     }
     
     return(

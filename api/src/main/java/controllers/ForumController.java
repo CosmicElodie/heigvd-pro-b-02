@@ -43,7 +43,7 @@ public class ForumController {
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
 
-        if (title.length() < 10 || desc.length() < 10) {
+        if (title.length() == 0 || desc.length() == 0) {
             responseObject.add("status", "error");
             responseObject.add("dialog_id", "insufficient_input_length");
             return responseObject.build().toString();
@@ -96,7 +96,7 @@ public class ForumController {
                                    @RequestParam("forum_section_id") int section_id) throws SQLException {
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
-        if (title.length() < 10) {
+        if (title.length() == 0) {
             responseObject.add("status", "error");
             responseObject.add("dialog_id", "insufficient_input_length");
             return responseObject.build().toString();
@@ -125,9 +125,9 @@ public class ForumController {
     }
 
     @PostMapping("forum/insert_post")
-    public String insertionPost(@RequestParam("message") String message, @RequestParam("forum_section_id") int section_id) throws SQLException {
+    public String insertionPost(@RequestParam("message") String message, @RequestParam("forum_subject_id") int subject_id) throws SQLException {
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
-        if (message.length() < 10) {
+        if (message.length() == 0) {
             responseObject.add("status", "error");
             responseObject.add("dialog_id", "insufficient_input_length");
             return responseObject.build().toString();
@@ -139,7 +139,7 @@ public class ForumController {
 
             CallableStatement insertionPost = conn.prepareCall("{CALL insertPost(?,?,?)}");
             insertionPost.setString(1, message);
-            insertionPost.setInt(2, section_id);
+            insertionPost.setInt(2, subject_id);
             insertionPost.setInt(3, user.getId());
 
             boolean hasRs = insertionPost.execute();
@@ -164,7 +164,7 @@ public class ForumController {
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
 
-        if (title.length() < 10 || desc.length() < 10) {
+        if (title.length() == 0 || desc.length() == 0) {
             responseObject.add("status", "error");
             responseObject.add("dialog_id", "insufficient_input_length");
             return responseObject.build().toString();
@@ -184,16 +184,10 @@ public class ForumController {
             updateSection.setString(1, title);
             updateSection.setString(2, desc);
             updateSection.setInt(3, section_id);
+            updateSection.execute();
+            responseObject.add("status", "ok");
+            responseObject.add("dialog_id", "forum_updated");
 
-            boolean hasRs = updateSection.execute();
-            if (hasRs) {
-                ResultSet rs = updateSection.getResultSet();
-                rs.next();
-                JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
-                responseObject.add("status", "ok");
-                responseObject.add("dialog_id", "forum_updated");
-                responseObject.add("data", reader.readValue());
-            }
         }
         return responseObject.build().toString();
     }
@@ -204,7 +198,7 @@ public class ForumController {
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
 
-        if (title.length() < 10) {
+        if (title.length() == 0) {
             responseObject.add("status", "error");
             responseObject.add("dialog_id", "insufficient_input_length");
             return responseObject.build().toString();
@@ -246,7 +240,7 @@ public class ForumController {
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
 
-        if (message.length() < 10) {
+        if (message.length() == 0) {
             responseObject.add("status", "error");
             responseObject.add("dialog_id", "insufficient_input_length");
             return responseObject.build().toString();
@@ -257,7 +251,12 @@ public class ForumController {
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
             String test = "SELECT user_id FROM forum_post WHERE forum_post_id = " + post_id;
-            int user_id = statement.executeQuery(test).getInt("user_id");
+
+            int user_id = 0;
+            ResultSet rs = statement.executeQuery(test);
+            if(rs.next()){
+                user_id = rs.getInt("user_id");
+            }
 
             if (user.getId() != user_id) {
                 responseObject.add("status", "error");
@@ -265,19 +264,13 @@ public class ForumController {
                 return responseObject.build().toString();
             }
 
-            CallableStatement updateSubject = conn.prepareCall("{CALL updateSection(?,?)}");
+            CallableStatement updateSubject = conn.prepareCall("{CALL updatePost(?,?)}");
             updateSubject.setString(1, message);
             updateSubject.setInt(2, post_id);
 
-            boolean hasRs = updateSubject.execute();
-            if (hasRs) {
-                ResultSet rs = updateSubject.getResultSet();
-                rs.next();
-                JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
-                responseObject.add("status", "ok");
-                responseObject.add("dialog_id", "post_updated");
-                responseObject.add("data", reader.readValue());
-            }
+            updateSubject.execute();
+            responseObject.add("status", "ok");
+            responseObject.add("dialog_id", "post_updated");
         }
         return responseObject.build().toString();
     }

@@ -52,6 +52,19 @@
     min-height: 24px;
 }
 
+
+.forum .forum-post-actions{
+    
+    background-image: url(../svg/forum/subject/menu-5.svg);
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 16px 16px;
+    min-width: 16px;
+    min-height: 16px;
+    
+}
+
+
 .forum .forum-more-icon{
     background-image: url(../svg/forum/ctrl-down.svg);
     background-repeat: no-repeat;

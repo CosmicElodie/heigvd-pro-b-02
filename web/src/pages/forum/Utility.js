@@ -57,6 +57,21 @@ export const getSubjectByID = ( subjects, forum_subject_id ) => {
 
 export const getForumByID = ( forum, forum_section_id, index ) => forum.forum_section_id === forum_section_id ? index : -1;
 
+
+
+export const traverseSubjects = (forum, what, where, fn) => {
+    if(!forum.subjects) return;
+    for (const subject of forum.subjects) {
+        for (const post of subject.posts) {
+            let value = fn(post[where], what);
+            if(value) return post;
+        }
+    }
+}
+
+export const getPostByID = ( post_id, forum_post_id) => post_id === forum_post_id;
+
+
 export const findIndexByName = (what, list) => {
     for (var i = 0; i < list.length; i++){
         if(list[i].name === what) return i;

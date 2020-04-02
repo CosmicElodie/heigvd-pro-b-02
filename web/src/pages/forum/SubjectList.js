@@ -29,7 +29,7 @@ const SubjectList = ( ) => {
         // les etat open des sujet sont stockés dans le localStorage
         if(selected && selected.subjects ) { 
             subjectEls.current = subjectEls.current.slice(0, selected.subjects.length);
-            let openStates = JSON.parse(localStorage.getItem('forum-subjects-open-' + selected.forum_section_id)) || [];
+            let openStates = JSON.parse(localStorage.getItem('forum-subjects-open')) || [];
             if(openStates.length > 0){
                 for (const index of openStates) {
                     // ajouter la classe open sur un sujet
@@ -46,7 +46,7 @@ const SubjectList = ( ) => {
         // garder les etat des sujets ouverts de manière persistante
         let set = new Set(
             JSON.parse(
-                localStorage.getItem('forum-subjects-open-' + selected.forum_section_id)
+                localStorage.getItem('forum-subjects-open')
             )
         );
         
@@ -59,7 +59,7 @@ const SubjectList = ( ) => {
             set.add(index);
         }
         
-        localStorage.setItem('forum-subjects-open-' + selected.forum_section_id, 
+        localStorage.setItem('forum-subjects-open', 
             JSON.stringify(
                 Array.from(set)
             )
