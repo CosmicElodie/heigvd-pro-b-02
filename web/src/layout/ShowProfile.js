@@ -24,6 +24,8 @@ const USER_DATA = {
     username: 'Mich'
   }
 
+
+  
 const ShowProfile = () => {
     const { showProfile, setShowProfile } = useContext(MainContext);
     const classes = useStyles();
@@ -33,112 +35,62 @@ const ShowProfile = () => {
         setShowProfile(null);
     };
     
-    
-    const test = () => {
-        console.log("test");
-    };
 
+    /* Displays data ( name and corresponding data) */
+    function DisplayData(props) {
+      return( 
+        
+        
+          <Grid container spacing={3}>
+            <Grid item xs>
+              <b>Fnc, {props.name}</b>  
+            </Grid>
+            <Grid item>
+              <span >{props.data}</span>
+            </Grid>
+          </Grid>
+      )
+    }
 
     return (
         <section>
             {
                 showProfile &&
                 <Dialog
-                    open={ true }
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                    onClose = { () => handleClose() }
-                    >
-                <Card className={classes.InfoBox} >
-          <CardContent >
-             
+                open={true}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                onClose = { () => handleClose() }
+                >
+                    <Card className={classes.InfoBox} >
+                      <CardContent >
                         <CssBaseline />
-                        <Grid className={classes.InfoBox} item component={Paper} elevation={0}>
                           <div className={classes.paper}>
-                            
-                            
-                            
-                          <Avatar className={classes.contour} > 
-                            <Avatar className={classes.large} > 
-                              <img className={classes.resize} src={USER_DATA.img}>
-                              </img>
+                            <Avatar className={classes.contour} > 
+                              <Avatar className={classes.large} > 
+                                <img className={classes.resize} src={USER_DATA.img}>
+                                </img>
+                              </Avatar>
                             </Avatar>
-                          </Avatar>
-
                             <br />
                             <br />
+                            <h1>blah</h1>
 
-                          <Typography component="h1" >
-                            <Grid container spacing={SPACING}>
-                                <Grid item xs>
-                                <b>Nom :</b>  
-                                </Grid>
-                                <Grid item>
-                                  <span >{showProfile.lastname}</span>
-                                </Grid>
-                              </Grid>
-                              
-                              <Grid container spacing={SPACING}>
-                                <Grid item xs>
-                                <b>Prenom :</b>
-                                </Grid>
-                                <Grid item>
-                                 <span >{showProfile.firstname}</span>
-                                </Grid>
-                              </Grid>
-                              
-                              <Grid container spacing={SPACING}>
-                                <Grid item xs>
-                                <b>Birthdate :</b>
-                                </Grid>
-                                <Grid item>
-                                <span >{showProfile.created}</span>              
-                                </Grid>
-                              </Grid>
-                              
-                              <Grid container spacing={SPACING}>
-                                <Grid item xs>
-                                <b>Maison :</b> 
-                                </Grid>
-                                <Grid item>
-                                <span >{showProfile.house && showProfile.house.name} </span>
-                                </Grid>
-                              </Grid>
-                              
-                              <Grid container spacing={SPACING}>
-                                <Grid item xs>
-                                <b>Username :</b>  
-                                </Grid>
-                                <Grid item>
-
-                                  
-                                <IconButton aria-label="edit"  size="small">
-                                  <EditIcon style={{ fontSize: 10, color: blue[500] }} />  
-                                </IconButton>
-                                
-                                <span >{showProfile.username}</span> 
-                                </Grid>
-                              </Grid>
-
-                              <Grid container spacing={SPACING}>
-                                <Grid item xs>
-                                <b>email :</b>
-                                </Grid>
-                                <Grid item>
-                                <span >{showProfile.email}</span>
-                                </Grid>
-                              </Grid>
-                            </Typography>
-                          
-                       
+                            <Typography component="h6" >                     
+                              <DisplayData name="nom :" data = {showProfile.lastname}/>    
+                              <DisplayData name="prenom :" data = {showProfile.firstname}/>    
+                              <DisplayData name="Naissance :" data = {showProfile.created}/>    
+                              <DisplayData name="Maison :" data = {showProfile.house && showProfile.house.name}/>    
+                              <DisplayData name="Username :" data = {showProfile.username}/>    
+                              <DisplayData name="email :" data = {showProfile.email}/>    
+                            </Typography>   
+                        
+                            <IconButton aria-label="edit"  size="small">
+                              <EditIcon style={{ fontSize: 10, color: blue[500] }} />  
+                            </IconButton>
                           </div>
-                        </Grid>
-                      
-                 
-
-
-        </CardContent>
-      </Card>
+                      </CardContent>
+                    </Card>
       
       </Dialog>
         }
@@ -177,16 +129,19 @@ const useStyles = makeStyles(theme => ({
     resize: {
       scale : 2,
     },
+
     large: {
       width: theme.spacing(20),
       height: theme.spacing(20),   
     },
+
     contour: {
       marginTop: 0,
       width: theme.spacing(21),
       height: theme.spacing(21),
       backgroundColor: '#ffffff',  
     },
+
     house:{
       backgroundImage :  `url('https://upload.wikimedia.org/wikipedia/commons/4/48/Epcot_Page_Banner.jpg')`,
       backgroundPosition: 'center',
@@ -203,6 +158,7 @@ const useStyles = makeStyles(theme => ({
     wrapper: {
       position: 'relative',
     },
+
     div: {
       position: 'absolute',
       top: 28,
