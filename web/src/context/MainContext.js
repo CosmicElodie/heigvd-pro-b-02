@@ -18,6 +18,11 @@ export const MainProvider = ( props ) => {
 
     const [ dialog, setDialog ]  = useState();
 
+    const [ shownUser, setShownUser ]  = useState();
+    
+    const [ showProfile, setShowProfile ]  = useState();
+   
+    
     useEffect(() => { 
         try {
             let userFromStore = JSON.parse(localStorage.getItem('User') ? localStorage.getItem('User') : '{}' );
@@ -44,7 +49,11 @@ export const MainProvider = ( props ) => {
         user, 
         setUser, 
         dialog,
-        setDialog
+        setDialog,
+        shownUser,
+        setShownUser,
+        showProfile,
+        setShowProfile, 
     }
 
     return (

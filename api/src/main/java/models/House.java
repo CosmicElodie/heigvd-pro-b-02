@@ -22,6 +22,9 @@ public class House implements Serializable {
     @Column(name = "shortname")
     private String shortname;
 
+    @Column(name = "avatar")
+    private String avatar;
+
     public int getId() {
         return id;
     }
@@ -35,6 +38,7 @@ public class House implements Serializable {
         json.put("house_id", this.id);
         json.put("name", this.name);
         json.put("shortname", this.shortname);
+        json.put("avatar", this.avatar);
         return json;
     }
 

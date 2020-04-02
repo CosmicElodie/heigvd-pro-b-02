@@ -133,6 +133,18 @@
   display:none;
 }
 
+.App .line{
+  display:flex;
+  align-items: center;
+}
+
+.App .line.between{
+  justify-content: space-between;
+}
+
+.App .clickable{
+  cursor: pointer;
+}
 
 .forum .speech-bubble {
 	position: relative;
@@ -152,31 +164,30 @@
 }
 
 .forum .speech-bubble::after {
-  content: '';
+	content: '';
 	position: absolute;
+	top: 0;
+	left: 50%;
 	width: 0;
 	height: 0;
 	border: 10px solid transparent;
-	border-top-color: #3f51b5;
-}
-
-.forum .speech-bubble.right::after{
-  bottom: 0;
-	right: 60px;
-  border-bottom: 0;
-	border-right: 0;
-	margin-left: -10px;
-	margin-bottom: -10px;
-}
-
-.forum .speech-bubble.left::after{
-  bottom: 0;
-	left: 60px;
-  border-bottom: 0;
+	border-top: 0;
 	border-left: 0;
 	margin-left: -10px;
-	margin-bottom: -10px;
+	margin-top: -10px;
+	border-bottom-color: #3f51b5;
 }
+
+.forum .speech-bubble.mine{
+  background:#1cf3001c;
+  border:.1em solid #15810b;
+	color: #15810b;
+}
+
+.forum .speech-bubble.mine::after{
+  border-bottom-color: #15810b;
+}
+
 
 .forum .speech-bubble .speach-moment{
   position:absolute;

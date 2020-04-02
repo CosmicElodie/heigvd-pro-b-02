@@ -77,8 +77,7 @@
 }
 
 .App .list-item-subject .view-subject-posts .posts-list{
-  width:50%;
-
+  width:80%;
   background:white;
   display:flex;
   flex-direction: column;
@@ -86,15 +85,19 @@
 
 }
 
-
 .App .view-subject-posts .post-item{
   display: flex;
   align-items:flex-start;
   flex-direction: column;
+  margin-bottom:32px;
 }
 
-.App .view-subject-posts .post-item.right{
-  align-items:flex-end;
+.App .view-subject-posts .post-item .line{
+  width:100%;
+}
+.App .view-subject-posts .post-bubble{
+  margin-top:8px;
+  margin-left:40px;
 }
 
 .App .view-subject-posts .post-item .bubble-container{
@@ -115,9 +118,14 @@
 .App .view-subject-posts .post-new{
   display:flex;
   justify-content: space-between;
-  width: 50%;
+  width: 80%;
   max-width: 1000px;
-  margin:10px 0px 16px 0px;
+  margin:24px 0px;
+}
+
+.App .view-subject-posts .post-actions{
+  height:24px;
+  width:24px;
 }
 
 

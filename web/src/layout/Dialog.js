@@ -135,7 +135,7 @@ const Dialog = () => {
                 </Snackbar> 
             }
 
-{ 
+            { 
             dialog && dialog.forum_insert_insufficient_permission &&
                 <Snackbar 
                         open = { dialog.forum_insert_insufficient_permission.is_open }
@@ -170,18 +170,6 @@ const Dialog = () => {
                     </Alert>
                 </Snackbar> 
             }
-            
-            { 
-                dialog && dialog.show_profile &&
-                <Snackbar 
-                        open = { dialog.show_profile.is_open }
-                        onClose = { () => handleClose({ show_profile: { is_open : false } }) } 
-                        >
-                    <ModalProfile/>
-                </Snackbar> 
-            }
-
-
 
         </section>
     )

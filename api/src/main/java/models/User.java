@@ -6,9 +6,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
 
 @Entity
 @Table(name = "user")
@@ -55,6 +57,9 @@ public class User implements UserDetails {
     @Column(name = "access_level")
     private int access_level;
 
+    @Column(name = "avatar")
+    private String avatar;
+
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="house_id")
     private House house;
@@ -81,13 +86,21 @@ public class User implements UserDetails {
         json.put("lastname", this.lastname);
         json.put("initials", initials);
         json.put("email", this.email);
-        json.put("birth", this.birth);
+        
+        Date temp = birth;
+        String pattern = "dd-MMMM-yyyy";
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        String birthString = formatter.format(temp);
+
+        json.put("birth", birthString);
+//        json.put("birth", this.birth);
         json.put("active", this.active);
         json.put("last_online", this.last_online);
-        json.put("role_id", this.created);
-        json.put("created", this.role_id);
+        json.put("role_id", this.role_id);
+        json.put("created", this.created);
         json.put("status_id", this.status_id);
         json.put("access_level", this.access_level);
+        json.put("avatar", this.avatar);
         if(this.house != null){
             json.put("house", this.house.getJSON());
         }

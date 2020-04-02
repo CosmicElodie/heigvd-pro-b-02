@@ -1,10 +1,9 @@
-import React, {useContext} from 'react';
-import { makeStyles, Card, CardActions, CardContent, Button, Typography, Avatar, Grid } from '@material-ui/core';
-import { blue, blueGrey, HUE } from '@material-ui/core/colors';
+import React, {useContext,useEffect} from 'react';
+import { makeStyles, Card,  CardContent, Button, Typography, Avatar, Grid } from '@material-ui/core';
+import { blue, blueGrey } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { MainContext } from '../../context/MainContext';
-import { FormControlLabel, TextField, Checkbox, CssBaseline, Link, Paper, Box, Icon } from '@material-ui/core';
+import {    CssBaseline,  Paper,   } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 
 
@@ -71,11 +70,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const USER_DATA = {
-  name: 'Michael Triponez',
-  img: 'https://www.cdc.gov/coronavirus/2019-ncov/images/2019-coronavirus.png',
-  username: 'Mich'
-}
 const HOUSE_DATA = {
   name: 'Michael Triponez',
   img : 'https://c1-ebgames.eb-cdn.com.au/merchandising/images/packshots/594355e64e564fb6bdcc760f8e2cc8e6_Large.png',
@@ -84,7 +78,9 @@ const HOUSE_DATA = {
 
 
 export default function Profile() {
-  const { user, setDialog } = useContext(MainContext);
+  const { user, setDialog, setShownUser,setShowProfile } = useContext(MainContext);
+
+  const tst = user ;
   const classes = useStyles();
   const SPACING = 3;
   const [open, setOpen] = React.useState(false);
@@ -96,7 +92,7 @@ export default function Profile() {
   };
 
   const bla =() =>{
-    setDialog( { show_profile : {
+    setShowProfile( { show_profile : {
       is_open: true
   }});
   }
@@ -105,6 +101,13 @@ export default function Profile() {
     setOpen(false);
   };
   
+
+  
+
+useEffect(() => { 
+  setShownUser(user);
+  },[user,setShownUser]);
+
   return (
     <div>
       <Card className={classes.bannerBox}>
@@ -117,7 +120,7 @@ export default function Profile() {
 
               <Avatar className={classes.contour} > 
                 <Avatar className={classes.large} > 
-                  <img className={classes.resize} src={USER_DATA.img}>
+                  <img className={classes.resize} src={user.avatar}>
                   </img>
                 </Avatar>
               </Avatar>
@@ -130,22 +133,10 @@ export default function Profile() {
           </Grid>
 
         </CardContent>
-  
-        <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  onClick= { bla }
-                >
-                  bla
-                </Button>
       </Card>
+
         <Card className={classes.InfoBox}>
           <CardContent >
-             
-                        <CssBaseline />
                         <Grid className={classes.grid_container} item component={Paper} elevation={0}>
                           <div className={classes.paper}>
                             
@@ -182,7 +173,7 @@ export default function Profile() {
                                 <b>Birthdate :</b>
                                 </Grid>
                                 <Grid item>
-                                <span >{user.created}</span>              
+                                <span >{user.birth}</span>              
                                 </Grid>
                               </Grid>
                               
@@ -191,7 +182,7 @@ export default function Profile() {
                                 <b>Maison :</b> 
                                 </Grid>
                                 <Grid item>
-                                <span >{user.maison && user.maison.name} </span>
+                                <span >{user.house && user.house.name} </span>
                                 </Grid>
                               </Grid>
                               

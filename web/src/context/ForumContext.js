@@ -24,8 +24,12 @@ export const ForumProvider = ( props ) => {
             credentials: 'include' // mandatory for every JSON fetch
         })
         .then(data => data.json())
-        .then(data => setData(data))
+        .then(data => { 
+            setData(data);
+            localStorage.removeItem('forum-subjects-open');
+        });
     }, [setData]);
+
 
     const [ effectActive, setEffectActive] = useState({
         active:false
