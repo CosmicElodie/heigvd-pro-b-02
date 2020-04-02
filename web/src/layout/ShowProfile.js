@@ -62,13 +62,25 @@ const ShowProfile = () => {
                 >
                     <Card >
                       <CardContent >
-                          <div >
-                            <Avatar className={classes.contour} > 
-                              <Avatar className={classes.large} > 
-                                <img className={classes.resize} src={showProfile.avatar}>
-                                </img>
-                              </Avatar>
+                            <div className={classes.test}>
+                            
+                            <Avatar className={classes.contour}> 
+                            
+                              {
+                                showProfile.avatar &&
+                                <Avatar className={classes.large} > 
+                                  <img className={classes.resize} src={showProfile.avatar}/>
+                                </Avatar>
+                              }
+
+                              {
+                                !showProfile.avatar &&
+                                <Avatar className="avatar"> { showProfile.initials } </Avatar> 
+                              }
+            
+                              
                             </Avatar>
+                            </div>
                             <br />
                             <br />
                             <h1>blah</h1>
@@ -76,7 +88,7 @@ const ShowProfile = () => {
                             <Typography component="h6" >                     
                               <DisplayData name="nom :" data = {showProfile.lastname}/>    
                               <DisplayData name="prenom :" data = {showProfile.firstname}/>    
-                              <DisplayData name="Naissance :" data = {showProfile.created}/>    
+                              <DisplayData name="Naissance :" data = {showProfile.birth}/>    
                               <DisplayData name="Maison :" data = {showProfile.house && showProfile.house.name}/>    
                               <DisplayData name="Username :" data = {showProfile.username}/>    
                               <DisplayData name="email :" data = {showProfile.email}/>    
@@ -85,7 +97,7 @@ const ShowProfile = () => {
                             <IconButton aria-label="edit"  size="small">
                               <EditIcon style={{ fontSize: 10, color: blue[500] }} />  
                             </IconButton>
-                          </div>
+                         
                       </CardContent>
                     </Card>
       
@@ -103,7 +115,9 @@ const useStyles = makeStyles(theme => ({
     
     
 
-
+    test:{
+      textAlign:  "-moz-center",
+    },
     pos: {
       marginBottom: 12,
     },
@@ -117,15 +131,12 @@ const useStyles = makeStyles(theme => ({
     },
 
     contour: {
+      
+      position: 'relative',
       marginTop: 0,
       width: theme.spacing(21),
       height: theme.spacing(21),
-      backgroundColor: '#ffffff',  
-    },
- 
-  
-    wrapper: {
-      position: 'relative',
+      backgroundColor: '##99ccff',  
     },
 
     div: {

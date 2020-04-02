@@ -24,15 +24,16 @@ const Person = ( { user, variant, collapsed, noExtend , lock}  ) => {
             className={"person " + variantClass + ' ' + collapsedClass + ' ' + onHoverClass }
             onClick = { () => handlePersonClick(user) }
             >
-                <Avatar className="avatar"> { user.initials } </Avatar> 
-                <section className="details">
-                    <Typography className="full-name" component="span">
-                        { user.firstname + " " + user.lastname } 
-                    </Typography>
-                    <Typography className="email" component="span">
-                        { user.email }
-                    </Typography>
-                </section>
+            {user.avatar && <Avatar className="avatar"> <img  src={user.avatar} width="200%" height="200%"/></Avatar> }
+            {!user.avatar &&<Avatar className="avatar"> {user.initials} </Avatar> }                
+            <section className="details">
+                <Typography className="full-name" component="span">
+                    { user.firstname + " " + user.lastname } 
+                </Typography>
+                <Typography className="email" component="span">
+                    { user.email }
+                </Typography>
+            </section>
         </section>
     );
 }
