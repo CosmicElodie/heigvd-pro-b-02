@@ -4,7 +4,7 @@ import { Avatar, Typography } from '@material-ui/core';
 
 
 
-const Person = ( { user, variant, collapsed, noExtend , blabla  }  ) => {
+const Person = ( { user, variant, collapsed, noExtend , lock}  ) => {
     
    /*  { firstname, lastname, email, initials, variant, collapsed, noExtend  }  */
    const {setShowProfile} = useContext(MainContext);
@@ -14,6 +14,7 @@ const Person = ( { user, variant, collapsed, noExtend , blabla  }  ) => {
     let onHoverClass = noExtend ? noExtend ? 'no-hover' : '' : '';
 
     const handlePersonClick =(user) =>{
+        !lock &&
         setShowProfile(user);
       }
     
