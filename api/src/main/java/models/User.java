@@ -56,7 +56,7 @@ public class User implements UserDetails {
     private int access_level;
 
     @Column(name = "avatar")
-    private int avatar;
+    private String avatar;
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="house_id")
