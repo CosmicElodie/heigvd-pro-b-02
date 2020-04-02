@@ -171,6 +171,30 @@ const Dialog = () => {
                 </Snackbar> 
             }
 
+            { 
+                dialog && dialog.post_updated &&
+                <Snackbar 
+                        open = { dialog.post_updated.is_open }
+                        onClose = { () => handleClose({ post_updated: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Votre post a été modifié.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.post_deleted &&
+                <Snackbar 
+                        open = { dialog.post_deleted.is_open }
+                        onClose = { () => handleClose({ post_deleted: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Votre post a été supprimé.
+                    </Alert>
+                </Snackbar> 
+            }
+
         </section>
     )
 }

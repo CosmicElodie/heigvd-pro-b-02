@@ -23,20 +23,24 @@ const ForumEdit = ( { is_open, handleClose } ) => {
     }, [setNameValue, setDescriptionValue, current]);
 
     const handleAddForumClick = () => {
-        if(name.length < 10){
+        let hasError = false;
+        if(name.length == 0){
             setErrorName({
                 error:true,
                 helperText: 'Le title est trop court'
             });
-            return;
+            hasError = true;
         }
-        if(description.length < 10){
+        if(description.length == 0){
             setErrorDescription({
                 error:true,
                 helperText: 'La description est trop courte'
             });
-            return;
+            hasError = true;   
         }
+        if(hasError) return;
+ 
+
         let pathAfterUpdate = history.location.pathname.split('/').slice(0, -1).join("/") + '/' + name;
         let dialogTimeout = 0;
         fetch('http://localhost:8080/forum/update_section', {

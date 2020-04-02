@@ -11,10 +11,10 @@ const SubjectAdd = ( { is_open, handleClose } ) => {
     */ 
     const { value:subject, bind:bindSubject, setError:setSubjectError } = useInput('');
     const { current, data, setData } = useContext(ForumContext);
-    const { user, setDialog } = useContext(MainContext);
+    const { setDialog } = useContext(MainContext);
 
     const handleAddSubjectClick = () => {
-        if(subject.length < 10){
+        if(subject.length == 0){
             setSubjectError( {
                 error:true,
                 helperText: 'Le sujet est trop court'

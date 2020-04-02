@@ -198,9 +198,9 @@ public class ForumController {
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
 
-        if (title.length() == 0) {
+        if (title.length() == 0 || title.length() >= 45) {
             responseObject.add("status", "error");
-            responseObject.add("dialog_id", "insufficient_input_length");
+            responseObject.add("dialog_id", "incorrect_input_length");
             return responseObject.build().toString();
         }
 
@@ -208,8 +208,11 @@ public class ForumController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
+
             String test = "SELECT user_id FROM forum_subject WHERE forum_subject_id = " + subject_id;
-            int user_id = statement.executeQuery(test).getInt("user_id");
+            ResultSet rs = statement.executeQuery(test);
+            rs.next();
+            int user_id = rs.getInt("user_id");
 
             if (user.getId() != user_id) {
                 responseObject.add("status", "error");
@@ -217,7 +220,7 @@ public class ForumController {
                 return responseObject.build().toString();
             }
 
-            CallableStatement updateSubject = conn.prepareCall("{CALL updateSection(?,?)}");
+            CallableStatement updateSubject = conn.prepareCall("{CALL updateSubject(?,?)}");
             updateSubject.setString(1, title);
             updateSubject.setInt(2, subject_id);
             updateSubject.execute();
@@ -300,15 +303,17 @@ public class ForumController {
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
             String test = "SELECT user_id FROM forum_subject WHERE forum_subject_id = " + subject_id;
-            int user_id = statement.executeQuery(test).getInt("user_id");
+            ResultSet rs = statement.executeQuery(test);
+            rs.next();
+            int user_id = rs.getInt("user_id");
 
             if (user.getId() != user_id) {
                 responseObject.add("status", "error");
-                responseObject.add("dialog_id", "forum_delete_wrong_creator");
+                responseObject.add("dialog_id", "subject_delete_wrong_creator");
                 return responseObject.build().toString();
             }
 
-            CallableStatement deleteSubject = conn.prepareCall("{CALL deleteSection(?)}");
+            CallableStatement deleteSubject = conn.prepareCall("{CALL deleteSubject(?)}");
             deleteSubject.setInt(1, subject_id);
             deleteSubject.execute();
 

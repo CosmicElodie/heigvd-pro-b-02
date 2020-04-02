@@ -5,7 +5,7 @@ import { ForumContext } from '../../context/ForumContext';
 import { MainContext } from '../../context/MainContext';
 import { traverseSubjects, getPostByID, searchForumByID } from './Utility';
 
-const PostEdit = ( { is_open, forum_post_id, handleCloseEditPost } ) => {
+const PostEdit = ( { is_open, forum_post_id , handleCloseEditPost } ) => {
     /*
         Le parent "SubjectList" est le gérant de l'état du modal SubjectAdd
     */ 
@@ -21,6 +21,15 @@ const PostEdit = ( { is_open, forum_post_id, handleCloseEditPost } ) => {
     };
 
     const handleEditPostClick = () => {
+
+        if(message.length == 0){
+            setErrorMessage({
+                error:true,
+                helperText: 'Veuillez écrire un message'
+            });
+            return;
+        }
+
         fetch('http://localhost:8080/forum/update_post', {
             method: 'POST',
             credentials: 'include',
@@ -44,7 +53,7 @@ const PostEdit = ( { is_open, forum_post_id, handleCloseEditPost } ) => {
     useEffect(() => {
         if(is_open && current){
             let forum = searchForumByID(current.selected.forum_section_id, data);         
-            let post = traverseSubjects(forum, forum_post_id, 'forum_post_id', getPostByID);
+            let { post } = traverseSubjects(forum, forum_post_id, 'forum_post_id', getPostByID);
             setPost(post);
             setMessageValue(post.message);
         }

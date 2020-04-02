@@ -2,20 +2,16 @@ import React, { useContext, Fragment, useState } from 'react';
 import { Paper, Icon, Typography, Grid, Box, Button} from '@material-ui/core';
 import { Spring } from 'react-spring/renderprops';
 import { ForumContext } from '../../context/ForumContext';
+import { MainContext } from '../../context/MainContext';
 import ForumEdit from './ForumEdit';
 import ForumDelete from './ForumDelete';
 
 const ForumDetails = ( { selected } ) => {
     const { effectActive, forumDetailsEffect } = useContext(ForumContext);   
-    
+    const { user } = useContext(MainContext);   
    
-    const [ forumDeleteDialogState, setForumDeleteDialogState ] = useState({
-        is_open : false
-    });
-
-    const [ forumEditDialogState, setForumEditDialogState ] = useState({
-        is_open : false
-    });
+    const [ forumDeleteDialogState, setForumDeleteDialogState ] = useState({ is_open : false });
+    const [ forumEditDialogState, setForumEditDialogState ] = useState({ is_open : false });
    
     const handleDeleteForumSectionClick = () => setForumDeleteDialogState({ is_open : true });
     const handleDeleteForumSectionClose = () => setForumDeleteDialogState({ is_open : false });
@@ -42,10 +38,11 @@ const ForumDetails = ( { selected } ) => {
                                     </Grid>
                                 </Grid>
                                 <Grid item>
-                                    <Grid container direction="row" alignItems="center" spacing={1}> 
+                                    { user.access_level >= 75 && <Grid container direction="row" alignItems="center" spacing={1}> 
                                         <Grid item><Button size="small" variant="contained" color="primary" onClick={ handleEditForumSectionClick }><Icon className="forum-edit-button"/></Button></Grid>
                                         <Grid item><Button size="small" variant="contained" color="secondary" onClick={ handleDeleteForumSectionClick }><Icon className="forum-delete-button"/></Button></Grid>
-                                    </Grid>
+                                    </Grid> }
+                                    
                                 </Grid>
                         </Grid>
                         <Box mb={1} />

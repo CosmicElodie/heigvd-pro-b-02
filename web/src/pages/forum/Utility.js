@@ -62,9 +62,10 @@ export const getForumByID = ( forum, forum_section_id, index ) => forum.forum_se
 export const traverseSubjects = (forum, what, where, fn) => {
     if(!forum.subjects) return;
     for (const subject of forum.subjects) {
-        for (const post of subject.posts) {
+        if(!subject.posts) continue;
+        for (const [i, post] of subject.posts.entries()) {
             let value = fn(post[where], what);
-            if(value) return post;
+            if(value) return { subject : subject, post : post, index: i };
         }
     }
 }
@@ -111,4 +112,21 @@ export const findSubject = (data, subjectIndex, breadcrumbs) => {
         }
         data = data[index].forums;
     }
+}
+
+export const countPosts = (forums) => {
+    let nbPosts = 0;
+    if(!forums) return 0;
+    for (const [i, forum] of forums.entries()) {
+        nbPosts = 0;
+        if(!forum.subjects) continue;
+        for (const [j, { posts }] of forum.subjects.entries()) {
+            nbPosts += posts ? posts.length : 0; 
+        }
+        if(forum.hasOwnProperty('forums') && forum.forums){
+            nbPosts += countPosts(forum.forums);
+        }
+        forum.nbPosts = nbPosts;
+    }
+    return nbPosts;
 }
