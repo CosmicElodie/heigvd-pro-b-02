@@ -55,6 +55,9 @@ public class User implements UserDetails {
     @Column(name = "access_level")
     private int access_level;
 
+    @Column(name = "avatar")
+    private int avatar;
+
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="house_id")
     private House house;
@@ -88,6 +91,7 @@ public class User implements UserDetails {
         json.put("created", this.role_id);
         json.put("status_id", this.status_id);
         json.put("access_level", this.access_level);
+        json.put("avatar", this.avatar);
         if(this.house != null){
             json.put("house", this.house.getJSON());
         }
