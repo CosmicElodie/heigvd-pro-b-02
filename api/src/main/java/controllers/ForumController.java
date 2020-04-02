@@ -345,7 +345,7 @@ public class ForumController {
             updateSubject.execute();
 
             responseObject.add("status", "ok");
-            responseObject.add("dialog_id", "post_updated");
+            responseObject.add("dialog_id", "post_deleted");
         }
         return responseObject.build().toString();
     }

@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 @Entity
@@ -88,8 +89,8 @@ public class User implements UserDetails {
         json.put("email", this.email);
         
         Date temp = birth;
-        String pattern = "dd-MMMM-yyyy";
-        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        String pattern = "dd MMMM yyyy";
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, Locale.FRANCE);
         String birthString = formatter.format(temp);
 
         json.put("birth", birthString);
