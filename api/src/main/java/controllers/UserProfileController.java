@@ -1,16 +1,16 @@
 package controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.StringReader;
+import java.sql.*;
 
 @RestController
 public class UserProfileController {
@@ -18,9 +18,8 @@ public class UserProfileController {
     @Autowired
     private DataSource dataSource;
 
-    @PostMapping("/profile")
+    @PostMapping("/profile/all")
     public String fetchUser(@RequestParam("user_id") int user_id) throws SQLException {
-
 
         String result;
 
@@ -32,5 +31,106 @@ public class UserProfileController {
             result = user.getString("user_result");
         }
         return result;
+    }
+
+    @PostMapping("profile/sign_up")
+    public String insertionUser(@RequestParam("birth") Date birth,
+                                @RequestParam("email") String email,
+                                @RequestParam("password") String firstname,
+                                @RequestParam("password") String lastname,
+                                @RequestParam("password") String password,
+                                @RequestParam("username") String username
+                                ) throws SQLException {
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+
+        String pattern = "(\\w|-)+\\.(\\w|-)+@heig-vd\\.ch";
+        if (!email.matches(pattern)) {
+            responseObject.add("status", "error");
+            responseObject.add("dialog_id", "Invalid email you must register with an email from heigvd.");
+            return responseObject.build().toString();
+        }
+
+        if (firstname.length() == 0 || lastname.length() == 0 ||
+                username.length() == 0 || password.length() == 0) {
+            responseObject.add("status", "error");
+            responseObject.add("dialog_id", "Detected an empty required field.");
+            return responseObject.build().toString();
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement insertionUser = conn.prepareCall("{CALL insertUser(?,?,?,?,?,?)}");
+            insertionUser.setDate(1, birth);
+            insertionUser.setString(2, email);
+            insertionUser.setString(3, firstname);
+            insertionUser.setString(4, lastname);
+            insertionUser.setString(5, password);
+            insertionUser.setString(6, username);
+
+            boolean hasRs = insertionUser.execute();
+            if (hasRs) {
+                ResultSet rs = insertionUser.getResultSet();
+                rs.next();
+                JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
+                responseObject.add("status", "ok");
+                responseObject.add("dialog_id", "user_created");
+                responseObject.add("data", reader.readValue());
+            }
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("profile/update")
+    public String updateUser(@RequestParam("user_id") int user_id,
+                             @RequestParam("birth") Date birth,
+                             @RequestParam("password") String firstname,
+                             @RequestParam("password") String lastname,
+                             @RequestParam("password") String password,
+                             @RequestParam("username") String username,
+                             @RequestParam("avatar") String avatar
+                             ) throws SQLException {
+
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+
+        if (firstname.length() == 0 || lastname.length() == 0 ||
+                username.length() == 0 || password.length() == 0) {
+            responseObject.add("status", "error");
+            responseObject.add("dialog_id", "insufficient_input_length");
+            return responseObject.build().toString();
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement updateUser = conn.prepareCall("{CALL updateUser(?,?,?,?,?,?,?)}");
+            updateUser.setInt(1, user_id);
+            updateUser.setDate(2, birth);
+            updateUser.setString(3, firstname);
+            updateUser.setString(4, lastname);
+            updateUser.setString(5, password);
+            updateUser.setString(6, username);
+            updateUser.setString(7, avatar);
+            updateUser.execute();
+
+            responseObject.add("status", "ok");
+            responseObject.add("dialog_id", "user_updated");
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("profile/delete")
+    public String deleteUser(@RequestParam("user_id") int user_id) throws SQLException {
+
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement deleteUser = conn.prepareCall("{CALL deleteUser(?)}");
+            deleteUser.setInt(1, user_id);
+            deleteUser.execute();
+
+            responseObject.add("status", "ok");
+            responseObject.add("dialog_id", "user_deactivated");
+        }
+        return responseObject.build().toString();
     }
 }
