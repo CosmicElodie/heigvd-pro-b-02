@@ -70,11 +70,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const USER_DATA = {
-  name: 'Michael Triponez',
-  img: 'https://www.cdc.gov/coronavirus/2019-ncov/images/2019-coronavirus.png',
-  username: 'Mich'
-}
 const HOUSE_DATA = {
   name: 'Michael Triponez',
   img : 'https://c1-ebgames.eb-cdn.com.au/merchandising/images/packshots/594355e64e564fb6bdcc760f8e2cc8e6_Large.png',
