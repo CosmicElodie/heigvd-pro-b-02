@@ -125,7 +125,7 @@ useEffect(() => {
 
               <Avatar className={classes.contour} > 
                 <Avatar className={classes.large} > 
-                  <img className={classes.resize} src={USER_DATA.img}>
+                  <img className={classes.resize} src={user.avatar}>
                   </img>
                 </Avatar>
               </Avatar>
@@ -138,23 +138,10 @@ useEffect(() => {
           </Grid>
 
         </CardContent>
-  
-        <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                  onClick = {bla}
-                >
-                    bla
-                </Button>
       </Card>
 
         <Card className={classes.InfoBox}>
           <CardContent >
-             
-                        <CssBaseline />
                         <Grid className={classes.grid_container} item component={Paper} elevation={0}>
                           <div className={classes.paper}>
                             

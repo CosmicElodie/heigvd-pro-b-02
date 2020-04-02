@@ -36,14 +36,14 @@ const ShowProfile = () => {
     };
     
 
-    /* Displays data ( name and corresponding data) */
+    /* Displays data (name and corresponding data) */
     function DisplayData(props) {
       return( 
         
         
           <Grid container spacing={3}>
             <Grid item xs>
-              <b>Fnc, {props.name}</b>  
+              <b>{props.name}</b>  
             </Grid>
             <Grid item>
               <span >{props.data}</span>
@@ -58,17 +58,14 @@ const ShowProfile = () => {
                 showProfile &&
                 <Dialog
                 open={true}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
                 onClose = { () => handleClose() }
                 >
-                    <Card className={classes.InfoBox} >
+                    <Card >
                       <CardContent >
-                        <CssBaseline />
-                          <div className={classes.paper}>
+                          <div >
                             <Avatar className={classes.contour} > 
                               <Avatar className={classes.large} > 
-                                <img className={classes.resize} src={USER_DATA.img}>
+                                <img className={classes.resize} src={showProfile.avatar}>
                                 </img>
                               </Avatar>
                             </Avatar>
@@ -103,26 +100,10 @@ export default ShowProfile;
 
 
 const useStyles = makeStyles(theme => ({
-    bannerBox: {
-      minWidth: 275,
-      Height: 300 
-    },
-    InfoBox: {
-      backgroundColor: '#B5D3E7',
-      marginTop: 20,
-      maxWidth: 400,
-      Height: 300 
-    },
-    bullet: {
-      display: 'inline-block',
-      margin: '0 2px',
-      transform: 'scale(0.8)',
-    },
-    title: {
-      marginLeft: 10,
-      fontSize: 30,
-      color: blueGrey[50],
-    },
+    
+    
+
+
     pos: {
       marginBottom: 12,
     },
@@ -141,19 +122,7 @@ const useStyles = makeStyles(theme => ({
       height: theme.spacing(21),
       backgroundColor: '#ffffff',  
     },
-
-    house:{
-      backgroundImage :  `url('https://upload.wikimedia.org/wikipedia/commons/4/48/Epcot_Page_Banner.jpg')`,
-      backgroundPosition: 'center',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      alignItems: 'center',
-    },
-    banner:{
-      height: 200,
-      width:250,
-      alignItems: 'right',
-    },
+ 
   
     wrapper: {
       position: 'relative',
