@@ -50,6 +50,7 @@
   height: 46px;
   max-width:240px;
   align-items: center;
+  position:relative;
 }
 
 .App .person.tiny{
@@ -132,7 +133,18 @@
 .App .person.tiny .email{
   display:none;
 }
-
+.App .person .person-status {
+	width: 16px;
+	height: 16px;
+	position: absolute;
+	left: -4px;
+	top: -2px;
+	z-index: 100;
+	box-sizing: border-box;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 16px 16px;
+}
 .App .line{
   display:flex;
   align-items: center;

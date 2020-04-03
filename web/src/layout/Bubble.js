@@ -7,7 +7,7 @@ const Bubble = ( { text, time, className, orientation, updated } ) => {
     return (
         <Box className={ "speech-bubble " + className + ' ' + classOrientation }> { text }  
             <Box className="speach-moment">
-            <Typography variant="caption" noWrap><Moment fromNow>{ time }</Moment> { updated ? ' (modifié) '  : '' } </Typography>
+            <Typography variant="caption" noWrap><Moment fromNow>{ time }</Moment> { updated ? <span className="modified"></span>  : '' } </Typography>
             </Box>
         </Box>
     )

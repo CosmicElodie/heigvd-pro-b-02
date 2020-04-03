@@ -24,8 +24,15 @@ const Person = ( { user, variant, collapsed, noExtend , lock}  ) => {
             className={"person " + variantClass + ' ' + collapsedClass + ' ' + onHoverClass }
             onClick = { () => handlePersonClick(user) }
             >
-            {user.avatar && <Avatar className="avatar"> <img  src={user.avatar} width="200%" height="200%"/></Avatar> }
-            {!user.avatar &&<Avatar className="avatar"> {user.initials} </Avatar> }                
+                { user.access_level === 75 && <section className="person-status person-access-admin"></section> }
+                { user.access_level === 50 && <section className="person-status person-access-moderator"></section> }
+                { user.access_level === 25 && <section className="person-status person-access-prefet"></section> }
+            <Avatar className="avatar"> 
+                
+                { user.avatar && <img src={user.avatar} /> }
+                {!user.avatar && user.initials }
+             </Avatar>
+            
             <section className="details">
                 <Typography className="full-name" component="span">
                     { user.firstname + " " + user.lastname } 
