@@ -30,16 +30,18 @@ const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
     });
 
     useEffect(() => {
-        setTimeout(() => {
-            document.querySelector('.main').style.height = 'auto';
-        }, 300);
+        document.querySelector('.post-item.is_new') && document.querySelector('.post-item.is_new').classList.remove('is_new');
+        document.querySelector('.main').style.height = 'auto';
+        return ( ) => {
+            document.querySelector('.main').style.height = document.querySelector('.main').offsetHeight  + 'px';
+        }
     }, [data]);
 
     const buttonSendPost = (e) => {
         e.preventDefault();
         
         // previent le scroll back to top au moment de render
-        document.querySelector('.main').style.height = document.querySelector('.main').offsetHeight  + 'px';
+        
         setEffectActive( { active : false });
         if(message.length === 0){
             setDialog( { insufficient_post_length : {
@@ -56,9 +58,10 @@ const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
         })
         .then(response => response.json())
         .then(({ status, dialog_id, data : new_post }) => {
-            if(status == 'ok'){
+            if(status === 'ok'){
                 let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
                 if(!reference.subjects[index].posts) reference.subjects[index].posts = [];
+                new_post.is_new = true;
                 reference.subjects[index].posts.unshift(new_post);
                 setData(JSON.parse(JSON.stringify(data)));
             }
@@ -120,13 +123,13 @@ const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
                         </Button>
                 </section>    
                 <section className="posts-list">{
-                    posts && posts.length > 0 && posts.map(({forum_post_id, creator, created, last_update, message}, index) => 
-                        <section className="post-item">
+                    posts && posts.length > 0 && posts.map(({forum_post_id, creator, created, last_update, message, is_new}, index) => 
+                        <section className={ "post-item " + ( is_new ? 'is_new' : '' ) }>
                             <section class="line between clickable">
                                 <Person user = { creator } />
                                 { creator.user_id === user.user_id && <section class="post-actions forum-post-actions" onClick={ (event) => handleActionsClick(event, forum_post_id) }></section> }
                             </section>
-                            <Bubble orientation="left" className={ "post-bubble " + ( creator.user_id === user.user_id ? 'mine' : 'not-mine' ) } text={ message } time={ created } updated={ created != last_update }/>
+                            <Bubble orientation="left" className={ "post-bubble " + ( creator.user_id === user.user_id ? 'mine' : 'not-mine' ) } text={ message } time={ created } updated={ created !== last_update }/>
                         </section>
                     ) 
                 }

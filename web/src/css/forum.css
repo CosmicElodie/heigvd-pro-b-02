@@ -61,27 +61,37 @@
   align-items: center;
   flex-direction: column;
   overflow:hidden;
-  transform: scaleY(0);    
-  transform-origin: top;
-  transition: transform 0.26s ease;
   background:white;
   padding-bottom:0px;
   max-height: 0px;
 }
 
 .App .list-item-subject.open .view-subject-posts{
-  transform: scaleY(1);
   padding-bottom:100px;
   max-height: initial;
 }
 
 .App .list-item-subject .view-subject-posts .posts-list{
+  /* transform: scaleX(0);    
+  transform-origin: left;
+  transition: transform 0.26s ease; */
+  transition:200ms opacity ease-in-out;
+  opacity:0;
   width:80%;
   background:white;
   display:flex;
   flex-direction: column;
   padding:20px;
+}
 
+.App .list-item-subject.open .view-subject-posts .posts-list{
+  /* transform: scaleX(1); */
+  opacity:1;
+}
+
+.App .view-subject-posts .post-item.is_new{
+  transform: scaleY(0);    
+  
 }
 
 .App .view-subject-posts .post-item{
@@ -89,6 +99,9 @@
   align-items:flex-start;
   flex-direction: column;
   margin-bottom:32px;
+  transform: scaleY(1);   
+  transform-origin: top;
+  transition: transform 300ms ease;
 }
 
 .App .view-subject-posts .post-item .line{
@@ -119,6 +132,13 @@
   justify-content: space-between;
   width: 80%;
   margin:24px 0px;
+  transform: scaleY(0);    
+  transform-origin: top;
+  transition: transform 300ms ease;
+}
+
+.App .list-item-subject.open .view-subject-posts .post-new{
+  transform: scaleX(1);
 }
 
 .App .view-subject-posts .post-actions{

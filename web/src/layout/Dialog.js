@@ -148,10 +148,10 @@ const Dialog = () => {
             }
             
             { 
-                dialog && dialog.forum_edited &&
+                dialog && dialog.forum_updated &&
                 <Snackbar 
-                        open = { dialog.forum_edited.is_open }
-                        onClose = { () => handleClose({ forum_edited: { is_open : false } }) } 
+                        open = { dialog.forum_updated.is_open }
+                        onClose = { () => handleClose({ forum_updated: { is_open : false } }) } 
                         autoHideDuration={6000} >
                     <Alert variant="filled" severity="success">
                         Le forum a été modifié.

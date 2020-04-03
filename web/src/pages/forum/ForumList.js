@@ -11,7 +11,6 @@ const ForumList = ( ) => {
     const { current, effectActive, setEffectActive, forumListEffect } = useContext(ForumContext);
 
     const handleListItemClick = ( name ) => {
-        setEffectActive({ active : true });
         history.push(history.location.pathname + '/' + name);
     }
     
