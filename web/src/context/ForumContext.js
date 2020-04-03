@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect  } from 'react';
+import { countPosts } from '../pages/forum/Utility';
 
 export const ForumContext = createContext();
 /*
@@ -25,6 +26,7 @@ export const ForumProvider = ( props ) => {
         })
         .then(data => data.json())
         .then(data => { 
+            countPosts(data);
             setData(data);
             localStorage.removeItem('forum-subjects-open');
         });

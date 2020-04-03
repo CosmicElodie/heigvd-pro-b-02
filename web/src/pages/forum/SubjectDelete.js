@@ -10,17 +10,24 @@ const SubjectDelete = ( { is_open, forum_subject_id, handleClose } ) => {
     const { setDialog } = useContext(MainContext);
 
     const handleConfirm = () => {
-        // L'utilisateur a cliquer sur ok dans le dialog de confirmation
-
-        let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
-        reference.subjects.splice(index, 1);
-        
-        setData(JSON.parse(JSON.stringify(data)));
-        setDialog( { subject_deleted : {
-            is_open: true
-        }});
-        handleClose();
-       
+        fetch('http://localhost:8080/forum/delete_subject', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&forum_subject_id=" + forum_subject_id
+        })
+        .then(response => response.json())
+        .then(({ status, dialog_id }) => {
+            if(status == 'ok'){
+                let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
+                reference.subjects.splice(index, 1);
+                setData(JSON.parse(JSON.stringify(data)));
+                handleClose();
+            }
+            setDialog( { [dialog_id] : {
+                is_open: true
+            }});
+        });  
     }
 
     return (

@@ -3,14 +3,14 @@ import { Typography, Grid, List, ListItem, Badge , Tooltip, Icon } from '@materi
 import { ForumContext } from '../../context/ForumContext';
 import { useHistory } from "react-router-dom";
 import { Spring } from 'react-spring/renderprops';
-
+ 
 const ForumList = ( ) => {
     
     const history = useHistory(); 
 
     const { current, effectActive, setEffectActive, forumListEffect } = useContext(ForumContext);
 
-    const handleListItemClick = ( { name } ) => {
+    const handleListItemClick = ( name ) => {
         setEffectActive({ active : true });
         history.push(history.location.pathname + '/' + name);
     }
@@ -22,28 +22,28 @@ const ForumList = ( ) => {
             { transition => 
                 <List className="forum-list">
                     { 
-                    current && current.forums && current.forums.length > 0 && current.forums.map(( { forum_section_id, name, description }, index ) =>    
+                    current && current.forums && current.forums.length > 0 && current.forums.map(( forum, index ) =>    
                     <ListItem 
                         style={ transition } 
-                        key={ forum_section_id }
+                        key={ forum.forum_section_id }
                         dense
                         divider
                         className="forum-list-element"
-                        onClick={ () => handleListItemClick({ name }) }
+                        onClick={ () => handleListItemClick(forum.name) }
                     >
                             <Grid container direction="row" justify="space-between" alignItems="center" wrap="nowrap">
                                 <Grid item xs={11}>
                                     <Grid container direction="row" alignItems="center" wrap="nowrap" spacing={1}>
                                         <Grid item xs={0}><Icon className="forum-icon" /></Grid>
                                         <Grid item xs={11}>
-                                            <Typography component="h5" className="typo-headline" noWrap>{ name } </Typography>
-                                            <Typography component="p" className="typo-body-3" align="justify" noWrap> { description } </Typography>
+                                            <Typography component="h5" className="typo-headline" noWrap>{ forum.name } </Typography>
+                                            <Typography component="p" className="typo-body-3" align="justify" noWrap> { forum.description } </Typography>
                                         </Grid>
                                     </Grid>
                                 </Grid>
                                 <Grid item>            
                                     <Tooltip title="Nombre total de posts" aria-label="Nombre total de posts">
-                                        <Badge badgeContent={4} color="primary">
+                                        <Badge badgeContent={ forum.nbPosts ? forum.nbPosts : 0 } color="primary" showZero anchorOrigin={{ vertical: 'top', horizontal: 'left', }}>
                                             <Icon className="forum-icon-summary-posts" />
                                         </Badge>
                                     </Tooltip>

@@ -73,6 +73,7 @@ const useStyles = makeStyles(theme => ({
 const HOUSE_DATA = {
   name: 'Michael Triponez',
   img : 'https://c1-ebgames.eb-cdn.com.au/merchandising/images/packshots/594355e64e564fb6bdcc760f8e2cc8e6_Large.png',
+  inmg : 'https://www.pngkey.com/png/full/19-192944_thanos-head-png-thanos-png.png',
   username: 'Mich'
 }
 

@@ -12,14 +12,25 @@ const ForumDelete = ( { is_open, handleClose } ) => {
     const { setDialog } = useContext(MainContext);
 
     const handleConfirm = () => {
-        let { parent, index } = traverseForums('', current.selected.forum_section_id, data, getForumByID);
-        parent && parent.forums && parent.forums.splice(index, 1);
-        !parent && data.splice(index, 1); // Est une section root
-
-        setData(data.length > 0 ? JSON.parse(JSON.stringify(data)) : []);
-        setDialog( { forum_deleted : {
-            is_open: true
-        }});
+        fetch('http://localhost:8080/forum/delete_section', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&forum_section_id=" + current.selected.forum_section_id
+        })
+        .then(response => response.json())
+        .then(({ status, dialog_id }) => {
+            if(status == 'ok'){
+                let { parent, index } = traverseForums('', current.selected.forum_section_id, data, getForumByID);
+                parent && parent.forums && parent.forums.splice(index, 1);
+                !parent && data.splice(index, 1); // Est une section root
+                setData(data.length > 0 ? JSON.parse(JSON.stringify(data)) : []);
+            }
+            setDialog( { [dialog_id] : {
+                is_open: true
+            }});
+        });  
+        
     }
     
     return(

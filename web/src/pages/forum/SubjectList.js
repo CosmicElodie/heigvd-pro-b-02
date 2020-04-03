@@ -121,19 +121,32 @@ const SubjectDetails = ( { // Component local non-exporté
     } ) => {
 
     const { data, setData, setEffectActive } = useContext(ForumContext);
-    const { setDialog } = useContext(MainContext);
+    const { user, setDialog } = useContext(MainContext);
     
-    const { value, setValue, bind:bindSubject, setError:setSubjectError } = useInput();
+    const { value, setValue, bind:bindSubject } = useInput();
 
     const handleSubjectEditOkClick = ( idx, forum_subject_id ) => {
-        setEffectActive({ active : false });
-        let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
-        reference.subjects[index].name = value;
-        setData(JSON.parse(JSON.stringify(data)));
-        setDialog( { subject_updated : {
-            is_open: true
-        }});
-        handleSubjectEditCancelClick(idx);
+
+
+        fetch('http://localhost:8080/forum/update_subject', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&name=" + value + "&forum_subject_id=" + forum_subject_id 
+        })
+        .then(response => response.json())
+        .then(({ status, dialog_id }) => {
+            if(status == 'ok'){
+                setEffectActive({ active : false });
+                let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
+                reference.subjects[index].name = value;
+                setData(JSON.parse(JSON.stringify(data)));
+            }
+            setDialog( { [dialog_id] : {
+                is_open: true
+            }});
+            
+        });   
     }
 
     const handleEditSubjectClick = ( name, index ) => {
@@ -179,12 +192,13 @@ const SubjectDetails = ( { // Component local non-exporté
                             </Grid>
                         </Grid>
                         <Grid item>
-                            <section className="subject-toolbar">
+                            { subject.creator.user_id === user.user_id && <section className="subject-toolbar">
                                 <Icon className="no-open subject-edit-button" 
                                     onClick={ () => handleEditSubjectClick(subject.name, index) } />
                                 <Icon className="no-open subject-delete-button" 
                                     onClick={ () => handleDeleteSubjectClick(subject.forum_subject_id) } />  
-                            </section>
+                            </section> }
+                            
                             <section className="edit-subject-buttons">
                                 <Icon className="no-open subject-edit-ok-button" 
                                     onClick={ () => handleSubjectEditOkClick( index, subject.forum_subject_id ) } />

@@ -3,6 +3,7 @@ import { Icon, Box, TextField, Button, Menu, MenuItem   } from '@material-ui/cor
 import Bubble from '../../layout/Bubble';
 import Person from '../../layout/Person';
 import PostEdit from './PostEdit';
+import PostDelete from './PostDelete';
 import { useInput } from '../../hooks/input';
 import { ForumContext } from '../../context/ForumContext';
 import { MainContext } from '../../context/MainContext';
@@ -15,9 +16,17 @@ const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
     const { value:message, bind:bindPost } = useInput('');
 
     const [anchorEl, setAnchorEl] = useState(null);
+
+    const [post, setPost] = useState({
+        forum_post_id: -1
+    });
+
     const [editPost, setEditPost] = useState({
         is_open : false,
-        forum_post_id: -1
+    });
+
+    const [deletePost, setDeletePost] = useState({
+        is_open : false
     });
 
     useEffect(() => {
@@ -61,7 +70,7 @@ const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
     
     const handleActionsClick = (event, forum_post_id) => {
         setAnchorEl(event.currentTarget);
-        setEditPost((latest) => ({
+        setPost((latest) => ({
             ...latest,
             forum_post_id:forum_post_id
         }));
@@ -72,15 +81,21 @@ const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
     };
     
     const handleOpenEditPost = ( ) => {
-        setEditPost((latest) => ({
-            ...latest,
-            is_open: true
-        }));
+        setEditPost({ is_open: true });
         handleActionsClose();
     }
 
     const handleCloseEditPost = () => {
         setEditPost({ is_open: false });
+    }
+
+    const handleOpenDeletePost = () => {
+        setDeletePost({ is_open: true });
+        handleActionsClose();
+    }
+
+    const handleCloseDeletePost = () => {
+        setDeletePost({ is_open: false });
     }
 
     return (
@@ -123,9 +138,10 @@ const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
                     onClose={handleActionsClose}
                 >
                     <MenuItem onClick={ handleOpenEditPost }>Update</MenuItem>
-                    <MenuItem onClick={ handleActionsClose }>Delete</MenuItem>
+                    <MenuItem onClick={ handleOpenDeletePost }>Delete</MenuItem>
                 </Menu>
-                <PostEdit { ...{ ...editPost, handleCloseEditPost } } />
+                <PostEdit { ...{ ...editPost, ...post, handleCloseEditPost } } />
+                <PostDelete { ...{ ...deletePost, ...post, handleCloseDeletePost } } />
             </section>
     )
 }

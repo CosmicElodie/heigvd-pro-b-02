@@ -9,9 +9,9 @@ const ForumAdd = ( { is_open, handleClose } ) => {
     /*
         Le parent "SubjectList" est le gérant de l'état du modal SubjectAdd
     */ 
-    const { value:name, setValue:setName, bind:bindName, setError:setErrorName }    = useInput('');
+    const { value:name, setValue:setName, bind:bindName, setError:setErrorName } = useInput('');
     const { value:description, setValue:setDescription, bind:bindDescription, setError:setErrorDescription } = useInput('');
-    const { value:house, setValue:setHouse, bind:bindHouse }                        = useInput('');
+    const { value:house, setValue:setHouse, bind:bindHouse } = useInput('');
     const { current, data, setData } = useContext(ForumContext);
     const { global, setDialog } = useContext(MainContext);
 
@@ -23,21 +23,23 @@ const ForumAdd = ( { is_open, handleClose } ) => {
 
     const handleAddForumClick = () => {
         
-        if(name.length < 10){
+        let hasError = false;
+        if(name.length == 0){
             setErrorName({
                 error:true,
                 helperText: 'Le title est trop court'
             });
-            return;
+            hasError = true;
         }
-
-        if(description.length < 10){
+        if(description.length == 0){
             setErrorDescription({
                 error:true,
                 helperText: 'La description est trop courte'
             });
-            return;
+            hasError = true;   
         }
+        if(hasError) return;
+ 
         
         let post_body = "name=" + name + "&description=" + description;
         if(current.selected) post_body += "&parent_forum_section_id=" + current.selected.forum_section_id;
