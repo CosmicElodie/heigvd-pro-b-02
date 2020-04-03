@@ -78,7 +78,7 @@ export default function Event() {
                                                         {name}
                                                     </TableCell>
                                                     <TableCell align="right">{date_begin}</TableCell>
-                                                    <TableCell align="right">{location}</TableCell>
+                                                    <TableCell align="right">0{/*TODO nb participants*/}</TableCell>
                                                 </TableRow>
                                         </TableBody>
                                     </Table>
