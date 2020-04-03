@@ -10,9 +10,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 import { Alert } from '@material-ui/lab';
 
-
-
-
 const USER_DATA = {
     name: 'Michael Triponez',
     img: 'https://www.cdc.gov/coronavirus/2019-ncov/images/2019-coronavirus.png',
@@ -31,7 +28,7 @@ const ShowProfile = () => {
     const classes = useStyles();
     const SPACING = 3;
 
-    const handleClose = (which) => {
+    const handleClose = () => {
         setShowProfile(null);
     };
     

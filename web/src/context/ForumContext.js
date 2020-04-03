@@ -34,7 +34,7 @@ export const ForumProvider = ( props ) => {
 
 
     const [ effectActive, setEffectActive] = useState({
-        active:false
+        active:true
     });
 
     const [ forumListEffect, setForumListEffect ] = useState({
@@ -47,7 +47,7 @@ export const ForumProvider = ( props ) => {
         to      : { opacity: 1, scale: 1 }
     });
 
-    let context = {
+    const context = {
         breadcrumbs, 
         setBreadcrumbs,
         data,

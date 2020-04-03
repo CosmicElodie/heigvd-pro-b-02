@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { MainContext } from '../context/MainContext';
-import ModalProfile from '../pages/profile/ModalProfile';
 
 import Snackbar from '@material-ui/core/Snackbar';
 import { Alert } from '@material-ui/lab';
 
 const Dialog = () => {
     const { dialog, setDialog } = useContext(MainContext);
+    
     const handleClose = (which) => {
         setDialog((latest) => ({ 
             ...latest, ...which 
