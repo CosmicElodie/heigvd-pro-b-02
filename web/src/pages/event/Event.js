@@ -50,7 +50,7 @@ export default function Event() {
             <CssBaseline/>
             <main>
                 <Grid container direction="row" justify="space-evenly" alignItems="center">
-                {data && data.map(({event_id, name, description, is_competitive, difficulty, status, price, deadline_reservation, date_begin, date_end, location, house_id}) =>
+                {data && data.map(({event_id, name, description, is_competitive, difficulty, status, price, deadline_reservation, date_begin, date_end, location, house_id, house_name}) =>
                     <Card className={classes.card}>
                         <CardMedia
                             className={classes.cardMedia}
@@ -59,7 +59,7 @@ export default function Event() {
                         />
                         <CardContent className={classes.cardContent}>
                             <Typography gutterBottom variant="h5" component="h2">
-                              {house_id /*affiche le nom de la maison */} 
+                              {(house_id == null ? "Aucune maison" : house_name) /*affiche le nom de la maison */} 
                             </Typography>
                             <Typography>
 
