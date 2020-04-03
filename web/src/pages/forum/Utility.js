@@ -116,7 +116,7 @@ export const findSubject = (data, subjectIndex, breadcrumbs) => {
 
 export const countPosts = (forums) => {
     let nbPosts = 0;
-    if(!forums) return 0;
+    if(!forums || forums.length == 0) return 0;
     for (const [i, forum] of forums.entries()) {
         nbPosts = 0;
         if(!forum.subjects) continue;

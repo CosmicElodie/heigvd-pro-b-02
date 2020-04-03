@@ -7,6 +7,29 @@
     min-height: 48px;
 }
 
+
+.person .person-status.person-access-admin{
+    background-image: url(../svg/person/crown.svg);
+}
+
+.person .person-status.person-access-prefet{
+    background-image: url(../svg/person/sword.svg);
+}
+
+
+.person .person-status.person-access-moderator{
+    background-image: url(../svg/person/armor.svg);
+}
+
+.app-signin{
+    background-image: url(../svg/flower-07.svg);
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 48px 48px;
+    min-width: 48px;
+    min-height: 48px;
+}
+
 .forum-title{
     
     background-image: url(../svg/forum/title/books.svg);
