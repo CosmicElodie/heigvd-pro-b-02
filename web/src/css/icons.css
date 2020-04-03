@@ -74,6 +74,16 @@
 }
 
 
+.forum .post-bubble .modified{
+    background-image: url(../svg/forum/post/i-edit.svg);
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 12px 12px;
+    min-width: 12px;
+    min-height: 12px;
+    display:inline-block;
+}
+
 .forum .forum-post-actions{
     
     background-image: url(../svg/forum/subject/menu-5.svg);
