@@ -51,21 +51,40 @@ public class UserProfileController {
             return responseObject.build().toString();
         }
 
-        if (firstname.length() == 0 || lastname.length() == 0 ||
-                username.length() == 0 || password.length() == 0) {
-            responseObject.add("status", "error");
-            responseObject.add("dialog_id", "empty_field");
+//        if (firstname.length() == 0 || lastname.length() == 0 ||
+//                username.length() == 0 || password.length() == 0) {
+//            responseObject.add("status", "error");
+//            responseObject.add("dialog_id", "empty_field");
+//            return responseObject.build().toString();
+//        }
+
+
+        if(firstname == "" ||  lastname == "" || username == "" || password == "") {
+            responseObject.add("status", "errorEmptyField");
+            if (firstname == "") {
+                responseObject.add("empty1", "empty_firstname");
+            }
+            if (lastname == "") {
+                responseObject.add("empty2", "empty_lastname");
+            }
+            if (username == "") {
+                responseObject.add("empty3", "empty_username");
+            }
+            if (password == "") {
+                responseObject.add("empty4", "empty_password");
+            }
             return responseObject.build().toString();
         }
+
 
         try (Connection conn = dataSource.getConnection()) {
 
             // Test si l'email existe déjà dans la base de donnée.
-            if (conn.createStatement().executeQuery("SELECT user_id FROM user WHERE email = " + email).next()) {
-                responseObject.add("status", "error");
-                responseObject.add("dialog_id", "email_already_exist");
-                return responseObject.build().toString();
-            }
+//            if (conn.createStatement().executeQuery("SELECT user_id FROM user WHERE email = " + email).next()) {
+//                responseObject.add("status", "error");
+//                responseObject.add("dialog_id", "email_already_exist");
+//                return responseObject.build().toString();
+//            }
 
             CallableStatement insertionUser = conn.prepareCall("{CALL insertUser(?,?,?,?,?,?,?)}");
             insertionUser.setDate(1, birth);
