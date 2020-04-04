@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Icon, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Box } from '@material-ui/core';
+import { Icon, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 import { useInput } from '../../hooks/input';
 import { ForumContext } from '../../context/ForumContext';
 import { MainContext } from '../../context/MainContext';
@@ -22,7 +22,7 @@ const PostEdit = ( { is_open, forum_post_id , handleCloseEditPost } ) => {
 
     const handleEditPostClick = () => {
 
-        if(message.length == 0){
+        if(message.length === 0){
             setErrorMessage({
                 error:true,
                 helperText: 'Veuillez écrire un message'
@@ -38,7 +38,7 @@ const PostEdit = ( { is_open, forum_post_id , handleCloseEditPost } ) => {
         })
         .then(response => response.json())
         .then(({ status, dialog_id }) => {
-            if(status == 'ok'){
+            if(status === 'ok'){
                 post.message = message;
                 post.last_update = new Date().toLocaleString();
                 setData(JSON.parse(JSON.stringify(data)));
@@ -57,7 +57,7 @@ const PostEdit = ( { is_open, forum_post_id , handleCloseEditPost } ) => {
             setPost(post);
             setMessageValue(post.message);
         }
-    }, [is_open, current]);
+    }, [is_open, current, data, forum_post_id, setMessageValue]);
 
     return(
         <Dialog

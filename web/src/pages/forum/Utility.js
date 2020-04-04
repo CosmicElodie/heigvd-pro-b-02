@@ -120,7 +120,7 @@ export const countPosts = (forums) => {
     for (const forum of forums) {
         nbPosts = 0;
         if(!forum.subjects) continue;
-        for (const [j, { posts }] of forum.subjects.entries()) {
+        for (const { posts } of forum.subjects) {
             nbPosts += posts ? posts.length : 0; 
         }
         if(forum.hasOwnProperty('forums') && forum.forums){

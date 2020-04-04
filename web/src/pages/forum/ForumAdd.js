@@ -19,19 +19,19 @@ const ForumAdd = ( { is_open, handleClose } ) => {
         setHouse('');
         setName('');
         setDescription('');
-    },[current]);
+    },[current, setHouse, setName, setDescription]);
 
     const handleAddForumClick = () => {
         
         let hasError = false;
-        if(name.length == 0){
+        if(name.length === 0){
             setErrorName({
                 error:true,
                 helperText: 'Le title est trop court'
             });
             hasError = true;
         }
-        if(description.length == 0){
+        if(description.length === 0){
             setErrorDescription({
                 error:true,
                 helperText: 'La description est trop courte'

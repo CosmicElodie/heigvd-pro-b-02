@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
 import { ForumContext } from '../../context/ForumContext';
 import { MainContext } from '../../context/MainContext';
@@ -20,7 +20,7 @@ const PostDelete = ( { is_open, forum_post_id, handleCloseDeletePost } ) => {
         })
         .then(response => response.json())
         .then(({ status, dialog_id }) => {
-            if(status == 'ok'){
+            if(status === 'ok'){
                 let forum = searchForumByID(current.selected.forum_section_id, data);         
                 let { subject, index } = traverseSubjects(forum, forum_post_id, 'forum_post_id', getPostByID);
                 subject.posts.splice(index, 1);                

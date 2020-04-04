@@ -87,7 +87,7 @@ const Forum = (  ) => {
         </Route>
         <ForumAdd { ...{...forumAddDialogState, ...{ handleClose : handleAddForumSectionClose }} } /> 
         </Fragment>, 
-        [breadcrumbs, forumAddDialogState]
+        [breadcrumbs, forumAddDialogState, user]
     )
 }
 

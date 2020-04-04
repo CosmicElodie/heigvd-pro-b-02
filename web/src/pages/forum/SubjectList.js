@@ -136,7 +136,7 @@ const SubjectDetails = ( { // Component local non-exporté
         })
         .then(response => response.json())
         .then(({ status, dialog_id }) => {
-            if(status == 'ok'){
+            if(status === 'ok'){
                 setEffectActive({ active : false });
                 let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
                 reference.subjects[index].name = value;

@@ -18,7 +18,7 @@ const SubjectDelete = ( { is_open, forum_subject_id, handleClose } ) => {
         })
         .then(response => response.json())
         .then(({ status, dialog_id }) => {
-            if(status == 'ok'){
+            if(status === 'ok'){
                 let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
                 reference.subjects.splice(index, 1);
                 setData(JSON.parse(JSON.stringify(data)));

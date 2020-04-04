@@ -20,7 +20,7 @@ const ForumDelete = ( { is_open, handleClose } ) => {
         })
         .then(response => response.json())
         .then(({ status, dialog_id }) => {
-            if(status == 'ok'){
+            if(status === 'ok'){
                 let { parent, index } = traverseForums('', current.selected.forum_section_id, data, getForumByID);
                 parent && parent.forums && parent.forums.splice(index, 1);
                 !parent && data.splice(index, 1); // Est une section root

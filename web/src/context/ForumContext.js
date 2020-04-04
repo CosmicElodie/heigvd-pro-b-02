@@ -30,7 +30,7 @@ export const ForumProvider = ( props ) => {
             setData(data);
             localStorage.removeItem('forum-subjects-open');
         });
-    }, [setData, countPosts]);
+    }, [setData]);
 
     const [ forumListEffect, setForumListEffect ] = useState({
         from    : { opacity: 0.3, top:'-100vh' },
