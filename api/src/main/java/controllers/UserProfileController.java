@@ -67,10 +67,6 @@ public class UserProfileController {
             }
         }
 
-        if (!email.matches(pattern)) {
-            isError = true;
-            responseObjectError.add("dialog_id", "invalid_email_syntax");
-        }
         if (firstname.isEmpty()) {
             isError = true;
             responseObjectError.add("empty1", "empty_firstname");
@@ -126,13 +122,32 @@ public class UserProfileController {
                              @RequestParam("avatar") String avatar
                              ) throws SQLException {
 
-        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+        JsonObjectBuilder responseObjectError = Json.createObjectBuilder();
+        JsonObjectBuilder responseObjectSuccess = Json.createObjectBuilder();
 
-        if (firstname.length() == 0 || lastname.length() == 0 ||
-                username.length() == 0 || password.length() == 0) {
-            responseObject.add("status", "error");
-            responseObject.add("dialog_id", "empty_field");
-            return responseObject.build().toString();
+        responseObjectError.add("status", "error");
+
+        boolean isError = false;
+
+        if (firstname.isEmpty()) {
+            isError = true;
+            responseObjectError.add("empty1", "empty_firstname");
+        }
+        if (lastname.isEmpty()) {
+            isError = true;
+            responseObjectError.add("empty2", "empty_lastname");
+        }
+        if (username.isEmpty()) {
+            isError = true;
+            responseObjectError.add("empty3", "empty_username");
+        }
+        if (password.isEmpty()) {
+            isError = true;
+            responseObjectError.add("empty4", "empty_password");
+        }
+
+        if (isError) {
+            return responseObjectError.build().toString();
         }
 
         try (Connection conn = dataSource.getConnection()) {
@@ -147,10 +162,10 @@ public class UserProfileController {
             updateUser.setString(7, avatar);
             updateUser.execute();
 
-            responseObject.add("status", "ok");
-            responseObject.add("dialog_id", "user_updated");
+            responseObjectSuccess.add("status", "ok");
+            responseObjectSuccess.add("dialog_id", "user_updated");
         }
-        return responseObject.build().toString();
+        return responseObjectSuccess.build().toString();
     }
 
     @PostMapping("profile/delete")
