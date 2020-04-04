@@ -42,43 +42,57 @@ public class UserProfileController {
                                 @RequestParam("username") String username,
                                 @RequestParam("house_id") int house_id
                                 ) throws SQLException {
-        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+
+        JsonObjectBuilder responseObjectError = Json.createObjectBuilder();
+        JsonObjectBuilder responseObjectSuccess = Json.createObjectBuilder();
+
+        responseObjectError.add("status", "error");
+
+        boolean isError = false;
 
         String pattern = "(\\w|-)+\\.(\\w|-)+@heig-vd\\.ch";
-        if(firstname.isEmpty() || lastname.isEmpty() ||
-                username.isEmpty() || password.isEmpty() || !email.matches(pattern)) {
+        if (!email.matches(pattern)) {
+            isError = true;
+            responseObjectError.add("dialog_id", "invalid_email_syntax");
+        } else {
+            try (Connection conn = dataSource.getConnection()) {
 
-            responseObject.add("status", "error");
-            if (!email.matches(pattern)) {
-                responseObject.add("dialog_id", "invalid_email_syntax");
+                // Test si l'email existe déjà dans la base de donnée.
+                if (conn.createStatement().executeQuery(
+                        "SELECT user_id FROM user WHERE email LIKE '" + email + "';"
+                ).next()) {
+                    isError = true;
+                    responseObjectError.add("dialog_id", "email_already_exist");
+                }
             }
-            if (firstname.isEmpty()) {
-                responseObject.add("empty1", "empty_firstname");
-            }
-            if (lastname.isEmpty()) {
-                responseObject.add("empty2", "empty_lastname");
-            }
-            if (username.isEmpty()) {
-                responseObject.add("empty3", "empty_username");
-            }
-            if (password.isEmpty()) {
-                responseObject.add("empty4", "empty_password");
-            }
+        }
 
-            return responseObject.build().toString();
+        if (!email.matches(pattern)) {
+            isError = true;
+            responseObjectError.add("dialog_id", "invalid_email_syntax");
+        }
+        if (firstname.isEmpty()) {
+            isError = true;
+            responseObjectError.add("empty1", "empty_firstname");
+        }
+        if (lastname.isEmpty()) {
+            isError = true;
+            responseObjectError.add("empty2", "empty_lastname");
+        }
+        if (username.isEmpty()) {
+            isError = true;
+            responseObjectError.add("empty3", "empty_username");
+        }
+        if (password.isEmpty()) {
+            isError = true;
+            responseObjectError.add("empty4", "empty_password");
+        }
+
+        if (isError) {
+            return responseObjectError.build().toString();
         }
 
         try (Connection conn = dataSource.getConnection()) {
-
-            // Test si l'email existe déjà dans la base de donnée.
-            if (conn.createStatement().executeQuery(
-                    "SELECT user_id FROM user WHERE email LIKE '" + email + "';"
-                    ).next()) {
-
-                responseObject.add("status", "error");
-                responseObject.add("dialog_id", "email_already_exist");
-                return responseObject.build().toString();
-            }
 
             CallableStatement insertionUser = conn.prepareCall("{CALL insertUser(?,?,?,?,?,?,?)}");
             insertionUser.setDate(1, birth);
@@ -94,12 +108,12 @@ public class UserProfileController {
                 ResultSet rs = insertionUser.getResultSet();
                 rs.next();
                 JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
-                responseObject.add("status", "ok");
-                responseObject.add("dialog_id", "user_created");
-                responseObject.add("data", reader.readValue());
+                responseObjectSuccess.add("status", "ok");
+                responseObjectSuccess.add("dialog_id", "user_created");
+                responseObjectSuccess.add("data", reader.readValue());
             }
         }
-        return responseObject.build().toString();
+        return responseObjectSuccess.build().toString();
     }
 
     @PostMapping("profile/update")
