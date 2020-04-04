@@ -134,7 +134,7 @@ const Signup = ( props ) => {
     bindbirth(event.target.value);
     };
 
-    const houses = [
+    const houseList = [
         {
             value: '1',
             label: 'Systèmes informatiques embarqués',
@@ -260,14 +260,14 @@ const Signup = ( props ) => {
                     select
                     fullWidth
                     label="Orientation"
-                    value={houses}
+                    value={house}
                     onChange={setHouseId}
                     SelectProps={{
                         native: true,
                     }}
                     variant="outlined"
                     >
-                    {houses.map((option) => (
+                    {houseList.map((option) => (
                         <option key={option.value} value={option.value}>
                         {option.label}
                         </option>
