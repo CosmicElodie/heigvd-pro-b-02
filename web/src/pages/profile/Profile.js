@@ -1,9 +1,9 @@
 import React, {useContext,useEffect} from 'react';
-import { makeStyles, Card,  CardContent, Button, Typography, Avatar, Grid } from '@material-ui/core';
+import { makeStyles, Card,  CardContent,  Typography, Avatar, Grid } from '@material-ui/core';
 import { blue, blueGrey } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
 import { MainContext } from '../../context/MainContext';
-import {    CssBaseline,  Paper,   } from '@material-ui/core';
+import {   Paper,   } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 
 
@@ -79,31 +79,10 @@ const HOUSE_DATA = {
 
 
 export default function Profile() {
-  const { user, setDialog, setShownUser,setShowProfile } = useContext(MainContext);
+  const { user, setShownUser } = useContext(MainContext);
 
-  const tst = user ;
   const classes = useStyles();
   const SPACING = 3;
-  const [open, setOpen] = React.useState(false);
-  const bull = <span className={classes.bullet}>•</span>;
-
-  const handleClick = () => {
-    console.log('Le lien a été cliqué.');
-    setOpen(prev => !prev);
-  };
-
-  const bla =() =>{
-    setShowProfile( { show_profile : {
-      is_open: true
-  }});
-  }
-
-  const handleClickAway = () => {
-    setOpen(false);
-  };
-  
-
-  
 
 useEffect(() => { 
   setShownUser(user);
@@ -121,14 +100,12 @@ useEffect(() => {
 
               <Avatar className={classes.contour} > 
                 <Avatar className={classes.large} > 
-                  <img className={classes.resize} src={user.avatar}>
-                  </img>
+                  <img className={classes.resize} src={user.avatar} alt="No img"/>
                 </Avatar>
               </Avatar>
             </Grid>
             <Grid item>
-              <img className={classes.banner} src={HOUSE_DATA.img}>
-              </img>
+              <img className={classes.banner} src={HOUSE_DATA.img} alt="No img"/>
             </Grid>
             
           </Grid>
@@ -195,7 +172,7 @@ useEffect(() => {
 
                                   
                                 <IconButton aria-label="edit"  size="small">
-                                  <EditIcon style={{ fontSize: 10, color: blue[500] }} onClick={handleClick}/>  
+                                  <EditIcon style={{ fontSize: 10, color: blue[500] }}/>  
                                 </IconButton>
                                 
                                 <span >{user.username}</span> 

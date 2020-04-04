@@ -2,31 +2,14 @@ import React, { useContext } from 'react';
 import { MainContext } from '../context/MainContext';
 
 import {  Card, Dialog,  CardContent, makeStyles,  Typography, Avatar, Grid } from '@material-ui/core';
-import { blue, blueGrey, HUE } from '@material-ui/core/colors';
+import {blue} from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
-import { CssBaseline, Paper } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
-
-import Snackbar from '@material-ui/core/Snackbar';
-import { Alert } from '@material-ui/lab';
-
-const USER_DATA = {
-    name: 'Michael Triponez',
-    img: 'https://www.cdc.gov/coronavirus/2019-ncov/images/2019-coronavirus.png',
-    username: 'Mich'
-  }
-  const HOUSE_DATA = {
-    name: 'Michael Triponez',
-    img : 'https://c1-ebgames.eb-cdn.com.au/merchandising/images/packshots/594355e64e564fb6bdcc760f8e2cc8e6_Large.png',
-    username: 'Mich'
-  }
-
 
   
 const ShowProfile = () => {
     const { showProfile, setShowProfile } = useContext(MainContext);
     const classes = useStyles();
-    const SPACING = 3;
 
     const handleClose = () => {
         setShowProfile(null);
@@ -66,7 +49,7 @@ const ShowProfile = () => {
                               {
                                 showProfile.avatar &&
                                 <Avatar className={classes.large} > 
-                                  <img className={classes.resize} src={showProfile.avatar}/>
+                                  <img className={classes.resize} src={showProfile.avatar} alt="No img"/>
                                 </Avatar>
                               }
 
