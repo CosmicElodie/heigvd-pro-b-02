@@ -7,7 +7,7 @@ import ForumEdit from './ForumEdit';
 import ForumDelete from './ForumDelete';
 
 const ForumDetails = ( { selected } ) => {
-    const { effectActive, forumDetailsEffect } = useContext(ForumContext);   
+    const { forumDetailsEffect } = useContext(ForumContext);   
     const { user } = useContext(MainContext);   
    
     const [ forumDeleteDialogState, setForumDeleteDialogState ] = useState({ is_open : false });
@@ -23,7 +23,7 @@ const ForumDetails = ( { selected } ) => {
         selected && 
         <Fragment>
             <Spring
-                from={ effectActive.active ? forumDetailsEffect.from : forumDetailsEffect.to }
+                from={ forumDetailsEffect.from }
                 to={ forumDetailsEffect.to }>
                 { ( { opacity, scale } ) => 
                     <Paper elevation={0} m={1} className="forum-details" style={ { 

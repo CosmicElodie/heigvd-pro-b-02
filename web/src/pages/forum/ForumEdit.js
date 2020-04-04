@@ -12,7 +12,7 @@ const ForumEdit = ( { is_open, handleClose } ) => {
     */ 
     const { value:name, setValue:setNameValue, bind:bindName, setError:setErrorName } = useInput('');
     const { value:description, setValue:setDescriptionValue, bind:bindDescription, setError:setErrorDescription } = useInput('');
-    const { current, data, setData } = useContext(ForumContext);
+    const { current, setCurrent, data, setData } = useContext(ForumContext);
     const { setDialog } = useContext(MainContext);
 
     const history = useHistory(); 
@@ -24,14 +24,14 @@ const ForumEdit = ( { is_open, handleClose } ) => {
 
     const handleAddForumClick = () => {
         let hasError = false;
-        if(name.length == 0){
+        if(name.length === 0){
             setErrorName({
                 error:true,
                 helperText: 'Le title est trop court'
             });
             hasError = true;
         }
-        if(description.length == 0){
+        if(description.length === 0){
             setErrorDescription({
                 error:true,
                 helperText: 'La description est trop courte'
@@ -51,19 +51,22 @@ const ForumEdit = ( { is_open, handleClose } ) => {
         })
         .then(response => response.json())
         .then(({ status, dialog_id }) => {
-            if(status == 'ok'){
+            if(status === 'ok'){
                 let forum = searchForumByID(current.selected.forum_section_id, data);         
                 forum.name = name;
                 forum.description = description;
                 setData(JSON.parse(JSON.stringify(data)));
-                history.push(pathAfterUpdate);
+                setCurrent({
+                    selected : forum,
+                    rendered : false,
+                    forums : forum.forums
+                });
                 dialogTimeout = 500;
+                history.push(pathAfterUpdate);
             }
-            setTimeout(() => 
-                setDialog( { [dialog_id] : {
+            setTimeout(() => setDialog( { [dialog_id] : {
                     is_open: true
-                }}), 
-                dialogTimeout);
+            }}), dialogTimeout);
         });   
     }
     

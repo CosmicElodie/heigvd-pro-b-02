@@ -19,8 +19,8 @@ console.log(fruits.get('🍎'));
 for(var [key, val] of fruits) console.log(key,val);
 
 const Forum = (  ) => {
-  console.log("Forum");
-    const { breadcrumbs, setBreadcrumbs, setForum, setEffectActive } = useContext(ForumContext);
+
+    const { breadcrumbs, setBreadcrumbs, setForum } = useContext(ForumContext);
     const { user } = useContext(MainContext);
     const [ forumAddDialogState, setForumAddDialogState ] = useState({
         is_open : false
@@ -45,13 +45,11 @@ const Forum = (  ) => {
     }, [location, setBreadcrumbs, setForum, user]);
 
     const handleBreadcrumbClick = ( index ) => { 
-      setEffectActive({ active : true });
       index >= 0 ? history.push(breadcrumbs[index].path) : history.push('/forum');
     }
     
     const handleAddForumSectionClick = () => {
       setForumAddDialogState({ is_open : true });
-      setEffectActive({ active : false });
     }
 
     const handleAddForumSectionClose = () => setForumAddDialogState({ is_open : false });
@@ -89,7 +87,7 @@ const Forum = (  ) => {
         </Route>
         <ForumAdd { ...{...forumAddDialogState, ...{ handleClose : handleAddForumSectionClose }} } /> 
         </Fragment>, 
-        [breadcrumbs]
+        [breadcrumbs, forumAddDialogState, user]
     )
 }
 
