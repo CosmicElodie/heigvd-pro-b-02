@@ -32,16 +32,8 @@ const Menu = () => {
         setActive(tabs[activeRoot]);
     },[]);
 
-    const handleTabChange = (event, newActive) => {
-        // will handle the state of the main nav menu
-        // keep track of the active tab        
-        setActive(newActive);
-     };
-
-     const handleClick = (link) => {
-        // Will change the URL, behaves like a link
-        history.push(link);
-     }
+    const handleTabChange = (_, newActive) => setActive(newActive);
+    const handleClick = (link) => history.push(link);
     
     return (
         <Paper square className={classes.root}>
