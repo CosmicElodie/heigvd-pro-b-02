@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
 import { MainContext } from '../context/MainContext';
-import { useInput } from '../hooks/input';
-import { FormControlLabel, TextField, Checkbox, Button, CssBaseline, Link, Paper, Box, Grid, Icon, Typography } from '@material-ui/core';
+import {  TextField, Button, CssBaseline, Paper, Grid, Icon, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
 
 const Signup = ( props ) => {
     
@@ -12,7 +10,6 @@ const Signup = ( props ) => {
     
     // main context state -> main data repository
     const { 
-      setUser, 
       setDialog 
     } = useContext(MainContext);
 
@@ -37,8 +34,6 @@ const Signup = ( props ) => {
     const [lastnameEMessage, setLastnameEMessage] = React.useState('');
     const [usernameError, setUsernameError ] = React.useState('');
     const [usernameEMessage, setUsernameEMessage ] = React.useState('');
-    const [houseError, setHouseError ] = React.useState('');
-    const [houseEMessage, setHouseEMessage ] = React.useState('');
     const [birthError, setBirthError ] = React.useState('');
     const [birthEMessage, setBirthEMessage ] = React.useState('');
 
@@ -211,7 +206,6 @@ const Signup = ( props ) => {
                     label="Password"
                     type="password"
                     id="filled-required"
-                    variant="outlined"
                     onChange={setPassword}
                 />
 
@@ -225,9 +219,9 @@ const Signup = ( props ) => {
                     id="filled-required"
                     label="Prenom"
                     defaultValue=""
-                    variant="outlined"
                     onChange={setFirstname}
                 />
+
                 <TextField
                     error = {lastnameError}
                     helperText = {lastnameEMessage}
@@ -238,7 +232,6 @@ const Signup = ( props ) => {
                     id="filled-required"
                     label="Nom"
                     defaultValue=""
-                    variant="outlined"
                     onChange={ setLastname } 
                 />
                 <TextField
@@ -250,7 +243,6 @@ const Signup = ( props ) => {
                     fullWidth
                     id="filled-required"
                     label="Username"
-                    variant="outlined"
                     onChange={setUsername} 
                 />
                 <div>
@@ -351,18 +343,6 @@ const useLoginStyles = makeStyles(theme => ({
   }));
   
   
-  function Copyright() {
-    return (
-      <Typography variant="body2" color="textSecondary" align="center">
-        {'Copyright © '}
-        <Link color="inherit" href="https://heig-vd.ch//">
-          Heig-VD
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    );
-  }
 
 export default Signup;
 
