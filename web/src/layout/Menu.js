@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 const useTabStyles = makeStyles({
     root: {
@@ -17,17 +17,24 @@ const Menu = () => {
     const [active, setActive] = useState(0); // Tabs state -> tracking active tab
     
     let history = useHistory(); // hook that allows URL change -> navigation
+    let location = useLocation();
+
+    const tabs = {
+        forum   : 3,
+        event   : 2,
+        about   : 1,
+        home    : 0
+    }
 
     useEffect(() => {
-        let active = parseInt(localStorage.getItem('Menu') ? localStorage.getItem('Menu') : 0);
-        if(!active) localStorage.setItem('Menu', 0);
-        setActive(active);
+        let activeRoot = location.pathname.split('/')[1];
+        if(!activeRoot) activeRoot = "home";
+        setActive(tabs[activeRoot]);
     },[]);
 
     const handleTabChange = (event, newActive) => {
         // will handle the state of the main nav menu
-        // keep track of the active tab
-        localStorage.setItem('Menu', newActive);
+        // keep track of the active tab        
         setActive(newActive);
      };
 
