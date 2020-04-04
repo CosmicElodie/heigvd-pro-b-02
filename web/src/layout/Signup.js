@@ -77,14 +77,18 @@ const Signup = ( props ) => {
         .then(response => response.json())
         .then(response => {
             errorReset();
-            if (response.status === 'errorEmptyField') {
+            if (response.status === 'error') {
                /*  if (response.error === 'BadRequest') {
                     
                 } */
                 if (response.dialog_id === 'invalid_email_syntax') {
                     setEmailError(true);
-                    setEmailEMessage('must be @heig-vd.ch');
+                    setEmailEMessage('must be prenom.nom@heig-vd.ch');
                 }
+                if (response.dialog_id === 'email_already_exist') {
+                  setEmailError(true);
+                  setEmailEMessage('email already exist');
+                }                
                 if (response.empty1 === 'empty_firstname') {
                     setFirstnameError(true);
                     setFirstnameEMessage('field required');
@@ -101,15 +105,6 @@ const Signup = ( props ) => {
                     setPasswordError(true);
                     setPasswordEMessage('field required');
                 }
-            }
-
-            if (response.status === 'error') {
-                
-                if (response.dialog_id === 'email_already_exist') {
-                    emailError = true;
-                    emailEMessage = 'email already exist';
-                }
-                
             }
             if(response.status === 'ok'){
                 props.history.push("/signin");
