@@ -70,7 +70,7 @@ export default function Profile() {
     reader.addEventListener("load", ()=>{
       console.log(reader.result)
       setImg(reader.result)
-      setUser({...user, avatar: reader.result})
+      setUser((latest) => ({ ...latest, avatar: reader.result }))
     },false)   
     reader.readAsDataURL(currentFile)
     
