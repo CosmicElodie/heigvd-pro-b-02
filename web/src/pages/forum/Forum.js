@@ -1,5 +1,5 @@
 //🍆🍈🍉🍊🍋🍌🍍🍎🍏🍐🍑🍒🍓👤💦
-import React, { useContext, useEffect, useState, Fragment, useMemo } from 'react';
+import React, { useContext, useEffect, useState, Fragment, useMemo, useCallback } from 'react';
 import { Typography, Link, Paper, Box, Button, Grid } from '@material-ui/core';
 import { ForumContext } from '../../context/ForumContext';
 import { MainContext } from '../../context/MainContext';
@@ -44,14 +44,9 @@ const Forum = (  ) => {
       setBreadcrumbs(crumbs);
     }, [location, setBreadcrumbs, setForum, user]);
 
-    const handleBreadcrumbClick = ( index ) => { 
-      index >= 0 ? history.push(breadcrumbs[index].path) : history.push('/forum');
-    }
+    const handleBreadcrumbClick = useCallback(( index ) => index >= 0 ? history.push(breadcrumbs[index].path) : history.push('/forum'), [breadcrumbs, history]);
     
-    const handleAddForumSectionClick = () => {
-      setForumAddDialogState({ is_open : true });
-    }
-
+    const handleAddForumSectionClick = () => setForumAddDialogState({ is_open : true }); 
     const handleAddForumSectionClose = () => setForumAddDialogState({ is_open : false });
 
     return useMemo(() => 
@@ -87,7 +82,7 @@ const Forum = (  ) => {
         </Route>
         <ForumAdd { ...{...forumAddDialogState, ...{ handleClose : handleAddForumSectionClose }} } /> 
         </Fragment>, 
-        [breadcrumbs, forumAddDialogState, user]
+        [breadcrumbs, forumAddDialogState, user, handleBreadcrumbClick]
     )
 }
 

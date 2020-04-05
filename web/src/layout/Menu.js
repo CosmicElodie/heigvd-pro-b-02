@@ -30,7 +30,7 @@ const Menu = () => {
         let activeRoot = location.pathname.split('/')[1];
         if(!activeRoot) activeRoot = "home";
         setActive(tabs[activeRoot]);
-    },[]);
+    },[location.pathname, tabs]);
 
     const handleTabChange = (_, newActive) => setActive(newActive);
     const handleClick = (link) => history.push(link);

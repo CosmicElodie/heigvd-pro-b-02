@@ -120,14 +120,12 @@ const SubjectDetails = ( { // Component local non-exporté
         setSubjectDeleteDialogState
     } ) => {
 
-    const { data, setData, setEffectActive } = useContext(ForumContext);
+    const { data, setData } = useContext(ForumContext);
     const { user, setDialog } = useContext(MainContext);
     
     const { value, setValue, bind:bindSubject } = useInput();
 
     const handleSubjectEditOkClick = ( idx, forum_subject_id ) => {
-
-
         fetch('http://localhost:8080/forum/update_subject', {
             method: 'POST',
             credentials: 'include',
@@ -137,15 +135,14 @@ const SubjectDetails = ( { // Component local non-exporté
         .then(response => response.json())
         .then(({ status, dialog_id }) => {
             if(status === 'ok'){
-                setEffectActive({ active : false });
                 let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
                 reference.subjects[index].name = value;
                 setData(JSON.parse(JSON.stringify(data)));
+                subjectEls.current[idx].classList.remove('edit-subject');
             }
             setDialog( { [dialog_id] : {
                 is_open: true
             }});
-            
         });   
     }
 
@@ -192,7 +189,7 @@ const SubjectDetails = ( { // Component local non-exporté
                             </Grid>
                         </Grid>
                         <Grid item>
-                            { subject.creator.user_id === user.user_id && <section className="subject-toolbar">
+                            { ( subject.creator.user_id === user.user_id || user.access_level >= 75 ) && <section className="subject-toolbar">
                                 <Icon className="no-open subject-edit-button" 
                                     onClick={ () => handleEditSubjectClick(subject.name, index) } />
                                 <Icon className="no-open subject-delete-button" 

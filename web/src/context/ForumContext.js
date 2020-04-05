@@ -15,6 +15,7 @@ export const ForumProvider = ( props ) => {
     
     const [ current, setCurrent ] = useState({
         selected : null, 
+        house : null,
         rendered: false,
         forums : []
     });
