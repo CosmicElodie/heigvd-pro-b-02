@@ -20,8 +20,9 @@ const Menu = () => {
     let location = useLocation();
 
     const tabs = {
-        forum   : 3,
-        event   : 2,
+        forum   : 4,
+        event_create : 3,
+        event_welcome : 2,
         about   : 1,
         home    : 0
     }
@@ -55,10 +56,16 @@ const Menu = () => {
                     onClick={ () => handleClick("/about") }  
                 />
 
-                <Tab 
+<Tab 
                     label="Event" 
-                    to="/event"      
-                    onClick={ () => handleClick("/event") }  
+                    to="/event_welcome"      
+                    onClick={ () => handleClick("/event_welcome") }  
+                />
+
+<Tab 
+                    label="Créer event" 
+                    to="/event_create"      
+                    onClick={ () => handleClick("/event_create") }  
                 />
 
                 <Tab 

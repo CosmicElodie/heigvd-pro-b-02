@@ -5,7 +5,8 @@ import Dialog from './Dialog'
 import ShowProfile from './ShowProfile'
 import Home from '../pages/Home'
 import About from '../pages/About'
-import Event from '../pages/event/Event'
+import Event_Welcome from '../pages/event/Event_Welcome'
+import Event_Create from '../pages/event/Event_Create'
 import Profile from '../pages/profile/Profile'
 import ModalProfile from '../pages/profile/ModalProfile'
 import Forum from '../pages/forum/Forum'
@@ -29,7 +30,8 @@ const AppLayout = () => {
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
            
-            <Route path="/event" component={Event} />
+            <Route path="/event_welcome" component={Event_Welcome} />
+            <Route path="/event_create" component={Event_Create} />
             <Route path="/profile" component={Profile} />
             <Route path="/test" component={ModalProfile} />
             <ForumProvider>

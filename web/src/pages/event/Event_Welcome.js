@@ -76,23 +76,23 @@ const globalRows = [
 
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
-        height: '90%',
+        minHeight: '620px',
         width: '45%',
         display: 'flex',
         flexDirection: 'column'
     },
     cardMedia: {
-        paddingTop: '75%',
-        flexDirection: 'row',
-        justify: 'space-evenly',
-        borderRadius: '50%'
+        paddingTop: '20%', //height de l'image
+        flexDirection: 'row', //place les cartes en colonne
+        justify: 'space-evenly', //assez parlant...
+        //borderRadius: '50%' //permet d'arrondir l'image
     },
     cardContent: {
         flexGrow: 1,
     }
 }));
 
-export default function Event() {
+export default function Event_bienvenue() {
     const classes = useStyles();
     
     return (
@@ -104,7 +104,7 @@ export default function Event() {
                     <Card className={classes.card}>
                         <CardMedia
                             className={classes.cardMedia}
-                            image="https://heig-vd.ch/images/default-source/img-vie-sur-le-campus/heig-vd-site-web-sm-00075562.jpg?sfvrsn=e01580ea_2"
+                            image="https://i.imgur.com/VDRkKqw.png"
                             title="Image title"
                         />
                         <CardContent className={classes.cardContent}>
@@ -147,7 +147,7 @@ export default function Event() {
                     <Card className={classes.card}>
                         <CardMedia
                             className={classes.cardMedia}
-                            image="https://heig-vd.ch/images/default-source/img-global-superpicture/formation-bachelor-filiere-energieettechniquesenvironnementales/energie-et-techniques-environnementales--xs.jpg"
+                            image="https://heig-vd.ch/images/default-source/img-vie-sur-le-campus/heig-vd-site-web-sm-00075562.jpg?sfvrsn=e01580ea_2"
                             title="Image title"
                         />
                         <CardContent className={classes.cardContent}>
