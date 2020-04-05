@@ -66,7 +66,7 @@ useEffect(() => {
                 {
                   user.avatar &&
                   <Avatar className={classes.large} > 
-                    <img className={classes.resize} src={user.avatar} alt="No img"/>
+                    <img height= {'100%'} src={user.avatar} alt="No img"/>
                   </Avatar>
                 }
 
