@@ -209,15 +209,22 @@ public class ForumController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
+            String sqlGetOwnerID = "SELECT user_id as result FROM forum_subject WHERE forum_post_id = " + subject_id;
+            String sqlGetPostHouseID = "SELECT house_id as result FROM forum_section\n" +
+                    "INNER JOIN forum_subject using(forum_section_id)\n" +
+                    "WHERE forum_subject.forum_subject_id = " + subject_id;
 
-            String test = "SELECT user_id FROM forum_subject WHERE forum_subject_id = " + subject_id;
-            ResultSet rs = statement.executeQuery(test);
-            rs.next();
-            int user_id = rs.getInt("user_id");
+            int postOwnerUserId = Utils.getSingletonInt(statement, sqlGetOwnerID);
+            int postHouseId = Utils.getSingletonInt(statement, sqlGetPostHouseID);
 
-            if (user.getId() != user_id && user.getAccessLevel() < 75) {
+            boolean isAllowedOperation =
+                    user.getId() == postOwnerUserId ||
+                            (user.getId() != postOwnerUserId && user.getAccessLevel() >= 50) ||
+                            (user.getId() != postOwnerUserId && user.getHouseID() == postHouseId && user.getAccessLevel() >= 25);
+
+            if(!isAllowedOperation){
                 responseObject.add("status", "error");
-                responseObject.add("dialog_id", "forum_update_wrong_creator");
+                responseObject.add("dialog_id", "subject_update_insufficient_permission");
                 return responseObject.build().toString();
             }
 
@@ -311,14 +318,23 @@ public class ForumController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
-            String test = "SELECT user_id FROM forum_subject WHERE forum_subject_id = " + subject_id;
-            ResultSet rs = statement.executeQuery(test);
-            rs.next();
-            int user_id = rs.getInt("user_id");
 
-            if (user.getId() != user_id && user.getAccessLevel() < 75) {
+            String sqlGetOwnerID = "SELECT user_id as result FROM forum_subject WHERE forum_post_id = " + subject_id;
+            String sqlGetPostHouseID = "SELECT house_id as result FROM forum_section\n" +
+                    "INNER JOIN forum_subject using(forum_section_id)\n" +
+                    "WHERE forum_subject.forum_subject_id = " + subject_id;
+
+            int postHouseId = Utils.getSingletonInt(statement, sqlGetPostHouseID);
+            int postOwnerUserId = Utils.getSingletonInt(statement, sqlGetOwnerID);
+
+            boolean isAllowedOperation =
+                    user.getId() == postOwnerUserId ||
+                            (user.getId() != postOwnerUserId && user.getAccessLevel() >= 50) ||
+                            (user.getId() != postOwnerUserId && user.getHouseID() == postHouseId && user.getAccessLevel() >= 25);
+
+            if(!isAllowedOperation){
                 responseObject.add("status", "error");
-                responseObject.add("dialog_id", "subject_delete_wrong_creator");
+                responseObject.add("dialog_id", "subject_delete_insufficient_permission");
                 return responseObject.build().toString();
             }
 
@@ -343,7 +359,7 @@ public class ForumController {
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
 
-            String sqlGetOwnerID = "SELECT user_id FROM forum_post WHERE forum_post_id = " + post_id;
+            String sqlGetOwnerID = "SELECT user_id as result FROM forum_post WHERE forum_post_id = " + post_id;
             String sqlGetPostHouseID = "SELECT house_id as result FROM forum_section\n" +
                     "INNER JOIN forum_subject using(forum_section_id)\n" +
                     "INNER JOIN forum_post using(forum_subject_id)\n" +
