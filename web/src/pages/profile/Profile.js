@@ -7,6 +7,9 @@ import {   Paper,   } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 
 
+import { useHistory } from "react-router-dom";
+
+
 
 
 const HOUSE_DATA = {
@@ -31,9 +34,17 @@ const HOUSE_DATA = {
   )
 }
 
-export default function Profile() {
-  const { user, setShownUser } = useContext(MainContext);
 
+
+export default function Profile() {
+
+
+  let history = useHistory(); // hook that allows URL change -> navigation
+  const redirectPage = (link) => {
+    history.push(link);    
+  }; 
+  
+  const { user, setShownUser } = useContext(MainContext);
   const classes = useStyles();
   const SPACING = 3;
 
@@ -94,7 +105,8 @@ useEffect(() => {
               </Typography>   
           
               <IconButton aria-label="edit"  size="small">
-                <EditIcon style={{ fontSize: 10, color: blue[500] }} />  
+                <EditIcon style={{ fontSize: 10, color: blue[500] }} onClick = {() => redirectPage("/test")}>
+                  </EditIcon>  
               </IconButton>
             
         </CardContent>
