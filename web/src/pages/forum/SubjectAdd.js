@@ -14,7 +14,7 @@ const SubjectAdd = ( { is_open, handleClose } ) => {
     const { setDialog } = useContext(MainContext);
 
     const handleAddSubjectClick = () => {
-        if(subject.length == 0){
+        if(subject.length === 0){
             setSubjectError( {
                 error:true,
                 helperText: 'Le sujet est trop court'

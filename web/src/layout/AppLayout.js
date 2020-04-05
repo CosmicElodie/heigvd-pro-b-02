@@ -7,6 +7,7 @@ import Home from '../pages/Home'
 import About from '../pages/About'
 import Event from '../pages/event/Event'
 import Profile from '../pages/profile/Profile'
+import ModalProfile from '../pages/profile/ModalProfile'
 import Forum from '../pages/forum/Forum'
 import { ForumProvider } from '../context/ForumContext';
 import { EventProvider } from '../context/EventContext';
@@ -34,6 +35,7 @@ const AppLayout = () => {
             </EventProvider>
 
             <Route path="/profile" component={Profile} />
+            <Route path="/test" component={ModalProfile} />
             <ForumProvider>
                 <Route path="/forum" component={Forum} />
             </ForumProvider>

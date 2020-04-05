@@ -3,9 +3,11 @@ import { MainContext } from '../context/MainContext';
 import { useInput } from '../hooks/input';
 import { FormControlLabel, TextField, Checkbox, Button, CssBaseline, Link, Paper, Box, Grid, Icon, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from "react-router-dom";
 
 const Signin = ( props ) => {
-    
+    let history = useHistory(); // hook that allows URL change -> navigation  
+
     // css classes are defined bellow -> scroll down
     const classes = useLoginStyles(); 
     
@@ -44,6 +46,11 @@ const Signin = ( props ) => {
         })
     }
 
+    const redirectPage = (link) => {
+      // Will change the URL, behaves like a link
+      history.push(link);
+    }
+
     return (
         <Grid container={true} component="section" className={ classes.root }>
           <CssBaseline />
@@ -55,6 +62,7 @@ const Signin = ( props ) => {
               <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
+              
               <form className={classes.form} noValidate>
                 <TextField
                   variant="outlined"
@@ -101,7 +109,7 @@ const Signin = ( props ) => {
                     </Link>
                   </Grid>
                   <Grid item>
-                    <Link href="#" variant="body2">
+                    <Link href="#" variant="body2" onClick={ () => redirectPage("/Signup")}>
                       {"Don't have an account? Sign Up"}
                     </Link>
                   </Grid>

@@ -177,5 +177,15 @@ public class User implements UserDetails {
     public int getAccessLevel() {
         return access_level;
     }
+    public int getHouseID(){
+        if(this.house != null){
+            return this.house.getId();
+        }else{
+            return 0;
+        }
+    }
+    public boolean isPrefect(){ return access_level == 25; }
+    public boolean isModerator(){ return access_level == 50; }
+    public boolean isAdmin(){ return access_level == 75; }
 
 }

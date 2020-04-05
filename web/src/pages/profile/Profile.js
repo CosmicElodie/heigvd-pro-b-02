@@ -1,11 +1,119 @@
 import React, {useContext,useEffect} from 'react';
-import { makeStyles, Card,  CardContent, Button, Typography, Avatar, Grid } from '@material-ui/core';
+import { makeStyles, Card,  CardContent,  Typography, Avatar, Grid } from '@material-ui/core';
 import { blue, blueGrey } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
 import { MainContext } from '../../context/MainContext';
-import {    CssBaseline,  Paper,   } from '@material-ui/core';
+import {   Paper,   } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 
+
+import { useHistory } from "react-router-dom";
+
+
+
+
+const HOUSE_DATA = {
+  name: 'Michael Triponez',
+  img : 'https://c1-ebgames.eb-cdn.com.au/merchandising/images/packshots/594355e64e564fb6bdcc760f8e2cc8e6_Large.png',
+  inmg : 'https://www.pngkey.com/png/full/19-192944_thanos-head-png-thanos-png.png',
+  username: 'Mich'
+}
+
+
+ /* Displays data (name and corresponding data) */
+ function DisplayData(props) {
+  return( 
+      <Grid container spacing={3}>
+        <Grid item xs>
+          <b>{props.name}</b>  
+        </Grid>
+        <Grid item>
+          <span >{props.data}</span>
+        </Grid>
+      </Grid>
+  )
+}
+
+
+
+export default function Profile() {
+
+
+  let history = useHistory(); // hook that allows URL change -> navigation
+  const redirectPage = (link) => {
+    history.push(link);    
+  }; 
+  
+  const { user, setShownUser } = useContext(MainContext);
+  const classes = useStyles();
+  const SPACING = 3;
+
+useEffect(() => { 
+  setShownUser(user);
+  },[user,setShownUser]);
+
+  return (
+    <div>
+      <Card className={classes.bannerBox}>
+        <CardContent className={classes.house} >
+          <Grid container spacing={3}>
+            <Grid item xs>
+              <Typography className={classes.title} color="textSecondary" gutterBottom>
+                Profile
+              </Typography>
+
+              <Avatar className={classes.contour}> 
+                {
+                  user.avatar &&
+                  <Avatar className={classes.large} > 
+                    <img height= {'100%'} src={user.avatar} alt="No img"/>
+                  </Avatar>
+                }
+
+                {
+                  !user.avatar &&
+                  <Avatar className="avatar"> { user.initials } </Avatar> 
+                }
+              </Avatar>
+            </Grid>
+            <Grid item>
+              <img className={classes.banner} src={HOUSE_DATA.img} alt="No img"/>
+            </Grid>
+            
+          </Grid>
+
+        </CardContent>
+      </Card>
+
+      <Card className={classes.InfoBox}>
+        <CardContent >
+              <div className={classes.test}>
+              </div>
+              
+              <Typography component="h1" variant="h4"spacing={10}>
+                Info
+              </Typography>
+              <br />
+              <br />
+              <Typography component="h6" >                     
+                <DisplayData name="nom :" data = {user.lastname}/>    
+                <DisplayData name="prenom :" data = {user.firstname}/>    
+                <DisplayData name="Naissance :" data = {user.birth}/>    
+                <DisplayData name="Maison :" data = {user.house && user.house.name}/>    
+                <DisplayData name="Username :" data = {user.username}/>    
+                <DisplayData name="email :" data = {user.email}/>    
+              </Typography>   
+          
+              <IconButton aria-label="edit"  size="small">
+                <EditIcon style={{ fontSize: 10, color: blue[500] }} onClick = {() => redirectPage("/test")}>
+                  </EditIcon>  
+              </IconButton>
+            
+        </CardContent>
+      </Card>
+  </div>
+  );
+}
 
 const useStyles = makeStyles(theme => ({
   bannerBox: {
@@ -69,158 +177,3 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
   },
 }));
-
-const HOUSE_DATA = {
-  name: 'Michael Triponez',
-  img : 'https://c1-ebgames.eb-cdn.com.au/merchandising/images/packshots/594355e64e564fb6bdcc760f8e2cc8e6_Large.png',
-  inmg : 'https://www.pngkey.com/png/full/19-192944_thanos-head-png-thanos-png.png',
-  username: 'Mich'
-}
-
-
-export default function Profile() {
-  const { user, setDialog, setShownUser,setShowProfile } = useContext(MainContext);
-
-  const tst = user ;
-  const classes = useStyles();
-  const SPACING = 3;
-  const [open, setOpen] = React.useState(false);
-  const bull = <span className={classes.bullet}>•</span>;
-
-  const handleClick = () => {
-    console.log('Le lien a été cliqué.');
-    setOpen(prev => !prev);
-  };
-
-  const bla =() =>{
-    setShowProfile( { show_profile : {
-      is_open: true
-  }});
-  }
-
-  const handleClickAway = () => {
-    setOpen(false);
-  };
-  
-
-  
-
-useEffect(() => { 
-  setShownUser(user);
-  },[user,setShownUser]);
-
-  return (
-    <div>
-      <Card className={classes.bannerBox}>
-        <CardContent className={classes.house} >
-          <Grid container spacing={3}>
-            <Grid item xs>
-              <Typography className={classes.title} color="textSecondary" gutterBottom>
-                Profile
-              </Typography>
-
-              <Avatar className={classes.contour} > 
-                <Avatar className={classes.large} > 
-                  <img className={classes.resize} src={user.avatar}>
-                  </img>
-                </Avatar>
-              </Avatar>
-            </Grid>
-            <Grid item>
-              <img className={classes.banner} src={HOUSE_DATA.img}>
-              </img>
-            </Grid>
-            
-          </Grid>
-
-        </CardContent>
-      </Card>
-
-        <Card className={classes.InfoBox}>
-          <CardContent >
-                        <Grid className={classes.grid_container} item component={Paper} elevation={0}>
-                          <div className={classes.paper}>
-                            
-                            
-                            
-                            <Typography component="h1" variant="h4"spacing={10}>
-                              Info
-                            </Typography>
-
-                            <br />
-                            <br />
-
-                          <Typography component="h1" >
-                            <Grid container spacing={SPACING}>
-                                <Grid item xs>
-                                <b>Nom :</b>  
-                                </Grid>
-                                <Grid item>
-                                  <span >{user.lastname}</span>
-                                </Grid>
-                              </Grid>
-                              
-                              <Grid container spacing={SPACING}>
-                                <Grid item xs>
-                                <b>Prenom :</b>
-                                </Grid>
-                                <Grid item>
-                                 <span >{user.firstname}</span>
-                                </Grid>
-                              </Grid>
-                              
-                              <Grid container spacing={SPACING}>
-                                <Grid item xs>
-                                <b>Birthdate :</b>
-                                </Grid>
-                                <Grid item>
-                                <span >{user.birth}</span>              
-                                </Grid>
-                              </Grid>
-                              
-                              <Grid container spacing={SPACING}>
-                                <Grid item xs>
-                                <b>Maison :</b> 
-                                </Grid>
-                                <Grid item>
-                                <span >{user.house && user.house.name} </span>
-                                </Grid>
-                              </Grid>
-                              
-                              <Grid container spacing={SPACING}>
-                                <Grid item xs>
-                                <b>Username :</b>  
-                                </Grid>
-                                <Grid item>
-
-                                  
-                                <IconButton aria-label="edit"  size="small">
-                                  <EditIcon style={{ fontSize: 10, color: blue[500] }} onClick={handleClick}/>  
-                                </IconButton>
-                                
-                                <span >{user.username}</span> 
-                                </Grid>
-                              </Grid>
-
-                              <Grid container spacing={SPACING}>
-                                <Grid item xs>
-                                <b>email :</b>
-                                </Grid>
-                                <Grid item>
-                                <span >{user.email}</span>
-                                </Grid>
-                              </Grid>
-                            </Typography>
-                          
-                       
-                          </div>
-                        </Grid>
-                      
-                 
-
-
-        </CardContent>
-      </Card>
-  </div>
-  );
-}

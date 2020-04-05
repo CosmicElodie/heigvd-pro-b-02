@@ -8,16 +8,15 @@ const ForumList = ( ) => {
     
     const history = useHistory(); 
 
-    const { current, effectActive, setEffectActive, forumListEffect } = useContext(ForumContext);
+    const { current, forumListEffect } = useContext(ForumContext);
 
     const handleListItemClick = ( name ) => {
-        setEffectActive({ active : true });
         history.push(history.location.pathname + '/' + name);
     }
     
     return (
         <Spring
-            from={ effectActive.active ? forumListEffect.from : forumListEffect.to }
+            from={ forumListEffect.from }
             to={ forumListEffect.to }>
             { transition => 
                 <List className="forum-list">

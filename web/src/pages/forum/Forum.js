@@ -1,5 +1,5 @@
-//🍆🍈🍉🍊🍋🍌🍍🍎🍏🍐🍑🍒🍓👤
-import React, { useContext, useEffect, useState, Fragment } from 'react';
+//🍆🍈🍉🍊🍋🍌🍍🍎🍏🍐🍑🍒🍓👤💦
+import React, { useContext, useEffect, useState, Fragment, useMemo, useCallback } from 'react';
 import { Typography, Link, Paper, Box, Button, Grid } from '@material-ui/core';
 import { ForumContext } from '../../context/ForumContext';
 import { MainContext } from '../../context/MainContext';
@@ -19,8 +19,8 @@ console.log(fruits.get('🍎'));
 for(var [key, val] of fruits) console.log(key,val);
 
 const Forum = (  ) => {
-        
-    const { breadcrumbs, setBreadcrumbs, setForum, setEffectActive } = useContext(ForumContext);
+
+    const { breadcrumbs, setBreadcrumbs, setForum } = useContext(ForumContext);
     const { user } = useContext(MainContext);
     const [ forumAddDialogState, setForumAddDialogState ] = useState({
         is_open : false
@@ -42,21 +42,14 @@ const Forum = (  ) => {
         }
       }
       setBreadcrumbs(crumbs);
-    }, [location, setBreadcrumbs, setForum]);
+    }, [location, setBreadcrumbs, setForum, user]);
 
-    const handleBreadcrumbClick = ( index ) => { 
-      setEffectActive({ active : true });
-      index >= 0 ? history.push(breadcrumbs[index].path) : history.push('/forum');
-    }
+    const handleBreadcrumbClick = useCallback(( index ) => index >= 0 ? history.push(breadcrumbs[index].path) : history.push('/forum'), [breadcrumbs, history]);
     
-    const handleAddForumSectionClick = () => {
-      setForumAddDialogState({ is_open : true });
-      setEffectActive({ active : false });
-    }
-
+    const handleAddForumSectionClick = () => setForumAddDialogState({ is_open : true }); 
     const handleAddForumSectionClose = () => setForumAddDialogState({ is_open : false });
 
-    return (
+    return useMemo(() => 
       <Fragment>
       <Route>
             <Paper elevation={0}>
@@ -88,7 +81,8 @@ const Forum = (  ) => {
             </Switch>
         </Route>
         <ForumAdd { ...{...forumAddDialogState, ...{ handleClose : handleAddForumSectionClose }} } /> 
-        </Fragment>
+        </Fragment>, 
+        [breadcrumbs, forumAddDialogState, user, handleBreadcrumbClick]
     )
 }
 

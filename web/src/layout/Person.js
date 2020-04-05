@@ -29,7 +29,7 @@ const Person = ( { user, variant, collapsed, noExtend , lock}  ) => {
                 { user.access_level === 25 && <section className="person-status person-access-prefet"></section> }
             <Avatar className="avatar"> 
                 
-                { user.avatar && <img src={user.avatar} /> }
+                { user.avatar && <img height= {'100%'} src={user.avatar} alt="No img" /> }
                 {!user.avatar && user.initials }
              </Avatar>
             

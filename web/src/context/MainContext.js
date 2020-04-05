@@ -8,6 +8,7 @@ between all the components.
 export const MainProvider = ( props ) => {
     // useState can only handle 1 object
     // it can be a list of objects
+    
     const [ user, setUser ]      = useState({ is_authenticated : false });
 
     /*
@@ -44,7 +45,7 @@ export const MainProvider = ( props ) => {
         })
     }, [user, setGlobal]);
 
-    let context = {
+    const context = {
         global,
         user, 
         setUser, 

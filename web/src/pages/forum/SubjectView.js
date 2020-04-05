@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Icon, Box, TextField, Button, Menu, MenuItem   } from '@material-ui/core';
+import React, { useContext, useEffect, useState, useMemo, useCallback } from 'react';
+import { Icon, Box, TextField, Button, Menu, MenuItem } from '@material-ui/core';
 import Bubble from '../../layout/Bubble';
 import Person from '../../layout/Person';
 import PostEdit from './PostEdit';
@@ -11,36 +11,26 @@ import { traverseForums, getSubjectByID  } from './Utility';
 
 const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
     
-    const { data, setData, setEffectActive } = useContext(ForumContext);
-    const { user, setDialog } = useContext(MainContext);
-    const { value:message, bind:bindPost } = useInput('');
-
-    const [anchorEl, setAnchorEl] = useState(null);
-
-    const [post, setPost] = useState({
-        forum_post_id: -1
-    });
-
-    const [editPost, setEditPost] = useState({
-        is_open : false,
-    });
-
-    const [deletePost, setDeletePost] = useState({
-        is_open : false
-    });
+    const { data, setData, current }     = useContext(ForumContext);
+    const { user, setDialog }   = useContext(MainContext);
+    
+    const [ action, setAction ]         = useState();
+    const [ anchorEl, setAnchorEl ]     = useState(null);
+    const [ post, setPost ]             = useState({ forum_post_id: -1 });
+    const [ editPost, setEditPost ]     = useState({ is_open : false });
+    const [ deletePost, setDeletePost ] = useState({ is_open : false });
 
     useEffect(() => {
-        setTimeout(() => {
-            document.querySelector('.main').style.height = 'auto';
-        }, 300);
-    }, [data]);
+        // previent le scroll back to top au moment de render en gardant la taille précédente du contenu
+        document.querySelector('.main').style.height = 'auto';    
+        return ( ) => {    
+            document.querySelector('.main').style.height = document.querySelector('.main').offsetHeight  + 'px';
+        }
+    }, [data, setAction]);
 
-    const buttonSendPost = (e) => {
+    const buttonSendPost = useCallback((e, message) => {
         e.preventDefault();
         
-        // previent le scroll back to top au moment de render
-        document.querySelector('.main').style.height = document.querySelector('.main').offsetHeight  + 'px';
-        setEffectActive( { active : false });
         if(message.length === 0){
             setDialog( { insufficient_post_length : {
                 is_open: true
@@ -56,93 +46,102 @@ const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
         })
         .then(response => response.json())
         .then(({ status, dialog_id, data : new_post }) => {
-            if(status == 'ok'){
+            if(status === 'ok'){
                 let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
                 if(!reference.subjects[index].posts) reference.subjects[index].posts = [];
                 reference.subjects[index].posts.unshift(new_post);
                 setData(JSON.parse(JSON.stringify(data)));
+                setAction('add-post');
             }
             setDialog( { [dialog_id] : {
                 is_open: true
             }});
         });        
-    }
+    }, [forum_subject_id, data, setData, setAction, setDialog]);
     
-    const handleActionsClick = (event, forum_post_id) => {
+    const handleActionsClick = (event, post) => {
         setAnchorEl(event.currentTarget);
-        setPost((latest) => ({
-            ...latest,
-            forum_post_id:forum_post_id
-        }));
+        setPost(post);
     };
 
-    const handleActionsClose = () => {
-        setAnchorEl(null);
-    };
-    
-    const handleOpenEditPost = ( ) => {
+    const handleActionsClose = useCallback(() => setAnchorEl(null), [setAnchorEl]);
+
+    const handleOpenEditPost = useCallback(() => {
         setEditPost({ is_open: true });
         handleActionsClose();
-    }
+    }, [setEditPost, handleActionsClose]);
 
-    const handleCloseEditPost = () => {
-        setEditPost({ is_open: false });
-    }
-
-    const handleOpenDeletePost = () => {
+    const handleOpenDeletePost = useCallback(() => {
         setDeletePost({ is_open: true });
         handleActionsClose();
-    }
+    }, [setDeletePost, handleActionsClose]);
 
-    const handleCloseDeletePost = () => {
-        setDeletePost({ is_open: false });
-    }
+    const handleCloseEditPost   = useCallback(() => setEditPost({ is_open: false }), [setEditPost]);
+    const handleCloseDeletePost = useCallback(() => setDeletePost({ is_open: false }), [setDeletePost]);
 
-    return (
-            <section className={ "view-subject-posts " + ( isOpen ? 'open' : '' )}> 
-                <section className="post-new">
-                    <TextField
-                        fullWidth
-                        id="filled-required"
-                        label="Nouveau Post..."
-                        defaultValue=""
-                        variant="standard"
-                        { ...bindPost } 
-                        />
-                        <Box m={1} />
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            endIcon={<Icon>send</Icon>}
-                            onClick= { buttonSendPost }
-                        >
-                            Publier
-                        </Button>
-                </section>    
-                <section className="posts-list">{
-                    posts && posts.length > 0 && posts.map(({forum_post_id, creator, created, last_update, message}, index) => 
-                        <section className="post-item">
-                            <section class="line between clickable">
-                                <Person user = { creator } />
-                                { creator.user_id === user.user_id && <section class="post-actions forum-post-actions" onClick={ (event) => handleActionsClick(event, forum_post_id) }></section> }
-                            </section>
-                            <Bubble orientation="left" className={ "post-bubble " + ( creator.user_id === user.user_id ? 'mine' : 'not-mine' ) } text={ message } time={ created } updated={ created != last_update }/>
+    return useMemo(() => 
+        <section className={ "view-subject-posts " + ( isOpen ? 'open' : '' )}> 
+            <NewPost buttonSendPost = { buttonSendPost } />
+            <section className="posts-list">{
+                posts && posts.length > 0 && posts.map((post, index) => 
+                    <section className={ "post-item " + ( action === 'add-post' && index === 0 ? 'is_new' : '' ) }>
+                        <section class="line between clickable">
+                            <Person user = { post.creator } />
+                            {( 
+                                    post.creator.user_id === user.user_id || 
+                                    user.access_level >= 50 || 
+                                    ( user.access_level === 25 && user.house.house_id === current.selected.house_id )
+                             ) && <section class="post-actions forum-post-actions" onClick={ (event) => handleActionsClick(event, post) }></section> }
                         </section>
-                    ) 
-                }
-                </section>
-                <Menu
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleActionsClose}
-                >
-                    <MenuItem onClick={ handleOpenEditPost }>Update</MenuItem>
-                    <MenuItem onClick={ handleOpenDeletePost }>Delete</MenuItem>
-                </Menu>
-                <PostEdit { ...{ ...editPost, ...post, handleCloseEditPost } } />
-                <PostDelete { ...{ ...deletePost, ...post, handleCloseDeletePost } } />
+                        <Bubble orientation="left" className={ "post-bubble " + ( post.creator.user_id === user.user_id ? 'mine' : 'not-mine' ) } text={ post.message } time={ post.created } updated={ post.created !== post.last_update }/>
+                    </section>
+                ) 
+            }
             </section>
+            { post && post.creator && <Menu
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleActionsClose}
+                >
+                { (
+                    post.creator.user_id === user.user_id ||
+                    user.access_level >= 75
+                )
+                && <MenuItem onClick={ handleOpenEditPost }>Update</MenuItem> }
+                
+                <MenuItem onClick={ handleOpenDeletePost }>Delete</MenuItem>
+            </Menu> }
+            <PostEdit { ...{ ...editPost, ...post, handleCloseEditPost } } />
+            <PostDelete { ...{ ...deletePost, ...post, handleCloseDeletePost } } />
+        </section>, [ 
+            posts, 
+            editPost, 
+            deletePost, 
+            anchorEl, 
+            action, 
+            buttonSendPost, 
+            handleOpenDeletePost, 
+            handleOpenEditPost, 
+            handleActionsClose, 
+            handleCloseDeletePost,
+            handleCloseEditPost,
+            isOpen, 
+            post, 
+            user.user_id
+        ])
+}
+
+const NewPost = ({ buttonSendPost }) => {
+    const { value:message, bind:bindPost } = useInput('');
+    return (
+        <section className="post-new">
+            <TextField fullWidth id="filled-required" label="Nouveau Post..." defaultValue="" variant="standard" { ...bindPost } />
+                <Box m={1} />
+                <Button variant="contained" color="primary" endIcon={<Icon>send</Icon>} onClick= { (event) => buttonSendPost(event, message) } >
+                    Publier
+                </Button>
+        </section>  
     )
 }
 
