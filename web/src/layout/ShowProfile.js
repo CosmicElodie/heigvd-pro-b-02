@@ -19,8 +19,6 @@ const ShowProfile = () => {
     /* Displays data (name and corresponding data) */
     function DisplayData(props) {
       return( 
-        
-        
           <Grid container spacing={3}>
             <Grid item xs>
               <b>{props.name}</b>  
