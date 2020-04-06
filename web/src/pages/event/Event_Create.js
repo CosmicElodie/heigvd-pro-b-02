@@ -129,17 +129,6 @@ export default function Event_Create() {
                                     </Grid>
                                     <Grid item xs = {4}> 
                                         <TextField
-                                        id="nb-max-participants"
-                                        label="Nb. max participants"
-                                        placeholder="Veuillez indiquer le nombre maximum de participants."
-                                        variant="outlined"
-                                        />
-                                    </Grid>
-                                </Grid>
-                                <br /><br />
-                                <Grid container >
-                                    <Grid item xs> 
-                                        <TextField
                                             id="date-limite-participation"
                                             label="Date limite inscription"
                                             type="datetime-local"
@@ -150,6 +139,18 @@ export default function Event_Create() {
                                             }}
                                         />
                                     </Grid>
+                                </Grid>
+                                <br /><br />
+                                <Grid container >
+                                <Grid item xs> 
+                                        <TextField
+                                        id="nb-max-participants"
+                                        label="Nb. max participants"
+                                        placeholder="Veuillez indiquer le nombre maximum de participants."
+                                        variant="outlined"
+                                        />
+                                    </Grid>
+                                    
                                     <Grid item xs = {4}> 
                                     <TextField
                                             id="event-date"
