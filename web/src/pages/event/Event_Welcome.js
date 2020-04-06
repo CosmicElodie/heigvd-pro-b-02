@@ -9,7 +9,8 @@ import { EventContext } from '../../context/EventContext';
 //DEBUT data pour tests
 
 //TODO : faire en sorte que cet élément récupère la maison de l'utilisateur
-//const houseName = "Maison Logicielle"
+const houseName = "Événements Maison Logicielle"
+
 
 //TODO : faire en sorte que ces données s'affichent selon la maison de l'utilisateur
 
@@ -93,7 +94,6 @@ export default function Event() {
                     </Card>
                 )}
                     <br/><br/>
-                    
                 </Grid>
             </main>
         </React.Fragment>
