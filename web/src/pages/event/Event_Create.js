@@ -191,6 +191,19 @@ export default function Event_Create() {
                                         />
                                     </Grid>
                                 </Grid> <br /><br />
+                                <Grid container>
+                                    <Grid>
+                                    <TextField
+                                        id="event-address-location"
+                                        label="Lieu"
+                                        placeholder="Lieu de l'événement"
+                                        variant="outlined"
+                                        required = "true" 
+                                        style = {{minWidth: 450}}
+                                    /> 
+                                    </Grid>
+                                </Grid>
+                                <br />
                                 <Grid container >
                                     <Grid item xs> 
                                     <TextField
