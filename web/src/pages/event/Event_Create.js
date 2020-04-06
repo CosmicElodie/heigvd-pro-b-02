@@ -85,6 +85,7 @@ export default function Event_Create() {
                                         id="select" 
                                         label="Type" 
                                         required = "true" 
+                                        defaultValue = "Non-compétitif"
                                         style = {{width: 150}} 
                                         select>
                                             <MenuItem value="Compétitif">Compétitif</MenuItem>
@@ -97,6 +98,7 @@ export default function Event_Create() {
                                         id="select" 
                                         label="Limitation" 
                                         required = "true" 
+                                        defaultValue = "Global"
                                         style = {{width: 150}} 
                                         select>
                                             <MenuItem value="Global">Global</MenuItem>
@@ -113,12 +115,29 @@ export default function Event_Create() {
                                         id="select" 
                                         label="Difficulté" 
                                         style = {{width: 150}} 
+                                        defaultValue = "Facile"
                                         required = "true" 
                                         select>
                                             <MenuItem value="Facile">Facile</MenuItem>
                                             <MenuItem value="Moyen">Moyen</MenuItem>
                                             <MenuItem value="Difficile">Difficile</MenuItem>
                                             <MenuItem value="Extrême">Extrême</MenuItem>
+                                        </TextField>
+                                    </Grid>
+                                </Grid>
+                                <br /><br />
+                                <Grid container>
+                                    <Grid>
+                                    <TextField 
+                                        id="select" 
+                                        label="Battle Royal Mode" 
+                                        required = "false" 
+                                        defaultValue = "Non"
+                                        disabled = "true"
+                                        style = {{width: 150}} 
+                                        select>
+                                            <MenuItem value="Non">Non</MenuItem>
+                                            <MenuItem value="Oui">Oui</MenuItem>
                                         </TextField>
                                     </Grid>
                                 </Grid>
@@ -130,6 +149,7 @@ export default function Event_Create() {
                                             label="Nb. min participants"
                                             placeholder="Veuillez indiquer le nombre minimum de participants."
                                             variant="outlined"
+                                            defaultValue = "0"
                                             required = "true" 
                                         />
                                     </Grid>
@@ -154,6 +174,7 @@ export default function Event_Create() {
                                         label="Nb. max participants"
                                         placeholder="Veuillez indiquer le nombre maximum de participants."
                                         variant="outlined"
+                                        defaultValue = "0"
                                         required = "true" 
                                         />
                                     </Grid>
