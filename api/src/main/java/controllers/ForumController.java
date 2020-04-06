@@ -209,7 +209,7 @@ public class ForumController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
-            String sqlGetOwnerID = "SELECT user_id as result FROM forum_subject WHERE forum_post_id = " + subject_id;
+            String sqlGetOwnerID = "SELECT user_id as result FROM forum_subject WHERE forum_subject_id = " + subject_id;
             String sqlGetPostHouseID = "SELECT house_id as result FROM forum_section\n" +
                     "INNER JOIN forum_subject using(forum_section_id)\n" +
                     "WHERE forum_subject.forum_subject_id = " + subject_id;
@@ -319,7 +319,7 @@ public class ForumController {
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
 
-            String sqlGetOwnerID = "SELECT user_id as result FROM forum_subject WHERE forum_post_id = " + subject_id;
+            String sqlGetOwnerID = "SELECT user_id as result FROM forum_subject WHERE forum_subject_id = " + subject_id;
             String sqlGetPostHouseID = "SELECT house_id as result FROM forum_section\n" +
                     "INNER JOIN forum_subject using(forum_section_id)\n" +
                     "WHERE forum_subject.forum_subject_id = " + subject_id;
