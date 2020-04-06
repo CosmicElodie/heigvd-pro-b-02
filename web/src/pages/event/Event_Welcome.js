@@ -54,7 +54,7 @@ function createData(name, date, nbParticipants) {
 //DEBUT data pour tests
 
 //TODO : faire en sorte que cet élément récupère la maison de l'utilisateur
-const houseName = "Maison Logicielle"
+const houseName = "Événements Maison Logicielle"
 
 //TODO : faire en sorte que ces données s'affichent selon la maison de l'utilisateur
 const houseRows = [
@@ -152,7 +152,7 @@ export default function Event_bienvenue() {
                         />
                         <CardContent className={classes.cardContent}>
                             <Typography gutterBottom variant="h5" component="h2">
-                                Événements globaux
+                                Événements HEIG-VD
                             </Typography>
                             <Typography>
                             <TableContainer component={Paper}>

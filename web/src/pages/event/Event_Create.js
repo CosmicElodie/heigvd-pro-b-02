@@ -66,6 +66,7 @@ export default function Event_Create() {
                                     label="Nom événement"
                                     placeholder="Veuillez indiquer le nom de votre événement."
                                     variant="outlined"
+                                    required = "true" 
                                 />
                                 <br />
                                 <TextField
@@ -74,6 +75,7 @@ export default function Event_Create() {
                                     placeholder="En quoi consiste votre événement ?"
                                     multiline
                                     variant="outlined"
+                                    required = "true" 
                                     style = {{minWidth: 600}}
                                  />
                                 <br />
@@ -82,6 +84,7 @@ export default function Event_Create() {
                                         <TextField 
                                         id="select" 
                                         label="Type" 
+                                        required = "true" 
                                         style = {{width: 150}} 
                                         select>
                                             <MenuItem value="Compétitif">Compétitif</MenuItem>
@@ -93,6 +96,7 @@ export default function Event_Create() {
                                         <TextField 
                                         id="select" 
                                         label="Limitation" 
+                                        required = "true" 
                                         style = {{width: 150}} 
                                         select>
                                             <MenuItem value="Global">Global</MenuItem>
@@ -109,6 +113,7 @@ export default function Event_Create() {
                                         id="select" 
                                         label="Difficulté" 
                                         style = {{width: 150}} 
+                                        required = "true" 
                                         select>
                                             <MenuItem value="Facile">Facile</MenuItem>
                                             <MenuItem value="Moyen">Moyen</MenuItem>
@@ -125,23 +130,13 @@ export default function Event_Create() {
                                             label="Nb. min participants"
                                             placeholder="Veuillez indiquer le nombre minimum de participants."
                                             variant="outlined"
+                                            required = "true" 
                                         />
                                     </Grid>
                                     <Grid item xs = {4}> 
-                                        <TextField
-                                        id="nb-max-participants"
-                                        label="Nb. max participants"
-                                        placeholder="Veuillez indiquer le nombre maximum de participants."
-                                        variant="outlined"
-                                        />
-                                    </Grid>
-                                </Grid>
-                                <br /><br />
-                                <Grid container >
-                                    <Grid item xs> 
-                                        <TextField
-                                            id="date-limite-participation"
-                                            label="Date limite inscription"
+                                    <TextField
+                                            id="event-date"
+                                            label="Date et heure de l'événement"
                                             type="datetime-local"
                                             defaultValue="2020-05-24T10:30" //TODO -> mettre une default value qui prend la date/heure actuelle
                                             className={classes.textField}
@@ -150,10 +145,22 @@ export default function Event_Create() {
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item xs = {4}> 
+                                </Grid>
+                                <br /><br />
+                                <Grid container >
+                                <Grid item xs> 
                                     <TextField
-                                            id="event-date"
-                                            label="Date et heure de l'événement"
+                                        id="nb-max-participants"
+                                        label="Nb. max participants"
+                                        placeholder="Veuillez indiquer le nombre maximum de participants."
+                                        variant="outlined"
+                                        required = "true" 
+                                        />
+                                    </Grid>
+                                    <Grid item xs = {4}> 
+                                        <TextField
+                                            id="date-limite-participation"
+                                            label="Date limite inscription"
                                             type="datetime-local"
                                             defaultValue="2020-05-24T10:30" //TODO -> mettre une default value qui prend la date/heure actuelle
                                             className={classes.textField}
@@ -170,6 +177,7 @@ export default function Event_Create() {
                                         label="Rue"
                                         placeholder="Lieu de l'événement"
                                         variant="outlined"
+                                        required = "true" 
                                         style = {{minWidth: 450}}
                                     /> 
                                     </Grid>
@@ -179,6 +187,7 @@ export default function Event_Create() {
                                             label="N° de rue"
                                             placeholder="Lieu de l'événement"
                                             variant="outlined"
+                                            required = "true" 
                                             style = {{minWidth: 100, width:100}}
                                         /> 
                                     </Grid>
@@ -191,6 +200,7 @@ export default function Event_Create() {
                                         label="Code postal"
                                         placeholder="Lieu de l'événement"
                                         variant="outlined"
+                                        required = "true" 
                                         style = {{minWidth: 80}}
                                     /> 
                                     </Grid>
@@ -200,6 +210,7 @@ export default function Event_Create() {
                                             label="Ville"
                                             placeholder="Lieu de l'événement"
                                             variant="outlined"
+                                            required = "true" 
                                             style = {{minWidth: 150, width:350}}
                                         /> 
                                     </Grid>
