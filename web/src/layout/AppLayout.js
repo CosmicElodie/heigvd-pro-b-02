@@ -5,12 +5,12 @@ import Dialog from './Dialog'
 import ShowProfile from './ShowProfile'
 import Home from '../pages/Home'
 import About from '../pages/About'
-import Event from '../pages/event/Event'
+import Event_Welcome from '../pages/event/Event_Welcome'
+import Event_Create from '../pages/event/Event_Create'
 import Profile from '../pages/profile/Profile'
 import ModalProfile from '../pages/profile/ModalProfile'
 import Forum from '../pages/forum/Forum'
 import { ForumProvider } from '../context/ForumContext';
-import { EventProvider } from '../context/EventContext';
 import { Switch, Route } from "react-router-dom"
 
 import '../css/App.css'; 
@@ -29,11 +29,9 @@ const AppLayout = () => {
             <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
-
-            <EventProvider>
-                <Route path="/event" component={Event} />
-            </EventProvider>
-
+           
+            <Route path="/event_welcome" component={Event_Welcome} />
+            <Route path="/event_create" component={Event_Create} />
             <Route path="/profile" component={Profile} />
             <Route path="/test" component={ModalProfile} />
             <ForumProvider>
