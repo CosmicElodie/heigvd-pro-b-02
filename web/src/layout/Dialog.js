@@ -52,6 +52,18 @@ const Dialog = () => {
             }
 
             { 
+                dialog && dialog.user_created &&
+                <Snackbar 
+                        open = { dialog.user_created.is_open }
+                        onClose = { () => handleClose({ user_created: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="info">
+                        Votre compte a été crée...
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
                 dialog && dialog.insufficient_post_length &&
                 <Snackbar 
                         open = { dialog.insufficient_post_length.is_open }

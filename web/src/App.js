@@ -4,6 +4,7 @@ import Signin  from './layout/Signin'
 import AppLayout  from './layout/AppLayout'
 import ProtectedRoute from './layout/ProtectedRoute'
 import Signup from './layout/Signup'
+import Dialog from './layout/Dialog'
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -17,6 +18,7 @@ const App = ( ) => {
                <Route exact path="/Signup" component={ Signup } />
                <ProtectedRoute component={ AppLayout } />
           </Switch>
+          <Dialog />
         </Router>
        </MainProvider>
     )

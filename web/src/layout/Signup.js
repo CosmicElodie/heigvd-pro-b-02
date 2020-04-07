@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { MainContext } from '../context/MainContext';
 import {  TextField, Button, CssBaseline, Paper, Grid, Icon, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { useInput } from '../hooks/input';
+ 
 const Signup = ( props ) => {
     
     // css classes are defined bellow -> scroll down
@@ -10,59 +11,43 @@ const Signup = ( props ) => {
     
     // main context state -> main data repository
     const { 
-      setDialog 
+      setDialog,
+      global : { houses } 
     } = useContext(MainContext);
 
- 
-    // keep track of the input states 
-    // each keystroke (onChange event listener) is saved within the state
-    const [email, bindEmail] = React.useState('');
-    const [password, bindpassword] = React.useState('');
-    const [firstname, bindfirstname] = React.useState('');
-    const [lastname, bindlastname] = React.useState('');
-    const [username, bindusername] = React.useState('');
-    const [house, bindhouse] = React.useState('1');
-    const [birth, bindbirth] = React.useState('2020-04-04');
+    const { value:email,      bind:bindEmail,     setError:setErrorEmail }      = useInput('');
+    const { value:birth,      bind:bindBirth }                                  = useInput('');
+    const { value:firstname,  bind:bindFirstname }                              = useInput('');
+    const { value:lastname,   bind:bindLastname }                               = useInput('');
+    const { value:password,   bind:bindPassword }                               = useInput('');
+    const { value:username,   bind:bindUsername }                               = useInput('');
+    const { value:house,      bind:bindHouse,     setValue:setHouse }           = useInput('');
+    
+    useEffect(() => {
+      // houses se fetch dans le MainContext -> global car il s'agit des informations
+      // potentiellement nécessaires à travere l'application
+      // Comme le select choisis la prèmière maison par default, 
+      // il faut aussi setHouse la prémière maison avec useEffect 
+      houses && houses.length > 0 && setHouse(houses[0].house_id);
+    }, [houses, setHouse]);
 
-    const [emailError, setEmailError] = React.useState('');
-    const [emailEMessage, setEmailEMessage] = React.useState('');
-    const [passwordError,setPasswordError] = React.useState('');
-    const [passwordEMessage,setPasswordEMessage] = React.useState('');
-    const [firstnameError, setFirstnameError] = React.useState('');
-    const [firstnameEMessage,setFirstnameEMessage] = React.useState('');
-    const [lastnameError, setLastnameError ] = React.useState('');
-    const [lastnameEMessage, setLastnameEMessage] = React.useState('');
-    const [usernameError, setUsernameError ] = React.useState('');
-    const [usernameEMessage, setUsernameEMessage ] = React.useState('');
-    const [birthError, setBirthError ] = React.useState('');
-    const [birthEMessage, setBirthEMessage ] = React.useState('');
-
-    const errorReset = () => {
-        setEmailError(false);
-        setEmailEMessage('');
-        setPasswordError(false);
-        setPasswordEMessage('');
-        setFirstnameError(false);
-        setFirstnameEMessage('');
-        setLastnameError(false);
-        setLastnameEMessage('');
-        setUsernameError(false);
-        setUsernameEMessage('');
-        setBirthError(false);
-        setBirthEMessage('');
-    }
-
-    let post_body = 
-    "&birth=" + birth + 
-    "&email=" + email +
-    "&firstname=" + firstname +
-    "&lastname=" + lastname +
-    "&password=" + password +
-    "&username=" + username +
-    "&house_id=" + house;
     const buttonSignUP = (e) => {
 
-        e.preventDefault();
+        //e.preventDefault();
+        // Pour que required fonctionne sur les champs
+        // il ne faut pas preventDefault sur le bouton car il doit effectuer un submit. 
+        // L'attribut required necessite que le form soit submit 
+        // submit est en comportement par default du bouton submit
+
+        let post_body = 
+        "&email=" + email + "@heig-vd.ch" +
+        "&birth=" + birth + 
+        "&firstname=" + firstname +
+        "&lastname=" + lastname +
+        "&password=" + password +
+        "&username=" + username +
+        "&house_id=" + house;
+
         fetch('http://localhost:8080/profile/sign_up', {
                 method: 'POST',
                 credentials: 'include',
@@ -71,115 +56,48 @@ const Signup = ( props ) => {
             })
         .then(response => response.json())
         .then(response => {
-            errorReset();
             if (response.status === 'error') {
-               /*  if (response.error === 'BadRequest') {
-                    
-                } */
-                if (response.dialog_id === 'invalid_email_syntax') {
-                    setEmailError(true);
-                    setEmailEMessage('must be prenom.nom@heig-vd.ch');
-                }
-                if (response.dialog_id === 'email_already_exist') {
-                  setEmailError(true);
-                  setEmailEMessage('email already exist');
-                }                
-                if (response.empty1 === 'empty_firstname') {
-                    setFirstnameError(true);
-                    setFirstnameEMessage('field required');
-                }
-                if (response.empty2 === 'empty_lastname') {
-                    setLastnameError(true);
-                    setLastnameEMessage('field required');
-                }
-                if (response.empty3 === 'empty_username') {
-                    setUsernameError(true);
-                    setUsernameEMessage('field required');
-                }
-                if (response.empty4 === 'empty_password') {
-                    setPasswordError(true);
-                    setPasswordEMessage('field required');
-                }
-            }
-            if(response.status === 'ok'){
-                props.history.push("/signin");
+              response.dialog_id === 'invalid_email_syntax' && setErrorEmail({
+                error:true,
+                helperText: 'must be prenom.nom@heig-vd.ch'
+              }); 
+              response.dialog_id === 'email_already_exist' && setErrorEmail({
+                error:true,
+                helperText: 'email already exist'
+              });
+            } 
+            if(response.status === 'ok') {
+              setDialog((latest) => ({
+                ...latest,
+                [response.dialog_id] : { is_open : true }
+              }));
+              setTimeout(() => props.history.push("/signin"), 3000);
             }
         })
     }
 
-    const setEmail = (event) => {
-    bindEmail((event.target.value)+"@heig-vd.ch");
-    };
-    const setPassword = (event) => {
-    bindpassword(event.target.value);
-    };
-    const setFirstname = (event) => {
-    bindfirstname(event.target.value);
-    };
-    const setLastname = (event) => {
-    bindlastname(event.target.value);
-    };
-    const setUsername = (event) => {
-    bindusername(event.target.value);
-    };
-    const setHouseId = (event) => {
-    bindhouse(event.target.value);
-    };
-    const setBirth = (event,setter) => {
-    bindbirth(event.target.value);
-    };
-
-    const houseList = [
-        {
-            value: '1',
-            label: 'Systèmes informatiques embarqués',
-        },
-        {
-            value: '2',
-            label: 'Sécurité informatique',
-        },
-        {
-            value: '3',
-            label: 'Réseaux et systèmes',
-        },
-        {
-            value: '4',
-            label: 'Informatique logicielle',
-        },
-        {
-            value: '5',
-            label: 'Ingénierie des données',
-            },
-      ];
     return (
         <Grid container={true} component="section" className={ classes.root }>
           <CssBaseline />
           <Grid className={classes.grid_container} item component={Paper} elevation={0} square>
             <div className={classes.paper}>
               
-                <Icon className="app-signin" />
+              <Icon className="app-signin" />
               
               <Typography component="h1" variant="h5">
                 Sign Up
               </Typography>
-              <form className={classes.form} noValidate>
-
-                
-
+              <form className={classes.form}>
                 <Grid container >
                     <Grid item xs >
                         <TextField
-                            error = {emailError}
-                            helperText = {emailEMessage}
                             variant="outlined"                  
                             margin="normal"
                             required
                             fullWidth
                             id="email"
                             label="Email Address"
-                            name="email"
-                            autoComplete="email"
-                            onChange={setEmail}
+                            { ...bindEmail }
                         />
                     </Grid>
 
@@ -197,71 +115,54 @@ const Signup = ( props ) => {
                 </Grid>
 
                 <TextField
-                    error = {passwordError}
-                    helperText = {passwordEMessage}
                     variant="outlined"
                     margin="normal"
                     required
                     fullWidth
                     label="Password"
-                    type="password"
-                    id="filled-required"
-                    onChange={setPassword}
+                    { ...bindPassword }
                 />
 
                 <TextField
-                    error = {firstnameError}
-                    helperText = {firstnameEMessage}
                     variant="outlined"
                     margin="normal"
                     required
                     fullWidth
-                    id="filled-required"
                     label="Prenom"
-                    defaultValue=""
-                    onChange={setFirstname}
+                    { ...bindFirstname }
                 />
 
                 <TextField
-                    error = {lastnameError}
-                    helperText = {lastnameEMessage}
                     variant="outlined"
                     margin="normal"
                     required
                     fullWidth
-                    id="filled-required"
                     label="Nom"
-                    defaultValue=""
-                    onChange={ setLastname } 
+                    { ...bindLastname }
                 />
                 <TextField
-                    error = {usernameError}
-                    helperText = {usernameEMessage}
                     variant="outlined"
                     margin="normal"
                     required
                     fullWidth
-                    id="filled-required"
                     label="Username"
-                    onChange={setUsername} 
+                    { ...bindUsername }
                 />
                 <div>
                 <TextField
-                    id="outlined-select-currency-native"
                     margin="normal"
                     select
+                    required
                     fullWidth
-                    label="Orientation"
-                    value={house}
-                    onChange={setHouseId}
                     SelectProps={{
                         native: true,
                     }}
                     variant="outlined"
+                    { ...bindHouse }
                     >
-                    {houseList.map((option) => (
-                        <option key={option.value} value={option.value}>
-                        {option.label}
+                    {houses.map(({house_id, name }) => (
+                        <option key={house_id} value={house_id}>
+                        { name }
                         </option>
                     ))}
                 </TextField>
@@ -269,21 +170,18 @@ const Signup = ( props ) => {
 
 
                 <TextField
-                    error = {birthError}
-                    helperText = {birthEMessage}
                     variant="outlined"
                     margin="normal"
                     required
                     fullWidth
-                    id="filled-required"
                     label="Anniversaire"
                     type="date"
                     defaultValue="2020-04-04"
                     className={classes.textField}
                     InputLabelProps={{
-                    shrink: true,
+                    shrink: true
                     }}
-                    onChange={setBirth} 
+                    { ...bindBirth }
                 />
                    
                 <Button

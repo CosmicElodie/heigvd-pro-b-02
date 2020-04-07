@@ -42,7 +42,7 @@ const AppLayout = () => {
             <Route path="*" component={() => "404 NOT FOUND"} />
             </Switch>
         </section>
-        <Dialog />
+        
         <ShowProfile/>
         </section> 
     )
