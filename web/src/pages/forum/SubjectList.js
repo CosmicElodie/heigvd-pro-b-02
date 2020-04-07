@@ -37,6 +37,11 @@ const SubjectList = ( ) => {
                 }
             }
         }
+        let listEl = document.querySelector('.subjects'); 
+        setTimeout(()=>listEl.classList.add('animated'), 10);
+        return () => {
+            listEl.classList.remove('animated');
+        }
      }, [selected]);
     
 
@@ -80,7 +85,7 @@ const SubjectList = ( ) => {
 
     return (
         <Fragment>
-            <List>
+            <List className="subjects">
             { selected && 
             <Grid container alignItems="center" justify="space-between" className="subjects-header"> 
                     <Grid item>

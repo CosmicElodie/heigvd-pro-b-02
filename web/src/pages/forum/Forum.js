@@ -76,9 +76,7 @@ const Forum = (  ) => {
                   }
               </Breadcrumbs>
             </Paper>
-            <Switch>
-                <Route path="/forum"> <ForumView /> </Route>
-            </Switch>
+            <ForumView />
         </Route>
         <ForumAdd { ...{...forumAddDialogState, ...{ handleClose : handleAddForumSectionClose }} } /> 
         </Fragment>, 

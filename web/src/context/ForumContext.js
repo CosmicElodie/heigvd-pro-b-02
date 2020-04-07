@@ -33,20 +33,13 @@ export const ForumProvider = ( props ) => {
         });
     }, [setData]);
 
-    const [ forumDetailsEffect, setForumDetailsEffect ] = useState({
-        from    : { opacity: 0.5, scale: 0.85 },
-        to      : { opacity: 1, scale: 1 }
-    });
-
     const context = {
         breadcrumbs, 
         setBreadcrumbs,
         data,
         setData,
         current,
-        setCurrent,
-        forumDetailsEffect,
-        setForumDetailsEffect
+        setCurrent
     }
 
     return (
