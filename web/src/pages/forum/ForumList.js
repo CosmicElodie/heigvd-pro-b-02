@@ -14,7 +14,7 @@ const ForumList = ( ) => {
         return () => {
             listEl.classList.remove('animated');
         }
-    });
+    }, [current]);
 
     const handleListItemClick = ( name ) => {
         history.push(history.location.pathname + '/' + name);
