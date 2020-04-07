@@ -29,19 +29,15 @@ const AppLayout = () => {
         </section>
         <section className="main">
             <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/about" component={About} />
-            <EventProvider>
-                <Route path="/event_welcome" component={Event_Welcome} />
-                <Route path="/event_create" component={Event_Create} />
-                <Route path="/event_calendar" component={Event_Calendar} />
-            </EventProvider>
-            <Route path="/profile" component={Profile} />
-            <Route path="/test" component={ModalProfile} />
-            <ForumProvider>
-                <Route path="/forum" component={Forum} />
-            </ForumProvider>
-            <Route path="*" component={() => "404 NOT FOUND"} />
+                <Route exact path="/" component={Home} />
+                <Route path="/about" component={About} />
+                <Route path="/event_welcome"><EventProvider><Event_Welcome /></EventProvider></Route>
+                <Route path="/event_create"><EventProvider><Event_Create /></EventProvider></Route>
+                <Route path="/event_calendar"><EventProvider><Event_Calendar /></EventProvider></Route>
+                <Route path="/profile" component={Profile} />
+                <Route path="/test" component={ModalProfile} />
+                <Route path="/forum"><ForumProvider><Forum /></ForumProvider></Route>
+                <Route path="*" component={() => "404 NOT FOUND"} />
             </Switch>
         </section>
         

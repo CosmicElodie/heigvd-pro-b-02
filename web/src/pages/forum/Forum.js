@@ -19,7 +19,7 @@ console.log(fruits.get('🍎'));
 for(var [key, val] of fruits) console.log(key,val);
 
 const Forum = (  ) => {
-
+  
     const { breadcrumbs, setBreadcrumbs, setForum } = useContext(ForumContext);
     const { user } = useContext(MainContext);
     const [ forumAddDialogState, setForumAddDialogState ] = useState({
