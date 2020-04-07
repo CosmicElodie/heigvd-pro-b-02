@@ -9,6 +9,7 @@ const ForumAdd = ( { is_open, handleClose } ) => {
     /*
         Le parent "SubjectList" est le gérant de l'état du modal SubjectAdd
     */ 
+   
     const { value:name, setValue:setName, bind:bindName, setError:setErrorName } = useInput('');
     const { value:description, setValue:setDescription, bind:bindDescription, setError:setErrorDescription } = useInput('');
     const { value:house, setValue:setHouse, bind:bindHouse } = useInput('');

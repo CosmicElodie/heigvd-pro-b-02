@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext, useState, useMemo, useCallback } from 'react';
 import { MainContext } from '../context/MainContext';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -29,18 +29,14 @@ const User = ( ) => {
                 }
             }
         )
-    }, [history, setUser]);   
+    }, [history, setUser, history]);   
     
   
-    const handleMenuOpen = event => {
-        setAnchorEl(event.currentTarget);
-    };
+    const handleMenuOpen = useCallback(event => setAnchorEl(event.currentTarget), [setAnchorEl]);
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };    
+    const handleMenuClose = useCallback(() => setAnchorEl(null), [setAnchorEl]);
 
-    const user_logout = () => {
+    const user_logout = useCallback(() => {
 
        fetch('http://localhost:8080/authentication/user_logout', {
             method: 'POST',
@@ -60,14 +56,14 @@ const User = ( ) => {
         })
         setAnchorEl(null);
 
-    };    
+    }, [setUser, setDialog, ]);    
     const redirectPage = (link) => {
             // Will change the URL, behaves like a link
             history.push(link);         
         setAnchorEl(null);
     }; 
 
-    return (
+    return useMemo(() => 
         <ClickAwayListener onClickAway={ handleMenuClose }>
             <section className="user" onClick={ handleMenuOpen } >
                 <Person user = {user} lock = {true} collapsed={true}/>
@@ -83,7 +79,8 @@ const User = ( ) => {
                     <MenuItem onClick={ user_logout }>Logout</MenuItem>
                 </Menu>     
             </section>                                           
-        </ClickAwayListener>
+        </ClickAwayListener>, [user, handleMenuClose, handleMenuOpen, anchorEl, user_logout ]
+
         
           
     );

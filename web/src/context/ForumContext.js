@@ -33,11 +33,6 @@ export const ForumProvider = ( props ) => {
         });
     }, [setData]);
 
-    const [ forumListEffect, setForumListEffect ] = useState({
-        from    : { opacity: 0.3, top:'-100vh' },
-        to      : { opacity: 1, top:'0vw' }
-    });
-
     const [ forumDetailsEffect, setForumDetailsEffect ] = useState({
         from    : { opacity: 0.5, scale: 0.85 },
         to      : { opacity: 1, scale: 1 }
@@ -50,8 +45,6 @@ export const ForumProvider = ( props ) => {
         setData,
         current,
         setCurrent,
-        forumListEffect,
-        setForumListEffect,
         forumDetailsEffect,
         setForumDetailsEffect
        

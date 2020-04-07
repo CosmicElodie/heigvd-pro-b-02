@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -32,10 +32,10 @@ const Menu = () => {
         setActive(tabs[activeRoot]);
     },[location.pathname, tabs]);
 
-    const handleTabChange = (_, newActive) => setActive(newActive);
-    const handleClick = (link) => history.push(link);
+    const handleTabChange = useCallback((_, newActive) => setActive(newActive), [setActive]);
+    const handleClick = useCallback((link) => history.push(link), [history]);
     
-    return (
+    return useMemo(() => 
         <Paper square className={classes.root}>
             <Tabs
                 value = { active }
@@ -68,7 +68,7 @@ const Menu = () => {
                 />
                 
             </Tabs>
-        </Paper>
+        </Paper>, [active, handleClick, handleTabChange]
         
     )
 }

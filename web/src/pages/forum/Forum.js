@@ -46,8 +46,8 @@ const Forum = (  ) => {
 
     const handleBreadcrumbClick = useCallback(( index ) => index >= 0 ? history.push(breadcrumbs[index].path) : history.push('/forum'), [breadcrumbs, history]);
     
-    const handleAddForumSectionClick = () => setForumAddDialogState({ is_open : true }); 
-    const handleAddForumSectionClose = () => setForumAddDialogState({ is_open : false });
+    const handleAddForumSectionClick = useCallback(() => setForumAddDialogState({ is_open : true }), [setForumAddDialogState]); 
+    const handleAddForumSectionClose = useCallback(() => setForumAddDialogState({ is_open : false }), [setForumAddDialogState]);
 
     return useMemo(() => 
       <Fragment>
@@ -77,12 +77,12 @@ const Forum = (  ) => {
               </Breadcrumbs>
             </Paper>
             <Switch>
-                <Route path="/forum" component={() => <ForumView />} />
+                <Route path="/forum"> <ForumView /> </Route>
             </Switch>
         </Route>
         <ForumAdd { ...{...forumAddDialogState, ...{ handleClose : handleAddForumSectionClose }} } /> 
         </Fragment>, 
-        [breadcrumbs, forumAddDialogState, user, handleBreadcrumbClick]
+        [breadcrumbs, forumAddDialogState, user, handleBreadcrumbClick, handleAddForumSectionClick, handleAddForumSectionClose]
     )
 }
 

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import { ForumContext } from '../../context/ForumContext';
 import { useLocation, useHistory } from "react-router-dom";
 import ForumList from './ForumList';
@@ -7,7 +7,6 @@ import SubjectList from './SubjectList';
 import { findCurrentPathForum } from './Utility';
 
 const ForumView = () => {
-
     const location = useLocation(); 
     const history = useHistory(); 
     const { data, current, setCurrent } = useContext(ForumContext);
@@ -20,11 +19,9 @@ const ForumView = () => {
             let forum = findCurrentPathForum(location, data);
             if(forum === null){
                 // Répertoire racine /forums
-                !current.rendered && 
                 setCurrent((latest) => ({ 
                     ...latest,
                     selected : null,
-                    rendered : true,
                     forums : data 
                 }));
             }else{
@@ -34,32 +31,24 @@ const ForumView = () => {
                 if(!forum.hasOwnProperty('forum_section_id')) history.push(location.pathname.split('/').slice(0, -1).join("/"));
 
                 // Navigation dans un forum
-                !current.rendered &&
+                
                 setCurrent((latest) => ({
                     ...latest,
                     selected: forum,
-                    rendered : true,
                     forums: forum.forums
                 }));
             }
         }
-        return () => {
-            // On unmount
-            current.rendered && 
-            setCurrent((latest) => ({ 
-                ...latest,
-                rendered : false
-            }));
-        }
-    }, [setCurrent, current, location, data, history]);
+       
+    }, [setCurrent, location, data, history]);
 
-    return (
+    return useMemo(() => 
         <section className="forum">
             <ForumDetails { ...current } />
             <ForumList />
             <SubjectList />
         </section>
-    )
+    , [current])
 }
 
 export default ForumView;
