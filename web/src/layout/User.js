@@ -29,7 +29,7 @@ const User = ( ) => {
                 }
             }
         )
-    }, [history, setUser, history]);   
+    }, [history, setUser]);   
     
   
     const handleMenuOpen = useCallback(event => setAnchorEl(event.currentTarget), [setAnchorEl]);
@@ -56,12 +56,13 @@ const User = ( ) => {
         })
         setAnchorEl(null);
 
-    }, [setUser, setDialog, ]);    
-    const redirectPage = (link) => {
-            // Will change the URL, behaves like a link
-            history.push(link);         
+    }, [setUser, setDialog, history]);    
+
+    const redirectPage = useCallback((link) => {
+        // Will change the URL, behaves like a link
+        history.push(link);         
         setAnchorEl(null);
-    }; 
+    }, [history, setAnchorEl]); 
 
     return useMemo(() => 
         <ClickAwayListener onClickAway={ handleMenuClose }>
@@ -79,7 +80,7 @@ const User = ( ) => {
                     <MenuItem onClick={ user_logout }>Logout</MenuItem>
                 </Menu>     
             </section>                                           
-        </ClickAwayListener>, [user, handleMenuClose, handleMenuOpen, anchorEl, user_logout ]
+        </ClickAwayListener>, [user, handleMenuClose, handleMenuOpen, anchorEl, user_logout, redirectPage ]
 
         
           

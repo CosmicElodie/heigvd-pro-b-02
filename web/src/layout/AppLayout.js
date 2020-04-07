@@ -1,7 +1,6 @@
 import React from 'react';
 import Menu from './Menu';
 import User from './User';
-import Dialog from './Dialog';
 import ShowProfile from './ShowProfile';
 import Home from '../pages/Home';
 import About from '../pages/About';

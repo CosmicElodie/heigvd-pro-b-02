@@ -47,7 +47,6 @@ export const ForumProvider = ( props ) => {
         setCurrent,
         forumDetailsEffect,
         setForumDetailsEffect
-       
     }
 
     return (

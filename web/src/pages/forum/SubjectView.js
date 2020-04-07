@@ -128,7 +128,8 @@ const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
             handleCloseEditPost,
             isOpen, 
             post, 
-            user.user_id
+            user,
+            current.selected.house_id
         ])
 }
 

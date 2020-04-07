@@ -68,7 +68,7 @@ const Menu = () => {
                 />
                 
             </Tabs>
-        </Paper>, [active, handleClick, handleTabChange]
+        </Paper>, [active, handleClick, handleTabChange, classes.root]
         
     )
 }

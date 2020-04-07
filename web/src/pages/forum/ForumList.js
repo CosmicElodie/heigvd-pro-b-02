@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo, useCallback } from 'react';
 import { Typography, Grid, List, ListItem, Badge , Tooltip, Icon } from '@material-ui/core';
 import { ForumContext } from '../../context/ForumContext';
 import { useHistory } from "react-router-dom";
@@ -16,9 +16,7 @@ const ForumList = ( ) => {
         }
     }, [current]);
 
-    const handleListItemClick = ( name ) => {
-        history.push(history.location.pathname + '/' + name);
-    }
+    const handleListItemClick = useCallback(( name ) => history.push(history.location.pathname + '/' + name), [history]);
     
     return useMemo(() => 
         <List className="forum-list">
@@ -53,7 +51,7 @@ const ForumList = ( ) => {
             </ListItem>        
         )
     }
-    </List>, [current]  
+    </List>, [current, handleListItemClick]  
         
     )
 }
