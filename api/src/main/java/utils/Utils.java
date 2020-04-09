@@ -3,6 +3,9 @@ package utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -28,5 +31,21 @@ public class Utils {
         return merged;
     }
 
+    public static JsonObjectBuilder errorJSONObjectBuilder(String errorMessage) {
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+        responseObject.add("status", "error");
+        responseObject.add("dialog_id", errorMessage);
+        return responseObject;
+    }
+
+    public static JsonObjectBuilder successJSONObjectBuilder(String successMessage, JsonReader reader) {
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+        responseObject.add("status", "ok");
+        responseObject.add("dialog_id", successMessage);
+        if(reader != null) {
+            responseObject.add("data", reader.readValue());
+        }
+        return responseObject;
+    }
 
 }

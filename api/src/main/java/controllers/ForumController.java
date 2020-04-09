@@ -18,6 +18,7 @@ import java.sql.*;
 
 @RestController
 public class ForumController {
+
     @Autowired
     private DataSource dataSource;
 
@@ -49,18 +50,14 @@ public class ForumController {
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
 
-        if (title.length() == 0 || desc.length() == 0) {
-            responseObject.add("status", "error");
-            responseObject.add("dialog_id", "insufficient_input_length");
-            return responseObject.build().toString();
-        }
-
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        if (title.length() == 0 || desc.length() == 0) {
+            return Utils.errorJSONObjectBuilder("insufficient_input_length").build().toString();
+        }
+
         if (user.getAccessLevel() < 75) {
-            responseObject.add("status", "error");
-            responseObject.add("dialog_id", "forum_insert_insufficient_permission");
-            return responseObject.build().toString();
+            return Utils.errorJSONObjectBuilder("forum_insert_insufficient_permission").build().toString();
         }
 
         try (Connection conn = dataSource.getConnection()) {
@@ -86,13 +83,10 @@ public class ForumController {
                 ResultSet rs = insertSection.getResultSet();
                 rs.next();
                 JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
-                responseObject.add("status", "ok");
-                responseObject.add("dialog_id", "forum_created");
-                responseObject.add("data", reader.readValue());
+                responseObject = Utils.successJSONObjectBuilder("forum_created", reader);
             }
         }
         return responseObject.build().toString();
-
     }
 
     @PostMapping("forum/insert_subject")
@@ -100,13 +94,11 @@ public class ForumController {
                                    @RequestParam("forum_section_id") int section_id) throws SQLException {
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
-        if (title.length() == 0) {
-            responseObject.add("status", "error");
-            responseObject.add("dialog_id", "insufficient_input_length");
-            return responseObject.build().toString();
-        }
-
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (title.length() == 0) {
+            return Utils.errorJSONObjectBuilder("insufficient_input_length").build().toString();
+        }
 
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
@@ -120,11 +112,8 @@ public class ForumController {
                     (user.getAccessLevel() >= 50);
 
             if(!isAllowedOperation){
-                responseObject.add("status", "error");
-                responseObject.add("dialog_id", "wrong_house_or_access_insert_subject_permission");
-                return responseObject.build().toString();
+                return Utils.errorJSONObjectBuilder("wrong_house_or_access_insert_subject_permission").build().toString();
             }
-
 
             CallableStatement insertSubject = conn.prepareCall("{CALL insertSubject(?,?,?)}");
             insertSubject.setString(1, title);
@@ -136,9 +125,7 @@ public class ForumController {
                 ResultSet rs = insertSubject.getResultSet();
                 rs.next();
                 JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
-                responseObject.add("status", "ok");
-                responseObject.add("dialog_id", "subject_created");
-                responseObject.add("data", reader.readValue());
+                responseObject = Utils.successJSONObjectBuilder("subject_created", reader);
             }
         }
         return responseObject.build().toString();
@@ -148,13 +135,11 @@ public class ForumController {
     public String insertionPost(@RequestParam("message") String message,
                                 @RequestParam("forum_subject_id") int subject_id) throws SQLException {
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
-        if (message.length() == 0) {
-            responseObject.add("status", "error");
-            responseObject.add("dialog_id", "insufficient_input_length");
-            return responseObject.build().toString();
-        }
-
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (message.length() == 0) {
+            return Utils.errorJSONObjectBuilder("insufficient_input_length").build().toString();
+        }
 
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
@@ -170,9 +155,7 @@ public class ForumController {
                     (user.getAccessLevel() >= 50);
 
             if(!isAllowedOperation){
-                responseObject.add("status", "error");
-                responseObject.add("dialog_id", "wrong_house_or_access_insert_post_permission");
-                return responseObject.build().toString();
+                return Utils.errorJSONObjectBuilder("wrong_house_or_access_insert_post_permission").build().toString();
             }
             CallableStatement insertionPost = conn.prepareCall("{CALL insertPost(?,?,?)}");
             insertionPost.setString(1, message);
@@ -184,9 +167,7 @@ public class ForumController {
                 ResultSet rs = insertionPost.getResultSet();
                 rs.next();
                 JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
-                responseObject.add("status", "ok");
-                responseObject.add("dialog_id", "post_created");
-                responseObject.add("data", reader.readValue());
+                responseObject = Utils.successJSONObjectBuilder("post_created", reader);
             }
         }
         return responseObject.build().toString();
@@ -202,30 +183,22 @@ public class ForumController {
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
 
         if (title.length() == 0 || desc.length() == 0) {
-            responseObject.add("status", "error");
-            responseObject.add("dialog_id", "insufficient_input_length");
-            return responseObject.build().toString();
+            return Utils.errorJSONObjectBuilder("insufficient_input_length").build().toString();
         }
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (user.getAccessLevel() < 75) {
-            responseObject.add("status", "error");
-            responseObject.add("dialog_id", "forum_insert_insufficient_permission");
-            return responseObject.build().toString();
+            return Utils.errorJSONObjectBuilder("forum_insert_insufficient_permission").build().toString();
         }
 
         try (Connection conn = dataSource.getConnection()) {
-            Statement statement = conn.createStatement();
-
             CallableStatement updateSection = conn.prepareCall("{CALL updateSection(?,?,?)}");
             updateSection.setString(1, title);
             updateSection.setString(2, desc);
             updateSection.setInt(3, section_id);
             updateSection.execute();
-            responseObject.add("status", "ok");
-            responseObject.add("dialog_id", "forum_updated");
-
+            responseObject = Utils.successJSONObjectBuilder("forum_updated", null);
         }
         return responseObject.build().toString();
     }
@@ -237,9 +210,7 @@ public class ForumController {
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
 
         if (title.length() == 0 || title.length() >= 100) {
-            responseObject.add("status", "error");
-            responseObject.add("dialog_id", "incorrect_input_length");
-            return responseObject.build().toString();
+            return Utils.errorJSONObjectBuilder("incorrect_input_length").build().toString();
         }
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -260,9 +231,7 @@ public class ForumController {
                             (user.getId() != postOwnerUserId && user.getHouseID() == postHouseId && user.getAccessLevel() >= 25);
 
             if(!isAllowedOperation){
-                responseObject.add("status", "error");
-                responseObject.add("dialog_id", "subject_update_insufficient_permission");
-                return responseObject.build().toString();
+                return Utils.errorJSONObjectBuilder("subject_update_insufficient_permission").build().toString();
             }
 
             CallableStatement updateSubject = conn.prepareCall("{CALL updateSubject(?,?)}");
@@ -270,9 +239,7 @@ public class ForumController {
             updateSubject.setInt(2, subject_id);
             updateSubject.execute();
 
-            responseObject.add("status", "ok");
-            responseObject.add("dialog_id", "subject_updated");
-
+            responseObject = Utils.successJSONObjectBuilder("subject_updated", null);
         }
         return responseObject.build().toString();
     }
@@ -284,9 +251,7 @@ public class ForumController {
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
 
         if (message.length() == 0) {
-            responseObject.add("status", "error");
-            responseObject.add("dialog_id", "insufficient_input_length");
-            return responseObject.build().toString();
+            return Utils.errorJSONObjectBuilder("insufficient_input_length").build().toString();
         }
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -308,9 +273,7 @@ public class ForumController {
                             (user.getId() != postOwnerUserId && user.getHouseID() == postHouseId && user.getAccessLevel() >= 25);
 
             if(!isAllowedOperation){
-                responseObject.add("status", "error");
-                responseObject.add("dialog_id", "post_update_insufficient_permission");
-                return responseObject.build().toString();
+                return Utils.errorJSONObjectBuilder("post_update_insufficient_permission").build().toString();
             }
 
             CallableStatement updateSubject = conn.prepareCall("{CALL updatePost(?,?)}");
@@ -318,8 +281,7 @@ public class ForumController {
             updateSubject.setInt(2, post_id);
             updateSubject.execute();
 
-            responseObject.add("status", "ok");
-            responseObject.add("dialog_id", "post_updated");
+            responseObject = Utils.successJSONObjectBuilder("post_updated", null);
         }
         return responseObject.build().toString();
     }
@@ -332,17 +294,15 @@ public class ForumController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (user.getAccessLevel() < 75) {
-            responseObject.add("status", "error");
-            responseObject.add("dialog_id", "forum_delete_insufficient_permission");
-            return responseObject.build().toString();
+            return Utils.errorJSONObjectBuilder("forum_delete_insufficient_permission").build().toString();
         }
 
         try (Connection conn = dataSource.getConnection()) {
             CallableStatement deleteSection = conn.prepareCall("{CALL deleteSection(?)}");
             deleteSection.setInt(1, section_id);
             deleteSection.execute();
-            responseObject.add("status", "ok");
-            responseObject.add("dialog_id", "forum_deleted");
+
+            responseObject = Utils.successJSONObjectBuilder("forum_deleted", null);
         }
         return responseObject.build().toString();
     }
@@ -370,18 +330,14 @@ public class ForumController {
                             (user.getId() != postOwnerUserId && user.getHouseID() == postHouseId && user.getAccessLevel() >= 25);
 
             if(!isAllowedOperation){
-                responseObject.add("status", "error");
-                responseObject.add("dialog_id", "subject_delete_insufficient_permission");
-                return responseObject.build().toString();
+                return Utils.errorJSONObjectBuilder("subject_delete_insufficient_permission").build().toString();
             }
 
             CallableStatement deleteSubject = conn.prepareCall("{CALL deleteSubject(?)}");
             deleteSubject.setInt(1, subject_id);
             deleteSubject.execute();
 
-            responseObject.add("status", "ok");
-            responseObject.add("dialog_id", "subject_deleted");
-
+            responseObject = Utils.successJSONObjectBuilder("subject_deleted", null);
         }
         return responseObject.build().toString();
     }
@@ -411,17 +367,13 @@ public class ForumController {
                             (user.getId() != postOwnerUserId && user.getHouseID() == postHouseId && user.getAccessLevel() >= 25);
 
             if(!isAllowedOperation){
-                responseObject.add("status", "error");
-                responseObject.add("dialog_id", "post_delete_insufficient_permission");
-                return responseObject.build().toString();
+                return Utils.errorJSONObjectBuilder("post_delete_insufficient_permission").build().toString();
             }
 
             CallableStatement updateSubject = conn.prepareCall("{CALL deletePost(?)}");
             updateSubject.setInt(1, post_id);
             updateSubject.execute();
-
-            responseObject.add("status", "ok");
-            responseObject.add("dialog_id", "post_deleted");
+            responseObject = Utils.successJSONObjectBuilder("post_deleted", null);
         }
         return responseObject.build().toString();
     }
