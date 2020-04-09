@@ -227,8 +227,7 @@ public class ForumController {
 
             boolean isAllowedOperation =
                     user.getId() == postOwnerUserId ||
-                            (user.getId() != postOwnerUserId && user.getAccessLevel() >= 50) ||
-                            (user.getId() != postOwnerUserId && user.getHouseID() == postHouseId && user.getAccessLevel() >= 25);
+                            (user.getId() != postOwnerUserId && user.getAccessLevel() >= 75);
 
             if(!isAllowedOperation){
                 return Utils.errorJSONObjectBuilder("subject_update_insufficient_permission").build().toString();
@@ -269,8 +268,7 @@ public class ForumController {
 
             boolean isAllowedOperation =
                     user.getId() == postOwnerUserId ||
-                            (user.getId() != postOwnerUserId && user.getAccessLevel() >= 50) ||
-                            (user.getId() != postOwnerUserId && user.getHouseID() == postHouseId && user.getAccessLevel() >= 25);
+                            (user.getId() != postOwnerUserId && user.getAccessLevel() >= 75);
 
             if(!isAllowedOperation){
                 return Utils.errorJSONObjectBuilder("post_update_insufficient_permission").build().toString();
