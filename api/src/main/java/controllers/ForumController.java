@@ -112,6 +112,22 @@ public class ForumController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         try (Connection conn = dataSource.getConnection()) {
+            Statement statement = conn.createStatement();
+            String sqlGetSubjectHouseID = "SELECT house_id as RESULT FROM forum_section WHERE forum_section_id =" + section_id;
+            String sqlGetSubjectAccessID = "SELECT access_level as RESULT FROM forum_section WHERE forum_section_id =" + section_id;
+
+            int subjectHouseId = Utils.getSingletonInt(statement, sqlGetSubjectHouseID);
+            int subjectAccessLevel = Utils.getSingletonInt(statement, sqlGetSubjectAccessID);
+
+            boolean isAllowedOperation = ((user.getHouseID() == subjectHouseId || subjectHouseId == 0) && (user.getAccessLevel() <= subjectAccessLevel)) ||
+                    (user.getAccessLevel() >= 50);
+
+            if(!isAllowedOperation){
+                responseObject.add("status", "error");
+                responseObject.add("dialog_id", "wrong_house_or_access_insert_subject_permission");
+                return responseObject.build().toString();
+            }
+
 
             CallableStatement insertSubject = conn.prepareCall("{CALL insertSubject(?,?,?)}");
             insertSubject.setString(1, title);
@@ -132,7 +148,8 @@ public class ForumController {
     }
 
     @PostMapping("forum/insert_post")
-    public String insertionPost(@RequestParam("message") String message, @RequestParam("forum_subject_id") int subject_id) throws SQLException {
+    public String insertionPost(@RequestParam("message") String message,
+                                @RequestParam("forum_subject_id") int subject_id) throws SQLException {
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
         if (message.length() == 0) {
             responseObject.add("status", "error");
@@ -143,7 +160,23 @@ public class ForumController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         try (Connection conn = dataSource.getConnection()) {
+            Statement statement = conn.createStatement();
+            String sqlGetSubjectHouseID = "SELECT house_id as RESULT FROM forum_section " +
+                    "INNER JOIN forum_section USING (forum_section_id) WHERE forum_section_id =" + subject_id;
+            String sqlGetSubjectAccessID = "SELECT access_level as RESULT FROM forum_section " +
+                    "NNER JOIN forum_section USING (forum_section_id) WHERE forum_section_id =" + subject_id;
 
+            int subjectHouseId = Utils.getSingletonInt(statement, sqlGetSubjectHouseID);
+            int subjectAccessLevel = Utils.getSingletonInt(statement, sqlGetSubjectAccessID);
+
+            boolean isAllowedOperation = ((user.getHouseID() == subjectHouseId || subjectHouseId == 0) && (user.getAccessLevel() <= subjectAccessLevel)) ||
+                    (user.getAccessLevel() >= 50);
+
+            if(!isAllowedOperation){
+                responseObject.add("status", "error");
+                responseObject.add("dialog_id", "wrong_house_or_access_insert_post_permission");
+                return responseObject.build().toString();
+            }
             CallableStatement insertionPost = conn.prepareCall("{CALL insertPost(?,?,?)}");
             insertionPost.setString(1, message);
             insertionPost.setInt(2, subject_id);
