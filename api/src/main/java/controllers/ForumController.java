@@ -26,9 +26,15 @@ public class ForumController {
 
         String result = null;
 
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        int house_id = user.getHouseID();
+        int access_level = user.getAccessLevel();
+
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet forums = stmt.executeQuery("select DEV.getForums() AS forum_result");
+            ResultSet forums = stmt.executeQuery("select DEV.getForums("+ access_level +"," + house_id + ") AS forum_result");
 
             forums.next();
             result = forums.getString("forum_result");
@@ -180,6 +186,7 @@ public class ForumController {
         }
 
         try (Connection conn = dataSource.getConnection()) {
+            Statement statement = conn.createStatement();
 
             CallableStatement updateSection = conn.prepareCall("{CALL updateSection(?,?,?)}");
             updateSection.setString(1, title);

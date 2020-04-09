@@ -51,7 +51,7 @@ export default function Event() {
             <CssBaseline/>
             <main>
                 <Grid container direction="row" justify="space-evenly" alignItems="center">
-                    {data && data.map(({event_id, name, description, is_competitive, difficulty, status, price, deadline_reservation, date_begin, date_end, location, house_id, house_name, nb_attendees}) =>
+                    {data && data.lenght > 0 && data.map(({event_id, name, description, is_competitive, difficulty, status, price, deadline_reservation, date_begin, date_end, location, house_id, house_name, nb_attendees}) =>
                         <Card className={classes.card}>
                             <CardMedia
                                 className={classes.cardMedia}
