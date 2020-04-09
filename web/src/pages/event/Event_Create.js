@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, {useContext, useEffect } from 'react';
+import {MainContext} from '../../context/MainContext';
 import Typography from '@material-ui/core/Typography';
 
 import Button from '@material-ui/core/Button';
@@ -24,12 +25,14 @@ const useStyles = makeStyles(theme => ({
     card: { //dans la carte
         minHeight: '90%',
         minWidth: '650px',
+        alignItems: 'center',
         width: '60%',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        padding : '10px 10px'
     },
     cardMedia: {
-        paddingTop: '10%', //height de l'image
+        paddingTop: '55px', //height de l'image
         flexDirection: 'row', //place les cartes en colonne
         justify: 'space-evenly', //assez parlant...
         //borderRadius: '50%' //permet d'arrondir l'image
@@ -44,7 +47,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Event_Create() {
+    //user n'est plus accessible si on accède à ses sous-composants
+    //on peut autrement faire user.house ou user.id si on extrait pas les deux données
+    const {user} = useContext(MainContext);
+
     const classes = useStyles();
+
   
     return (
         <React.Fragment>
@@ -101,13 +109,9 @@ export default function Event_Create() {
                                         defaultValue = "Global"
                                         style = {{width: 150}} 
                                         select>
+                                             <MenuItem value= "Maison"> {user.house && user.house.name}</MenuItem>
                                             <MenuItem value="Global">Global</MenuItem>
-                                            <MenuItem value="Ingénierie des données">Ingénierie des données</MenuItem>
-                                            <MenuItem value="Informatique logicielle">Informatique logicielle</MenuItem>
-                                            <MenuItem value="Réseaux et systèmes">Réseaux et systèmes</MenuItem>
-                                            <MenuItem value="Sécurité informatique">Sécurité informatique</MenuItem>
-                                            <MenuItem value="Systèmes informatiques embarqués">Systèmes informatiques embarqués</MenuItem>
-                                        </TextField>
+                                             </TextField>
                                     </Grid>
 
                                     <Grid item xs = {3}> 
