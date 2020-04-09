@@ -42,7 +42,6 @@ public class ForumController {
         return result;
     }
 
-    //TODO : get informations from FrontEnd
     @PostMapping("forum/insert_section")
     public String insertionSection(@RequestParam("name") String title, @RequestParam("description") String desc,
                                    @RequestParam(value = "parent_forum_section_id", required = false) Integer parent,
@@ -95,8 +94,6 @@ public class ForumController {
         return responseObject.build().toString();
 
     }
-
-    //TODO: get informations from FrontEnd
 
     @PostMapping("forum/insert_subject")
     public String insertionSubject(@RequestParam("name") String title,
@@ -162,9 +159,9 @@ public class ForumController {
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
             String sqlGetSubjectHouseID = "SELECT house_id as RESULT FROM forum_section " +
-                    "INNER JOIN forum_section USING (forum_section_id) WHERE forum_section_id =" + subject_id;
+                    "INNER JOIN forum_subject USING (forum_section_id) WHERE forum_subject_id =" + subject_id;
             String sqlGetSubjectAccessID = "SELECT access_level as RESULT FROM forum_section " +
-                    "NNER JOIN forum_section USING (forum_section_id) WHERE forum_section_id =" + subject_id;
+                    "INNER JOIN forum_subject USING (forum_section_id) WHERE forum_subject_id =" + subject_id;
 
             int subjectHouseId = Utils.getSingletonInt(statement, sqlGetSubjectHouseID);
             int subjectAccessLevel = Utils.getSingletonInt(statement, sqlGetSubjectAccessID);
