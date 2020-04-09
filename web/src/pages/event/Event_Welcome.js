@@ -30,7 +30,17 @@ export default function Event() {
 
     const classes = useStyles();
 
-    
+    var daHouse = user.house && user.house.house_id;
+
+    //Permet d'afficher une ligne du tableau selon les données passées
+    function printLine(idMezon, elementToPrint) {
+        if (daHouse == idMezon) {
+              return <TableCell component="th" scope="row">
+              {elementToPrint}
+          </TableCell>
+        }
+        return;
+      }
 
 
     return (
@@ -61,14 +71,15 @@ export default function Event() {
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
-                                            { data && data.length > 0 && data.map(({event_id, name, description, is_competitive, difficulty, status, price, deadline_reservation, date_begin, date_end, location, house_id, house_name, nb_attendees}) =>
-                     
+                                            {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, difficulty, status, price, deadline_reservation, date_begin, date_end, location, house_id, house_name, nb_attendees}) =>
+
+                                                
                                                     <TableRow /* key={name} */>
-                                                        <TableCell component="th" scope="row">
-                                                            {name}
-                                                        </TableCell>
-                                                        <TableCell align="right">{date_begin}</TableCell>
-                                                        <TableCell align="right">{nb_attendees}</TableCell>
+                                                        
+                                                        {printLine(house_id,name)}
+    {printLine(house_id,date_begin)}
+    {printLine(house_id,nb_attendees)}
+
                                                     </TableRow>
                                             )}
                                             </TableBody>
