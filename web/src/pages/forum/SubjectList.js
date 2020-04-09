@@ -95,7 +95,7 @@ const SubjectList = ( ) => {
                         </Grid>
                     </Grid>
                     <Grid item>
-                        <Button size="small" color="primary" onClick={ handleAddSubjectClick }>Nouveau sujet</Button>
+                    <Button size="small" color="primary" onClick={ handleAddSubjectClick }>Nouveau sujet</Button> 
                     </Grid>
             </Grid> }
             { selected && selected.subjects && selected.subjects.length > 0 
@@ -125,7 +125,7 @@ const SubjectDetails = ( { // Component local non-exporté
         setSubjectDeleteDialogState
     } ) => {
 
-    const { data, setData } = useContext(ForumContext);
+    const { data, setData, current } = useContext(ForumContext);
     const { user, setDialog } = useContext(MainContext);
     
     const { value, setValue, bind:bindSubject } = useInput();
@@ -194,12 +194,15 @@ const SubjectDetails = ( { // Component local non-exporté
                             </Grid>
                         </Grid>
                         <Grid item>
-                            { ( subject.creator.user_id === user.user_id || user.access_level >= 75 ) && <section className="subject-toolbar">
+                            <section className="subject-toolbar">
+                            { ( subject.creator.user_id === user.user_id || user.access_level >= 75 ) && 
                                 <Icon className="no-open subject-edit-button" 
-                                    onClick={ () => handleEditSubjectClick(subject.name, index) } />
+                                    onClick={ () => handleEditSubjectClick(subject.name, index) } /> }
+                             { ( subject.creator.user_id === user.user_id || ( user.access_level >= 25 && current.selected.house_id !== null )) &&    
                                 <Icon className="no-open subject-delete-button" 
                                     onClick={ () => handleDeleteSubjectClick(subject.forum_subject_id) } />  
-                            </section> }
+                             }
+                             </section>
                             
                             <section className="edit-subject-buttons">
                                 <Icon className="no-open subject-edit-ok-button" 
