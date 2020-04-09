@@ -135,7 +135,7 @@ export default function Event_Create() {
                                 </Grid>
                                 <br /><br />
                                 <Grid container>
-                                    <Grid>
+                                    <Grid item xs>
                                         <TextField 
                                             id="select" 
                                             label="Battle Royal Mode" 
@@ -148,7 +148,7 @@ export default function Event_Create() {
                                                 <MenuItem value="Oui">Oui</MenuItem>
                                         </TextField>
                                     </Grid>
-                                    <Grid item xs = {3}> 
+                                    <Grid item xs = {4}> 
                                         <TextField
                                             id="date-limite-participation"
                                             label="Date limite inscription"
@@ -160,7 +160,6 @@ export default function Event_Create() {
                                             }}
                                         />
                                     </Grid>
-                                    
                                 </Grid>
                                 <br /><br />
                                 <Grid container >
