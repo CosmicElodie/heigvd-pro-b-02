@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
 import Typography from '@material-ui/core/Typography';
+import {MainContext} from '../../context/MainContext';
 
 import {Button, Card, CardActions, CardContent, CardMedia, CssBaseline, Grid, Table, TableBody, TableCell, TableHead, TableContainer, TableRow, Paper} from '@material-ui/core';
 
@@ -24,18 +25,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Event() {
+    const {user} = useContext(MainContext);
+    const {data, setData} = useContext(EventContext);
+
     const classes = useStyles();
 
-    const {data, setData} = useContext(EventContext);
+    
 
 
     return (
         <React.Fragment>
             <CssBaseline/>
             <main>
-                <Grid container direction="row" justify="space-evenly" alignItems="center">
-                    {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, difficulty, status, price, deadline_reservation, date_begin, date_end, location, house_id, house_name, nb_attendees}) =>
-                        
+                <Grid container direction="row" justify="space-evenly" alignItems="center"> 
                         <Card className={classes.card}>
                             
                             <CardMedia
@@ -45,7 +47,7 @@ export default function Event() {
                             />
                             <CardContent className={classes.cardContent}>
                                 <Typography gutterBottom variant="h5" component="h2">
-                                {house_name /*affiche le nom de la maison */} 
+                                {user.house && user.house.name}
                                 </Typography>
                                 <Typography>
 
@@ -59,13 +61,16 @@ export default function Event() {
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
-                                                    <TableRow key={name}>
+                                            { data && data.length > 0 && data.map(({event_id, name, description, is_competitive, difficulty, status, price, deadline_reservation, date_begin, date_end, location, house_id, house_name, nb_attendees}) =>
+                     
+                                                    <TableRow /* key={name} */>
                                                         <TableCell component="th" scope="row">
                                                             {name}
                                                         </TableCell>
                                                         <TableCell align="right">{date_begin}</TableCell>
                                                         <TableCell align="right">{nb_attendees}</TableCell>
                                                     </TableRow>
+                                            )}
                                             </TableBody>
                                         </Table>
                                     </TableContainer>
@@ -77,7 +82,7 @@ export default function Event() {
                                 </Button>
                             </CardActions>
                         </Card>
-                    )}
+                    
                 </Grid>
             </main>
         </React.Fragment>
