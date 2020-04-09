@@ -14,6 +14,7 @@ import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 
+
 //TODO : Pour faire l'upload de l'image
 //https://www.youtube.com/watch?v=sp9r6hSWH_o
 
@@ -52,9 +53,12 @@ export default function Event_Create() {
     const {user} = useContext(MainContext);
 
     const classes = useStyles();
+    
+    var battleRoyalMod = false;
 
   
     return (
+        
         <React.Fragment>
             <CssBaseline/>
             <main> 
@@ -90,7 +94,7 @@ export default function Event_Create() {
                                 <Grid container >
                                     <Grid item xs> 
                                         <TextField 
-                                        id="select" 
+                                        id="compet" 
                                         label="Type" 
                                         required = "true" 
                                         defaultValue = "Non-compétitif"
@@ -132,18 +136,31 @@ export default function Event_Create() {
                                 <br /><br />
                                 <Grid container>
                                     <Grid>
-                                    <TextField 
-                                        id="select" 
-                                        label="Battle Royal Mode" 
-                                        required = "false" 
-                                        defaultValue = "Non"
-                                        disabled = "true"
-                                        style = {{width: 150}} 
-                                        select>
-                                            <MenuItem value="Non">Non</MenuItem>
-                                            <MenuItem value="Oui">Oui</MenuItem>
+                                        <TextField 
+                                            id="select" 
+                                            label="Battle Royal Mode" 
+                                            required = "false" 
+                                            defaultValue = "Non"
+                                            disabled = { /*TODO*/ ((TextField.id == "compet") && (TextField.id("compet").MenuItem.value("Compétitif") == "Compétitif")) ? false : true }
+                                            style = {{width: 150}} 
+                                            select>
+                                                <MenuItem value="Non">Non</MenuItem>
+                                                <MenuItem value="Oui">Oui</MenuItem>
                                         </TextField>
                                     </Grid>
+                                    <Grid item xs = {3}> 
+                                        <TextField
+                                            id="date-limite-participation"
+                                            label="Date limite inscription"
+                                            type="datetime-local"
+                                            defaultValue="2020-05-24T10:30" //TODO -> mettre une default value qui prend la date/heure actuelle
+                                            className={classes.textField}
+                                            InputLabelProps={{
+                                            shrink: true,
+                                            }}
+                                        />
+                                    </Grid>
+                                    
                                 </Grid>
                                 <br /><br />
                                 <Grid container >
@@ -162,7 +179,7 @@ export default function Event_Create() {
                                             id="event-date"
                                             label="Date et heure de l'événement"
                                             type="datetime-local"
-                                            defaultValue="2020-05-24T10:30" //TODO -> mettre une default value qui prend la date/heure actuelle
+                                            defaultValue = {new Date().getDate()} //TODO -> mettre une default value qui prend la date/heure actuelle
                                             className={classes.textField}
                                             InputLabelProps={{
                                             shrink: true,
@@ -184,8 +201,8 @@ export default function Event_Create() {
                                     </Grid>
                                     <Grid item xs = {4}> 
                                         <TextField
-                                            id="date-limite-participation"
-                                            label="Date limite inscription"
+                                            id="date-fin"
+                                            label="Date et heure de fin"
                                             type="datetime-local"
                                             defaultValue="2020-05-24T10:30" //TODO -> mettre une default value qui prend la date/heure actuelle
                                             className={classes.textField}
