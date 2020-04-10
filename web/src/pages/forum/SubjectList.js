@@ -198,7 +198,7 @@ const SubjectDetails = ( { // Component local non-exporté
                             { ( subject.creator.user_id === user.user_id || user.access_level >= 75 ) && 
                                 <Icon className="no-open subject-edit-button" 
                                     onClick={ () => handleEditSubjectClick(subject.name, index) } /> }
-                             { ( subject.creator.user_id === user.user_id || ( user.access_level >= 25 && current.selected.house_id !== null )) &&    
+                             { ( subject.creator.user_id === user.user_id || ( user.access_level >= 25 && current.selected.house_id !== null ) || user.access_level >= 75) &&    
                                 <Icon className="no-open subject-delete-button" 
                                     onClick={ () => handleDeleteSubjectClick(subject.forum_subject_id) } />  
                              }

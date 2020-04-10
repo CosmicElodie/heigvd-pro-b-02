@@ -42,6 +42,7 @@ const Forum = (  ) => {
         }
       }
       setBreadcrumbs(crumbs);
+      document.querySelector('.main').scrollTop = 0;
     }, [location, setBreadcrumbs, setForum, user]);
 
     const handleBreadcrumbClick = useCallback(( index ) => index >= 0 ? history.push(breadcrumbs[index].path) : history.push('/forum'), [breadcrumbs, history]);
