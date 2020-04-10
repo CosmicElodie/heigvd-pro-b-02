@@ -10,7 +10,7 @@ import "../../css/forum.css";
 
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Route } from 'react-router';
-import { Link as RouterLink, useLocation, useHistory, Switch } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useHistory } from 'react-router-dom';
 
 var fruits = new Map();
 fruits.set('🍎', '🍋');  
@@ -42,7 +42,8 @@ const Forum = (  ) => {
         }
       }
       setBreadcrumbs(crumbs);
-      document.querySelector('.main').scrollTop = 0;
+      
+     
     }, [location, setBreadcrumbs, setForum, user]);
 
     const handleBreadcrumbClick = useCallback(( index ) => index >= 0 ? history.push(breadcrumbs[index].path) : history.push('/forum'), [breadcrumbs, history]);

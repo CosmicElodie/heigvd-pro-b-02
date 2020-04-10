@@ -22,9 +22,9 @@ const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
 
     useEffect(() => {
         // previent le scroll back to top au moment de render en gardant la taille précédente du contenu
-        document.querySelector('.main').style.height = 'auto';    
+        document.querySelector('.main').style.height = document.querySelector('.main').offsetHeight  + 'px';
         return ( ) => {    
-            document.querySelector('.main').style.height = document.querySelector('.main').offsetHeight  + 'px';
+            document.querySelector('.main').style.height = 'auto';    
         }
     }, [data, setAction]);
 
