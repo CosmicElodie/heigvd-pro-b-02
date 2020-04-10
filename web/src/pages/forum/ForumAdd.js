@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { Icon, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Box, FormControl, Select } from '@material-ui/core';
+import React, { useContext, useEffect, useState } from 'react';
+import { Icon, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Box, FormControl, FormControlLabel, Select, Switch } from '@material-ui/core';
 import { useInput } from '../../hooks/input';
 import { searchForumByID } from './Utility';
 import { ForumContext } from '../../context/ForumContext';
@@ -13,6 +13,7 @@ const ForumAdd = ( { is_open, handleClose } ) => {
     const { value:name, setValue:setName, bind:bindName, setError:setErrorName } = useInput('');
     const { value:description, setValue:setDescription, bind:bindDescription, setError:setErrorDescription } = useInput('');
     const { value:house, setValue:setHouse, bind:bindHouse } = useInput('');
+    const [ help, setHelp ] = useState(false);
     const { current, data, setData } = useContext(ForumContext);
     const { global, setDialog } = useContext(MainContext);
 
@@ -20,7 +21,8 @@ const ForumAdd = ( { is_open, handleClose } ) => {
         setHouse('');
         setName('');
         setDescription('');
-    },[current, setHouse, setName, setDescription]);
+        setHelp(false);
+    },[current, setHouse, setName, setDescription, setHelp]);
 
     const handleAddForumClick = () => {
         
@@ -42,7 +44,10 @@ const ForumAdd = ( { is_open, handleClose } ) => {
         if(hasError) return;
  
         
-        let post_body = "name=" + name + "&description=" + description;
+        let post_body = 
+            "name=" + name + 
+            "&description=" + description + 
+            "&help=" + help;
         if(current.selected) post_body += "&parent_forum_section_id=" + current.selected.forum_section_id;
         if(house) post_body += "&house_id=" + house; 
         fetch('http://localhost:8080/forum/insert_section', {
@@ -73,7 +78,9 @@ const ForumAdd = ( { is_open, handleClose } ) => {
         }); 
     }
 
-    
+    const handleHelpToggleChange = (event) => {
+        setHelp(event.target.checked);
+    };
 
     return(
         <Dialog
@@ -123,6 +130,19 @@ const ForumAdd = ( { is_open, handleClose } ) => {
                                     
                                 </Select>
                             </FormControl> 
+                        } 
+                        <Box m={1} />
+                        { !current.selected && <FormControlLabel
+                                control={
+                                <Switch
+                                    checked={ help }
+                                    onChange={ handleHelpToggleChange }
+                                    name="help"
+                                    color="primary"                               
+                                />
+                                }
+                                label="Section d'aide"
+                            />
                         } 
             </DialogContent>
             <DialogActions>

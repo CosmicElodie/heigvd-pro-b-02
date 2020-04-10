@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState, Fragment } from 'react';
+import React, { useContext, useEffect, useRef, useState, Fragment, useMemo, useCallback } from 'react';
 import { List, Icon, Typography, Grid, Button } from '@material-ui/core';
 import { useInput } from '../../hooks/input';
 import Person from '../../layout/Person';
@@ -130,7 +130,7 @@ const SubjectDetails = ( { // Component local non-exporté
     
     const { value, setValue, bind:bindSubject } = useInput();
 
-    const handleSubjectEditOkClick = ( idx, forum_subject_id ) => {
+    const handleSubjectEditOkClick = useCallback(( idx, forum_subject_id ) => {
         fetch('http://localhost:8080/forum/update_subject', {
             method: 'POST',
             credentials: 'include',
@@ -149,9 +149,9 @@ const SubjectDetails = ( { // Component local non-exporté
                 is_open: true
             }});
         });   
-    }
+    }, [setData, setDialog, data, subjectEls, value ]);
 
-    const handleEditSubjectClick = ( name, index ) => {
+    const handleEditSubjectClick = useCallback(( name, index ) => {
         subjectEls.current[index].classList.add('edit-subject');
         setValue(name); 
         // on ne peut stocker la valeur par default dans l'état
@@ -160,17 +160,17 @@ const SubjectDetails = ( { // Component local non-exporté
         // Pour que AutosizeInput puisse lire la taille du contenu
         // il doit être rendu visible add('edit-subject') et ensuite
         // son état peut être chargé setValue(name)
-    }
+    }, [setValue, subjectEls]);
 
-    const handleSubjectEditCancelClick = ( index ) => {
+    const handleSubjectEditCancelClick = useCallback(( index ) => {
         subjectEls.current[index].classList.remove('edit-subject');
-    }
+    }, [subjectEls]);
     
-    const handleDeleteSubjectClick = ( forum_subject_id ) => {
+    const handleDeleteSubjectClick = useCallback(( forum_subject_id ) => {
         setSubjectDeleteDialogState({ is_open : true, forum_subject_id : forum_subject_id });
-    }
+    }, [setSubjectDeleteDialogState]);
     
-    return (
+    return useMemo(() => 
         <section className="subject-details" 
             style={ styles.subjectDetails } 
             >
@@ -198,7 +198,7 @@ const SubjectDetails = ( { // Component local non-exporté
                             { ( subject.creator.user_id === user.user_id || user.access_level >= 75 ) && 
                                 <Icon className="no-open subject-edit-button" 
                                     onClick={ () => handleEditSubjectClick(subject.name, index) } /> }
-                             { ( subject.creator.user_id === user.user_id || ( user.access_level >= 25 && current.selected.house_id !== null )) &&    
+                             { ( subject.creator.user_id === user.user_id || ( user.access_level >= 25 && current.selected.house_id !== null ) || user.access_level >= 75) &&    
                                 <Icon className="no-open subject-delete-button" 
                                     onClick={ () => handleDeleteSubjectClick(subject.forum_subject_id) } />  
                              }
@@ -217,7 +217,7 @@ const SubjectDetails = ( { // Component local non-exporté
                     <Icon className="posts-toggle-show" />
                 </Grid>
             </Grid>
-        </section>
+        </section>, [current, index, user, subject, bindSubject, handleEditSubjectClick, handleDeleteSubjectClick, handleSubjectEditOkClick, handleSubjectEditCancelClick]
     )
 }
 

@@ -46,7 +46,8 @@ public class ForumController {
     @PostMapping("forum/insert_section")
     public String insertionSection(@RequestParam("name") String title, @RequestParam("description") String desc,
                                    @RequestParam(value = "parent_forum_section_id", required = false) Integer parent,
-                                   @RequestParam(value = "house_id", required = false) Integer house) throws SQLException {
+                                   @RequestParam(value = "house_id", required = false) Integer house,
+                                   @RequestParam("help") boolean help) throws SQLException {
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
 
@@ -62,9 +63,10 @@ public class ForumController {
 
         try (Connection conn = dataSource.getConnection()) {
 
-            CallableStatement insertSection = conn.prepareCall("{call DEV.insertSection(?,?,?,?)}");
+            CallableStatement insertSection = conn.prepareCall("{call DEV.insertSection(?,?,?,?,?)}");
             insertSection.setString(1, title);
             insertSection.setString(2, desc);
+            insertSection.setBoolean(5, help);
 
             if (parent == null) {
                 insertSection.setNull(3, Types.INTEGER);

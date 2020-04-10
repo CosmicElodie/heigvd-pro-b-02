@@ -40,6 +40,16 @@
     margin-right: 10px;
 }
 
+.forum .forum-help{
+    background-image: url(../svg/forum/info.svg);
+    /* background-image: url(../svg/forum/book-open-2.svg);*/
+     background-repeat: no-repeat;
+     background-position: center; 
+     background-size: 18px 18px;
+     width: 18px;
+     height: 18px;
+}
+
 .forum .forum-icon{
     
     background-image: url(../svg/forum/agenda-bookmark.svg);
