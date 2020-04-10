@@ -83,7 +83,7 @@ public class ForumController {
                 ResultSet rs = insertSection.getResultSet();
                 rs.next();
                 JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
-                responseObject = Utils.successJSONObjectBuilder("forum_created", reader);
+                responseObject = Utils.successJSONObjectBuilder("event_created", reader);
             }
         }
         return responseObject.build().toString();
