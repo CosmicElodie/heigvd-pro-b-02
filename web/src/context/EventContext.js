@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect  } from 'react';
 
 export const EventContext = createContext();
 /*
-ForumProvider is a data repository intended to contain the states to be shared 
+EventProvider is a data repository intended to contain the states to be shared 
 between all Forum the components.
 */
 export const EventProvider = ( props ) => {

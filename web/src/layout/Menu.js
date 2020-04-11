@@ -55,7 +55,7 @@ const Menu = () => {
                     onClick={ () => handleClick("/about") }  
                 />
 
-<Tab 
+                <Tab 
                     label="Event" 
                     to="/event_welcome"      
                     onClick={ () => handleClick("/event_welcome") }  
