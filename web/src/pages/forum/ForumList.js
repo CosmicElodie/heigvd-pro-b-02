@@ -20,8 +20,7 @@ const ForumList = ( ) => {
     
     return useMemo(() => 
         <List className="forum-list">
-            { 
-            current && current.forums && current.forums.length > 0 && current.forums.map(( forum, index ) =>    
+            { current && current.forums && current.forums.length > 0 && current.forums.map(( forum, index ) =>    
             <ListItem 
                 key={ forum.forum_section_id }
                 dense
@@ -35,7 +34,8 @@ const ForumList = ( ) => {
                             <Grid container direction="row" alignItems="center" wrap="nowrap" spacing={1}>
                                 <Grid item xs={0}><Icon className="forum-icon" /></Grid>
                                 <Grid item xs={11}>
-                                    <Typography component="h5" className="typo-headline" noWrap>{ forum.name } </Typography>
+                                    <Typography component="h5" className="typo-headline" noWrap> 
+                                     { forum.help_section !== 0 && <Icon className="forum-help" /> } { forum.name } </Typography>
                                     <Typography component="p" className="typo-body-3" align="justify" noWrap> { forum.description } </Typography>
                                 </Grid>
                             </Grid>
@@ -51,8 +51,7 @@ const ForumList = ( ) => {
             </ListItem>        
         )
     }
-    </List>, [current, handleListItemClick]  
-        
+    </List>, [current, handleListItemClick]    
     )
 }
 

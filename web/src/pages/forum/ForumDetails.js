@@ -35,7 +35,7 @@ const ForumDetails = ( { selected } ) => {
                     <Grid item>
                         <Grid container direction="row" alignItems="center" spacing={1}> 
                             <Icon className="forum-open-icon" /> 
-                            <Typography className="typo-headline" gutterBottom> { selected.name } </Typography>
+                            <Typography className="typo-headline" gutterBottom>  { selected.help_section !== 0 && <Icon className="forum-help" /> } { selected.name } </Typography>
                         </Grid>
                     </Grid>
                     <Grid item>
