@@ -51,7 +51,7 @@ export default function Event() {
                             />
                             <CardContent className={classes.cardContent}>
                                 <Typography gutterBottom variant="h5" component="h2">
-                               
+                               blabla
                                 </Typography>
                                 
                             </CardContent>
