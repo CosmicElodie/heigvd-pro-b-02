@@ -39,7 +39,6 @@ public class UserProfileController {
                                 @RequestParam("firstname") String firstname,
                                 @RequestParam("lastname") String lastname,
                                 @RequestParam("password") String password,
-                                @RequestParam("username") String username,
                                 @RequestParam("house_id") int house_id
                                 ) throws SQLException {
 
@@ -75,10 +74,7 @@ public class UserProfileController {
             isError = true;
             responseObjectError.add("empty2", "empty_lastname");
         }
-        if (username.isEmpty()) {
-            isError = true;
-            responseObjectError.add("empty3", "empty_username");
-        }
+
         if (password.isEmpty()) {
             isError = true;
             responseObjectError.add("empty4", "empty_password");
@@ -90,14 +86,13 @@ public class UserProfileController {
 
         try (Connection conn = dataSource.getConnection()) {
 
-            CallableStatement insertionUser = conn.prepareCall("{CALL insertUser(?,?,?,?,?,?,?)}");
+            CallableStatement insertionUser = conn.prepareCall("{CALL insertUser(?,?,?,?,?,?)}");
             insertionUser.setDate(1, birth);
             insertionUser.setString(2, email);
             insertionUser.setString(3, firstname);
             insertionUser.setString(4, lastname);
             insertionUser.setString(5, password);
-            insertionUser.setString(6, username);
-            insertionUser.setInt(7, house_id);
+            insertionUser.setInt(6, house_id);
 
             boolean hasRs = insertionUser.execute();
             if (hasRs) {

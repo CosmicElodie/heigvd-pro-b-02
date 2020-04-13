@@ -20,7 +20,6 @@ const Signup = ( props ) => {
     const { value:firstname,  bind:bindFirstname }                              = useInput('');
     const { value:lastname,   bind:bindLastname }                               = useInput('');
     const { value:password,   bind:bindPassword }                               = useInput('');
-    const { value:username,   bind:bindUsername }                               = useInput('');
     const { value:house,      bind:bindHouse,     setValue:setHouse }           = useInput('');
     
     useEffect(() => {
@@ -45,7 +44,6 @@ const Signup = ( props ) => {
         "&firstname=" + firstname +
         "&lastname=" + lastname +
         "&password=" + password +
-        "&username=" + username +
         "&house_id=" + house;
 
         fetch('http://localhost:8080/profile/sign_up', {
@@ -140,14 +138,7 @@ const Signup = ( props ) => {
                     label="Nom"
                     { ...bindLastname }
                 />
-                <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    label="Username"
-                    { ...bindUsername }
-                />
+               
                 <div>
                 <TextField
                     margin="normal"
