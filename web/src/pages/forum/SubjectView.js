@@ -115,7 +115,7 @@ const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, foru
                                     ( user.access_level === 25 && user.house.house_id === current.selected.house_id )
                              ) && <section class="post-actions forum-post-actions" onClick={ (event) => handleActionsClick(event, post, index) }></section> }
                         </section>
-                        <section className="subject-answer-icon">Réponse Sélectionnée</section>
+                        <section className="subject-answer-icon">Meilleure Réponse</section>
                         <Bubble orientation="left" className={ "post-bubble " + ( post.creator.user_id === user.user_id ? 'mine' : 'not-mine' ) } text={ post.message } time={ post.created } updated={ post.created !== post.last_update }/>
                     </section>
                 ) 
