@@ -90,6 +90,7 @@ const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, foru
         setData(JSON.parse(JSON.stringify(data)));
         handleActionsClose();
     });
+    
     const handleUnsetAnswer = useCallback((post) => {
         let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
         let subjectToUnResolve = reference.subjects[index];
