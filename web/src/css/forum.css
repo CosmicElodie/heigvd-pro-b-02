@@ -110,17 +110,19 @@
   max-height: initial;
 }
 
-.App .list-item-subject .view-subject-posts .posts-list{
-  /* transform: scaleX(0);    
-  transform-origin: left;
-  transition: transform 0.26s ease; */
-  transition:200ms opacity ease-in-out;
-  opacity:0;
-  width:80%;
-  background:white;
-  display:flex;
-  flex-direction: column;
-  padding:20px;
+.App .list-item-subject .view-subject-posts .posts-list {
+	/* transform: scaleX(0); */
+	/* transform-origin: left; */
+	/* transition: transform 0.26s ease; */
+	transition: 200ms opacity ease-in-out;
+	opacity: 0;
+	width: 80%;
+	background: white;
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+	/* background: #cdf7d1; */
+ 
 }
 
 .App .list-item-subject.open .view-subject-posts .posts-list{
@@ -155,8 +157,34 @@
   flex-direction: column;
   margin-bottom:32px;
   transform-origin: top;
+  position: relative;
 }
 
+
+.App .view-subject-posts .post-item.subject-answer {
+	border-left: 4px solid #61b363;
+	/* border-right: 5px solid #61b363; */
+	/* border-radius: 10px; */
+	padding-left: 10px;
+}
+
+.App .view-subject-posts .post-item .subject-answer-icon{
+  display:none;
+}
+.App .view-subject-posts .post-item.subject-answer .subject-answer-icon {
+	display: block;
+	position: absolute;
+	top: 12px;
+	right: 26px;
+	/* width: 32px; */
+	height: 32px;
+	font-size: 0.6em;
+	/* text-align: center; */
+	/* vertical-align: middle; */
+	padding-top: 5px;
+	letter-spacing: 0.1em;
+	/* font-weight: 400; */
+}
 .App .view-subject-posts .post-item.is_new{
   animation: appear 300ms ease-in-out 100ms 1 forwards;
   
@@ -229,6 +257,24 @@
   -moz-box-shadow: 0px 0px 10px -7px rgba(63,81,181,1);
   box-shadow: 0px 0px 10px -7px rgba(63,81,181,1);
   background:#f5f4f4;
+  border: 1px solid #e8e8e8f0;
+  padding:10px;
+}
+
+.forum .subject-details .subject-resolved{
+  display:none;
+}
+
+.forum .subject-details.resolved{
+  -webkit-box-shadow: 0px 0px 10px -4px #53e853;
+  -moz-box-shadow: 0px 0px 10px -4px #53e853;
+  box-shadow: 0px 0px 10px -4px #53e853;
+  background:#f5fff6;
+  border:1px solid #61b363;
+}
+
+.forum .subject-details.resolved .subject-resolved{
+  display:block;
 }
 
 .forum .subject-details .edit-subject-inline-input{

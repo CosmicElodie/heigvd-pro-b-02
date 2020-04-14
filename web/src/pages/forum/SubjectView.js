@@ -9,10 +9,10 @@ import { ForumContext } from '../../context/ForumContext';
 import { MainContext } from '../../context/MainContext';
 import { traverseForums, getSubjectByID  } from './Utility';
 
-const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
+const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, forum_subject_id, posts, isOpen } ) => {
     
     const { data, setData, current }     = useContext(ForumContext);
-    const { user, setDialog }   = useContext(MainContext);
+    const { user, setDialog }           = useContext(MainContext);
     
     const [ action, setAction ]         = useState();
     const [ anchorEl, setAnchorEl ]     = useState(null);
@@ -59,9 +59,9 @@ const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
         });        
     }, [forum_subject_id, data, setData, setAction, setDialog]);
     
-    const handleActionsClick = (event, post) => {
+    const handleActionsClick = (event, post, index) => {
         setAnchorEl(event.currentTarget);
-        setPost(post);
+        setPost({ ...post, index: index });
     };
 
     const handleActionsClose = useCallback(() => setAnchorEl(null), [setAnchorEl]);
@@ -79,20 +79,43 @@ const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
     const handleCloseEditPost   = useCallback(() => setEditPost({ is_open: false }), [setEditPost]);
     const handleCloseDeletePost = useCallback(() => setDeletePost({ is_open: false }), [setDeletePost]);
 
+    const handleSetAnswer   = useCallback((post) => {
+        let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
+        let subjectToResolve = reference.subjects[index];
+        let postToEdit = subjectToResolve.posts[post.index];
+        subjectToResolve.resolved = 1;
+        postToEdit.subject_answer = 1;
+        subjectToResolve.posts.splice(post.index, 1);  
+        subjectToResolve.posts.unshift(postToEdit);
+        setData(JSON.parse(JSON.stringify(data)));
+        handleActionsClose();
+    });
+    const handleUnsetAnswer = useCallback((post) => {
+        let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
+        let subjectToUnResolve = reference.subjects[index];
+        let postToEdit = subjectToUnResolve.posts[post.index];
+        subjectToUnResolve.resolved = 0;
+        postToEdit.subject_answer = 0;
+        subjectToUnResolve.posts.sort((a,b) => { return new Date(b.created) - new Date(a.created) });
+        setData(JSON.parse(JSON.stringify(data)));
+        handleActionsClose();
+    }, [setDeletePost]);
+
     return useMemo(() => 
         <section className={ "view-subject-posts " + ( isOpen ? 'open' : '' )}> 
             <NewPost buttonSendPost = { buttonSendPost } />
             <section className="posts-list">{
                 posts && posts.length > 0 && posts.map((post, index) => 
-                    <section className={ "post-item " + ( action === 'add-post' && index === 0 ? 'is_new' : '' ) }>
+                    <section className={ "post-item " + ( action === 'add-post' && index === 0 ? 'is_new' : '' ) + ( post.subject_answer ? 'subject-answer' : '' ) }>
                         <section class="line between clickable">
                             <Person user = { post.creator } />
                             {( 
                                     post.creator.user_id === user.user_id || 
                                     user.access_level >= 50 || 
                                     ( user.access_level === 25 && user.house.house_id === current.selected.house_id )
-                             ) && <section class="post-actions forum-post-actions" onClick={ (event) => handleActionsClick(event, post) }></section> }
+                             ) && <section class="post-actions forum-post-actions" onClick={ (event) => handleActionsClick(event, post, index) }></section> }
                         </section>
+                        <section className="subject-answer-icon">Réponse Sélectionnée</section>
                         <Bubble orientation="left" className={ "post-bubble " + ( post.creator.user_id === user.user_id ? 'mine' : 'not-mine' ) } text={ post.message } time={ post.created } updated={ post.created !== post.last_update }/>
                     </section>
                 ) 
@@ -104,13 +127,17 @@ const SubjectView = ( { forum_subject_id, posts, isOpen } ) => {
                 open={Boolean(anchorEl)}
                 onClose={handleActionsClose}
                 >
+                    { current.selected.help_section !== 0 && subject_creator.user_id === user.user_id && post.subject_answer === 0 && !subject_resolved
+                    && <MenuItem onClick={ () => handleSetAnswer(post) }>Définir comme réponse</MenuItem> }
+                    { current.selected.help_section !== 0 && subject_creator.user_id === user.user_id && post.subject_answer !== 0
+                    && <MenuItem onClick={ () => handleUnsetAnswer(post) }>Supprimer le status de réponse</MenuItem> }
                 { (
                     post.creator.user_id === user.user_id ||
                     user.access_level >= 75
                 )
-                && <MenuItem onClick={ handleOpenEditPost }>Update</MenuItem> }
+                && <MenuItem onClick={ handleOpenEditPost }>Modifier</MenuItem> }
                 
-                <MenuItem onClick={ handleOpenDeletePost }>Delete</MenuItem>
+                <MenuItem onClick={ handleOpenDeletePost }>Supprimer</MenuItem>
             </Menu> }
             <PostEdit { ...{ ...editPost, ...post, handleCloseEditPost } } />
             <PostDelete { ...{ ...deletePost, ...post, handleCloseDeletePost } } />

@@ -35,7 +35,7 @@ const ForumList = ( ) => {
                                 <Grid item xs={0}><Icon className="forum-icon" /></Grid>
                                 <Grid item xs={11}>
                                     <Typography component="h5" className="typo-headline" noWrap> 
-                                     { forum.help_section !== 0 && <Icon className="forum-help" /> } { forum.name } </Typography>
+                                    { forum.help_section !== 0 && <Icon className="forum-help" /> } { forum.name } </Typography>
                                     <Typography component="p" className="typo-body-3" align="justify" noWrap> { forum.description } </Typography>
                                 </Grid>
                             </Grid>

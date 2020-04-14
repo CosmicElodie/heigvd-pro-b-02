@@ -10,6 +10,7 @@ import { ForumContext } from '../../context/ForumContext';
 import { MainContext } from '../../context/MainContext';
 import AutosizeInput from 'react-input-autosize';
 import { getSubjectByID, traverseForums } from './Utility';
+import ConsoleLog from '../../ConsoleLog';
 
 const SubjectList = ( ) => {
     const { current: { selected } } = useContext(ForumContext);
@@ -100,7 +101,8 @@ const SubjectList = ( ) => {
             </Grid> }
             { selected && selected.subjects && selected.subjects.length > 0 
             && selected.subjects.map(( subject, index ) =>    
-                subject && <section class="list-item-subject" key={ subject.forum_subject_id } ref = { (el) => subjectEls.current[index] = el } >
+                subject && 
+                <section class="list-item-subject" key={ subject.forum_subject_id } ref = { (el) => subjectEls.current[index] = el } >
                     <section className="subject" onClick={ (event) => handleSubjectClick(event, index) } >
                         <section className="list-item-subjects-person"> 
                             <Person user = { subject.creator } collapsed={true} noExtend={true} /> 
@@ -171,12 +173,16 @@ const SubjectDetails = ( { // Component local non-exporté
     }, [setSubjectDeleteDialogState]);
     
     return useMemo(() => 
-        <section className="subject-details" 
+        <section className={ "subject-details " + ( subject.resolved ? 'resolved' : '' ) }
             style={ styles.subjectDetails } 
             >
             <Grid container alignItems="center" justify="space-between" >
                 <Grid item>
                     <Grid container direction="row" spacing={1}> 
+                        <ConsoleLog> { subject } </ConsoleLog>
+                        { subject.resolved !== 0 && <Grid item> 
+                            <Icon className="subject-resolved" />
+                        </Grid> }
                         <Grid item>
                             <Grid container justify="space-around" direction="column" >
                                 <Grid container direction="row" spacing={1}> 
@@ -225,11 +231,6 @@ const styles = {
     List: {
         position:'relative',
 	    padding: '50px'
-    },
-    subjectDetails : {
-        padding:'10px',
-        background: '#f5f4f4',
-        border: '1px solid #e8e8e8f0'
     }
 }
 
