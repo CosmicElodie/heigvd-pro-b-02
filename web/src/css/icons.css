@@ -151,7 +151,7 @@
 }
 
 .forum .subject-answer-icon {
-	background-image: url(/static/media/medal.b74da10c.svg);
+	background-image: url(../svg/forum/post/medal.svg);
 	background-repeat: no-repeat;
 	background-position: right top;
 	background-size: 32px 32px;
