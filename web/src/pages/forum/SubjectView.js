@@ -89,7 +89,7 @@ const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, foru
         subjectToResolve.posts.unshift(postToEdit);
         setData(JSON.parse(JSON.stringify(data)));
         handleActionsClose();
-    });
+    },[data, forum_subject_id, handleActionsClose, setData]);
     
     const handleUnsetAnswer = useCallback((post) => {
         let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
@@ -100,7 +100,7 @@ const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, foru
         subjectToUnResolve.posts.sort((a,b) => { return new Date(b.created) - new Date(a.created) });
         setData(JSON.parse(JSON.stringify(data)));
         handleActionsClose();
-    }, [setDeletePost]);
+    }, [data, setData, handleActionsClose, forum_subject_id]);
 
     return useMemo(() => 
         <section className={ "view-subject-posts " + ( isOpen ? 'open' : '' )}> 
@@ -157,7 +157,12 @@ const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, foru
             isOpen, 
             post, 
             user,
-            current.selected.house_id
+            current,
+            handleSetAnswer,
+            handleUnsetAnswer,
+            subject_creator,
+            subject_resolved
+
         ])
 }
 
