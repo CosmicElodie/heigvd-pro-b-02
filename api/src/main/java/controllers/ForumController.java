@@ -377,4 +377,117 @@ public class ForumController {
         }
         return responseObject.build().toString();
     }
+
+    @PostMapping("forum/subject_solved")
+    public String subjectSolved(@RequestParam("forum_post_id") int post_id,
+                                @RequestParam("forum_subject_id") int subject_id) throws SQLException {
+
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement statement = conn.createStatement();
+
+            String sqlGetSubjectOwnerID = "SELECT user_id as result FROM forum_subject WHERE forum_subject_id = " + subject_id;
+            String sqlGetPostOwnerID = "SELECT user_id as result FROM forum_post WHERE forum_post_id = " + post_id;
+            String sqlGetStatusPost = "SELECT subject_answer as result FROM forum_post WHERE forum_post_id = " + post_id;
+            String sqlGetStatusSubject = "SELECT resolved as result FROM forum_subject WHERE forum_subject_id = " + subject_id;
+
+            String sqlGetHelpSection = "SELECT help_section as result FROM forum_section " +
+                    "INNER JOIN forum_subject USING (forum_section_id) WHERE forum_subject_id = " + subject_id;
+
+            int subjectOwnerUserId = Utils.getSingletonInt(statement, sqlGetSubjectOwnerID);
+            int postOwnerUserId = Utils.getSingletonInt(statement, sqlGetPostOwnerID);
+            int statusPost = Utils.getSingletonInt(statement, sqlGetStatusPost);
+            int statusSubject = Utils.getSingletonInt(statement, sqlGetStatusSubject);
+            int helpSection = Utils.getSingletonInt(statement, sqlGetHelpSection);
+
+            boolean isAllowedOperation = (user.getId() == subjectOwnerUserId);
+
+            if(!isAllowedOperation){
+                return Utils.errorJSONObjectBuilder("wrong_author_subject_solved").build().toString();
+            }
+
+            isAllowedOperation = user.getHouseID() != postOwnerUserId;
+            if(!isAllowedOperation){
+                return Utils.errorJSONObjectBuilder("same_author_post_subject_solved").build().toString();
+            }
+
+            if(!(statusPost == 1 || statusSubject == 1)){
+                return Utils.errorJSONObjectBuilder("subject_or_post_already_solved").build().toString();
+            }
+
+            if(!(helpSection == 1)){
+                return Utils.errorJSONObjectBuilder("not_in_help_section").build().toString();
+            }
+
+            CallableStatement updateSubject = conn.prepareCall("{CALL answerPost(?)}");
+            updateSubject.setInt(1, post_id);
+            updateSubject.execute();
+
+            CallableStatement updatePost = conn.prepareCall("{CALL answerSubject(?)}");
+            updatePost.setInt(1, subject_id);
+            updatePost.execute();
+
+            responseObject = Utils.successJSONObjectBuilder("solved_post_and_subject", null);
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("forum/subject_unsolved")
+    public String subjectUnsolved(@RequestParam("forum_post_id") int post_id,
+                                  @RequestParam("forum_subject_id") int subject_id) throws SQLException {
+
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement statement = conn.createStatement();
+
+            String sqlGetSubjectOwnerID = "SELECT user_id as result FROM forum_subject WHERE forum_subject_id = " + subject_id;
+            String sqlGetPostOwnerID = "SELECT user_id as result FROM forum_post WHERE forum_post_id = " + post_id;
+            String sqlGetStatusPost = "SELECT subject_answer as result FROM forum_post WHERE forum_post_id = " + post_id;
+            String sqlGetStatusSubject = "SELECT resolved as result FROM forum_subject WHERE forum_subject_id = " + subject_id;
+
+            String sqlGetHelpSection = "SELECT help_section as result FROM forum_section " +
+                    "INNER JOIN forum_subject USING (forum_section_id) WHERE forum_subject_id = " + subject_id;
+
+            int subjectOwnerUserId = Utils.getSingletonInt(statement, sqlGetSubjectOwnerID);
+            int postOwnerUserId = Utils.getSingletonInt(statement, sqlGetPostOwnerID);
+            int statusPost = Utils.getSingletonInt(statement, sqlGetStatusPost);
+            int statusSubject = Utils.getSingletonInt(statement, sqlGetStatusSubject);
+            int helpSection = Utils.getSingletonInt(statement, sqlGetHelpSection);
+
+            boolean isAllowedOperation = (user.getId() == subjectOwnerUserId);
+
+            if(!isAllowedOperation){
+                return Utils.errorJSONObjectBuilder("wrong_author_subject_unsolved").build().toString();
+            }
+
+            isAllowedOperation = user.getHouseID() != postOwnerUserId;
+            if(!isAllowedOperation){
+                return Utils.errorJSONObjectBuilder("same_author_post_subject_unsolved").build().toString();
+            }
+
+            if(!(statusPost == 1 || statusSubject == 1)){
+                return Utils.errorJSONObjectBuilder("subject_or_post_already_unsolved").build().toString();
+            }
+
+            if(!(helpSection == 1)){
+                return Utils.errorJSONObjectBuilder("not_in_help_section").build().toString();
+            }
+
+            CallableStatement updateSubject = conn.prepareCall("{CALL unanswerPost(?)}");
+            updateSubject.setInt(1, post_id);
+            updateSubject.execute();
+
+            CallableStatement updatePost = conn.prepareCall("{CALL unanswerSubject(?)}");
+            updatePost.setInt(1, subject_id);
+            updatePost.execute();
+
+            responseObject = Utils.successJSONObjectBuilder("unsolved_post_and_subject", null);
+        }
+        return responseObject.build().toString();
+    }
 }
