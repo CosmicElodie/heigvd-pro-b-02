@@ -113,7 +113,6 @@ public class UserProfileController {
                              @RequestParam("firstname") String firstname,
                              @RequestParam("lastname") String lastname,
                              @RequestParam("password") String password,
-                             @RequestParam("username") String username,
                              @RequestParam("avatar") String avatar
                              ) throws SQLException {
 
@@ -132,10 +131,6 @@ public class UserProfileController {
             isError = true;
             responseObjectError.add("empty2", "empty_lastname");
         }
-        if (username.isEmpty()) {
-            isError = true;
-            responseObjectError.add("empty3", "empty_username");
-        }
         if (password.isEmpty()) {
             isError = true;
             responseObjectError.add("empty4", "empty_password");
@@ -153,8 +148,7 @@ public class UserProfileController {
             updateUser.setString(3, firstname);
             updateUser.setString(4, lastname);
             updateUser.setString(5, password);
-            updateUser.setString(6, username);
-            updateUser.setString(7, avatar);
+            updateUser.setString(6, avatar);
             updateUser.execute();
 
             responseObjectSuccess.add("status", "ok");
