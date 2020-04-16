@@ -61,21 +61,14 @@ const ShowProfile = () => {
                             </div>
                             <br />
                             <br />
-                            <h1>blah</h1>
 
-                            <Typography component="h6" >                     
-                              <DisplayData name="nom :" data = {showProfile.lastname}/>    
-                              <DisplayData name="prenom :" data = {showProfile.firstname}/>    
+                            <Typography >                     
+                              <DisplayData name="Nom :" data = {showProfile.lastname}/>    
+                              <DisplayData name="Prenom :" data = {showProfile.firstname}/>    
                               <DisplayData name="Naissance :" data = {showProfile.birth}/>    
                               <DisplayData name="Maison :" data = {showProfile.house && showProfile.house.name}/>    
-                              <DisplayData name="Username :" data = {showProfile.username}/>    
-                              <DisplayData name="email :" data = {showProfile.email}/>    
+                              <DisplayData name="Email :" data = {showProfile.email}/>    
                             </Typography>   
-                        
-                            <IconButton aria-label="edit"  size="small">
-                              <EditIcon style={{ fontSize: 10, color: blue[500] }} />  
-                            </IconButton>
-                         
                       </CardContent>
                     </Card>
       

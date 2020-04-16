@@ -1,12 +1,11 @@
-import React, {useContext, useEffect} from 'react';
-import { makeStyles, Card,  CardContent,  Typography, Avatar, Grid, Button } from '@material-ui/core';
+import React, {useContext,useEffect} from 'react';
+import { TextField, makeStyles, Card,  CardContent,  Typography, Avatar, Grid } from '@material-ui/core';
 import { blue, blueGrey } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
 import { MainContext } from '../../context/MainContext';
-import ModalProfile from './ModalProfile';
 import IconButton from '@material-ui/core/IconButton';
-
-import {DropzoneDialog} from 'material-ui-dropzone'
+import Modal from '@material-ui/core/Modal';
+import { useInput } from '../../hooks/input';
 
 import { useHistory } from "react-router-dom";
 
@@ -37,44 +36,73 @@ const HOUSE_DATA = {
 
 
 
-export default function Profile() {
+export default function ModalProfile() {
+
 
   let history = useHistory(); // hook that allows URL change -> navigation
   const redirectPage = (link) => {
     history.push(link);    
   }; 
-
-  
-  const [img, setImg] = React.useState('');
+  const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
 
-  const { user, setUser } = useContext(MainContext);
+  const { value:password,   bind:bindPassword }                               = useInput('');
+
+
+  const { user, setShownUser } = useContext(MainContext);
   const classes = useStyles();
   const SPACING = 3;
 
-  const handleOpen =(user) =>{
-    setOpen(true)
-  }
-  const handleClose =(user) =>{
-    setOpen(false)
-  }
+useEffect(() => { 
+  setShownUser(user);
+  },[user,setShownUser]);
 
-  const handleSave = (files) => {
-    //Saving files to state for further use and closing Modal.
+  function getModalStyle() {
+    const top = 50 + rand();
+    const left = 50 + rand();
+  
+    return {
+      top: `${top}%`,
+      left: `${left}%`,
+      transform: `translate(-${top}%, -${left}%)`,
+    };
+  }
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-    setImg(files);
-    setOpen(false)
-    //imageBase64Data
-    const currentFile = files[0]
-    const reader = new FileReader()
-    reader.addEventListener("load", ()=>{
-      console.log(reader.result)
-      setImg(reader.result)
-      setUser((latest) => ({ ...latest, avatar: reader.result }))
-    },false)   
-    reader.readAsDataURL(currentFile)
-    
-}
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const body = (
+    <div style={modalStyle} className={classes.paper}>
+      <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          label="Ancien mot de passe"
+          { ...bindPassword }
+      />
+       <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="nouveau mot de passe"
+            { ...bindPassword }
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          label="Confimez votre nouveau mot de passe"
+          { ...bindPassword }
+      />
+    </div>
+  );
 
   return (
     <div>
@@ -83,7 +111,7 @@ export default function Profile() {
           <Grid container spacing={3}>
             <Grid item xs>
               <Typography className={classes.title} color="textSecondary" gutterBottom>
-                TEST PAGE
+                Profile
               </Typography>
 
               <Avatar className={classes.contour}> 
@@ -109,26 +137,42 @@ export default function Profile() {
         </CardContent>
       </Card>
 
-    
-      <Button onClick={handleOpen}>
-                  Add Image
-      </Button>
-      
-      <DropzoneDialog
-          open = {open}
-          onSave = {handleSave}
-          acceptedFiles={['image/jpeg', 'image/png', 'image/bmp']}
-          showPreviews={true}
-          maxFileSize={5000000}
-          showAlerts ={true}
-          onClose={handleClose}
-      />
-      <br/>
-    { <img className={classes.image} src={img} alt="No img" /> }
-
-    </div>
-
-
+      <Card className={classes.InfoBox}>
+        <CardContent >
+              <div className={classes.test}>
+              </div>
+              
+              <Typography component="h1" variant="h4"spacing={10}>
+                Info
+              </Typography>
+              <br />
+              <br />
+              <Typography  >                     
+                <DisplayData name="Nom :" data = {user.lastname}/>    
+                <DisplayData name="Prenom :" data = {user.firstname}/>    
+                <DisplayData name="Naissance :" data = {user.birth}/>    
+                <DisplayData name="Maison :" data = {user.house && user.house.name}/>    
+                <DisplayData name="Email :" data = {user.email}/>    
+                <DisplayData name="Mot de passe :" data = {
+                <IconButton aria-label="edit"  size="small"onClick = {handleOpen}>
+                  Modifier        
+                    <EditIcon style={{ fontSize: 10, color: blue[500] }} /> 
+                      <Modal
+                      open={open}
+                      onClose={handleClose}
+                      aria-labelledby="simple-modal-title"
+                      aria-describedby="simple-modal-description"
+                      >
+                      {body}
+                    </Modal>
+                  </IconButton>
+                }/> 
+              </Typography>   
+              
+            
+        </CardContent>
+      </Card>
+  </div>
   );
 }
 
@@ -193,4 +237,27 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1),
     backgroundColor: theme.palette.background.paper,
   },
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
 }));
+
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+  const top = 50 + rand();
+  const left = 50 + rand();
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
