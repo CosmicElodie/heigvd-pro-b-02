@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column'
     },
     cardMedia: {
-        paddingTop: '75%',
+        //paddingTop: '75%',
         flexDirection: 'row',
         justify: 'space-evenly'
     },
@@ -46,12 +46,14 @@ export default function Event() {
                 <Card className={classes.card}>
                             <CardMedia
                                 className={classes.cardMedia}
-                                image="https://heig-vd.ch/images/default-source/img-vie-sur-le-campus/heig-vd-site-web-sm-00075562.jpg?sfvrsn=e01580ea_2"
+                                //image="https://heig-vd.ch/images/default-source/img-vie-sur-le-campus/heig-vd-site-web-sm-00075562.jpg?sfvrsn=e01580ea_2"
                                 title="Image title"
                             />
                             <CardContent className={classes.cardContent}>
                                 <Typography gutterBottom variant="h5" component="h2">
-                               blabla
+                               <title>
+                                   blargh
+                               </title>
                                 </Typography>
                                 
                             </CardContent>

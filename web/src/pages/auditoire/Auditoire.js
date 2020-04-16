@@ -1,16 +1,14 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {MainContext} from '../../context/MainContext';
+import { EventContext } from '../../context/EventContext';
+import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-
 import {Button, 
     Card, CardActions, CardContent, CardMedia, 
     CssBaseline, 
     Grid, 
     Table, TableBody, TableCell, TableHead, TableContainer, TableRow, 
     Paper} from '@material-ui/core';
-
-import {makeStyles} from '@material-ui/core/styles';
-
 import '../../css/Auditoire.css'; 
 
 const useStyles = makeStyles(theme => ({
@@ -39,6 +37,54 @@ export default function Auditoire() {
 
     const {user} = useContext(MainContext);
     const classes = useStyles();
+    const [ data, setData ] = useState(); //mettre json à la place de useState
+
+    function createUser(name, lastname, points) {
+        return {name, lastname, points};
+    }
+
+    function getTotalPoints(house)
+    {
+        var total_points = 0;
+        for (var members = 0; members < house.len; ++members)
+        {
+            total_points += house.points;
+        }
+        return total_points
+    }
+
+    var rankIL = 1;
+
+    const houseIL = [
+        createUser('Elodie', 'Lagier', 99),
+        createUser('Salva', 'Maillefer', 102),
+        createUser('Gus', 'Valvanale', 56),
+        createUser('Stefan', 'Teofanovic', 216),
+        createUser('Sanza', 'Junod', 77)
+    ];  
+
+    const houseIE = [
+        createUser('Miches', 'Tripotées', 113),
+        createUser('LN', 'Dubuis', 12),
+        createUser('Marie', 'Antoinette', 64)
+    ];
+
+    const houseID = [
+        createUser('Anne', 'O\'nyme', 27),
+        createUser('Sébastien', 'Rosat', 66),
+        createUser('Grégoire', 'Decorvet', 89),
+        createUser('Pier', 'Donini', 2),
+        createUser('Stéfanie', 'Dupont', 43)
+    ];
+
+    const houseTR = [
+        createUser('Nair', 'Alic', 342)
+    ];
+
+    const houseTS = [
+        createUser('Jojo', 'Lémainrouj', 231)
+    ];
+
 
     return (
         <React.Fragment>
@@ -55,8 +101,8 @@ export default function Auditoire() {
                                         image="https://i.imgur.com/NSM8kNK.png"
                                         title="Image title"
                                     />
-                                    ... points<br />
-                                    ... membres
+
+                                    {getTotalPoints(houseIL)} points
                                     <CardContent className={classes.cardContent}>
                                         <Typography>
                                             <TableContainer component={Paper}>
@@ -69,8 +115,13 @@ export default function Auditoire() {
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
+                                                    {houseIL.map(row => (
                                                         <TableRow >
+                                                            <TableCell>{rankIL++}</TableCell>
+                                                            <TableCell>{row.name + ' ' + row.lastname}</TableCell>
+                                                            <TableCell>{row.points}</TableCell>
                                                         </TableRow>
+                                                    ))}
                                                     </TableBody>
                                                 </Table>
                                             </TableContainer>

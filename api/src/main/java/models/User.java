@@ -21,9 +21,6 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private int id;
 
-    @Column(name = "username")
-    private String username;
-
     @Column(name = "firstname")
     private String firstname;
 
@@ -82,7 +79,6 @@ public class User implements UserDetails {
                 + Character.toString(Character.toUpperCase(this.lastname.charAt(0)));
         JSONObject json = new JSONObject();
         json.put("user_id", this.id);
-        json.put("username", this.username);
         json.put("firstname", this.firstname);
         json.put("lastname", this.lastname);
         json.put("initials", initials);
