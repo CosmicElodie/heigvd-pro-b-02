@@ -41,9 +41,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function Event_List() {
     const {user:{event}} = useContext(MainContext);
-    //data && dat.len > 0 && ...
+
     const {data, setData} = useContext(EventContext);
-    //si qqchse change de le tableau de dépendances, il l'affiche
+    
     useEffect(() => {console.log('TEST : ' + event);}, [event]);
     const classes = useStyles();
     
@@ -64,61 +64,48 @@ export default function Event_List() {
             default : return "";
         }
     }
-
-    function createData(name, organizer, limitation, free_spots, limit_date, event_date, location) {
-        return { name, organizer, limitation, free_spots, limit_date, event_date, location };
-      }
-      
-      const temp_data = [
-        createData('Raclette TIC', "Vincent Peiris", "null", 200, "15/05/2020", "01/06/2020", "HEIG-VD"),
-        createData('Workshop - How to make a sandwich', "Salva Dalia", "IL", 12, "11/05/2020", "13/05/2020", "Vevey"),
-        createData('Orgie Révisions', "Your Cosmic Queen", "ID", 10, "05/05/2020", "06/05/2020", "HEIG-VD"),
-      ];
-
+    
     return (
         <React.Fragment>
             <CssBaseline/>
             <main>
                 <Grid>
-                        <Card className={classes.card}>
-                            <CardContent className={classes.cardContent}>
-    <TableContainer component={Paper}>                        
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="right">Nom</TableCell>
-            <TableCell align="right">Organisateur</TableCell>
-            <TableCell align="right">Limitation</TableCell>
-            <TableCell align="right">Places libres</TableCell>
-            <TableCell align="right">Date limite d'inscription</TableCell>
-            <TableCell align="right">Date</TableCell>
-            <TableCell align="right">Lieu</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {temp_data.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell align="left">{event && event.name}</TableCell>
-              <TableCell align="right">
-          {/*<img src={require(choosePuce(user.house && user.house.name))}/> */}
-                      <img src={require('./puce_IL.png')}/> 
-
-                </TableCell>
-              <TableCell align="right">{row.limitation}</TableCell>
-              <TableCell align="right">{row.free_spots}</TableCell>
-              <TableCell align="right">{row.limit_date}</TableCell>
-              <TableCell align="right">{row.event_date}</TableCell>
-              <TableCell align="right">{row.location}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-
-                                
-                            </CardContent>
-                        </Card>
-                    </Grid>
+                    <Card className={classes.card}>
+                        <CardContent className={classes.cardContent}>
+                            <TableContainer component={Paper}>
+                                <Table className={classes.table} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="right">Nom</TableCell>
+                                            <TableCell align="right">Organisateur</TableCell>
+                                            <TableCell align="right">Limitation</TableCell>
+                                            <TableCell align="right">Places libres</TableCell>
+                                            <TableCell align="right">Date limite d'inscription</TableCell>
+                                            <TableCell align="right">Date</TableCell>
+                                            <TableCell align="right">Lieu</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                    {data && data.map(({ name, price, status, date_end,event_id, house_id, location, date_begin, difficulty, house_name, description, nb_attendees, is_competitive, deadline_reservation }) =>
+                                        <TableRow>
+                                            <TableCell align="right">{name}</TableCell>
+                                            <TableCell align="right">
+                                                {/*<img src={require(choosePuce(user.house && user.house.name))}/> */}
+                                                <img src={require('./puce_IL.png')}/>
+                                            </TableCell>
+                                            <TableCell align="right">{house_id}</TableCell>
+                                            <TableCell align="right">{nb_attendees}</TableCell>
+                                            <TableCell align="right">{deadline_reservation}</TableCell>
+                                            <TableCell align="right">{date_begin}</TableCell>
+                                            <TableCell align="right">{location}</TableCell>
+                                        </TableRow>
+                                    )}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </CardContent>
+                    </Card>
+                </Grid>
             </main>
         </React.Fragment>
     );
