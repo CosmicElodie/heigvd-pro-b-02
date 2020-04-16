@@ -185,7 +185,9 @@ export default function Event_List() {
                                         rowCount={7}
                                     />
                                     <TableBody>
-                                    {data && data.map(({ name, price, status, address, created, date_end, event_id, house_id, location, date_begin, difficulty, house_name, description, organisator, battleroyale, nb_attendees, participants, attendees_max, attendees_min, is_competitive, deadline_reservation }, index) =>
+                                    {data && stableSort(data, getComparator(order, orderBy))
+                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        .map(({ name, price, status, address, created, date_end, event_id, house_id, location, date_begin, difficulty, house_name, description, organisator, battleroyale, nb_attendees, participants, attendees_max, attendees_min, is_competitive, deadline_reservation }, index) =>
                                                 <TableRow tabIndex={-1} key={name}>
                                                     <TableCell component="th"
                                                         id={`enhanced-table-checkbox-${index}`}
