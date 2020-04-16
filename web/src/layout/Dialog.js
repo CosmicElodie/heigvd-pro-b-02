@@ -206,7 +206,29 @@ const Dialog = () => {
                     </Alert>
                 </Snackbar> 
             }
-
+    
+            { 
+                dialog && dialog.user_password_updated &&
+                <Snackbar 
+                        open = { dialog.user_password_updated.is_open }
+                        onClose = { () => handleClose({ user_password_updated: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Mot de passe mis à jour.
+                    </Alert>
+                </Snackbar> 
+            }
+            { 
+                dialog && dialog.user_avatar_updated &&
+                <Snackbar 
+                        open = { dialog.user_avatar_updated.is_open }
+                        onClose = { () => handleClose({ user_avatar_updated: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Image de profile mis à jour.
+                    </Alert>
+                </Snackbar> 
+            }
         </section>
     )
 }
