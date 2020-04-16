@@ -107,54 +107,50 @@ public class UserProfileController {
         return responseObjectSuccess.build().toString();
     }
 
-    @PostMapping("profile/update")
-    public String updateUser(@RequestParam("user_id") int user_id,
-                             @RequestParam("birth") Date birth,
-                             @RequestParam("firstname") String firstname,
-                             @RequestParam("lastname") String lastname,
-                             @RequestParam("password") String password,
+    @PostMapping("profile/update_avatar")
+    public String updateUserAvatar(@RequestParam("user_id") int user_id,
                              @RequestParam("avatar") String avatar
                              ) throws SQLException {
 
-        JsonObjectBuilder responseObjectError = Json.createObjectBuilder();
-        JsonObjectBuilder responseObjectSuccess = Json.createObjectBuilder();
+        try (Connection conn = dataSource.getConnection()) {
 
-        responseObjectError.add("status", "error");
+            CallableStatement updateUser = conn.prepareCall("{CALL updateUserAvatar(?,?)}");
+            updateUser.setInt(1, user_id);
+            updateUser.setString(2, avatar);
+            updateUser.execute();
 
-        boolean isError = false;
-
-        if (firstname.isEmpty()) {
-            isError = true;
-            responseObjectError.add("empty1", "empty_firstname");
+            JsonObjectBuilder responseObject = Json.createObjectBuilder();
+            responseObject.add("status", "ok");
+            responseObject.add("dialog_id", "user_avatar_updated");
+            return responseObject.build().toString();
         }
-        if (lastname.isEmpty()) {
-            isError = true;
-            responseObjectError.add("empty2", "empty_lastname");
-        }
+    }
+
+    @PostMapping("profile/update_password")
+    public String updateUserPassword(@RequestParam("user_id") int user_id,
+                             @RequestParam("password") String password
+    ) throws SQLException {
+
         if (password.isEmpty()) {
-            isError = true;
-            responseObjectError.add("empty4", "empty_password");
-        }
-
-        if (isError) {
-            return responseObjectError.build().toString();
+            JsonObjectBuilder responseObject = Json.createObjectBuilder();
+            responseObject.add("status", "error");
+            responseObject.add("empty", "empty_password");
+            return responseObject.build().toString();
         }
 
         try (Connection conn = dataSource.getConnection()) {
 
-            CallableStatement updateUser = conn.prepareCall("{CALL updateUser(?,?,?,?,?,?,?)}");
+            CallableStatement updateUser = conn.prepareCall("{CALL updateUserPassword(?,?)}");
             updateUser.setInt(1, user_id);
-            updateUser.setDate(2, birth);
-            updateUser.setString(3, firstname);
-            updateUser.setString(4, lastname);
-            updateUser.setString(5, password);
-            updateUser.setString(6, avatar);
+            updateUser.setString(2, password);
             updateUser.execute();
 
-            responseObjectSuccess.add("status", "ok");
-            responseObjectSuccess.add("dialog_id", "user_updated");
+            JsonObjectBuilder responseObject = Json.createObjectBuilder();
+            responseObject.add("status", "ok");
+            responseObject.add("dialog_id", "user_password_updated");
+            return responseObject.build().toString();
         }
-        return responseObjectSuccess.build().toString();
+
     }
 
     @PostMapping("profile/delete")
