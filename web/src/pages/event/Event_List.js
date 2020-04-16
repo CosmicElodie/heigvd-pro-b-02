@@ -1,25 +1,37 @@
 import React, {useContext, useEffect} from 'react';
 import {MainContext} from '../../context/MainContext';
 import { EventContext } from '../../context/EventContext';
-import Typography from '@material-ui/core/Typography';
 
 import {Button, 
     Card, 
     CardActions, 
     CardContent, 
     CardMedia, 
+    Checkbox,
+    clsx,
     CssBaseline, 
+    DeleteIcon,
+    FilterListIcon,
+    FormControlLabel,
     Grid, 
+    IconButton,
+    lighten,
+    Paper,
+    PropTypes,
+    Switch,
     Table, 
     TableBody, 
     TableCell, 
-    TableHead, 
-    TableContainer, 
+    TableContainer,
+    TableHead,  
+    TablePagination,
+    TableSortLabel,
     TableRow, 
-    Paper} from '@material-ui/core';
+    Toolbar,
+    Tooltip,
+    Typography} from '@material-ui/core';
 
-import {makeStyles} from '@material-ui/core/styles';
-
+import {makeStyles, withStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
@@ -38,6 +50,25 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
     }
 }));
+
+const StyledTableCell = withStyles((theme) => ({
+    head: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    body: {
+      fontSize: 14,
+    },
+  }))(TableCell);
+
+  const StyledTableRow = withStyles((theme) => ({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.background.default,
+      },
+    },
+  }))(TableRow);
+
 
 export default function Event_List() {
     const {user:{event}} = useContext(MainContext);
@@ -92,6 +123,7 @@ export default function Event_List() {
                 <Grid>
                     <Card className={classes.card}>
                         <CardContent className={classes.cardContent}>
+                            <center><h1>Liste des événements</h1></center>
                             <TableContainer component={Paper}>
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
@@ -111,7 +143,8 @@ export default function Event_List() {
                                             <TableCell align="right">{name}</TableCell>
                                             <TableCell align="right">
                                                 {/*<img src={require(choosePuce(user.house && user.house.name))}/> */}
-                                                {organisator.firstname + ' ' + organisator.lastname + ' '}<img src={require('./puce_IL.png')}/>
+                                                {organisator.firstname + ' ' + organisator.lastname + ' '}
+                                                <img src={require('./puce_IL.png')}/>
                                             </TableCell>
                                             <TableCell align="right">{displayRightHouse(house_id)}</TableCell>
                                             <TableCell align="right">{nb_attendees + ' / ' + attendees_max}</TableCell>
