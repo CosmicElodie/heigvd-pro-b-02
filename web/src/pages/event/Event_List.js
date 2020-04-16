@@ -17,6 +17,7 @@ import {Button,
     TableCell, 
     TableHead, 
     TableContainer, 
+    TablePagination,
     TableRow,
     TableSortLabel,
     Paper} from '@material-ui/core';
@@ -142,6 +143,14 @@ export default function Event_List() {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+
+    Object.size = function(obj) {
+        var size = 0, key;
+        for (key in obj) {
+            if (obj.hasOwnProperty(key)) size++;
+        }
+        return size;
+    };
     
     function displayRightHouse(noHouse)
     {
@@ -206,6 +215,15 @@ export default function Event_List() {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
+                            <TablePagination
+                                rowsPerPageOptions={[5, 10, 25]}
+                                component="div"
+                                count={Object.size(data)}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onChangePage={handleChangePage}
+                                onChangeRowsPerPage={handleChangeRowsPerPage}
+                            />
                         </CardContent>
                     </Card>
                 </Grid>
