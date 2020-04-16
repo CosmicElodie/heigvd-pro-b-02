@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     card: { //dans la carte
         height: '90%',
         minWidth: '700px',
-        width: '1000px',
+        width: '1100px',
         display: 'flex',
         flexDirection: 'column'
         
@@ -203,14 +203,15 @@ export default function Event_List() {
                                                     is_competitive, deadline_reservation }, index) =>
                                                     
                                                 <TableRow tabIndex={-1}>
-                                                    <TableCell component="th"
+                                                    <TableCell align="right" 
+                                                        component="th"
                                                         id={`enhanced-table-checkbox-${index}`}
                                                         scope="row">{name}
                                                     </TableCell>
                                                     <TableCell align="right">
                                                         {/*<img src={require(choosePuce(user.house && user.house.name))}/> 
                                                         <img src={require('./puce_IL.png')}/> */}
-                                                        {(organisator.firstname + ' ' + organisator.lastname + ' ')}
+                                                        {(organisator.firstname + ' ' + organisator.lastname)}
                                                     </TableCell>
                                                     <TableCell align="right">{displayRightHouse(house_id)}</TableCell>
                                                     <TableCell align="right">{nb_attendees + ' / ' + attendees_max}</TableCell>

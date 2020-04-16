@@ -9,6 +9,7 @@ import { EventContext } from '../../context/EventContext';
 
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
+        height: '870px',
         width: '45%',
         display: 'flex',
         flexDirection: 'column'
@@ -74,7 +75,7 @@ export default function Event() {
                                                 <TableRow>
                                                     <TableCell>Nom événement</TableCell>
                                                     <TableCell align="left">Date</TableCell>
-                                                    <TableCell align="left">Nb personnes</TableCell>
+                                                    <TableCell align="left">Nb participants</TableCell>
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
@@ -92,7 +93,7 @@ export default function Event() {
                             </CardContent>
                             <CardActions>
                                 <Button size="small" color="primary">
-                                    Voir plus...
+                                    <a href="/event_list">Voir plus...</a>
                                 </Button>
                             </CardActions>
                         </Card>
@@ -116,7 +117,7 @@ export default function Event() {
                                                 <TableRow>
                                                     <TableCell>Nom événement</TableCell>
                                                     <TableCell align="left">Date</TableCell>
-                                                    <TableCell align="left">Nb personnes</TableCell>
+                                                    <TableCell align="left">Nb participants</TableCell>
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
@@ -134,7 +135,7 @@ export default function Event() {
                             </CardContent>
                             <CardActions>
                                 <Button size="small" color="primary">
-                                    Voir plus...
+                                    <a href="/event_list">Voir plus...</a>
                                 </Button>
                             </CardActions>
                         </Card>
