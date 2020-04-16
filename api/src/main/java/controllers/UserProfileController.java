@@ -11,6 +11,7 @@ import javax.json.JsonReader;
 import javax.sql.DataSource;
 import java.io.*;
 import java.sql.*;
+import java.util.Base64;
 
 @RestController
 public class UserProfileController {
@@ -109,11 +110,49 @@ public class UserProfileController {
 
     @PostMapping("profile/update_avatar")
     public String updateUserAvatar(@RequestParam("user_id") int user_id,
-                             @RequestParam("avatar") String avatar
+                                   @RequestParam("img_name") String img_name,
+                             @RequestParam("avatar") String img
                              ) throws SQLException {
 
-        avatar = avatar.replaceAll(" ","+");
-        System.out.println(avatar);
+//        avatar = avatar.replaceAll(" ","+");
+//        System.out.println(avatar);
+
+
+        JsonObjectBuilder responseObjectError = Json.createObjectBuilder();
+
+
+        /*****************************************************************************/
+        String base64Image = img.split(",")[1];
+        byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+        img = img.replaceAll(" ", "+");
+        String[] strings = img.split(",");
+        String extension;
+        switch (strings[0]) {//check image's extension
+            case "data:image/jpeg;base64":
+                extension = ".jpeg";
+                break;
+            case "data:image/png;base64":
+                extension = ".png";
+                break;
+            default://should write cases for more images types
+                extension = ".jpg";
+                break;
+        }
+        byte[] data = Base64.getDecoder().decode(strings[1]);
+        String path =  "src\\main\\resources\\static\\" + img_name + extension;
+        System.out.println(path);
+        File file = new File(path);
+        try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file,false))) {
+            outputStream.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+            responseObjectError.add("status", "failed");
+            return responseObjectError.build().toString();
+        }
+
+        String avatar = "http://localhost:8080/content/"+ img_name + extension;
+        /*****************************************************************************/
+
         try (Connection conn = dataSource.getConnection()) {
 
             CallableStatement updateUser = conn.prepareCall("{CALL updateUserAvatar(?,?)}");
@@ -124,6 +163,7 @@ public class UserProfileController {
             JsonObjectBuilder responseObject = Json.createObjectBuilder();
             responseObject.add("status", "ok");
             responseObject.add("dialog_id", "user_avatar_updated");
+            responseObject.add("img_path", avatar);
             return responseObject.build().toString();
         }
     }
