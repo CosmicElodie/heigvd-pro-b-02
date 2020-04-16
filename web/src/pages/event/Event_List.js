@@ -24,7 +24,7 @@ import {makeStyles} from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
         height: '90%',
-        width: '80%',
+        minWidth: '80%',
         display: 'flex',
         flexDirection: 'column'
         
@@ -47,21 +47,41 @@ export default function Event_List() {
     useEffect(() => {console.log('TEST : ' + event);}, [event]);
     const classes = useStyles();
     
+    /*
     function choosePuce(house)
     {
         switch(house)
         {
-            case 'Ingénierie des données' : return "./puce_ID.png";
+            case 5 : return "./puce_ID.png";
                 break;
-            case "Informatique logicielle" : return "./puce_ID.png";
+            case 4 : return "./puce_IL.png";
                 break;
-            case "Systèmes informatiques embarqués" : return "./puce_IE.png";
+            case 1 : return "./puce_IE.png";
                 break;
-            case "Sécurité informatique" : return "./puce_TS.png";
+            case 2 : return "./puce_TS.png";
                 break;
-            case "Réseaux et systèmes" : return "./puce_TR.png";
+            case 3 : return "./puce_TR.png";
                 break;
             default : return "";
+        }
+    } */
+
+    function displayRightHouse(noHouse)
+    {
+        switch(noHouse)
+        {
+            case 1 : return "IE";
+                break;
+            case 2 : return "TS";
+                break;
+            case 3 : return "TR";
+                break;
+            case 4 : return "IL";
+                break;
+            case 5 : return "ID";
+                break;
+            default : return "Globale";
+                break;
         }
     }
     
@@ -79,22 +99,22 @@ export default function Event_List() {
                                             <TableCell align="right">Nom</TableCell>
                                             <TableCell align="right">Organisateur</TableCell>
                                             <TableCell align="right">Limitation</TableCell>
-                                            <TableCell align="right">Places libres</TableCell>
+                                            <TableCell align="right">Nb participants</TableCell>
                                             <TableCell align="right">Date limite d'inscription</TableCell>
                                             <TableCell align="right">Date</TableCell>
                                             <TableCell align="right">Lieu</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                    {data && data.map(({ name, price, status, date_end,event_id, house_id, location, date_begin, difficulty, house_name, description, nb_attendees, is_competitive, deadline_reservation }) =>
+                                    {data && data.map(({ name, price, status, address, created, date_end, event_id, house_id, location, date_begin, difficulty, house_name, description, organisator, battleroyale, nb_attendees, participants, attendees_max, attendees_min, is_competitive, deadline_reservation }) =>
                                         <TableRow>
                                             <TableCell align="right">{name}</TableCell>
                                             <TableCell align="right">
                                                 {/*<img src={require(choosePuce(user.house && user.house.name))}/> */}
-                                                <img src={require('./puce_IL.png')}/>
+                                                {organisator.firstname + ' ' + organisator.lastname + ' '}<img src={require('./puce_IL.png')}/>
                                             </TableCell>
-                                            <TableCell align="right">{house_id}</TableCell>
-                                            <TableCell align="right">{nb_attendees}</TableCell>
+                                            <TableCell align="right">{displayRightHouse(house_id)}</TableCell>
+                                            <TableCell align="right">{nb_attendees + ' / ' + attendees_max}</TableCell>
                                             <TableCell align="right">{deadline_reservation}</TableCell>
                                             <TableCell align="right">{date_begin}</TableCell>
                                             <TableCell align="right">{location}</TableCell>
