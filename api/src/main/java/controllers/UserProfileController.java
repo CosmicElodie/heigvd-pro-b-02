@@ -9,7 +9,7 @@ import javax.json.Json;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.sql.DataSource;
-import java.io.StringReader;
+import java.io.*;
 import java.sql.*;
 
 @RestController
@@ -112,6 +112,8 @@ public class UserProfileController {
                              @RequestParam("avatar") String avatar
                              ) throws SQLException {
 
+        avatar = avatar.replaceAll(" ","+");
+        System.out.println(avatar);
         try (Connection conn = dataSource.getConnection()) {
 
             CallableStatement updateUser = conn.prepareCall("{CALL updateUserAvatar(?,?)}");
