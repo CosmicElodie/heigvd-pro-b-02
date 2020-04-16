@@ -28,7 +28,8 @@ import {makeStyles} from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
         height: '90%',
-        minWidth: '80%',
+        minWidth: '700px',
+        width: '1000px',
         display: 'flex',
         flexDirection: 'column'
         
@@ -72,11 +73,11 @@ function stableSort(array, comparator) {
 //Titre des colonnes
 const headCells = [
     { id: 'name', numeric: false, disablePadding: false, label: 'Nom' },
-    { id: 'organisator', numeric: false, disablePadding: false, label: 'Organisateur' },
-    { id: 'limitation', numeric: false, disablePadding: false, label: 'Limitation' },
-    { id: 'nbAttendees', numeric: true, disablePadding: false, label: 'Nb participants' },
-    { id: 'limit_date', numeric: false, disablePadding: false, label: 'Date limite inscription' },
-    { id: 'creation_date', numeric: false, disablePadding: false, label: 'Date' },
+    { id: 'organisator.lastname', numeric: false, disablePadding: false, label: 'Organisateur' },
+    { id: 'house_id', numeric: false, disablePadding: false, label: 'Limitation' },
+    { id: 'nb_attendees', numeric: true, disablePadding: false, label: 'Nb participants' },
+    { id: 'deadline_reservation', numeric: false, disablePadding: false, label: 'Date limite inscription' },
+    { id: 'date_begin', numeric: false, disablePadding: false, label: 'Date' },
     { id: 'location', numeric: false, disablePadding: false, label: 'Lieu' }
 ];
 
@@ -92,7 +93,7 @@ function EnhancedTableHead(props)
             {headCells.map(headCell => (
               <TableCell
                 key={headCell.id}
-                align={headCell.numeric ? "right" : "left"}
+                align={"right"}
                 sortDirection={orderBy === headCell.id ? order : false}
               >
                 <TableSortLabel
@@ -123,7 +124,7 @@ export default function Event_List() {
     const {data, setData} = useContext(EventContext);
 
     const [order, setOrder] = React.useState("asc");
-    const [orderBy, setOrderBy] = React.useState("calories");
+    const [orderBy, setOrderBy] = React.useState();
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
@@ -196,14 +197,20 @@ export default function Event_List() {
                                     <TableBody>
                                     {data && stableSort(data, getComparator(order, orderBy))
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map(({ name, price, status, address, created, date_end, event_id, house_id, location, date_begin, difficulty, house_name, description, organisator, battleroyale, nb_attendees, participants, attendees_max, attendees_min, is_competitive, deadline_reservation }, index) =>
-                                                <TableRow tabIndex={-1} key={name}>
+                                        .map(({     name, price, status, address, created, date_end, event_id, house_id, 
+                                                    location, date_begin, difficulty, house_name, description, organisator, 
+                                                    battleroyale, nb_attendees, participants, attendees_max, attendees_min,
+                                                    is_competitive, deadline_reservation }, index) =>
+                                                    
+                                                <TableRow tabIndex={-1}>
                                                     <TableCell component="th"
                                                         id={`enhanced-table-checkbox-${index}`}
-                                                        scope="row">{name}</TableCell>
+                                                        scope="row">{name}
+                                                    </TableCell>
                                                     <TableCell align="right">
-                                                        {/*<img src={require(choosePuce(user.house && user.house.name))}/> */}
-                                                        {organisator.firstname + ' ' + organisator.lastname + ' '}<img src={require('./puce_IL.png')}/>
+                                                        {/*<img src={require(choosePuce(user.house && user.house.name))}/> 
+                                                        <img src={require('./puce_IL.png')}/> */}
+                                                        {(organisator.firstname + ' ' + organisator.lastname + ' ')}
                                                     </TableCell>
                                                     <TableCell align="right">{displayRightHouse(house_id)}</TableCell>
                                                     <TableCell align="right">{nb_attendees + ' / ' + attendees_max}</TableCell>
