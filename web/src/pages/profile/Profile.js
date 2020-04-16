@@ -100,7 +100,6 @@ useEffect(() => {
                 <DisplayData name="prenom :" data = {user.firstname}/>    
                 <DisplayData name="Naissance :" data = {user.birth}/>    
                 <DisplayData name="Maison :" data = {user.house && user.house.name}/>    
-                <DisplayData name="Username :" data = {user.username}/>    
                 <DisplayData name="email :" data = {user.email}/>    
               </Typography>   
           
