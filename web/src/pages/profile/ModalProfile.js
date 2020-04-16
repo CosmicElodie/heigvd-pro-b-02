@@ -1,5 +1,5 @@
 import React, {useContext,useEffect} from 'react';
-import { TextField, makeStyles, Card,  CardContent,  Typography, Avatar, Grid } from '@material-ui/core';
+import { TextField, makeStyles, Card,  CardContent, Button,  Typography, Avatar, Grid } from '@material-ui/core';
 import { blue, blueGrey } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
 import { MainContext } from '../../context/MainContext';
@@ -48,53 +48,27 @@ export default function ModalProfile() {
   const [openPwdEdit, setOpenPwdEdit] = React.useState(false);
   const [openPPEdit, setOpenPPEdit] = React.useState(false);
 
-
-
-  const { value:password,   bind:bindPassword }                               = useInput('');
-
   
   const { value:oldPassword,      bind:bindOldPassword,      setError:setErrorOldPassword}                  = useInput('');
   const { value:newPassword,      bind:bindNewPassword,      setError:setErrorNewPassword}                  = useInput('');
-  const { value:verifyPassword,   bind:bindVerifyPassword }                                                = useInput('');
+  const { value:verifyPassword,   bind:bindVerifyPassword,   setError:setErrorVerifyPassword}               = useInput('');
 
   const [img, setImg] = React.useState('');
   const [imgName, setImgName] = React.useState('');
-  const { user, setUser,setShownUser } = useContext(MainContext);
+  const { user, setUser, setDialog } = useContext(MainContext);
   const classes = useStyles();
+  
 
-/*   useEffect(() => { 
-    setShownUser(user);
-  },[user,setShownUser]);
-
-  useEffect(() => { 
-    let post_body = 
-    "&user_id=" + user.user_id +
-    "&avatar=" + img;
-
-    fetch('http://localhost:8080/profile/update_avatar', {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: post_body
-        })
-    .then(response => response.json())
-    .then(response => {
-        if (response.status === 'ok') {
-          
-        } 
-        console.log(img)
-    })
-}, [img]);  */
-
-useEffect(() => {  
+useEffect(() => { 
   submitImage()
-},[user.avatar]);  
+}, [img]); 
 
-  const submitImage = (e) => {
+
+const submitImage = (e) => {
   let post_body = 
   "&user_id=" + user.user_id +
-  "&img_name=" + imgName +
-  "&avatar=" + img;
+  "&img_name=" + img.name +
+  "&avatar=" + img.data;
   
   fetch('http://localhost:8080/profile/update_avatar', {
           method: 'POST',
@@ -104,8 +78,11 @@ useEffect(() => {
       })
   .then(response => response.json())
   .then(response => {
-    
-      if (response.status === 'passed') {
+      if (response.status === 'ok') {
+        setDialog((latest) => ({
+          ...latest,
+          [response.dialog_id] : { is_open : true }
+        }));
       } 
   })
 
@@ -114,15 +91,21 @@ useEffect(() => {
 
 const submitPassword = (e) => {
 
-  //e.preventDefault();
-  // Pour que required fonctionne sur les champs
-  // il ne faut pas preventDefault sur le bouton car il doit effectuer un submit. 
-  // L'attribut required necessite que le form soit submit 
-  // submit est en comportement par default du bouton submit
+  if(newPassword !== verifyPassword){
+    setErrorNewPassword({
+      error:true,
+      helperText: 'Les mots de passe ne correspondent pas'
+    });        
+    setErrorVerifyPassword({
+      error:true,
+    });  
+    return
+  }
 
   let post_body = 
   "&user_id=" + user.user_id +
-  "&password=" + password 
+  "&old_password=" + oldPassword +
+  "&new_password=" + newPassword 
 
   fetch('http://localhost:8080/profile/update_password', {
           method: 'POST',
@@ -133,12 +116,25 @@ const submitPassword = (e) => {
   .then(response => response.json())
   .then(response => {
       if (response.status === 'error') {
-        response.dialog_id === 'invalid_password' && setErrorOldPassword({
+        response.dialog_id === 'old_password_invalid' && setErrorOldPassword({
           error:true,
-          helperText: 'Wrong password'
+          helperText: 'Mot de passe incorrect'
         });        
+        response.dialog_id === 'empty_password' && setErrorNewPassword({
+          error:true,
+          helperText: 'Le mot de passe ne peut etre vide'
+        });    
+        response.dialog_id === 'empty_password' && setErrorVerifyPassword({
+          error:true,
+          helperText: 'Le mot de passe ne peut etre vide'
+        }); 
       } 
       if(response.status === 'ok') {
+        setOpenPwdEdit(false)
+        setDialog((latest) => ({
+          ...latest,
+          [response.dialog_id] : { is_open : true }
+        }));
         
       }
   })
@@ -174,16 +170,18 @@ const submitPassword = (e) => {
     //Saving files to state for further use and closing Modal.
     
     //setImg(files)
-    setOpenPPEdit(false)
+    
     //imageBase64Data
     const currentFile = files[0]
     const reader = new FileReader()
     reader.addEventListener("load", ()=>{        
-      setImg(reader.result)    
-      setImgName(user.lastname)
+      setImg({
+        name: user.lastname,
+        data: reader.result})    
       setUser((latest) => ({ ...latest, avatar: reader.result }))
     },false)   
     reader.readAsDataURL(currentFile)
+    setOpenPPEdit(false)
     
   }
 
@@ -213,6 +211,20 @@ const submitPassword = (e) => {
             label="Confimez votre nouveau mot de passe"
             { ...bindVerifyPassword }
           />
+          <br/>
+          <br/>
+          <div align = "right">
+            <Button
+                type="submit"
+                variant="text"
+                color="primary"
+                className={classes.submit}
+                onClick= { submitPassword }
+            >
+              Valider
+            </Button>
+          </div>
+          
     </div>
   );
 
@@ -277,6 +289,7 @@ const submitPassword = (e) => {
                   </IconButton>
                 }/> 
               </Typography>   
+              
               <Modal
                     open={openPwdEdit}
                     onClose={handleClose}
@@ -285,6 +298,7 @@ const submitPassword = (e) => {
                     >
                     {body}
               </Modal>
+
               <DropzoneDialog
                   open = {openPPEdit}
                   filesLimit = {1}

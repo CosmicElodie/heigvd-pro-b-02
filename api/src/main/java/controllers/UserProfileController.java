@@ -114,12 +114,12 @@ public class UserProfileController {
                              @RequestParam("avatar") String img
                              ) throws SQLException {
 
-//        avatar = avatar.replaceAll(" ","+");
-//        System.out.println(avatar);
 
-
-        JsonObjectBuilder responseObjectError = Json.createObjectBuilder();
-
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+    if ( img_name.isEmpty() || img.isEmpty() || img.equals("undefined") || img_name.equals("undefined")){
+        responseObject.add("status", "failed");
+        return responseObject.build().toString();
+    }
 
         /*****************************************************************************/
         String base64Image = img.split(",")[1];
@@ -146,8 +146,9 @@ public class UserProfileController {
             outputStream.write(data);
         } catch (IOException e) {
             e.printStackTrace();
-            responseObjectError.add("status", "failed");
-            return responseObjectError.build().toString();
+            responseObject.add("status", "error");
+            responseObject.add("empty", "error_while_storing_file");
+            return responseObject.build().toString();
         }
 
         String avatar = "http://localhost:8080/content/"+ img_name + extension;
@@ -160,7 +161,7 @@ public class UserProfileController {
             updateUser.setString(2, avatar);
             updateUser.execute();
 
-            JsonObjectBuilder responseObject = Json.createObjectBuilder();
+            //JsonObjectBuilder responseObject = Json.createObjectBuilder();
             responseObject.add("status", "ok");
             responseObject.add("dialog_id", "user_avatar_updated");
             responseObject.add("img_path", avatar);
@@ -183,7 +184,7 @@ public class UserProfileController {
 
                 JsonObjectBuilder responseObject = Json.createObjectBuilder();
                 responseObject.add("status", "error");
-                responseObject.add("dialogue_id", "old_password_invalid");
+                responseObject.add("dialog_id", "old_password_invalid");
                 return responseObject.build().toString();
             }
         }
@@ -191,7 +192,7 @@ public class UserProfileController {
         if (new_password.isEmpty()) {
             JsonObjectBuilder responseObject = Json.createObjectBuilder();
             responseObject.add("status", "error");
-            responseObject.add("empty", "empty_password");
+            responseObject.add("dialog_id", "empty_password");
             return responseObject.build().toString();
         }
 
