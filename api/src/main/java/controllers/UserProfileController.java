@@ -130,10 +130,25 @@ public class UserProfileController {
 
     @PostMapping("profile/update_password")
     public String updateUserPassword(@RequestParam("user_id") int user_id,
-                             @RequestParam("password") String password
+                             @RequestParam("old_password") String old_password,
+                             @RequestParam("new_password") String new_password
     ) throws SQLException {
 
-        if (password.isEmpty()) {
+        try (Connection conn = dataSource.getConnection()) {
+
+            // Test si ancien mot de passe est correcte.
+            if (!conn.createStatement().executeQuery(
+                    "SELECT user_id FROM user WHERE user_id = '" + user_id + "' and password = '" + old_password + "';"
+            ).next()) {
+
+                JsonObjectBuilder responseObject = Json.createObjectBuilder();
+                responseObject.add("status", "error");
+                responseObject.add("dialogue_id", "old_password_invalid");
+                return responseObject.build().toString();
+            }
+        }
+
+        if (new_password.isEmpty()) {
             JsonObjectBuilder responseObject = Json.createObjectBuilder();
             responseObject.add("status", "error");
             responseObject.add("empty", "empty_password");
@@ -144,7 +159,7 @@ public class UserProfileController {
 
             CallableStatement updateUser = conn.prepareCall("{CALL updateUserPassword(?,?)}");
             updateUser.setInt(1, user_id);
-            updateUser.setString(2, password);
+            updateUser.setString(2, new_password);
             updateUser.execute();
 
             JsonObjectBuilder responseObject = Json.createObjectBuilder();
