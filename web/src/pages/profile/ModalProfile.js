@@ -6,7 +6,7 @@ import { MainContext } from '../../context/MainContext';
 import IconButton from '@material-ui/core/IconButton';
 import Modal from '@material-ui/core/Modal';
 import { useInput } from '../../hooks/input';
-
+import {DropzoneDialog} from 'material-ui-dropzone'
 import { useHistory } from "react-router-dom";
 
 
@@ -36,6 +36,7 @@ const HOUSE_DATA = {
 
 
 
+
 export default function ModalProfile() {
 
 
@@ -44,18 +45,106 @@ export default function ModalProfile() {
     history.push(link);    
   }; 
   const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
+  const [openPwdEdit, setOpenPwdEdit] = React.useState(false);
+  const [openPPEdit, setOpenPPEdit] = React.useState(false);
+
+
 
   const { value:password,   bind:bindPassword }                               = useInput('');
 
+  
+  const { value:oldPassword,      bind:bindOldPassword,      setError:setErrorOldPassword}                  = useInput('');
+  const { value:newPassword,      bind:bindNewPassword,      setError:setErrorNewPassword}                  = useInput('');
+  const { value:verifyPassword,   bind:bindVerifyPassword }                                                = useInput('');
 
-  const { user, setShownUser } = useContext(MainContext);
+  const [img, setImg] = React.useState('');
+  const [imgName, setImgName] = React.useState('');
+  const { user, setUser,setShownUser } = useContext(MainContext);
   const classes = useStyles();
-  const SPACING = 3;
 
-useEffect(() => { 
-  setShownUser(user);
+/*   useEffect(() => { 
+    setShownUser(user);
   },[user,setShownUser]);
+
+  useEffect(() => { 
+    let post_body = 
+    "&user_id=" + user.user_id +
+    "&avatar=" + img;
+
+    fetch('http://localhost:8080/profile/update_avatar', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+    .then(response => response.json())
+    .then(response => {
+        if (response.status === 'ok') {
+          
+        } 
+        console.log(img)
+    })
+}, [img]);  */
+
+useEffect(() => {  
+  submitImage()
+},[user.avatar]);  
+
+  const submitImage = (e) => {
+  let post_body = 
+  "&user_id=" + user.user_id +
+  "&img_name=" + imgName +
+  "&avatar=" + img;
+  
+  fetch('http://localhost:8080/profile/update_avatar', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: post_body
+      })
+  .then(response => response.json())
+  .then(response => {
+    
+      if (response.status === 'passed') {
+      } 
+  })
+
+}
+
+
+const submitPassword = (e) => {
+
+  //e.preventDefault();
+  // Pour que required fonctionne sur les champs
+  // il ne faut pas preventDefault sur le bouton car il doit effectuer un submit. 
+  // L'attribut required necessite que le form soit submit 
+  // submit est en comportement par default du bouton submit
+
+  let post_body = 
+  "&user_id=" + user.user_id +
+  "&password=" + password 
+
+  fetch('http://localhost:8080/profile/update_password', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: post_body
+      })
+  .then(response => response.json())
+  .then(response => {
+      if (response.status === 'error') {
+        response.dialog_id === 'invalid_password' && setErrorOldPassword({
+          error:true,
+          helperText: 'Wrong password'
+        });        
+      } 
+      if(response.status === 'ok') {
+        
+      }
+  })
+}
+
+
 
   function getModalStyle() {
     const top = 50 + rand();
@@ -67,40 +156,63 @@ useEffect(() => {
       transform: `translate(-${top}%, -${left}%)`,
     };
   }
-  const handleOpen = () => {
-    setOpen(true);
+
+  const handlePwdEditOpen = () => {
+    setOpenPwdEdit(true);
+  };
+
+  const handlePPEditOpen = () => {
+    setOpenPPEdit(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenPwdEdit(false);
+    setOpenPPEdit(false);
   };
+
+  const handleSave = (files) => {    
+    //Saving files to state for further use and closing Modal.
+    
+    //setImg(files)
+    setOpenPPEdit(false)
+    //imageBase64Data
+    const currentFile = files[0]
+    const reader = new FileReader()
+    reader.addEventListener("load", ()=>{        
+      setImg(reader.result)    
+      setImgName(user.lastname)
+      setUser((latest) => ({ ...latest, avatar: reader.result }))
+    },false)   
+    reader.readAsDataURL(currentFile)
+    
+  }
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          label="Ancien mot de passe"
-          { ...bindPassword }
-      />
-       <TextField
+        <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            label="nouveau mot de passe"
-            { ...bindPassword }
+            label="Ancien mot de passe"
+            { ...bindOldPassword }
         />
         <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          label="Confimez votre nouveau mot de passe"
-          { ...bindPassword }
-      />
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              label="nouveau mot de passe"
+              { ...bindNewPassword }
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="Confimez votre nouveau mot de passe"
+            { ...bindVerifyPassword }
+          />
     </div>
   );
 
@@ -115,17 +227,21 @@ useEffect(() => {
               </Typography>
 
               <Avatar className={classes.contour}> 
-                {
-                  user.avatar &&
-                  <Avatar className={classes.large} > 
-                    <img height= {'100%'} src={user.avatar} alt="No img"/>
-                  </Avatar>
-                }
+                <IconButton aria-label="edit"  size="small"onClick = {handlePPEditOpen}>
+                                           
+                  {
+                    user.avatar &&
+                    <Avatar className={classes.large}> 
+                      <img height= {'100%'} src={user.avatar} alt="No img"/>
+                    </Avatar>
+                  }
 
-                {
-                  !user.avatar &&
-                  <Avatar className="avatar"> { user.initials } </Avatar> 
-                }
+                  {
+                    !user.avatar &&
+                    <Avatar className="avatar"> { user.initials } </Avatar> 
+                  }
+
+                </IconButton>
               </Avatar>
             </Grid>
             <Grid item>
@@ -154,21 +270,31 @@ useEffect(() => {
                 <DisplayData name="Maison :" data = {user.house && user.house.name}/>    
                 <DisplayData name="Email :" data = {user.email}/>    
                 <DisplayData name="Mot de passe :" data = {
-                <IconButton aria-label="edit"  size="small"onClick = {handleOpen}>
+                <IconButton aria-label="edit"  size="small"onClick = {handlePwdEditOpen}>
                   Modifier        
                     <EditIcon style={{ fontSize: 10, color: blue[500] }} /> 
-                      <Modal
-                      open={open}
-                      onClose={handleClose}
-                      aria-labelledby="simple-modal-title"
-                      aria-describedby="simple-modal-description"
-                      >
-                      {body}
-                    </Modal>
+                      
                   </IconButton>
                 }/> 
               </Typography>   
-              
+              <Modal
+                    open={openPwdEdit}
+                    onClose={handleClose}
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    >
+                    {body}
+              </Modal>
+              <DropzoneDialog
+                  open = {openPPEdit}
+                  filesLimit = {1}
+                  onSave = {handleSave}
+                  acceptedFiles={['image/jpeg', 'image/png', 'image/bmp']}
+                  showPreviews={true}
+                  maxFileSize={5000000}
+                  showAlerts ={true}
+                  onClose={handleClose}
+              />
             
         </CardContent>
       </Card>
