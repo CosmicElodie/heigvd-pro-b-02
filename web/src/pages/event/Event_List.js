@@ -31,8 +31,7 @@ const useStyles = makeStyles(theme => ({
         minWidth: '700px',
         width: '1100px',
         display: 'flex',
-        flexDirection: 'column'
-        
+        flexDirection: 'column',
     },
     cardMedia: {
         //paddingTop: '75%',
@@ -209,9 +208,7 @@ export default function Event_List() {
                                                         scope="row">{name}
                                                     </TableCell>
                                                     <TableCell align="right">
-                                                        {/*<img src={require(choosePuce(user.house && user.house.name))}/> 
-                                                        <img src={require('./puce_IL.png')}/> */}
-                                                        {(organisator.firstname + ' ' + organisator.lastname)}
+                                                        {organisator.firstname + ' ' + organisator.lastname}
                                                     </TableCell>
                                                     <TableCell align="right">{displayRightHouse(house_id)}</TableCell>
                                                     <TableCell align="right">{nb_attendees + ' / ' + attendees_max}</TableCell>
@@ -232,6 +229,9 @@ export default function Event_List() {
                                 onChangePage={handleChangePage}
                                 onChangeRowsPerPage={handleChangeRowsPerPage}
                             />
+                            <Button variant="contained" color="secondary">
+                                Créer un événement
+                            </Button>
                         </CardContent>
                     </Card>
                 </Grid>
