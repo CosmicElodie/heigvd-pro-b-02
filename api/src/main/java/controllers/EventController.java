@@ -55,6 +55,7 @@ public class EventController {
     @PostMapping("/event/insert_event")
     public String insertEvent(@RequestParam("name") String name, @RequestParam("description") String description,
                               @RequestParam(value = "is_competitive", required = false) Integer is_competitive,
+                              @RequestParam(value = "battleroyal") Integer battleroyal,
                               @RequestParam(value = "difficulty", required = false) Integer difficulty,
                               @RequestParam(value = "price", required = false) Integer price,
                               @RequestParam("attendees_min") int attendees_min,
@@ -80,7 +81,7 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
 
-            CallableStatement insertEvent = conn.prepareCall("{call DEV.createEvent(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            CallableStatement insertEvent = conn.prepareCall("{call DEV.createEvent(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
             insertEvent.setString(1, name);
             insertEvent.setString(2, description);
             if (is_competitive == null) {
@@ -88,28 +89,29 @@ public class EventController {
             } else {
                 insertEvent.setInt(3, is_competitive);
             }
+            insertEvent.setInt(4, battleroyal);
             if (difficulty == null) {
-                insertEvent.setNull(4, Types.INTEGER);
-            } else {
-                insertEvent.setInt(4, difficulty);
-            }
-            if (price == null) {
                 insertEvent.setNull(5, Types.INTEGER);
             } else {
-                insertEvent.setInt(5, price);
+                insertEvent.setInt(5, difficulty);
+            }
+            if (price == null) {
+                insertEvent.setNull(6, Types.INTEGER);
+            } else {
+                insertEvent.setInt(6, price);
             }
 
-            insertEvent.setInt(6, attendees_min);
-            insertEvent.setInt(7, attendees_max);
-            insertEvent.setDate(8, deadline_reservation);
-            insertEvent.setDate(9, date_begin);
-            insertEvent.setDate(10, date_end);
-            insertEvent.setString(11, location);
+            insertEvent.setInt(7, attendees_min);
+            insertEvent.setInt(8, attendees_max);
+            insertEvent.setDate(9, deadline_reservation);
+            insertEvent.setDate(10, date_begin);
+            insertEvent.setDate(11, date_end);
+            insertEvent.setString(12, location);
 
             String address = street + " " + no + ", " + postal_code + " " + city;
-            insertEvent.setString(12, address);
-            insertEvent.setInt(13, user_id);
-            insertEvent.setInt(14, house_id);
+            insertEvent.setString(13, address);
+            insertEvent.setInt(14, user_id);
+            insertEvent.setInt(15, house_id);
 
 
             boolean hasRs = insertEvent.execute();
