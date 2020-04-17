@@ -48,6 +48,7 @@ export default function Auditoire() {
         for (var members = 0; members < house.len; ++members)
         {
             total_points += house.points;
+            console.log('total_points : ' + total_points)
         }
         return total_points
     }
