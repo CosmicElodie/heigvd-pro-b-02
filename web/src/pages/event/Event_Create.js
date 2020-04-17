@@ -141,29 +141,18 @@ export default function Event_Create() {
                                             label="Battle Royal Mode" 
                                             required = "false" 
                                             defaultValue = "Non"
-                                            disabled = { /*TODO*/ ((TextField.id == "compet") && (TextField.id("compet").MenuItem.value("Compétitif") == "Compétitif")) ? false : true }
+                                            disabled = { false }
+                                            helperText = "*chacun pour soi."
                                             style = {{width: 150}} 
                                             select>
                                                 <MenuItem value="Non">Non</MenuItem>
                                                 <MenuItem value="Oui">Oui</MenuItem>
                                         </TextField>
                                     </Grid>
-                                    <Grid item xs = {4}> 
-                                        <TextField
-                                            id="date-limite-participation"
-                                            label="Date limite inscription"
-                                            type="datetime-local"
-                                            defaultValue="2020-05-24T10:30" //TODO -> mettre une default value qui prend la date/heure actuelle
-                                            className={classes.textField}
-                                            InputLabelProps={{
-                                            shrink: true,
-                                            }}
-                                        />
-                                    </Grid>
                                 </Grid>
                                 <br /><br />
                                 <Grid container >
-                                    <Grid item xs> 
+                                <Grid item xs> 
                                         <TextField
                                             id="nb-min-participants"
                                             label="Nb. min participants"
@@ -173,12 +162,13 @@ export default function Event_Create() {
                                             required = "true" 
                                         />
                                     </Grid>
+
                                     <Grid item xs = {4}> 
-                                    <TextField
-                                            id="event-date"
-                                            label="Date et heure de l'événement"
+                                        <TextField
+                                            id="date-limite-participation"
+                                            label="Date limite inscription"
                                             type="datetime-local"
-                                            defaultValue = {new Date().getDate()} //TODO -> mettre une default value qui prend la date/heure actuelle
+                                            defaultValue="2020-05-24T10:30" //TODO -> mettre une default value qui prend la date/heure actuelle
                                             className={classes.textField}
                                             InputLabelProps={{
                                             shrink: true,
@@ -199,6 +189,30 @@ export default function Event_Create() {
                                         />
                                     </Grid>
                                     <Grid item xs = {4}> 
+                                    <TextField
+                                            id="event-date"
+                                            label="Date et heure de l'événement"
+                                            type="datetime-local"
+                                            defaultValue = {new Date().getDate()} //TODO -> mettre une default value qui prend la date/heure actuelle
+                                            className={classes.textField}
+                                            InputLabelProps={{
+                                            shrink: true,
+                                            }}
+                                        />
+                                    </Grid>
+                                </Grid> <br /><br />
+                                <Grid container>
+                                <Grid item xs> 
+                                        <TextField
+                                            id="tarif"
+                                            label="Tarif"
+                                            placeholder="Veuillez indiquer le tarif éventuel de l'événement."
+                                            variant="outlined"
+                                            defaultValue = "0"
+                                            required = "true" 
+                                        />
+                                    </Grid>
+                                    <Grid item xs = {4}> 
                                         <TextField
                                             id="date-fin"
                                             label="Date et heure de fin"
@@ -210,7 +224,9 @@ export default function Event_Create() {
                                             }}
                                         />
                                     </Grid>
-                                </Grid> <br /><br />
+                                </Grid><br /><br />
+                                
+                                {/* ============== ADRESSE EVENEMENT ============== */}
                                 <Grid container>
                                     <Grid>
                                     <TextField
@@ -275,7 +291,7 @@ export default function Event_Create() {
                         </CardContent>
                         <CardActions>
                             {/* disableElevation permet d'enlever l'ombrage du bouton */}
-                            <Button variant="contained" disableElevation>Valider</Button>
+                            <Button variant="contained" disableElevation>Créer l'événement</Button>
                         </CardActions>
                     </Card>
             </main>
