@@ -229,7 +229,7 @@ export default function Event_List() {
                                 onChangePage={handleChangePage}
                                 onChangeRowsPerPage={handleChangeRowsPerPage}
                             />
-                            <Button variant="contained" color="secondary">
+                            <Button href="event_create" variant="contained" color="secondary">
                                 Créer un événement
                             </Button>
                         </CardContent>
