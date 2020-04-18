@@ -1,26 +1,32 @@
 import React, {useContext} from 'react';
 import Typography from '@material-ui/core/Typography';
 import {MainContext} from '../../context/MainContext';
-
+import { styled } from '@material-ui/core/styles';
 import {Button, Card, CardActions, CardContent, CardMedia, CssBaseline, Grid, Table, TableBody, TableCell, TableHead, TableContainer, TableRow, Paper} from '@material-ui/core';
 
 import {makeStyles} from '@material-ui/core/styles';
 import { EventContext } from '../../context/EventContext';
 
+import '../../css/Event.css'; 
+
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
-        height: '870px',
+        height: '750px',
         width: '45%',
         display: 'flex',
         flexDirection: 'column'
     },
     cardMedia: {
-        paddingTop: '75%',
+        paddingTop: '200px',
         flexDirection: 'row',
         justify: 'space-evenly'
     },
     cardContent: {
         flexGrow: 1,
+    },
+    button: {
+        align: 'center',
+        alignItems: 'center'
     }
 }));
 
@@ -51,7 +57,19 @@ export default function Event() {
         return;
       }
 
+      const MyButton = styled(Button)({
+        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+        border: 0,
+        borderRadius: 3,
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        color: 'white',
+        height: 48,
+        padding: '0px 20px',
+        margin: '30px 30px',
+      });
+
     return (
+
         <React.Fragment>
             <CssBaseline/>
             <main>
@@ -91,11 +109,6 @@ export default function Event() {
                                     </TableContainer>
                                 </Typography>
                             </CardContent>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    <a href="/event_list">Voir plus...</a>
-                                </Button>
-                            </CardActions>
                         </Card>
                     
                         <Card className={classes.card}>
@@ -133,13 +146,18 @@ export default function Event() {
                                     </TableContainer>
                                 </Typography>
                             </CardContent>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    <a href="/event_list">Voir plus...</a>
-                                </Button>
-                            </CardActions>
                         </Card>
                 </Grid>
+                <center>
+                    <MyButton
+                        type="submit"
+                        variant="contained"
+                        className={classes.submit}
+                        >
+                            <a href="/event_list">Voir plus...</a>
+                    </MyButton>
+                </center>
+
             </main>
         </React.Fragment>
     );

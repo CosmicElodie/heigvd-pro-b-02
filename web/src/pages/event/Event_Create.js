@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
     cardContent: {
         flexGrow: 1,
     },
-    CardActions: {
+    cardActions: {
         alignItems: 'right'
     }
 
@@ -363,7 +363,6 @@ export default function Event_Create() {
                             </FormControl>
                         </CardContent>
                         <CardActions>
-
                             <Button
                                 type="submit"
                                 fullWidth
