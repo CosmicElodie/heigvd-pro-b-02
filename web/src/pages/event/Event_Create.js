@@ -74,11 +74,11 @@ export default function Event_Create() {
     const { value:date_begin,           bind:bindDateBegin}             = useInput('');
     const { value:date_end,             bind:bindDateEnd}               = useInput('');
     const { value:location,             bind:bindLocation}              = useInput('');
-    const { value:road,                 bind:bindRoad}                  = useInput('');
-    const { value:road_number,          bind:bindRoadNumber}            = useInput('');
+    const { value:street,               bind:bindStreet}                = useInput('');
+    const { value:no,                   bind:bindNo}                    = useInput('');
     const { value:postal_code,          bind:bindPostalCode}            = useInput('');
-    const { value:town,                 bind:bindTown}                  = useInput('');
-    const { value:limitation,           bind:bindLimitation}            = useInput('');
+    const { value:city,                 bind:bindCity}                  = useInput('');
+    const { value:house_id,             bind:bindHouseId}               = useInput('');
     
     
 
@@ -97,8 +97,11 @@ export default function Event_Create() {
         "&date_begin=" + date_begin +
         "&date_end=" + date_end +
         "&location=" + location +
-        "&address=" + road + road_number + ', ' + postal_code + town +
-        "&limitation=" + limitation;
+        "&no=" + no +
+        "&street=" + street +
+        "&postal_code=" + postal_code +
+        "&city=" + city +
+        "&house_id=" + house_id;
 
         fetch('http://localhost:8080/event/insert_event', {
                 method: 'POST',
@@ -163,15 +166,15 @@ export default function Event_Create() {
 
                                     <Grid item xs> 
                                         <TextField 
-                                        id="limitation" 
+                                        id="house_id" 
                                         label="Limitation" 
                                         required = {true} 
-                                        defaultValue = {0}
+                                        defaultValue = {user.house && user.house.house_id}
                                         style = {{width: 150}}
-                                        { ...bindLimitation } 
+                                        { ...bindHouseId } 
                                         select>
                                              <MenuItem value={user.house && user.house.house_id}> {user.house && user.house.name}</MenuItem>
-                                            <MenuItem value={0}>Global</MenuItem>
+                                            <MenuItem value={null}>Global</MenuItem>
                                              </TextField>
                                     </Grid>
 
@@ -309,24 +312,24 @@ export default function Event_Create() {
                                 <Grid container >
                                     <Grid item xs> 
                                     <TextField
-                                        id="road"
+                                        id="street"
                                         label="Rue"
                                         placeholder="Lieu de l'événement"
                                         variant="outlined"
                                         required = {true} 
                                         style = {{minWidth: 450}}
-                                        { ...bindRoad }
+                                        { ...bindStreet }
                                     /> 
                                     </Grid>
                                     <Grid item xs = {2}> 
                                         <TextField
-                                            id="road_number"
+                                            id="no"
                                             label="N° de rue"
                                             placeholder="Lieu de l'événement"
                                             variant="outlined"
                                             required = {true}
                                             style = {{minWidth: 100, width:100}}
-                                            { ...bindRoadNumber }
+                                            { ...bindNo }
                                         /> 
                                     </Grid>
                                 </Grid>
@@ -345,13 +348,13 @@ export default function Event_Create() {
                                     </Grid>
                                     <Grid item xs = {7}> 
                                         <TextField
-                                            id="town"
+                                            id="city"
                                             label="Ville"
                                             placeholder="Lieu de l'événement"
                                             variant="outlined"
                                             required = {true}
                                             style = {{minWidth: 150, width:350}}
-                                            { ...bindTown }
+                                            { ...bindCity }
                                         /> 
                                     </Grid>
                                 </Grid>
