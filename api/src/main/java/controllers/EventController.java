@@ -116,7 +116,13 @@ public class EventController {
             String address = street + " " + no + ", " + postal_code + " " + city;
             insertEvent.setString(13, address);
             insertEvent.setInt(14, user_id);
-            insertEvent.setInt(15, house_id);
+
+            if(house_id == null) {
+                insertEvent.setNull(15, Types.INTEGER);
+            } else {
+                insertEvent.setInt(15, house_id);
+            }
+
 
             boolean hasRs = insertEvent.execute();
             if (hasRs) {

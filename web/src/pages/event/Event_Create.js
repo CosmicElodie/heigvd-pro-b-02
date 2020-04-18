@@ -93,9 +93,9 @@ export default function Event_Create() {
         "&price=" + price +
         "&attendees_min=" + attendees_min +
         "&attendees_max=" + attendees_max +
-        "&deadline_reservation=" + deadline_reservation +
         "&date_begin=" + date_begin +
         "&date_end=" + date_end +
+        "&deadline_reservation=" + deadline_reservation +
         "&location=" + location +
         "&no=" + no +
         "&street=" + street +
@@ -169,7 +169,7 @@ export default function Event_Create() {
                                         id="house_id" 
                                         label="Limitation" 
                                         required = {true} 
-                                        defaultValue = {user.house && user.house.house_id}
+                                        defaultValue = {null}
                                         style = {{width: 150}}
                                         { ...bindHouseId } 
                                         select>
