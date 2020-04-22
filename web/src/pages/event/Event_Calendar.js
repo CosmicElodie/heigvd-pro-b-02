@@ -1,5 +1,5 @@
 /*
-nimport * as React from 'react';
+import * as React from 'react';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler, DayView, Appointments, MonthView, Toolbar,

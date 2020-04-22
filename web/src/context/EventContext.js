@@ -6,11 +6,6 @@ EventProvider is a data repository intended to contain the states to be shared
 between all Forum the components.
 */
 export const EventProvider = ( props ) => {
-
-    /* Pour l'instant j'utilise des trucs en dur, mais va falloir réutiliser la fonction
-    mise en commentaire ci-dessous. -> TODO DADA !!! 
-    
-    SELECT getEventJSON(); dans console DEV*/
     const [ data, setData ] =  useState();
  useEffect(() => {
         fetch('http://localhost:8080/event/all', {

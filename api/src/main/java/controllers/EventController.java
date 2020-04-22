@@ -57,12 +57,14 @@ public class EventController {
                               @RequestParam(value = "is_competitive", required = false) Integer is_competitive,
                               @RequestParam(value = "difficulty", required = false) Integer difficulty,
                               @RequestParam(value = "price", required = false) Integer price,
+                              @RequestParam(value = "battleroyale", required = false) Integer battleroyale,
                               @RequestParam("attendees_min") int attendees_min,
                               @RequestParam("attendees_max") int attendees_max, @RequestParam("date_begin") Date date_begin,
                               @RequestParam("date_end") Date date_end, @RequestParam("deadline_reservation") Date deadline_reservation,
                               @RequestParam("location") String location, @RequestParam("no") String no,
                               @RequestParam("street") String street, @RequestParam("postal_code") int postal_code,
-                              @RequestParam("city") String city, @RequestParam("house_id") int house_id) throws SQLException {
+                              @RequestParam("city") String city,
+                              @RequestParam(value = "battleroyale", required = false) Integer house_id) throws SQLException {
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -80,7 +82,7 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
 
-            CallableStatement insertEvent = conn.prepareCall("{call DEV.createEvent(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            CallableStatement insertEvent = conn.prepareCall("{call DEV.createEvent(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
             insertEvent.setString(1, name);
             insertEvent.setString(2, description);
             if (is_competitive == null) {
@@ -88,28 +90,38 @@ public class EventController {
             } else {
                 insertEvent.setInt(3, is_competitive);
             }
-            if (difficulty == null) {
+            if (battleroyale == null) {
                 insertEvent.setNull(4, Types.INTEGER);
             } else {
-                insertEvent.setInt(4, difficulty);
+                insertEvent.setInt(4, battleroyale);
             }
-            if (price == null) {
+            if (difficulty == null) {
                 insertEvent.setNull(5, Types.INTEGER);
             } else {
-                insertEvent.setInt(5, price);
+                insertEvent.setInt(5, difficulty);
+            }
+            if (price == null) {
+                insertEvent.setNull(6, Types.INTEGER);
+            } else {
+                insertEvent.setInt(6, price);
             }
 
-            insertEvent.setInt(6, attendees_min);
-            insertEvent.setInt(7, attendees_max);
-            insertEvent.setDate(8, deadline_reservation);
-            insertEvent.setDate(9, date_begin);
-            insertEvent.setDate(10, date_end);
-            insertEvent.setString(11, location);
+            insertEvent.setInt(7, attendees_min);
+            insertEvent.setInt(8, attendees_max);
+            insertEvent.setDate(9, deadline_reservation);
+            insertEvent.setDate(10, date_begin);
+            insertEvent.setDate(11, date_end);
+            insertEvent.setString(12, location);
 
             String address = street + " " + no + ", " + postal_code + " " + city;
-            insertEvent.setString(12, address);
-            insertEvent.setInt(13, user_id);
-            insertEvent.setInt(14, house_id);
+            insertEvent.setString(13, address);
+            insertEvent.setInt(14, user_id);
+
+            if(house_id == null) {
+                insertEvent.setNull(15, Types.INTEGER);
+            } else {
+                insertEvent.setInt(15, house_id);
+            }
 
 
             boolean hasRs = insertEvent.execute();

@@ -1,10 +1,9 @@
 import React, {useContext, useState} from 'react';
 import {MainContext} from '../../context/MainContext';
-import { EventContext } from '../../context/EventContext';
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import {Button, 
-    Card, CardActions, CardContent, CardMedia, 
+import { 
+    Card, CardContent, CardMedia, 
     CssBaseline, 
     Grid, 
     Table, TableBody, TableCell, TableHead, TableContainer, TableRow, 
@@ -35,9 +34,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function Auditoire() {
 
-    const {user} = useContext(MainContext);
+    //const {user} = useContext(MainContext);
     const classes = useStyles();
-    const [ data, setData ] = useState(); //mettre json à la place de useState
+    //const [ data, setData ] = useState(); //mettre json à la place de useState
 
     function createUser(name, lastname, points) {
         return {name, lastname, points};
@@ -49,6 +48,7 @@ export default function Auditoire() {
         for (var members = 0; members < house.len; ++members)
         {
             total_points += house.points;
+            console.log('total_points : ' + total_points)
         }
         return total_points
     }
@@ -63,6 +63,7 @@ export default function Auditoire() {
         createUser('Sanza', 'Junod', 77)
     ];  
 
+    /*
     const houseIE = [
         createUser('Miches', 'Tripotées', 113),
         createUser('LN', 'Dubuis', 12),
@@ -85,7 +86,8 @@ export default function Auditoire() {
         createUser('Jojo', 'Lémainrouj', 231)
     ];
 
-
+    */
+   
     return (
         <React.Fragment>
             <CssBaseline/>
