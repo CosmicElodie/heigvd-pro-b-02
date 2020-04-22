@@ -119,9 +119,10 @@ export const countPosts = (forums) => {
     if(!forums || typeof forums[Symbol.iterator] !== 'function') return 0;
     for (const forum of forums) {
         nbPosts = 0;
-        if(!forum.subjects) continue;
-        for (const { posts } of forum.subjects) {
-            nbPosts += posts ? posts.length : 0; 
+        if(forum.subjects && forum.subjects.length > 0){
+            for (const { posts } of forum.subjects) {
+                nbPosts += posts ? posts.length : 0; 
+            }
         }
         if(forum.hasOwnProperty('forums') && forum.forums){
             nbPosts += countPosts(forum.forums);
