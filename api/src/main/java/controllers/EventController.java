@@ -226,7 +226,7 @@ public class EventController {
             boolean isAllowedOperation =
                     user.getId() == eventOwnerUserId ||
                             (user.getId() != eventOwnerUserId && user.getAccessLevel() >= 50) ||
-                            (user.getId() != eventOwnerUserId && user.getHouseID() == sqlGetEventHouseID && user.getAccessLevel() >= 25);
+                            (user.getId() != eventOwnerUserId && user.getHouseID() == eventHouseId && user.getAccessLevel() >= 25);
 
             if (!isAllowedOperation) {
                 return Utils.errorJSONObjectBuilder("event_delete_insufficient_permission").build().toString();
