@@ -1,22 +1,8 @@
-import React, {useContext,useEffect} from 'react';
-import { TextField, makeStyles, Card,  CardContent, Button,  Typography, Avatar, Grid,CardMedia } from '@material-ui/core';
-import { blue, blueGrey } from '@material-ui/core/colors';
-import EditIcon from '@material-ui/icons/Edit';
+import React, {useContext} from 'react';
+import {  makeStyles, Card,  CardContent,  Typography, Avatar, Grid } from '@material-ui/core';
 import { MainContext } from '../../context/MainContext';
-import IconButton from '@material-ui/core/IconButton';
-import Modal from '@material-ui/core/Modal';
-import { useHistory } from "react-router-dom";
 import "../../css/Houses.css";
 
-
-
-
-const HOUSE_DATA = {
-  name: 'Michael Triponez',
-  img : 'https://c1-ebgames.eb-cdn.com.au/merchandising/images/packshots/594355e64e564fb6bdcc760f8e2cc8e6_Large.png',
-  inmg : 'https://www.pngkey.com/png/full/19-192944_thanos-head-png-thanos-png.png',
-  username: 'Mich'
-}
 
 
  /* Displays data (name and corresponding data) */
@@ -39,66 +25,9 @@ const HOUSE_DATA = {
 export default function ModalProfile() {
 
 
-  let history = useHistory(); // hook that allows URL change -> navigation
-  const redirectPage = (link) => {
-    history.push(link);    
-  }; 
-  const [modalStyle] = React.useState(getModalStyle);
-  const [openPwdEdit, setOpenPwdEdit] = React.useState(false);
-  const [openPPEdit, setOpenPPEdit] = React.useState(false);
-
-  const [img, setImg] = React.useState('');
-  const [imgName, setImgName] = React.useState('');
-  const { user, setUser, setDialog } = useContext(MainContext);
+  const { user, } = useContext(MainContext);
   const classes = useStyles();
   
-
-
-
-  function getModalStyle() {
-    const top = 50 + rand();
-    const left = 50 + rand();
-  
-    return {
-      top: `${top}%`,
-      left: `${left}%`,
-      transform: `translate(-${top}%, -${left}%)`,
-    };
-  }
-
-  const handlePwdEditOpen = () => {
-    setOpenPwdEdit(true);
-  };
-
-  const handlePPEditOpen = () => {
-    setOpenPPEdit(true);
-  };
-
-  const handleClose = () => {
-    setOpenPwdEdit(false);
-    setOpenPPEdit(false);
-  };
-
-  const handleSave = (files) => {    
-    //Saving files to state for further use and closing Modal.
-    
-    //setImg(files)
-    
-    //imageBase64Data
-    const currentFile = files[0]
-    const reader = new FileReader()
-    reader.addEventListener("load", ()=>{        
-      setImg({
-        name: user.lastname,
-        data: reader.result})    
-      setUser((latest) => ({ ...latest, avatar: reader.result }))
-    },false)   
-    reader.readAsDataURL(currentFile)
-    setOpenPPEdit(false)
-    
-  }
-
-
 
   return (
 
@@ -241,17 +170,3 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
