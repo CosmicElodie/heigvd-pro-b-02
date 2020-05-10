@@ -76,7 +76,7 @@ const User = ( ) => {
                     onClose={ handleMenuClose }
                 >
                     <MenuItem onClick={ () => redirectPage("/profile")}>Profile</MenuItem>
-                    <MenuItem onClick={ handleMenuClose }>My account</MenuItem>
+                    <MenuItem onClick={ () => redirectPage("/house_home")}>Maison</MenuItem>
                     <MenuItem onClick={ user_logout }>Logout</MenuItem>
                 </Menu>     
             </section>                                           

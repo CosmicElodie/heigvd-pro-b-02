@@ -11,7 +11,7 @@ import Event_Calendar from '../pages/event/Event_Calendar';
 import Event_Display from '../pages/event/Event_Display';
 import Event_List from '../pages/event/Event_List';
 import Profile from '../pages/profile/Profile';
-import ModalProfile from '../pages/profile/ModalProfile';
+import Houses from '../pages/Houses/Home';
 import Forum from '../pages/forum/Forum';
 import { ForumProvider } from '../context/ForumContext';
 import { EventProvider } from '../context/EventContext';
@@ -40,7 +40,8 @@ const AppLayout = () => {
                 <Route path="/event_display"><EventProvider><Event_Display /></EventProvider></Route>
                 <Route path="/event_list"><EventProvider><Event_List /></EventProvider></Route>
                 <Route path="/profile" component={Profile} />
-                <Route path="/test" component={ModalProfile} />
+                <Route path="/house_home" component={Houses} />
+                <Route path="/test" component={Houses} />
                 <Route path="/forum"><ForumProvider><Forum /></ForumProvider></Route>
                 <Route path="*" component={() => "404 NOT FOUND"} />
             </Switch>

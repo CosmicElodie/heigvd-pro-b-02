@@ -1,0 +1,62 @@
+.parent {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    }
+    
+    .div1 {
+        grid-area: 1 / 1 / 3 / 8; 
+        
+        border-radius: 5px;
+        background-color: lightblue;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position-x: center;
+        
+       
+    }
+    .div2 {
+        grid-area: 1 / 1 / 3 / 3; 
+        font-style: italic;
+        color: cornsilk;
+        margin: auto;
+        padding: 10px;
+    }
+    .div3 {
+        grid-area: 1 / 6 / 3 / 8;     
+        object-fit: contain;
+        background-image: url('http://localhost:8080/content/IL.png ');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position-x: center;
+    }
+    .div4 {
+        grid-area: 3 / 6 / 8 / 8; 
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+    .div5 {
+        grid-area: 3 / 1 / 8 / 6;
+        margin-top: 10px;         
+    }
+
+
+    .points{
+        height: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+      }
+
+      .info{
+          margin-bottom: 10px;
+      }
+
+      .banner{
+      }
+
+     
+    
