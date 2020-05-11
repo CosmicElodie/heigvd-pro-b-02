@@ -48,4 +48,46 @@ public class Utils {
         return responseObject;
     }
 
+    //Useful methods below for unset/set best answer
+    public static String getSubjectOwnerIDFromPost(int post_id) {
+        return "SELECT user_id as result " +
+                "FROM forum_subject " +
+                "INNER JOIN forum_post_id USING (forum_post_id) " +
+                "WHERE forum_post_id = " + post_id;
+    }
+
+    public static String getSubjectOwnerFromSubject(int subject_id) {
+        return "SELECT user_id as result FROM forum_subject WHERE forum_subject_id = " + subject_id;
+    }
+
+    public static String getPostOwnerID(int post_id) {
+        return "SELECT user_id as result FROM forum_post WHERE forum_post_id = " + post_id;
+
+    }
+
+    public static String getSubjectID(int post_id){
+        return "SELECT subject_id as result FROM forum_post WHERE forum_post_id = " + post_id;
+    }
+
+    public static String getStatusPost(int post_id) {
+        return "SELECT subject_answer as result FROM forum_post WHERE forum_post_id = " + post_id;
+    }
+
+    public static String getHelpSection(int post_id) {
+        return "SELECT help_section as result FROM forum_section " +
+                "INNER JOIN forum_subject USING (forum_section_id)" +
+                "INNER JOIN forum_post USING (forum_subject_id) WHERE forum_post_id = " + post_id;
+    }
+
+    public static String getStatusSubject(int post_id) {
+        return  "SELECT resolved as result FROM forum_subject " +
+                "INNER JOIN forum_post_id USING (forum_post_id) " +
+                "WHERE forum_post_id = " + post_id;
+    }
+
+    public static String getHouseID(int subject_id) {
+        return "SELECT house_id as result FROM forum_section\n" +
+                "INNER JOIN forum_subject using(forum_section_id)\n" +
+                "WHERE forum_subject.forum_subject_id = " + subject_id;
+    }
 }
