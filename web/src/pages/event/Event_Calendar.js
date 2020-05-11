@@ -1,297 +1,193 @@
-/*
 import * as React from 'react';
+import Paper from '@material-ui/core/Paper';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import {
-  Scheduler, DayView, Appointments, MonthView, Toolbar,
-  DateNavigator, ViewSwitcher, TodayButton, Resources, AppointmentTooltip,
+  Scheduler,
+  WeekView,
+  Appointments,
+  Toolbar,
+  ViewSwitcher,
+  MonthView,
+  DayView,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import { withStyles, Theme, createStyles } from '@material-ui/core';
-import { indigo, blue, teal } from '@material-ui/core/colors';
-import Paper from '@material-ui/core/Paper';
-import { fade } from '@material-ui/core/styles/colorManipulator';
-import { WithStyles } from '@material-ui/styles';
-import classNames from 'clsx';
+
+export default class Demo extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: appointments,
+      currentViewName: 'work-week',
+    };
+
+    this.currentViewNameChange = (currentViewName) => {
+      this.setState({ currentViewName });
+    };
+  }
+
+  render() {
+    const { data, currentViewName } = this.state;
+
+    return (
+      <Paper>
+        <Scheduler
+          data={data}
+          height={660}
+        >
+          <ViewState
+            defaultCurrentDate="2018-07-25"
+            currentViewName={currentViewName}
+            onCurrentViewNameChange={this.currentViewNameChange}
+          />
+
+          <WeekView
+            startDayHour={10}
+            endDayHour={19}
+          />
+          <WeekView
+            name="work-week"
+            displayName="Work Week"
+            excludedDays={[0, 6]}
+            startDayHour={9}
+            endDayHour={19}
+          />
+          <MonthView />
+          <DayView />
+
+          <Toolbar />
+          <ViewSwitcher />
+          <Appointments />
+        </Scheduler>
+      </Paper>
+    );
+  }
+}
+
 
 const appointments = [
   {
-    title: 'Prepare 2015 Marketing Plan',
-    startDate: new Date(2018, 5, 25, 13, 0),
-    endDate: new Date(2018, 5, 25, 13, 30),
-    priority: 2,
-    location: 'Room 3',
-  }, {
-    title: 'Brochure Design Review',
-    startDate: new Date(2018, 5, 28, 14, 10),
-    endDate: new Date(2018, 5, 28, 15, 30),
-    priority: 1,
-    location: 'Room 1',
+    title: "Website Re-Design Plan",
+    startDate: new Date(2018, 6, 23, 9, 30),
+    endDate: new Date(2018, 6, 23, 11, 30)
   },
   {
-    title: 'Website Re-Design Plan',
-    startDate: new Date(2018, 5, 29, 9, 30),
-    endDate: new Date(2018, 5, 29, 11, 30),
-    priority: 1,
-    location: 'Room 3',
-  }, {
-    title: 'Book Flights to San Fran for Sales Trip',
-    startDate: new Date(2018, 6, 2, 12, 0),
-    endDate: new Date(2018, 6, 2, 13, 0),
-    priority: 3,
-    location: 'Room 2',
-  }, {
-    title: 'Install New Router in Dev Room',
-    startDate: new Date(2018, 6, 2, 14, 30),
-    endDate: new Date(2018, 6, 2, 15, 30),
-    priority: 2,
-    location: 'Room 3',
-  }, {
-    title: 'Approve Personal Computer Upgrade Plan',
-    startDate: new Date(2018, 6, 4, 10, 0),
-    endDate: new Date(2018, 6, 4, 11, 0),
-    priority: 1,
-    location: 'Room 1',
-  }, {
-    title: 'Final Budget Review',
-    startDate: new Date(2018, 6, 6, 12, 0),
-    endDate: new Date(2018, 6, 6, 13, 35),
-    priority: 3,
-    location: 'Room 1',
-  }, {
-    title: 'New Brochures',
-    startDate: new Date(2018, 6, 6, 14, 30),
-    endDate: new Date(2018, 6, 6, 15, 45),
-    priority: 3,
-    location: 'Room 3',
-  }, {
-    title: 'Install New Database',
-    startDate: new Date(2018, 6, 10, 9, 45),
-    endDate: new Date(2018, 6, 10, 11, 15),
-    priority: 2,
-    location: 'Room 2',
-  }, {
-    title: 'Approve New Online Marketing Strategy',
-    startDate: new Date(2018, 6, 12, 12, 0),
-    endDate: new Date(2018, 6, 12, 14, 0),
-    priority: 1,
-    location: 'Room 2',
-  }, {
-    title: 'Upgrade Personal Computers',
-    startDate: new Date(2018, 6, 16, 15, 15),
-    endDate: new Date(2018, 6, 16, 16, 30),
-    priority: 2,
-    location: 'Room 3',
-  }, {
-    title: 'Customer Workshop',
-    startDate: new Date(2018, 6, 18, 11, 0),
-    endDate: new Date(2018, 6, 18, 12, 0),
-    priority: 3,
-    location: 'Room 1',
-  }, {
-    title: 'Prepare 2015 Marketing Plan',
-    startDate: new Date(2018, 6, 20, 11, 0),
-    endDate: new Date(2018, 6, 20, 13, 30),
-    priority: 1,
-    location: 'Room 3',
+    title: "Book Flights to San Fran for Sales Trip",
+    startDate: new Date(2018, 6, 23, 12, 0),
+    endDate: new Date(2018, 6, 23, 13, 0)
   },
   {
-    title: 'New Brochures',
+    title: "Install New Router in Dev Room",
     startDate: new Date(2018, 6, 23, 14, 30),
-    endDate: new Date(2018, 6, 23, 15, 45),
-    priority: 2,
-    location: 'Room 3',
-  }, {
-    title: 'Install New Database',
-    startDate: new Date(2018, 6, 23, 9, 45),
-    endDate: new Date(2018, 6, 23, 11, 15),
-    priority: 3,
-    location: 'Room 2',
-  }, {
-    title: 'Approve New Online Marketing Strategy',
-    startDate: new Date(2018, 6, 26, 12, 0),
-    endDate: new Date(2018, 6, 26, 14, 0),
-    priority: 1,
-    location: 'Room 1',
-  }, {
-    title: 'Upgrade Personal Computers',
-    startDate: new Date(2018, 6, 31, 15, 15),
-    endDate: new Date(2018, 6, 31, 16, 30),
-    priority: 2,
-    location: 'Room 3',
-  }, {
-    title: 'Install New Database',
-    startDate: new Date(2018, 6, 31, 9, 45),
-    endDate: new Date(2018, 6, 31, 11, 15),
-    priority: 3,
-    location: 'Room 2',
+    endDate: new Date(2018, 6, 23, 15, 30)
   },
+  {
+    title: "Approve Personal Computer Upgrade Plan",
+    startDate: new Date(2018, 6, 24, 10, 0),
+    endDate: new Date(2018, 6, 24, 11, 0)
+  },
+  {
+    title: "Final Budget Review",
+    startDate: new Date(2018, 6, 24, 12, 0),
+    endDate: new Date(2018, 6, 24, 13, 35)
+  },
+  {
+    title: "New Brochures",
+    startDate: new Date(2018, 6, 24, 14, 30),
+    endDate: new Date(2018, 6, 24, 15, 45)
+  },
+  {
+    title: "Install New Database",
+    startDate: new Date(2018, 6, 25, 9, 45),
+    endDate: new Date(2018, 6, 25, 11, 15)
+  },
+  {
+    title: "Approve New Online Marketing Strategy",
+    startDate: new Date(2018, 6, 25, 12, 0),
+    endDate: new Date(2018, 6, 25, 14, 0)
+  },
+  {
+    title: "Upgrade Personal Computers",
+    startDate: new Date(2018, 6, 25, 15, 15),
+    endDate: new Date(2018, 6, 25, 16, 30)
+  },
+  {
+    title: "Customer Workshop",
+    startDate: new Date(2018, 6, 26, 11, 0),
+    endDate: new Date(2018, 6, 26, 12, 0)
+  },
+  {
+    title: "Prepare 2015 Marketing Plan",
+    startDate: new Date(2018, 6, 26, 11, 0),
+    endDate: new Date(2018, 6, 26, 13, 30)
+  },
+  {
+    title: "Brochure Design Review",
+    startDate: new Date(2018, 6, 26, 14, 0),
+    endDate: new Date(2018, 6, 26, 15, 30)
+  },
+  {
+    title: "Create Icons for Website",
+    startDate: new Date(2018, 6, 27, 10, 0),
+    endDate: new Date(2018, 6, 27, 11, 30)
+  },
+  {
+    title: "Upgrade Server Hardware",
+    startDate: new Date(2018, 6, 27, 14, 30),
+    endDate: new Date(2018, 6, 27, 16, 0)
+  },
+  {
+    title: "Submit New Website Design",
+    startDate: new Date(2018, 6, 27, 16, 30),
+    endDate: new Date(2018, 6, 27, 18, 0)
+  },
+  {
+    title: "Launch New Website",
+    startDate: new Date(2018, 6, 26, 12, 20),
+    endDate: new Date(2018, 6, 26, 14, 0)
+  },
+  {
+    title: "Website Re-Design Plan",
+    startDate: new Date(2018, 6, 16, 9, 30),
+    endDate: new Date(2018, 6, 16, 15, 30)
+  },
+  {
+    title: "Book Flights to San Fran for Sales Trip",
+    startDate: new Date(2018, 6, 16, 12, 0),
+    endDate: new Date(2018, 6, 16, 13, 0)
+  },
+  {
+    title: "Install New Database",
+    startDate: new Date(2018, 6, 17, 15, 45),
+    endDate: new Date(2018, 6, 18, 12, 15)
+  },
+  {
+    title: "Approve New Online Marketing Strategy",
+    startDate: new Date(2018, 6, 18, 12, 35),
+    endDate: new Date(2018, 6, 18, 14, 15)
+  },
+  {
+    title: "Upgrade Personal Computers",
+    startDate: new Date(2018, 6, 19, 15, 15),
+    endDate: new Date(2018, 6, 20, 20, 30)
+  },
+  {
+    title: "Prepare 2015 Marketing Plan",
+    startDate: new Date(2018, 6, 20, 20, 0),
+    endDate: new Date(2018, 6, 20, 13, 30)
+  },
+  {
+    title: "Brochure Design Review",
+    startDate: new Date(2018, 6, 20, 14, 10),
+    endDate: new Date(2018, 6, 20, 15, 30)
+  },
+  {
+    title: "Vacation",
+    startDate: new Date(2018, 5, 22),
+    endDate: new Date(2018, 6, 1)
+  },
+  {
+    title: "Vacation",
+    startDate: new Date(2018, 6, 28),
+    endDate: new Date(2018, 7, 7)
+  }
 ];
-
-const resources = [{
-  fieldName: 'location',
-  title: 'Location',
-  instances: [
-    { id: 'Room 1', text: 'Room 1', color: indigo },
-    { id: 'Room 2', text: 'Room 2', color: blue },
-    { id: 'Room 3', text: 'Room 3', color: teal },
-  ],
-}, {
-  fieldName: 'priority',
-  title: 'Priority',
-  instances: [
-    { id: 1, text: 'High Priority', color: teal },
-    { id: 2, text: 'Medium Priority', color: blue },
-    { id: 3, text: 'Low Priority', color: indigo },
-  ],
-}];
-
-const styles = ({ palette }: Theme) => createStyles({
-  appointment: {
-    borderRadius: 0,
-    borderBottom: 0,
-  },
-  highPriorityAppointment: {
-    borderLeft: `4px solid ${teal[500]}`,
-  },
-  middlePriorityAppointment: {
-    borderLeft: `4px solid ${blue[500]}`,
-  },
-  lowPriorityAppointment: {
-    borderLeft: `4px solid ${indigo[500]}`,
-  },
-  weekEndCell: {
-    backgroundColor: fade(palette.action.disabledBackground, 0.04),
-    '&:hover': {
-      backgroundColor: fade(palette.action.disabledBackground, 0.04),
-    },
-    '&:focus': {
-      backgroundColor: fade(palette.action.disabledBackground, 0.04),
-    },
-  },
-  weekEndDayScaleCell: {
-    backgroundColor: fade(palette.action.disabledBackground, 0.06),
-  },
-  text: {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-  },
-  content: {
-    opacity: 0.7,
-  },
-  container: {
-    width: '100%',
-    lineHeight: 1.2,
-    height: '100%',
-  },
-});
-
-type AppointmentProps = Appointments.AppointmentProps & WithStyles<typeof styles>;
-type AppointmentContentProps = Appointments.AppointmentContentProps & WithStyles<typeof styles>;
-type TimeTableCellProps = MonthView.TimeTableCellProps & WithStyles<typeof styles>;
-type DayScaleCellProps = MonthView.DayScaleCellProps & WithStyles<typeof styles>;
-
-const isWeekEnd = (date: Date): boolean => date.getDay() === 0 || date.getDay() === 6;
-const defaultCurrentDate = new Date(2018, 6, 2, 11, 15);
-
-const DayScaleCell = withStyles(styles)(({
-  startDate, classes, ...restProps
-}: DayScaleCellProps) => (
-  <MonthView.DayScaleCell
-    className={classNames({
-      [classes.weekEndDayScaleCell]: isWeekEnd(startDate),
-    })}
-    startDate={startDate}
-    {...restProps}
-  />
-));
-
-const TimeTableCell = withStyles(styles)((
-  { startDate, classes, ...restProps }: TimeTableCellProps,
-) => (
-  <MonthView.TimeTableCell
-    className={classNames({
-      [classes.weekEndCell]: isWeekEnd(startDate),
-    })}
-    startDate={startDate}
-    {...restProps}
-  />
-));
-
-const Appointment = withStyles(styles)(({
-  classes, data, ...restProps
-}: AppointmentProps) => (
-  <Appointments.Appointment
-    {...restProps}
-    className={classNames({
-      [classes.highPriorityAppointment]: data.priority === 1,
-      [classes.middlePriorityAppointment]: data.priority === 2,
-      [classes.lowPriorityAppointment]: data.priority === 3,
-      [classes.appointment]: true,
-    })}
-    data={data}
-  />
-));
-
-const AppointmentContent = withStyles(styles, { name: 'AppointmentContent' })(({
-  classes, data, ...restProps
-}: AppointmentContentProps) =>  {
-  let priority = 'low';
-  if (data.priority === 2) priority = 'middle';
-  if (data.priority === 3) priority = 'high';
-  return (
-    <Appointments.AppointmentContent {...restProps} data={data}>
-      <div className={classes.container}>
-        <div className={classes.text}>
-          {data.title}
-        </div>
-        <div className={classNames(classes.text, classes.content)}>
-          {`Priority: ${priority}`}
-        </div>
-        <div className={classNames(classes.text, classes.content)}>
-          {`Location: ${data.location}`}
-        </div>
-      </div>
-    </Appointments.AppointmentContent>
-  );
-});
-
-export default () => (
-  <Paper>
-    <Scheduler
-      data={appointments}
-    >
-      <ViewState
-        defaultCurrentDate={defaultCurrentDate}
-      />
-
-      <MonthView
-        dayScaleCellComponent={DayScaleCell}
-        timeTableCellComponent={TimeTableCell}
-      />
-      <DayView
-        displayName={'Three days'}
-        startDayHour={9}
-        endDayHour={17}
-        intervalCount={3}
-      />
-
-      <Appointments
-        appointmentComponent={Appointment}
-        appointmentContentComponent={AppointmentContent}
-      />
-      <Resources
-        data={resources}
-      />
-
-      <AppointmentTooltip
-        showCloseButton
-      />
-      <Toolbar />
-      <DateNavigator />
-      <ViewSwitcher />
-      <TodayButton />
-    </Scheduler>
-  </Paper>
-);
-
-*/

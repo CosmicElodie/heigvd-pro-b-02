@@ -54,22 +54,23 @@ export default function Auditoire() {
     }
 
     var rankIL = 1;
+    var rankIE = 1;
 
     const houseIL = [
-        createUser('Elodie', 'Lagier', 99),
-        createUser('Salva', 'Maillefer', 102),
-        createUser('Gus', 'Valvanale', 56),
-        createUser('Stefan', 'Teofanovic', 216),
-        createUser('Sanza', 'Junod', 77)
+        createUser('Elodie', 'Lagier', 203),
+        createUser('Dalia', 'Maillefer', 164),
+        createUser('Guillaume', 'Valvone', 120),
+        createUser('Stefan', 'Teofanovic', 100),
+        createUser('Christophe', 'Junod', 77)
     ];  
 
-    /*
+    
     const houseIE = [
-        createUser('Miches', 'Tripotées', 113),
+        createUser('Michael', 'Triponez', 113),
         createUser('LN', 'Dubuis', 12),
-        createUser('Marie', 'Antoinette', 64)
+        createUser('Marie', 'Antoinette', 1)
     ];
-
+/*
     const houseID = [
         createUser('Anne', 'O\'nyme', 27),
         createUser('Sébastien', 'Rosat', 66),
@@ -155,9 +156,14 @@ export default function Auditoire() {
                                                             </TableRow>
                                                         </TableHead>
                                                         <TableBody>
-                                                            <TableRow >
-                                                            </TableRow>
-                                                        </TableBody>
+                                                    {houseIE.map(row => (
+                                                        <TableRow >
+                                                            <TableCell>{rankIE++}</TableCell>
+                                                            <TableCell>{row.name + ' ' + row.lastname}</TableCell>
+                                                            <TableCell>{row.points}</TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                                    </TableBody>
                                                     </Table>
                                                 </TableContainer>
                                             </Typography>

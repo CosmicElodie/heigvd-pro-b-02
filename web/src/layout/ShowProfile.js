@@ -2,9 +2,6 @@ import React, { useContext } from 'react';
 import { MainContext } from '../context/MainContext';
 
 import {  Card, Dialog,  CardContent, makeStyles,  Typography, Avatar, Grid } from '@material-ui/core';
-import {blue} from '@material-ui/core/colors';
-import EditIcon from '@material-ui/icons/Edit';
-import IconButton from '@material-ui/core/IconButton';
 
   
 const ShowProfile = () => {
