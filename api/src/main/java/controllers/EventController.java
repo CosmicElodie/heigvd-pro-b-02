@@ -37,6 +37,66 @@ public class EventController {
         return result;
     }
 
+    @PostMapping("/event/upcomingEvents")
+    public String upcomingEventList() throws SQLException {
+
+        String result = null;
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet events = stmt.executeQuery("select DEV.getUpcomingEventJSON() AS event_result");
+
+            events.next();
+            result = events.getString("event_result");
+        }
+        return result;
+    }
+
+    @PostMapping("/event/detail")
+    public String eventDetail(@RequestParam("event_id") int event_id) throws SQLException {
+
+        String result = null;
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet events = stmt.executeQuery("select DEV.getDetailEventJson(" + event_id + ") AS event_result");
+
+            events.next();
+            result = events.getString("event_result");
+        }
+        return result;
+    }
+
+    @PostMapping("/event/participated_by_user")
+    public String eventParticipatedByUser(@RequestParam("user_id") int user_id) throws SQLException {
+
+        String result = null;
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet events = stmt.executeQuery("select DEV.getEventParticipatedByUserJSON(" + user_id + ") AS event_result");
+
+            events.next();
+            result = events.getString("event_result");
+        }
+        return result;
+    }
+
+    @PostMapping("/event/created_by_user")
+    public String eventCreatedByUser(@RequestParam("user_id") int user_id) throws SQLException {
+
+        String result = null;
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet events = stmt.executeQuery("select DEV.getEventCreatedByUserJSON(" + user_id + ") AS event_result");
+
+            events.next();
+            result = events.getString("event_result");
+        }
+        return result;
+    }
+
     @GetMapping("/event/from_house")
     public String eventFromHouseList(@RequestParam("house_id") int house_id) throws SQLException {
 
@@ -129,8 +189,62 @@ public class EventController {
                 ResultSet rs = insertEvent.getResultSet();
                 rs.next();
                 JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
-                responseObject = Utils.successJSONObjectBuilder("forum_created", reader);
+                responseObject = Utils.successJSONObjectBuilder("event_created", reader);
             }
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/join_event")
+    public String joinEvent(@RequestParam("user_id") int user_id,
+                            @RequestParam("event_id") int event_id
+                            ) throws SQLException {
+
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement joinEvent = conn.prepareCall("{call DEV.joinEvent(?,?)}");
+            joinEvent.setInt(1, user_id);
+            joinEvent.setInt(2, event_id);
+
+            joinEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_joined", null);
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/quit_event")
+    public String quitEvent(@RequestParam("user_id") int user_id,
+                            @RequestParam("event_id") int event_id
+    ) throws SQLException {
+
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement quitEvent = conn.prepareCall("{call DEV.quitEvent(?,?)}");
+            quitEvent.setInt(1, user_id);
+            quitEvent.setInt(2, event_id);
+
+            quitEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_quited", null);
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/cancel_event")
+    public String cancelEvent(@RequestParam("event_id") int event_id) throws SQLException {
+
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement cancelEvent = conn.prepareCall("{call DEV.cancelEvent(?)}");
+            cancelEvent.setInt(1, event_id);
+
+            cancelEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_cancelled", null);
         }
         return responseObject.build().toString();
     }
