@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import utils.Utils;
 
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.sql.DataSource;
@@ -191,6 +192,98 @@ public class EventController {
                 JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
                 responseObject = Utils.successJSONObjectBuilder("event_created", reader);
             }
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/update_event")
+    public String updateEvent(@RequestParam(value = "event_id") int event_id,
+                              @RequestParam("name") String name,
+                              @RequestParam("description") String description,
+                              @RequestParam(value = "is_competitive", required = false) Integer is_competitive,
+                              @RequestParam(value = "difficulty", required = false) Integer difficulty,
+                              @RequestParam(value = "price", required = false) Integer price,
+                              @RequestParam(value = "battleroyale", required = false) Integer battleroyale,
+                              @RequestParam("attendees_min") int attendees_min,
+                              @RequestParam("attendees_max") int attendees_max,
+                              @RequestParam("date_begin") Date date_begin,
+                              @RequestParam("date_end") Date date_end,
+                              @RequestParam("deadline_reservation") Date deadline_reservation,
+                              @RequestParam("location") String location,
+                              @RequestParam("no") String no,
+                              @RequestParam("street") String street,
+                              @RequestParam("postal_code") int postal_code,
+                              @RequestParam("city") String city,
+                              @RequestParam(value = "battleroyale", required = false) Integer house_id) throws SQLException {
+
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+
+        if (name.length() == 0 || description.length() >= 100) {
+            return Utils.errorJSONObjectBuilder("incorrect_input_length").build().toString();
+        }
+
+        if (attendees_min > attendees_max) {
+            return Utils.errorJSONObjectBuilder("error_min_max_attendees_length").build().toString();
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+            // check si nombre d'attendee max ne descend pas en dessous du nombre de participants.
+            if (!conn.createStatement().executeQuery(
+                    "SELECT count(*) as nb_attendees\n" +
+                            "FROM  user_participate_event\n" +
+                            "WHERE event_id = '" + event_id + "'\n" +
+                            "HAVING nb_attendees <= '" + attendees_max + "';"
+            ).next()) {
+                return Utils.errorJSONObjectBuilder("error_max_attendees_lower_than_nb_attendees").build().toString();
+            }
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement updateEvent = conn.prepareCall("{call DEV.updateEvent(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            updateEvent.setInt(1, event_id);
+            updateEvent.setString(2, name);
+            updateEvent.setString(3, description);
+            if (is_competitive == null) {
+                updateEvent.setNull(4, Types.INTEGER);
+            } else {
+                updateEvent.setInt(4, is_competitive);
+            }
+            if (battleroyale == null) {
+                updateEvent.setNull(5, Types.INTEGER);
+            } else {
+                updateEvent.setInt(5, battleroyale);
+            }
+            if (difficulty == null) {
+                updateEvent.setNull(6, Types.INTEGER);
+            } else {
+                updateEvent.setInt(6, difficulty);
+            }
+            if (price == null) {
+                updateEvent.setNull(7, Types.INTEGER);
+            } else {
+                updateEvent.setInt(7, price);
+            }
+
+            updateEvent.setInt(8, attendees_min);
+            updateEvent.setInt(9, attendees_max);
+            updateEvent.setDate(10, deadline_reservation);
+            updateEvent.setDate(11, date_begin);
+            updateEvent.setDate(12, date_end);
+            updateEvent.setString(13, location);
+
+            String address = street + " " + no + ", " + postal_code + " " + city;
+            updateEvent.setString(14, address);
+
+            if(house_id == null) {
+                updateEvent.setNull(15, Types.INTEGER);
+            } else {
+                updateEvent.setInt(16, house_id);
+            }
+
+
+            updateEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_updated", null);
         }
         return responseObject.build().toString();
     }
