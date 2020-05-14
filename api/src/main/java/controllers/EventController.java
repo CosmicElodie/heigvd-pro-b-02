@@ -32,7 +32,7 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("select DEV.getEventJSON() AS event_result");
+            ResultSet events = stmt.executeQuery("select DEV.getEventJSON(0) AS event_result");
 
             events.next();
 
