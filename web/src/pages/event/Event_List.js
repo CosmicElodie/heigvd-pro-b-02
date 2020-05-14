@@ -202,7 +202,7 @@ export default function Event_List() {
                                                     <TableCell align="right">{displayRightHouse(house_id)}</TableCell>
                                                     <TableCell align="right">{nb_attendees + ' / ' + attendees_max}</TableCell>
                                                     <TableCell align="right">{deadline_reservation}</TableCell>
-                                                    <TableCell align="right">{DateFormatdate_begin}</TableCell>
+                                                    <TableCell align="right">{date_begin}</TableCell>
                                                     <TableCell align="right">{location}</TableCell>
                                                 </TableRow>
                                     )}
