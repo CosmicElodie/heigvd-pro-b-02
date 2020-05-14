@@ -1,25 +1,20 @@
-import React, {useContext} from 'react';
+import React /*, {useContext}*/ from 'react';
 
-import {MainContext} from '../../context/MainContext';
-import Typography from '@material-ui/core/Typography';
+//import {MainContext} from '../../context/MainContext';
 
-import {Button, 
+import {
     Card, 
-    CardActions, 
     CardContent, 
     CardMedia, 
     CssBaseline, 
-    Grid, 
     Table, 
     TableBody, 
     TableCell, 
     TableHead, 
-    TableContainer, 
-    TableRow, 
-    Paper} from '@material-ui/core';
+    TableRow} from '@material-ui/core';
 
 import {makeStyles} from '@material-ui/core/styles';
-import { EventContext } from '../../context/EventContext';
+//import { EventContext } from '../../context/EventContext';
 import '../../css/Event.css'; 
 
 const useStyles = makeStyles(theme => ({
@@ -41,8 +36,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Event() {
-    const {user} = useContext(MainContext);
-    const {data, setData} = useContext(EventContext);
+    //const {user} = useContext(MainContext);
+    //const {data, setData} = useContext(EventContext);
 
     const classes = useStyles();
 

@@ -1,15 +1,11 @@
-import React, {useContext, useEffect} from 'react';
-import {MainContext} from '../../context/MainContext';
+import React, {useContext} from 'react';
 import { EventContext } from '../../context/EventContext';
-import Typography from '@material-ui/core/Typography';
 
 import PropTypes from "prop-types";
 
 import {Button, 
-    Card, 
-    CardActions, 
-    CardContent, 
-    CardMedia, 
+    Card,
+    CardContent,
     CssBaseline, 
     Grid, 
     Table, 
@@ -82,7 +78,7 @@ const headCells = [
 
 function EnhancedTableHead(props) 
 {
-    const { classes, order, orderBy, onRequestSort } = props;
+    const { order, orderBy, onRequestSort } = props;
     const createSortHandler = property => event => {
       onRequestSort(event, property);
     };
@@ -119,14 +115,13 @@ EnhancedTableHead.propTypes = {
 
 export default function Event_List() {
     const classes = useStyles();
-    const {user:{event}} = useContext(MainContext);
-    const {data, setData} = useContext(EventContext);
+    const {data} = useContext(EventContext);
 
     const [order, setOrder] = React.useState("asc");
     const [orderBy, setOrderBy] = React.useState();
-    const [selected, setSelected] = React.useState([]);
+    const [selected] = React.useState([]);
     const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
+    const [dense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
     const handleRequestSort = (event, property) => {
@@ -157,17 +152,11 @@ export default function Event_List() {
         switch(noHouse)
         {
             case 1 : return "IE";
-                break;
             case 2 : return "TS";
-                break;
             case 3 : return "TR";
-                break;
             case 4 : return "IL";
-                break;
             case 5 : return "ID";
-                break;
             default : return "Globale";
-                break;
         }
     }
     

@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import Typography from '@material-ui/core/Typography';
 import {MainContext} from '../../context/MainContext';
 import { styled } from '@material-ui/core/styles';
-import {Button, Card, CardActions, CardContent, CardMedia, CssBaseline, Grid, Table, TableBody, TableCell, TableHead, TableContainer, TableRow, Paper} from '@material-ui/core';
+import {Button, Card, CardContent, CardMedia, CssBaseline, Grid, Table, TableBody, TableCell, TableHead, TableContainer, TableRow, Paper} from '@material-ui/core';
 
 import {makeStyles} from '@material-ui/core/styles';
 import { EventContext } from '../../context/EventContext';
@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Event() {
     const {user} = useContext(MainContext);
-    const {data, setData} = useContext(EventContext);
+    const {data} = useContext(EventContext);
 
     const classes = useStyles();
 
@@ -45,7 +45,7 @@ export default function Event() {
     //15 car ça affiche composant d'une ligne par composant d'une ligne.
     //Comme on veut 5 events -> 5 * 3 = 15.
     function printLine(house_id, elementToPrint) {
-        if (daHouse == house_id && limit_house < 15) {
+        if (daHouse === house_id && limit_house < 15) {
             limit_house++;
                 return <TableCell component="th" scope="row">
                         {elementToPrint}
@@ -74,8 +74,6 @@ export default function Event() {
         padding: '0px 20px',
         margin: '30px 30px',
       });
-      
-      
 
     return (
 
@@ -146,16 +144,11 @@ export default function Event() {
                                             </TableHead>
                                             <TableBody>
                                             {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, difficulty, status, price, deadline_reservation, date_begin, date_end, location, house_id, house_name, nb_attendees}) =>
-                                                    
-                                                    
                                                     <TableRow /* key={name} */>
                                                         {printLineGlobal(house_id,name)}
                                                         {printLineGlobal(house_id,date_begin)}
                                                         {printLineGlobal(house_id,nb_attendees)}
                                                     </TableRow>
-                                                
-                                                    
-                                                    
                                             )}
                                             </TableBody>
                                         </Table>
