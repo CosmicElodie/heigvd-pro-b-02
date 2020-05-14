@@ -16,6 +16,9 @@ import javax.json.JsonReader;
 import javax.sql.DataSource;
 import java.io.StringReader;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 @RestController
 public class EventController {
@@ -29,7 +32,7 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("select DEV.getEventJSON() AS event_result");
+            ResultSet events = stmt.executeQuery("select DEV.getEventJSON(0) AS event_result");
 
             events.next();
 
@@ -178,7 +181,7 @@ public class EventController {
             insertEvent.setString(13, address);
             insertEvent.setInt(14, user_id);
 
-            if(house_id == null) {
+            if (house_id == null) {
                 insertEvent.setNull(15, Types.INTEGER);
             } else {
                 insertEvent.setInt(15, house_id);
@@ -469,6 +472,111 @@ public class EventController {
             responseObject = Utils.successJSONObjectBuilder("points_from_group_event_added", null);
 
         }
+        return responseObject.build().toString();
+    }
+
+    /*@PostMapping("/event/event_create")
+    public String eventCreate(@RequestParam("name") String name,
+                              @RequestParam("description") String description,
+                              @RequestParam("is_competitive") int is_competitive,
+                              @RequestParam("battle_royal") int battleroyale,
+                              @RequestParam("limitation") String limitation,
+                              @RequestParam("difficulty") String difficulty,
+                              @RequestParam("nb_min_participants") int nbMinParticipants,
+                              @RequestParam("nb_max_participants") int nbMaxParticipants,
+                              @RequestParam("date_begin") String date_begin,
+                              @RequestParam("date_end") String date_end,
+                              @RequestParam("deadline_reservation") String deadline_reservation,
+                              @RequestParam("location") String location,
+                              @RequestParam("street") String street,
+                              @RequestParam("street_nb") String street_nb,
+                              @RequestParam("zip") String zip,
+                              @RequestParam("city") String city) throws SQLException
+    {
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        try(Connection conn = dataSource.getConnection()) {
+
+            CallableStatement createEvent = conn.prepareCall("{call DEV.createEvent(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+
+            // Date of creation
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Calendar cal = Calendar.getInstance();
+
+            createEvent.setString(1, name);                     // Name of the event
+            createEvent.setString(2, description);              // Description of the event
+            createEvent.setInt(3, is_competitive);              // Is the event competitive ?
+            createEvent.setInt(4, battleroyale);                // Is the event a battle royale ?
+            createEvent.setString(5, limitation);               // Can all the houses participate ?
+            createEvent.setString(6, difficulty);               // Difficulty estimated of the event
+            createEvent.setInt(7, 0);                           // Price of the event
+            createEvent.setInt(8, nbMinParticipants);           // Min number of attendees
+            createEvent.setInt(9, nbMaxParticipants);           // Max number of attendees
+            createEvent.setString(10, deadline_reservation);    // Deadline to sign up to the event
+            createEvent.setString(11, dateFormat.format(cal));  // Date of creation of the event
+            createEvent.setString(12, date_begin);              // Date at which the event begins
+            createEvent.setString(13, date_end);                // Date at which the event ends
+            createEvent.setString(14, location);                // Location of the event
+            createEvent.setString(15, street +                  // Address  of the event
+                                      street_nb +
+                                      zip +
+                                      city);
+            createEvent.setInt(16, user.getId());               // ID of the creator
+            createEvent.setInt(17, user.getHouseID());          // House ID of the creator
+
+
+                Conditions
+                ----------
+                  1. Participants MAX >= participants MIN
+                  2. Date début <= date fin
+
+
+            boolean hasRs = createEvent.execute();
+            if (hasRs) {
+                ResultSet rs = createEvent.getResultSet();
+                rs.next();
+                JsonReader reader = Json.createReader(new StringReader(rs.getString("result")));
+                responseObject.add("status", "ok");
+                responseObject.add("dialog_id", "event_created");
+                responseObject.add("data", reader.readValue());
+            }
+        }
+        return responseObject.build().toString();
+    }*/
+
+    @PostMapping("/event/delete_event")
+    public String eventDelete(@RequestParam("event_id") int event_id) throws SQLException {
+        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement statement = conn.createStatement();
+
+            String sqlGetOwnerID = "SELECT user_id as result FROM event WHERE event = " + event_id;
+            String sqlGetEventHouseID = "SELECT house_id as result FROM event WHERE event_id = " + event_id;
+
+            int eventHouseId = Utils.getSingletonInt(statement, sqlGetEventHouseID);
+            int eventOwnerUserId = Utils.getSingletonInt(statement, sqlGetOwnerID);
+
+            boolean isAllowedOperation =
+                    user.getId() == eventOwnerUserId ||
+                            (user.getId() != eventOwnerUserId && user.getAccessLevel() >= 50) ||
+                            (user.getId() != eventOwnerUserId && user.getHouseID() == eventHouseId && user.getAccessLevel() >= 25);
+
+            if (!isAllowedOperation) {
+                return Utils.errorJSONObjectBuilder("event_delete_insufficient_permission").build().toString();
+            }
+
+
+            CallableStatement deleteEvent = conn.prepareCall("{call DEV.deleteEvent(?)}");
+            deleteEvent.setInt(1, event_id);
+            deleteEvent.execute();
+
+            responseObject = Utils.successJSONObjectBuilder("event_deleted", null);
+        }
+
         return responseObject.build().toString();
     }
 }
