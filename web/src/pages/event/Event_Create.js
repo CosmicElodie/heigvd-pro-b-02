@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState } from 'react';
+import React, {useContext } from 'react';
 import {MainContext} from '../../context/MainContext';
 import Typography from '@material-ui/core/Typography';
 
@@ -20,7 +20,7 @@ import { useInput } from '../../hooks/input';
 //TODO : Pour faire l'upload de l'image
 //https://www.youtube.com/watch?v=sp9r6hSWH_o
 
-import {withStyles, makeStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 
 const titre_créerEvent = "Créer un événement"
 
@@ -53,14 +53,7 @@ export default function Event_Create() {
     //user n'est plus accessible si on accède à ses sous-composants
     //on peut autrement faire user.house ou user.id si on extrait pas les deux données
     const {user} = useContext(MainContext);
-    const [startDate, setStartDate] = useState(new Date());
     const classes = useStyles();
-    
-    var battleRoyalMod = false;
-
-    const values = {
-        someDate: new Date()
-    };
 
     const { value:name,                 bind:bindName}                  = useInput('');
     const { value:description,          bind:bindDescription }          = useInput('');

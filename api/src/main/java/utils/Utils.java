@@ -90,4 +90,16 @@ public class Utils {
                 "INNER JOIN forum_subject using(forum_section_id)\n" +
                 "WHERE forum_subject.forum_subject_id = " + subject_id;
     }
+
+
+    public static String getPointsEvents(int difficulty, int place) {
+        return "SELECT points as result FROM points_difficulty WHERE difficulty = " + difficulty + " AND ranking = " + place;
+    }
+
+    public static String getNbParticipant(int house_id, int event_id) {
+        return "SELECT COUNT(*) as result FROM user_participate_event\n" +
+                "INNER JOIN user USING (user_id)\n" +
+                "WHERE house_id = " + house_id +
+                " AND event_id = " + event_id;
+    }
 }
