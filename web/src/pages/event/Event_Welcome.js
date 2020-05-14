@@ -36,11 +36,17 @@ export default function Event() {
 
     const classes = useStyles();
 
+    var limit_house = 0;
+    var limit_global = 0;
+
     var daHouse = user.house && user.house.house_id;
 
     //Permet d'afficher une ligne du tableau selon les données passées
+    //15 car ça affiche composant d'une ligne par composant d'une ligne.
+    //Comme on veut 5 events -> 5 * 3 = 15.
     function printLine(house_id, elementToPrint) {
-        if (daHouse == house_id) {
+        if (daHouse == house_id && limit_house < 15) {
+            limit_house++;
                 return <TableCell component="th" scope="row">
                         {elementToPrint}
                         </TableCell>
@@ -49,7 +55,8 @@ export default function Event() {
       }
 
     function printLineGlobal(house_id, elementToPrint) {
-        if (house_id == null) {
+        if (house_id == null && limit_global < 15) {
+            limit_global++;
               return <TableCell component="th" scope="row">
               {elementToPrint}
           </TableCell>
@@ -67,6 +74,8 @@ export default function Event() {
         padding: '0px 20px',
         margin: '30px 30px',
       });
+      
+      
 
     return (
 
@@ -97,6 +106,7 @@ export default function Event() {
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
+                                             
                                             {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, difficulty, status, price, deadline_reservation, date_begin, date_end, location, house_id, house_name, nb_attendees}) =>
                                                     <TableRow /* key={name} */>
                                                         {printLine(house_id,name)}
@@ -104,6 +114,7 @@ export default function Event() {
                                                         {printLine(house_id,nb_attendees)}
                                                     </TableRow>
                                             )}
+                                            
                                             </TableBody>
                                         </Table>
                                     </TableContainer>
@@ -135,11 +146,16 @@ export default function Event() {
                                             </TableHead>
                                             <TableBody>
                                             {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, difficulty, status, price, deadline_reservation, date_begin, date_end, location, house_id, house_name, nb_attendees}) =>
+                                                    
+                                                    
                                                     <TableRow /* key={name} */>
                                                         {printLineGlobal(house_id,name)}
                                                         {printLineGlobal(house_id,date_begin)}
                                                         {printLineGlobal(house_id,nb_attendees)}
                                                     </TableRow>
+                                                
+                                                    
+                                                    
                                             )}
                                             </TableBody>
                                         </Table>
@@ -161,4 +177,6 @@ export default function Event() {
             </main>
         </React.Fragment>
     );
+    
 }
+
