@@ -440,9 +440,9 @@ public class EventController {
             int nbSecond = Utils.getSingletonInt(statement, Utils.getNbParticipant(second_place, event_id));
             int nbThird = Utils.getSingletonInt(statement, Utils.getNbParticipant(third_place, event_id));
 
-            int pointPerMemberFirst = first_point/nbFirst;
-            int pointPerMemberSecond = second_point/nbSecond;
-            int pointPerMemberThird = third_point/nbThird;
+            int pointPerMemberFirst = (int) Math.ceil(first_point/nbFirst);
+            int pointPerMemberSecond = (int) Math.ceil(second_point/nbSecond);
+            int pointPerMemberThird = (int) Math.ceil(third_point/nbThird);
 
             CallableStatement pointsParticipation = conn.prepareCall("{CALL insertPointsBasedFromEvent(?)}");
             pointsParticipation.setInt(1, event_id);
