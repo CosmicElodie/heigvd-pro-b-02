@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import utils.Utils;
 
 import javax.json.Json;
-import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 import javax.sql.DataSource;
@@ -28,7 +27,7 @@ public class EventController {
     @GetMapping("/event/all")
     public String eventList() throws SQLException {
 
-        String result = null;
+        String result;
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
@@ -44,7 +43,7 @@ public class EventController {
     @PostMapping("/event/upcomingEvents")
     public String upcomingEventList() throws SQLException {
 
-        String result = null;
+        String result;
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
@@ -59,7 +58,7 @@ public class EventController {
     @PostMapping("/event/detail")
     public String eventDetail(@RequestParam("event_id") int event_id) throws SQLException {
 
-        String result = null;
+        String result;
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
@@ -74,7 +73,7 @@ public class EventController {
     @PostMapping("/event/participated_by_user")
     public String eventParticipatedByUser(@RequestParam("user_id") int user_id) throws SQLException {
 
-        String result = null;
+        String result;
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
@@ -89,7 +88,7 @@ public class EventController {
     @PostMapping("/event/created_by_user")
     public String eventCreatedByUser(@RequestParam("user_id") int user_id) throws SQLException {
 
-        String result = null;
+        String result;
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
@@ -104,7 +103,7 @@ public class EventController {
     @GetMapping("/event/from_house")
     public String eventFromHouseList(@RequestParam("house_id") int house_id) throws SQLException {
 
-        String result = null;
+        String result;
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
@@ -219,7 +218,7 @@ public class EventController {
                               @RequestParam("city") String city,
                               @RequestParam(value = "battleroyale", required = false) Integer house_id) throws SQLException {
 
-        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+        JsonObjectBuilder responseObject;
 
         if (name.length() == 0 || description.length() >= 100) {
             return Utils.errorJSONObjectBuilder("incorrect_input_length").build().toString();
@@ -296,7 +295,7 @@ public class EventController {
                             @RequestParam("event_id") int event_id
                             ) throws SQLException {
 
-        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+        JsonObjectBuilder responseObject;
 
         try (Connection conn = dataSource.getConnection()) {
 
@@ -315,7 +314,7 @@ public class EventController {
                             @RequestParam("event_id") int event_id
     ) throws SQLException {
 
-        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+        JsonObjectBuilder responseObject;
 
         try (Connection conn = dataSource.getConnection()) {
 
@@ -332,7 +331,7 @@ public class EventController {
     @PostMapping("/event/cancel_event")
     public String cancelEvent(@RequestParam("event_id") int event_id) throws SQLException {
 
-        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+        JsonObjectBuilder responseObject;
 
         try (Connection conn = dataSource.getConnection()) {
 
@@ -548,7 +547,7 @@ public class EventController {
 
     @PostMapping("/event/delete_event")
     public String eventDelete(@RequestParam("event_id") int event_id) throws SQLException {
-        JsonObjectBuilder responseObject = Json.createObjectBuilder();
+        JsonObjectBuilder responseObject;
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         try (Connection conn = dataSource.getConnection()) {
