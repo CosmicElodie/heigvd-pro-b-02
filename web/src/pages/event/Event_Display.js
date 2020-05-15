@@ -1,8 +1,9 @@
-import React /*, {useContext}*/ from 'react';
+import React , {useContext} from 'react';
 
-//import {MainContext} from '../../context/MainContext';
+import {MainContext} from '../../context/MainContext';
 
 import {
+    Button,
     Card, 
     CardContent, 
     CardMedia, 
@@ -32,14 +33,32 @@ const useStyles = makeStyles(theme => ({
     cardContent: {
         flexGrow: 1,
     },
+
+    margin: {
+        margin: theme.spacing(1),
+        align: "left",
+      },
+      extendedIcon: {
+        marginRight: theme.spacing(1),
+      },
     
 }));
 
 export default function Event() {
-    //const {user} = useContext(MainContext);
+    const {user} = useContext(MainContext);
     //const {data, setData} = useContext(EventContext);
 
     const classes = useStyles();
+
+    function printDeleteButton(permission) {
+        if (permission === 75 || permission === 25) {
+                return <Button variant="contained" size="small" color="primary" className={classes.margin}> Supprimer </Button>
+        }
+    
+        return;
+      }
+
+  
 
     return (
         <React.Fragment>
@@ -51,7 +70,19 @@ export default function Event() {
                                 //image="https://heig-vd.ch/images/default-source/img-vie-sur-le-campus/heig-vd-site-web-sm-00075562.jpg?sfvrsn=e01580ea_2"
                                 title="Image title"
                             />
+
                             <CardContent className={classes.cardContent}>
+                            <Button variant="contained" size="small" color="primary" className={classes.margin}>
+                                Modifier
+                            </Button>
+                            
+                            <Button variant="contained" size="small" color="primary" className={classes.margin}>
+                                Annuler
+                            </Button>
+
+                            {/* Bouton "annuler", uniquement visible pour l'admin/modo */}
+                            {printDeleteButton(user.access_level)}
+
                                 <h1>Tournoi de Basketball</h1>
                                 <Table>
                                     <TableHead>
