@@ -40,6 +40,22 @@ public class EventController {
         return result;
     }
 
+    @GetMapping("/event/last_events")
+    public String lastEventsList(@RequestParam("limit_nb") int limit_nb) throws SQLException {
+
+        String result = null;
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet events = stmt.executeQuery("SELECT DEV.getEventJSON(limit_nb) AS event_result");
+
+            events.next();
+
+            result = events.getString("event_result");
+        }
+        return result;
+    }
+
     @PostMapping("/event/upcomingEvents")
     public String upcomingEventList() throws SQLException {
 
@@ -115,13 +131,13 @@ public class EventController {
     }
 
     @GetMapping("/event/from_house")
-    public String eventFromHouseList(@RequestParam("house_id") int house_id) throws SQLException {
+    public String eventFromHouseList(@RequestParam("house_id") int house_id, @RequestParam("limit_nb") int limit_nb) throws SQLException {
 
         String result;
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("select DEV.getEventFromHouseJSON(" + house_id + ") AS event_result");
+            ResultSet events = stmt.executeQuery("select DEV.getEventFromHouseJSON(" + house_id + ", " + limit_nb + ") AS event_result");
 
             events.next();
             result = events.getString("event_result");
