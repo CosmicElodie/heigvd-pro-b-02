@@ -193,10 +193,11 @@ export default function Event_Create() {
                                         <TextField 
                                             id="battleroyal" 
                                             label="Battle Royal Mode" 
+                                            helperText = "Battle royal : chacun pour soi."
                                             required = {false} 
                                             defaultValue = {0}
                                             disabled = { false }
-                                            helperText = "*chacun pour soi."
+
                                             style = {{width: 150}} 
                                             { ...bindBattleRoyal }
                                             select>
