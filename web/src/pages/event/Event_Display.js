@@ -1,8 +1,7 @@
-import React , {useState, useContext, useEffect} from 'react';
-import { useLocation } from "react-router-dom";
+import React , {useContext} from 'react';
+
 import {MainContext} from '../../context/MainContext';
-import Moment from 'react-moment';
-import EventAccountPoints from './EventAccountPoints';
+
 import {
     Button,
     Card, 
@@ -45,23 +44,9 @@ const useStyles = makeStyles(theme => ({
     
 }));
 
-
-
 export default function Event() {
-    const { user } = useContext(MainContext);
-    const { data } = useContext(EventContext);
-    const location = useLocation(); 
-    const [ current, setCurrent ] = useState();
-    const [ accountPointDialogState, setAccountPointDialogState ] = useState({ is_open : false });
-
-    useEffect(() => {
-        if(data){
-            let eventId = parseInt(location.pathname.split('/')[2]);
-            let event = getEventByID(eventId, data);
-            setCurrent(event);
-        }
-    }, [data, setCurrent]);
-
+    const {user} = useContext(MainContext);
+    const {data} = useContext(EventContext);
     const classes = useStyles();
 
     
@@ -76,29 +61,21 @@ export default function Event() {
 
     function printCancelOrModifyButton(permission, organisator, text) {
         if (permission === 75 || permission === 25 || user.used_id === organisator) {
-            return <Button variant="contained" size="small" color="primary" className={classes.margin}> {text} </Button>
+                return <Button variant="contained" size="small" color="primary" className={classes.margin}> {text} </Button>
         }
     
         return;
-    } 
-
-    const getEventByID = (event_id, data) => {
-        for (const event of data) if(event.event_id === event_id) return event;
     }
     
-    const printAccountPointsButton = ( { attendees_min, nb_attendees, status } ) => {
-        if(attendees_min < nb_attendees && status === 'En cours' ) return <Button variant="contained" size="small" color="secondary" onClick={ handleAccountPointDialogClick }> Clôturer les points </Button>
-    }
 
-    const handleAccountPointDialogClick = () => setAccountPointDialogState({ is_open : true });
-    const handleAccountPointDialogClose = () => setAccountPointDialogState({ is_open : false });
+
+  
 
     return (
         <React.Fragment>
-            { current && <EventAccountPoints { ...{...accountPointDialogState, ...current, ...{ handleClose : handleAccountPointDialogClose }} } /> }
             <CssBaseline/>
             <main>
-            { current && <Card className={classes.card}>
+                <Card className={classes.card}>
                             <CardMedia
                                 className={classes.cardMedia}
                                 //image="https://heig-vd.ch/images/default-source/img-vie-sur-le-campus/heig-vd-site-web-sm-00075562.jpg?sfvrsn=e01580ea_2"
@@ -116,15 +93,14 @@ export default function Event() {
                                 )}
 
                                 {/* Bouton "supprimer", uniquement visible pour l'admin/modo */}
-                                { printDeleteButton(user.access_level) }
+                                {printDeleteButton(user.access_level)}
 
-                                { printAccountPointsButton(current) }
-                                <h1>{ current.name }</h1>
+                                <h1>Tournoi de Basketball</h1>
                                 <Table>
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>
-                                            <h2>{ current.description }</h2>
+                                            <h2>Description</h2>
                                             </TableCell>
                                         </TableRow>
                                     </TableHead>
@@ -152,17 +128,13 @@ export default function Event() {
                                     <TableBody>
                                         <TableRow>
                                             <TableCell>
-                                               
+                                                20/06/2012, 13:15
                                             </TableCell>
                                             <TableCell>
-                                                <Moment format="YYYY/MM/DD HH:mm">
-                                                    { current.date_begin }
-                                                </Moment>
+                                                21/06/2012, 08:30
                                             </TableCell>
                                             <TableCell>
-                                                <Moment format="YYYY/MM/DD HH:mm">
-                                                    { current.date_end }
-                                                </Moment>
+                                                21/06/2012, 16:30
                                             </TableCell>
                                         </TableRow>
                                     </TableBody>
@@ -185,10 +157,10 @@ export default function Event() {
                                     <TableBody>
                                         <TableRow>
                                             <TableCell>
-                                                { current.is_competitve ? "Oui" : "Non" }
+                                                Oui
                                             </TableCell>
                                             <TableCell>
-                                                { current.battleroyale ? "Oui" : "Non" }
+                                                Non
                                             </TableCell>
                                             <TableCell>
                                                 Difficile
@@ -229,7 +201,6 @@ export default function Event() {
                                 <center><h2>Adresse</h2></center>
                             </CardContent>
                         </Card>
-            }
             </main>
         </React.Fragment>
     );
