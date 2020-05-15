@@ -1,4 +1,0 @@
-CREATE PROCEDURE `listForums` ()
-BEGIN
-
-END

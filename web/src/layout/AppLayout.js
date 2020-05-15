@@ -7,7 +7,7 @@ import About from '../pages/About';
 import Auditoire from '../pages/auditoire/Auditoire';
 import Event_Welcome from '../pages/event/Event_Welcome';
 import Event_Create from '../pages/event/Event_Create';
-import Event_Calendar from '../pages/event/Event_Calendar';
+// import Event_Calendar from '../pages/event/Event_Calendar';
 import Event_Display from '../pages/event/Event_Display';
 import Event_List from '../pages/event/Event_List';
 import Profile from '../pages/profile/Profile';
@@ -36,7 +36,6 @@ const AppLayout = () => {
                 <Route path="/auditoire" component={Auditoire} />
                 <Route path="/event_welcome"><EventProvider><Event_Welcome /></EventProvider></Route>
                 <Route path="/event_create"><EventProvider><Event_Create /></EventProvider></Route>
-                <Route path="/event_calendar"><EventProvider><Event_Calendar /></EventProvider></Route>
                 <Route path="/event_display"><EventProvider><Event_Display /></EventProvider></Route>
                 <Route path="/event_list"><EventProvider><Event_List /></EventProvider></Route>
                 <Route path="/profile" component={Profile} />
