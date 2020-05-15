@@ -15,7 +15,7 @@ import {
     TableRow} from '@material-ui/core';
 
 import {makeStyles} from '@material-ui/core/styles';
-//import { EventContext } from '../../context/EventContext';
+import { EventContext } from '../../context/EventContext';
 import '../../css/Event.css'; 
 
 const useStyles = makeStyles(theme => ({
@@ -46,17 +46,29 @@ const useStyles = makeStyles(theme => ({
 
 export default function Event() {
     const {user} = useContext(MainContext);
-    //const {data, setData} = useContext(EventContext);
+    const {data} = useContext(EventContext);
 
     const classes = useStyles();
 
+    
     function printDeleteButton(permission) {
         if (permission === 75 || permission === 25) {
                 return <Button variant="contained" size="small" color="primary" className={classes.margin}> Supprimer </Button>
         }
     
         return;
-      }
+    }
+
+
+    function printCancelOrModifyButton(permission, organisator, text) {
+        if (permission === 75 || permission === 25 || user.used_id === organisator) {
+                return <Button variant="contained" size="small" color="primary" className={classes.margin}> {text} </Button>
+        }
+    
+        return;
+    }
+    
+
 
   
 
@@ -72,16 +84,17 @@ export default function Event() {
                             />
 
                             <CardContent className={classes.cardContent}>
-                            <Button variant="contained" size="small" color="primary" className={classes.margin}>
-                                Modifier
-                            </Button>
-                            
-                            <Button variant="contained" size="small" color="primary" className={classes.margin}>
-                                Annuler
-                            </Button>
+                                {/* Bouton "/modifier/annuler", uniquement visible pour l'admin/modo + l'organiateur de l'event */}
+                                {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, battleroyale, difficulty, status, price, attendees_min, attendees_max, deadline_reservation, created, date_begin, date_end, location, address, user_id, house_id, limitation}) =>
+                                        printCancelOrModifyButton(user.access_level, user_id, "Modifier")
+                                )}
 
-                            {/* Bouton "annuler", uniquement visible pour l'admin/modo */}
-                            {printDeleteButton(user.access_level)}
+                                {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, battleroyale, difficulty, status, price, attendees_min, attendees_max, deadline_reservation, created, date_begin, date_end, location, address, user_id, house_id, limitation}) =>
+                                        printCancelOrModifyButton(user.access_level, user_id, "Annuler")
+                                )}
+
+                                {/* Bouton "supprimer", uniquement visible pour l'admin/modo */}
+                                {printDeleteButton(user.access_level)}
 
                                 <h1>Tournoi de Basketball</h1>
                                 <Table>
