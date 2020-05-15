@@ -1,4 +1,4 @@
-import * as React from 'react';
+/* import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import {
@@ -191,3 +191,4 @@ const appointments = [
     endDate: new Date(2018, 7, 7)
   }
 ];
+*/
