@@ -7,7 +7,8 @@ between all Forum the components.
 */
 export const EventProvider = ( props ) => {
     const [ data, setData ] =  useState();
- useEffect(() => {
+    
+    useEffect(() => {
         fetch('http://localhost:8080/event/all', {
             method: 'GET',
             credentials: 'include' // mandatory for every JSON fetch

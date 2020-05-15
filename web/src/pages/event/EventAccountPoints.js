@@ -1,0 +1,167 @@
+import React, { useState, useEffect, Fragment, useContext } from 'react';
+import { Icon, Button, Dialog, DialogActions, DialogContent, DialogTitle, Box, FormControl, Select } from '@material-ui/core';
+import { useInput } from '../../hooks/input';
+import {MainContext} from '../../context/MainContext';
+
+const EventAccountPoints = ({ is_open, handleClose, event_id, house_id } ) => {
+    const { value:firstPlace, setValue:setFirstPlace, bind:bindFirstPlace } = useInput('');
+    const { value:secondPlace, setValue:setSecondPlace, bind:bindSecondPlace } = useInput('');
+    const { value:thirdPlace, setValue:setThirdPlace, bind:bindThirdPlace } = useInput('');
+
+    const [ participants, setParticipants] = useState();
+
+    useEffect(() => {
+        fetch('http://localhost:8080/event/get_participants', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&event_id=" + event_id
+        })
+        .then(response => response.json())
+        .then((data) => {
+            setParticipants(data);
+        }); 
+    }, [setParticipants, event_id]);
+
+    return (
+        <Dialog
+            open={ is_open }
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            onClose={ handleClose }
+            fullWidth 
+            maxWidth = {'sm'}
+        >
+            <DialogTitle id="alert-dialog-title">Clôturer les points</DialogTitle>
+            <DialogContent>
+            
+            </DialogContent>
+            <Box m={1} />
+                { !house_id && <HumanSelector { ...{ participants, bindFirstPlace, bindSecondPlace, bindThirdPlace } } /> }
+                { house_id && <HouseSelector { ...{ bindFirstPlace, bindSecondPlace, bindThirdPlace } } /> }
+            <DialogActions>
+            
+            <Button
+                    color="primary"
+                    endIcon={<Icon>send</Icon>}
+                    onClick={ handleClose } 
+                >
+                    Clôturer
+                </Button>
+            </DialogActions>
+        </Dialog>
+    )
+}
+
+const HumanSelector = ({ participants, bindFirstPlace, bindSecondPlace, bindThirdPlace}) => {
+    return (
+        <Fragment>
+            <FormControl variant="outlined" style={ styles.DropDown }>
+                <Select
+                    native
+                    { ...bindFirstPlace }
+                >
+                    <option value={""}>Choisir la première place</option>
+                    {
+                    participants && participants.length > 0 && participants.map(( { participant : { user_id, firstname, lastname }} ) => 
+                        <option value={ user_id }>{ firstname + ' ' + lastname } </option>
+                    )
+                    } 
+                    
+                </Select>
+            </FormControl> 
+            <FormControl variant="outlined" style={ styles.DropDown }>
+                <Select
+                    native
+                    { ...bindSecondPlace }
+                >
+                    <option value={""}>Choisir la deuxième place</option>
+                    {
+                    participants && participants.length > 0 && participants.map(( { participant : { user_id, firstname, lastname }} ) => 
+                        <option value={ user_id }>{ firstname + ' ' + lastname } </option>
+                    )
+                    } 
+                    
+                </Select>
+            </FormControl> 
+            <FormControl variant="outlined" style={ styles.DropDown }>
+                <Select
+                    native
+                    { ...bindThirdPlace }
+                >
+                    <option value={""}>Choisir la troisième place</option>
+                    {
+                    participants && participants.length > 0 && participants.map(( { participant : { user_id, firstname, lastname }} ) => 
+                        <option value={ user_id }>{ firstname + ' ' + lastname } </option>
+                    )
+                    } 
+                    
+                </Select>
+            </FormControl> 
+        </Fragment>
+        )
+}
+
+const HouseSelector = ({ bindFirstPlace, bindSecondPlace, bindThirdPlace}) => {
+    const { global } = useContext(MainContext);
+    
+    return (
+        <Fragment>
+            
+            <FormControl variant="outlined" style={ styles.DropDown }>
+                <Select
+                    native
+                    { ...bindFirstPlace }
+                >
+                    <option value={""}>Choisir la première place</option>
+                    {
+                    global && global.houses && global.houses.map(( { house_id, name } ) => 
+                        <option value={ house_id }>{ name } </option>
+                    )
+                    } 
+                    
+                </Select>
+            </FormControl> 
+            <FormControl variant="outlined" style={ styles.DropDown }>
+                <Select
+                    native
+                    { ...bindSecondPlace }
+                >
+                    <option value={""}>Choisir la deuxième place</option>
+                    {
+                    global && global.houses && global.houses.map(( { house_id, name } ) => 
+                        <option value={ house_id }>{ name } </option>
+                    )
+                    } 
+                    
+                </Select>
+            </FormControl> 
+            <FormControl variant="outlined" style={ styles.DropDown }>
+                <Select
+                    native
+                    { ...bindThirdPlace }
+                >
+                    <option value={""}>Choisir la troisième place</option>
+                    {
+                    global && global.houses && global.houses.map(( { house_id, name } ) => 
+                        <option value={ house_id }>{ name } </option>
+                    )
+                    } 
+                    
+                </Select>
+            </FormControl> 
+                
+        </Fragment>
+        )
+}
+
+
+
+const styles = {
+    DropDown : {
+        margin:'10px'
+    }
+}
+
+
+export default EventAccountPoints;

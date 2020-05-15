@@ -70,6 +70,20 @@ public class EventController {
         return result;
     }
 
+    @PostMapping("/event/get_participants")
+    public String getEventPartitipants(@RequestParam("event_id") int event_id) throws SQLException {
+        String result;
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet events = stmt.executeQuery("select DEV.getParticipantsEvent(" + event_id + ") AS event_result");
+
+            events.next();
+            result = events.getString("event_result");
+        }
+        return result;
+    }
+
     @PostMapping("/event/participated_by_user")
     public String eventParticipatedByUser(@RequestParam("user_id") int user_id) throws SQLException {
 
