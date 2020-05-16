@@ -152,13 +152,19 @@ export default function Event() {
                                     <TableBody>
                                         <TableRow>
                                             <TableCell>
-                                                { current.deadline_reservation }
+                                                <Moment format="YYYY/MM/DD HH:mm">
+                                                    { current.deadline_reservation }
+                                                </Moment>
                                             </TableCell>
                                             <TableCell>
-                                                { current.date_begin }
+                                                <Moment format="YYYY/MM/DD HH:mm">
+                                                    { current.date_begin }
+                                                </Moment>
                                             </TableCell>
                                             <TableCell>
-                                                { current.date_end }
+                                                <Moment format="YYYY/MM/DD HH:mm">
+                                                    { current.date_end }
+                                                </Moment>
                                             </TableCell>
                                         </TableRow>
                                     </TableBody>
