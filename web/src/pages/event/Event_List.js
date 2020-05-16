@@ -185,10 +185,9 @@ export default function Event_List() {
                                     <TableBody>
                                     {data && stableSort(data, getComparator(order, orderBy))
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map(({     name, price, status, address, created, date_end, event_id, house_id, 
-                                                    location, date_begin, difficulty, house_name, description, organisator, 
-                                                    battleroyale, nb_attendees, participants, attendees_max, attendees_min,
-                                                    is_competitive, deadline_reservation }, index) =>
+                                        .map(({     event_id, name, description, is_competitive, difficulty, 
+                                            battleroyale, status, price, attendees_min, attendees_max, created, deadline_reservation, 
+                                            date_begin, date_end, location, addresshouse, organisator, participants, nb_attendees }, index) =>
                                                     
                                                 <TableRow tabIndex={-1}>
                                                     <TableCell align="right" 
@@ -199,7 +198,7 @@ export default function Event_List() {
                                                     <TableCell align="right">
                                                         {organisator.firstname + ' ' + organisator.lastname}
                                                     </TableCell>
-                                                    <TableCell align="right">{displayRightHouse(house_id)}</TableCell>
+                                                    <TableCell align="right">{displayRightHouse(addresshouse)}</TableCell>
                                                     <TableCell align="right">{nb_attendees + ' / ' + attendees_max}</TableCell>
                                                     <TableCell align="right">{deadline_reservation}</TableCell>
                                                     <TableCell align="right">{date_begin}</TableCell>

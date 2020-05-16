@@ -84,12 +84,12 @@ export default function Event() {
 
                             <CardContent className={classes.cardContent}>
                                 {/* Bouton "/modifier/annuler", uniquement visible pour l'admin/modo + l'organiateur de l'event */}
-                                {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, battleroyale, difficulty, status, price, attendees_min, attendees_max, deadline_reservation, created, date_begin, date_end, location, address, user_id, house_id, limitation}) =>
-                                        printCancelOrModifyButton(user.access_level, user_id, "Modifier")
+                                {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, difficulty, battleroyale, status, price, attendees_min, attendees_max, created, deadline_reservation, date_begin, date_end, location, addresshouse, organisator, participants, nb_attendees}) =>
+                                        printCancelOrModifyButton(user.access_level, organisator, "Modifier")
                                 )}
 
-                                {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, battleroyale, difficulty, status, price, attendees_min, attendees_max, deadline_reservation, created, date_begin, date_end, location, address, user_id, house_id, limitation}) =>
-                                        printCancelOrModifyButton(user.access_level, user_id, "Annuler")
+                                {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, difficulty, battleroyale, status, price, attendees_min, attendees_max, created, deadline_reservation, date_begin, date_end, location, addresshouse, organisator, participants, nb_attendees}) =>
+                                        printCancelOrModifyButton(user.access_level, organisator, "Annuler")
                                 )}
 
                                 {/* Bouton "supprimer", uniquement visible pour l'admin/modo */}
