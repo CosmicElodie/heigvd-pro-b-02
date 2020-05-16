@@ -249,7 +249,19 @@ const Dialog = () => {
                         onClose = { () => handleClose({ house_id_out_of_bonds: { is_open : false } }) } 
                         autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
-                        Maison inconnue.
+                        Veuillez choisir les gagnants.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.no_valid_user_id &&
+                <Snackbar 
+                        open = { dialog.no_valid_user_id.is_open }
+                        onClose = { () => handleClose({ no_valid_user_id: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Veuillez choisir les gagnants.
                     </Alert>
                 </Snackbar> 
             }
@@ -259,6 +271,18 @@ const Dialog = () => {
                 <Snackbar 
                         open = { dialog.points_from_group_event_added.is_open }
                         onClose = { () => handleClose({ points_from_group_event_added: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Les points ont été comptabilisés. L'événement est donc terminé.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.points_from_individual_events_added &&
+                <Snackbar 
+                        open = { dialog.points_from_individual_events_added.is_open }
+                        onClose = { () => handleClose({ points_from_individual_events_added: { is_open : false } }) } 
                         autoHideDuration={6000} >
                     <Alert variant="filled" severity="success">
                         Les points ont été comptabilisés. L'événement est donc terminé.

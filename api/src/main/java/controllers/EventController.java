@@ -402,6 +402,10 @@ public class EventController {
                                    @RequestParam("difficulty") int difficulty) throws SQLException {
         JsonObjectBuilder responseObject;
 
+        if(first_place == -1 ||second_place  == -1 || third_place == -1) {
+            return Utils.errorJSONObjectBuilder("no_valid_user_id").build().toString();
+        }
+
         if(first_place == second_place || second_place == third_place || third_place == first_place) {
             return Utils.errorJSONObjectBuilder("same_winner_in_two_or_more_place").build().toString();
         }
@@ -439,6 +443,10 @@ public class EventController {
             thirdPlaceProcedure.setInt(3, third_point);
             thirdPlaceProcedure.execute();
 
+            CallableStatement endStatusEvent = conn.prepareCall("{CALL endStatusEvent(?)}");
+            endStatusEvent.setInt(1, event_id);
+            endStatusEvent.execute();
+
             responseObject = Utils.successJSONObjectBuilder("points_from_individual_events_added", null);
 
         }
@@ -453,6 +461,8 @@ public class EventController {
                                     @RequestParam("difficulty") int difficulty) throws SQLException {
 
         JsonObjectBuilder responseObject;
+
+
 
         if(first_place == second_place || second_place == third_place || third_place == first_place) {
             return Utils.errorJSONObjectBuilder("same_winner_in_two_or_more_place").build().toString();
@@ -497,6 +507,11 @@ public class EventController {
             thirdPlaceProcedure.setInt(2, pointPerMemberThird);
             thirdPlaceProcedure.setInt(3, third_place);
             thirdPlaceProcedure.execute();
+
+            CallableStatement endStatusEvent = conn.prepareCall("{CALL endStatusEvent(?)}");
+            endStatusEvent.setInt(1, event_id);
+            endStatusEvent.execute();
+
 
             responseObject = Utils.successJSONObjectBuilder("points_from_group_event_added", null);
 

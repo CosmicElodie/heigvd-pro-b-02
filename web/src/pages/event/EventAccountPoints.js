@@ -66,7 +66,7 @@ const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battle
                     endIcon={<Icon>send</Icon>}
                     onClick={ handleAccountPointsClick } 
                 >
-                    Clôturer
+                    Clôturer2
                 </Button>
             </DialogActions>
         </Dialog>
@@ -81,7 +81,7 @@ const HumanSelector = ({ participants, bindFirstPlace, bindSecondPlace, bindThir
                     native
                     { ...bindFirstPlace }
                 >
-                    <option value={""}>Choisir la première place</option>
+                    <option value={-1}>Choisir la première place</option>
                     {
                     participants && participants.length > 0 && participants.map(( { participant : { user_id, firstname, lastname }} ) => 
                         <option value={ user_id }>{ firstname + ' ' + lastname } </option>
@@ -95,7 +95,7 @@ const HumanSelector = ({ participants, bindFirstPlace, bindSecondPlace, bindThir
                     native
                     { ...bindSecondPlace }
                 >
-                    <option value={""}>Choisir la deuxième place</option>
+                    <option value={-1}>Choisir la deuxième place</option>
                     {
                     participants && participants.length > 0 && participants.map(( { participant : { user_id, firstname, lastname }} ) => 
                         <option value={ user_id }>{ firstname + ' ' + lastname } </option>
@@ -109,7 +109,7 @@ const HumanSelector = ({ participants, bindFirstPlace, bindSecondPlace, bindThir
                     native
                     { ...bindThirdPlace }
                 >
-                    <option value={""}>Choisir la troisième place</option>
+                    <option value={-1}>Choisir la troisième place</option>
                     {
                     participants && participants.length > 0 && participants.map(( { participant : { user_id, firstname, lastname }} ) => 
                         <option value={ user_id }>{ firstname + ' ' + lastname } </option>
@@ -133,7 +133,7 @@ const HouseSelector = ({ bindFirstPlace, bindSecondPlace, bindThirdPlace}) => {
                     native
                     { ...bindFirstPlace }
                 >
-                    <option value={""}>Choisir la première place</option>
+                    <option value={-1}>Choisir la première place</option>
                     {
                     global && global.houses && global.houses.map(( { house_id, name } ) => 
                         <option value={ house_id }>{ name } </option>
@@ -147,7 +147,7 @@ const HouseSelector = ({ bindFirstPlace, bindSecondPlace, bindThirdPlace}) => {
                     native
                     { ...bindSecondPlace }
                 >
-                    <option value={""}>Choisir la deuxième place</option>
+                    <option value={-1}>Choisir la deuxième place</option>
                     {
                     global && global.houses && global.houses.map(( { house_id, name } ) => 
                         <option value={ house_id }>{ name } </option>
@@ -161,7 +161,7 @@ const HouseSelector = ({ bindFirstPlace, bindSecondPlace, bindThirdPlace}) => {
                     native
                     { ...bindThirdPlace }
                 >
-                    <option value={""}>Choisir la troisième place</option>
+                    <option value={-1}>Choisir la troisième place</option>
                     {
                     global && global.houses && global.houses.map(( { house_id, name } ) => 
                         <option value={ house_id }>{ name } </option>
