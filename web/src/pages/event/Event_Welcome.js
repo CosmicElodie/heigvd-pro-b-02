@@ -39,13 +39,11 @@ export default function Event() {
     var limit_house = 0;
     var limit_global = 0;
 
-    var daHouse = user.house && user.house.house_id;
-
     //Permet d'afficher une ligne du tableau selon les données passées
     //15 car ça affiche composant d'une ligne par composant d'une ligne.
     //Comme on veut 5 events -> 5 * 3 = 15.
-    function printLine(house_id, elementToPrint) {
-        if (daHouse === house_id && limit_house < 15) {
+    function printLine(event_houseId, elementToPrint) {
+        if (user.house_id === event_houseId && limit_house < 15) {
             limit_house++;
                 return <TableCell component="th" scope="row">
                         {elementToPrint}
@@ -54,8 +52,8 @@ export default function Event() {
         return;
       }
 
-    function printLineGlobal(house_id, elementToPrint) {
-        if (house_id == null && limit_global < 15) {
+    function printLineGlobal(event_houseId, elementToPrint) {
+        if (event_houseId === null && limit_global < 15) {
             limit_global++;
               return <TableCell component="th" scope="row">
               {elementToPrint}
@@ -105,11 +103,11 @@ export default function Event() {
                                             </TableHead>
                                             <TableBody>
                                              
-                                            {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, difficulty, status, price, deadline_reservation, date_begin, date_end, location, house_id, house_name, nb_attendees}) =>
+                                            {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, difficulty, battleroyale, status, price, attendees_min, attendees_max, created, deadline_reservation, date_begin, date_end, location, addresshouse, organisator, participants, nb_attendees}) =>
                                                     <TableRow /* key={name} */>
-                                                        {printLine(house_id,name)}
-                                                        {printLine(house_id,date_begin)}
-                                                        {printLine(house_id,nb_attendees)}
+                                                        {printLine(addresshouse,name)}
+                                                        {printLine(addresshouse,date_begin)}
+                                                        {printLine(addresshouse,nb_attendees)}
                                                     </TableRow>
                                             )}
                                             
@@ -143,11 +141,11 @@ export default function Event() {
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
-                                            {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, difficulty, status, price, deadline_reservation, date_begin, date_end, location, house_id, house_name, nb_attendees}) =>
+                                            {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, difficulty, battleroyale, status, price, attendees_min, attendees_max, created, deadline_reservation, date_begin, date_end, location, addresshouse, organisator, participants, nb_attendees}) =>
                                                     <TableRow /* key={name} */>
-                                                        {printLineGlobal(house_id,name)}
-                                                        {printLineGlobal(house_id,date_begin)}
-                                                        {printLineGlobal(house_id,nb_attendees)}
+                                                        {printLineGlobal(addresshouse,name)}
+                                                        {printLineGlobal(addresshouse,date_begin)}
+                                                        {printLineGlobal(addresshouse,nb_attendees)}
                                                     </TableRow>
                                             )}
                                             </TableBody>
