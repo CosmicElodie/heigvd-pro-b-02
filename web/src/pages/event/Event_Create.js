@@ -1,8 +1,13 @@
 import React, {useContext } from 'react';
 import {MainContext} from '../../context/MainContext';
+import { useInput } from '../../hooks/input';
+
 import Typography from '@material-ui/core/Typography';
 
 import Button from '@material-ui/core/Button';
+
+import { SnackbarProvider, useSnackbar } from 'notistack';
+
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -14,7 +19,7 @@ import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import { useInput } from '../../hooks/input';
+
 
 
 //TODO : Pour faire l'upload de l'image
@@ -58,7 +63,7 @@ export default function Event_Create() {
     const { value:name,                 bind:bindName}                  = useInput('');
     const { value:description,          bind:bindDescription }          = useInput('');
     const { value:is_competitive,       bind:bindIsCompetitive }        = useInput('');
-    const { value:battleroyal,          bind:bindBattleRoyal }          = useInput('');
+    const { value:battleroyale,          bind:bindBattleRoyale }          = useInput('');
     const { value:difficulty,           bind:bindDifficulty }           = useInput('');
     const { value:price,                bind:bindPrice}                 = useInput('');
     const { value:attendees_min,        bind:bindAttendeesMin}          = useInput('');
@@ -81,7 +86,7 @@ export default function Event_Create() {
         "&name=" + name +
         "&description=" + description + 
         "&is_competitive=" + is_competitive +
-        "&battleroyal=" + battleroyal +
+        "&battleroyale=" + battleroyale +
         "&difficulty=" + difficulty +
         "&price=" + price +
         "&attendees_min=" + attendees_min +
@@ -105,9 +110,37 @@ export default function Event_Create() {
         .then(response => response.json())
     }
 
+    
+
+    function MyCreationButton() {
+        const { enqueueSnackbar } = useSnackbar();
+
+        const handleClickVariant = (variant) => {
+            enqueueSnackbar('Événement créé avec succès !', { variant })
+            /* //handle error/success message
+            this.props
+               .then(() => enqueueSnackbar('Événement créé avec succès !', { variant }))
+               .catch(() => enqueueSnackbar('Erreur', { variant }));
+               */
+         };
+
+         return (
+             <React.Fragment>
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={handleClickVariant('success')}>
+                        Créer événement
+                </Button>
+             </React.Fragment>
+         );
+    }
+
   
     return (
-        
         <React.Fragment>
             <CssBaseline/>
             <main> 
@@ -191,7 +224,7 @@ export default function Event_Create() {
                                 <Grid container>
                                     <Grid item xs>
                                         <TextField 
-                                            id="battleroyal" 
+                                            id="battleroyale" 
                                             label="Battle Royal Mode" 
                                             helperText = "Battle royal : chacun pour soi."
                                             required = {false} 
@@ -199,7 +232,7 @@ export default function Event_Create() {
                                             disabled = { false }
 
                                             style = {{width: 150}} 
-                                            { ...bindBattleRoyal }
+                                            { ...bindBattleRoyale }
                                             select>
                                                 <MenuItem value={0}>Non</MenuItem>
                                                 <MenuItem value={1}>Oui</MenuItem>
@@ -357,16 +390,9 @@ export default function Event_Create() {
                             </FormControl>
                         </CardContent>
                         <CardActions>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                                onClick= { buttonCreateEvent }
-                                >
-                                    Créer événement
-                            </Button>
+                            <SnackbarProvider maxSnack={3}>
+                                <MyCreationButton />
+                            </SnackbarProvider>
                         </CardActions>
                     </Card>
             </main>

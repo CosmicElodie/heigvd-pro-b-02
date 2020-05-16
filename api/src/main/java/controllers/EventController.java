@@ -146,18 +146,23 @@ public class EventController {
     }
 
     @PostMapping("/event/insert_event")
-    public String insertEvent(@RequestParam("name") String name, @RequestParam("description") String description,
+    public String insertEvent(@RequestParam("name") String name,
+                              @RequestParam("description") String description,
                               @RequestParam(value = "is_competitive", required = false) Integer is_competitive,
+                              @RequestParam(value = "battleroyale", required = false) Integer battleroyale,
                               @RequestParam(value = "difficulty", required = false) Integer difficulty,
                               @RequestParam(value = "price", required = false) Integer price,
-                              @RequestParam(value = "battleroyale", required = false) Integer battleroyale,
                               @RequestParam("attendees_min") int attendees_min,
-                              @RequestParam("attendees_max") int attendees_max, @RequestParam("date_begin") Date date_begin,
-                              @RequestParam("date_end") Date date_end, @RequestParam("deadline_reservation") Date deadline_reservation,
-                              @RequestParam("location") String location, @RequestParam("no") String no,
-                              @RequestParam("street") String street, @RequestParam("postal_code") int postal_code,
+                              @RequestParam("attendees_max") int attendees_max,
+                              @RequestParam("deadline_reservation") Date deadline_reservation,
+                              @RequestParam("date_begin") Date date_begin,
+                              @RequestParam("date_end") Date date_end,
+                              @RequestParam("location") String location,
+                              @RequestParam("street") String street,
+                              @RequestParam("no") String no,
+                              @RequestParam("postal_code") int postal_code,
                               @RequestParam("city") String city,
-                              @RequestParam(value = "battleroyale", required = false) Integer house_id) throws SQLException {
+                              @RequestParam(value = "house_id", required = false) Integer house_id) throws SQLException {
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -246,7 +251,7 @@ public class EventController {
                               @RequestParam("street") String street,
                               @RequestParam("postal_code") int postal_code,
                               @RequestParam("city") String city,
-                              @RequestParam(value = "battleroyale", required = false) Integer house_id) throws SQLException {
+                              @RequestParam(value = "house_id", required = false) Integer house_id) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
