@@ -63,7 +63,7 @@ export default function Event_Create() {
     const { value:name,                 bind:bindName}                  = useInput('');
     const { value:description,          bind:bindDescription }          = useInput('');
     const { value:is_competitive,       bind:bindIsCompetitive }        = useInput('');
-    const { value:battleroyale,          bind:bindBattleRoyale }          = useInput('');
+    const { value:battleroyale,          bind:bindBattleRoyale }        = useInput('');
     const { value:difficulty,           bind:bindDifficulty }           = useInput('');
     const { value:price,                bind:bindPrice}                 = useInput('');
     const { value:attendees_min,        bind:bindAttendeesMin}          = useInput('');
@@ -116,6 +116,7 @@ export default function Event_Create() {
         const { enqueueSnackbar } = useSnackbar();
 
         const handleClickVariant = (variant) => {
+            buttonCreateEvent(variant)
             enqueueSnackbar('Événement créé avec succès !', { variant })
             /* //handle error/success message
             this.props

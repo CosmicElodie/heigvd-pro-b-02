@@ -146,8 +146,7 @@ public class EventController {
     }
 
     @PostMapping("/event/insert_event")
-    public String insertEvent(@RequestParam(value = "event_id") int event_id,
-                              @RequestParam("name") String name,
+    public String insertEvent(@RequestParam("name") String name,
                               @RequestParam("description") String description,
                               @RequestParam(value = "is_competitive", required = false) Integer is_competitive,
                               @RequestParam(value = "difficulty", required = false) Integer difficulty,
