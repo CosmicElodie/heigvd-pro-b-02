@@ -1,4 +1,5 @@
 DELIMITER //
+DROP EVENT DEV.event_status_manager;
 CREATE EVENT DEV.event_status_manager
     ON SCHEDULE
       EVERY 1 MINUTE
@@ -18,7 +19,7 @@ CREATE EVENT DEV.event_status_manager
                 UPDATE event SET status = 'Annulé' WHERE event_id = JSON_EXTRACT(v_event, '$.event_id');
             END IF;
             
-            IF(JSON_EXTRACT(v_event, '$.status') = 'En cours' AND CAST(JSON_EXTRACT(v_event, '$.deadline_reservation') as DATE) < NOW()) THEN
+            IF(JSON_EXTRACT(v_event, '$.status') = 'En cours' AND CAST(JSON_EXTRACT(v_event, '$.date_end') as DATE) < NOW()) THEN
 				/* Evénement est passé, comptabiliser les points */
 				UPDATE event SET status = 'En attente de résultats' WHERE event_id = JSON_EXTRACT(v_event, '$.event_id');
             END IF;

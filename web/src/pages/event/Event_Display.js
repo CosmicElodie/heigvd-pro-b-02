@@ -86,8 +86,8 @@ export default function Event() {
         for (const event of data) if(event.event_id === event_id) return event;
     }
     
-    const printAccountPointsButton = ( { attendees_min, nb_attendees, status } ) => {
-        if(attendees_min < nb_attendees && status === 'En attente' ) return <Button variant="contained" size="small" color="secondary" onClick={ handleAccountPointDialogClick }> Clôturer les points </Button>
+    const printAccountPointsButton = ( { attendees_min, nb_attendees, status, is_competitive, organisator } ) => {
+        if(is_competitive && organisator.user_id === user.user_id && status === 'En attente de résultats' ) return <Button variant="contained" size="small" color="secondary" onClick={ handleAccountPointDialogClick }> Clôturer les points </Button>
     }
 
     const handleAccountPointDialogClick = () => setAccountPointDialogState({ is_open : true });
