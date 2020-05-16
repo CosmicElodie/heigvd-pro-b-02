@@ -439,6 +439,9 @@ public class EventController {
             thirdPlaceProcedure.setInt(3, third_point);
             thirdPlaceProcedure.execute();
 
+            Statement stmt = conn.createStatement();
+            stmt.executeQuery("UPDATE event SET status = \"Terminé\" WHERE event_id = " + event_id);
+
             responseObject = Utils.successJSONObjectBuilder("points_from_individual_events_added", null);
 
         }
@@ -497,6 +500,9 @@ public class EventController {
             thirdPlaceProcedure.setInt(2, pointPerMemberThird);
             thirdPlaceProcedure.setInt(3, third_place);
             thirdPlaceProcedure.execute();
+
+            Statement stmt = conn.createStatement();
+            stmt.executeQuery("UPDATE event SET status = \"Terminé\" WHERE event_id = " + event_id);
 
             responseObject = Utils.successJSONObjectBuilder("points_from_group_event_added", null);
 
