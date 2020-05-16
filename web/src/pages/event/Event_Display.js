@@ -107,6 +107,7 @@ export default function Event() {
 
                             <CardContent className={classes.cardContent}>
                                 {/* Bouton "/modifier/annuler", uniquement visible pour l'admin/modo + l'organiateur de l'event */}
+
                                 {
                                         printCancelOrModifyButton(user.access_level, user.user_id, "Modifier")
                                 }
@@ -114,6 +115,7 @@ export default function Event() {
                                 {
                                         printCancelOrModifyButton(user.access_level, user.user_id, "Annuler")
                                 }
+
 
                                 {/* Bouton "supprimer", uniquement visible pour l'admin/modo */}
                                 { printDeleteButton(user.access_level) }
