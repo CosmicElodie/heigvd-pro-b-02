@@ -229,6 +229,43 @@ const Dialog = () => {
                     </Alert>
                 </Snackbar> 
             }
+
+            { 
+                dialog && dialog.same_winner_in_two_or_more_place &&
+                <Snackbar 
+                        open = { dialog.same_winner_in_two_or_more_place.is_open }
+                        onClose = { () => handleClose({ same_winner_in_two_or_more_place: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Veuilleu choisir un différent gagnant pour chaque place.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.house_id_out_of_bonds &&
+                <Snackbar 
+                        open = { dialog.house_id_out_of_bonds.is_open }
+                        onClose = { () => handleClose({ house_id_out_of_bonds: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Maison inconnue.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.points_from_group_event_added &&
+                <Snackbar 
+                        open = { dialog.points_from_group_event_added.is_open }
+                        onClose = { () => handleClose({ points_from_group_event_added: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Les points ont été comptabilisés. L'événement est donc terminé.
+                    </Alert>
+                </Snackbar> 
+            }
+
         </section>
     )
 }

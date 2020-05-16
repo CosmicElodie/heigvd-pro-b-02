@@ -3,12 +3,32 @@ import { Icon, Button, Dialog, DialogActions, DialogContent, DialogTitle, Box, F
 import { useInput } from '../../hooks/input';
 import {MainContext} from '../../context/MainContext';
 
-const EventAccountPoints = ({ is_open, handleClose, event_id, house_id } ) => {
+const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battleroyale, house } ) => {
     const { value:firstPlace, setValue:setFirstPlace, bind:bindFirstPlace } = useInput('');
     const { value:secondPlace, setValue:setSecondPlace, bind:bindSecondPlace } = useInput('');
     const { value:thirdPlace, setValue:setThirdPlace, bind:bindThirdPlace } = useInput('');
-
+    const { setDialog } = useContext(MainContext);
     const [ participants, setParticipants] = useState();
+
+    const handleAccountPointsClick = () => {
+        let eventType;
+        eventType = battleroyale ? 'individual' : 'global';
+        if(house && house.house_id) eventType = 'house';
+        fetch('http://localhost:8080/event/result/'+eventType, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&first_id=" + parseInt(firstPlace) + "&second_id=" + parseInt(secondPlace) + "&third_id=" + parseInt(thirdPlace) + "&event_id=" + parseInt(event_id) + "&difficulty=" + ( difficulty ? difficulty : -1 )
+        })
+        .then(response => response.json())
+        .then(({status, dialog_id}) => {
+            setDialog({
+                [dialog_id]: {
+                    is_open: true
+                }
+            });
+        });  
+    }
 
     useEffect(() => {
         fetch('http://localhost:8080/event/get_participants', {
@@ -37,14 +57,14 @@ const EventAccountPoints = ({ is_open, handleClose, event_id, house_id } ) => {
             
             </DialogContent>
             <Box m={1} />
-                { !house_id && <HumanSelector { ...{ participants, bindFirstPlace, bindSecondPlace, bindThirdPlace } } /> }
-                { house_id && <HouseSelector { ...{ bindFirstPlace, bindSecondPlace, bindThirdPlace } } /> }
+                { !house && <HumanSelector { ...{ participants, bindFirstPlace, bindSecondPlace, bindThirdPlace } } /> }
+                { house && <HouseSelector { ...{ bindFirstPlace, bindSecondPlace, bindThirdPlace } } /> }
             <DialogActions>
             
             <Button
                     color="primary"
                     endIcon={<Icon>send</Icon>}
-                    onClick={ handleClose } 
+                    onClick={ handleAccountPointsClick } 
                 >
                     Clôturer
                 </Button>

@@ -446,9 +446,9 @@ public class EventController {
     }
 
     @PostMapping("/event/result/global")
-    public String eventResultGlobal(@RequestParam("first_house_id") int first_place,
-                                    @RequestParam("second_house_id") int second_place,
-                                    @RequestParam("third_house_id") int third_place,
+    public String eventResultGlobal(@RequestParam("first_id") int first_place,
+                                    @RequestParam("second_id") int second_place,
+                                    @RequestParam("third_id") int third_place,
                                     @RequestParam("event_id") int event_id,
                                     @RequestParam("difficulty") int difficulty) throws SQLException {
 
