@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import { EventContext } from '../../context/EventContext';
 
 import PropTypes from "prop-types";
+import Moment from 'react-moment';
 
 import {Button, 
     Card,
@@ -201,8 +202,16 @@ export default function Event_List() {
                                                     </TableCell>
                                                     <TableCell align="right">{displayRightHouse(house_id)}</TableCell>
                                                     <TableCell align="right">{nb_attendees + ' / ' + attendees_max}</TableCell>
-                                                    <TableCell align="right">{deadline_reservation}</TableCell>
-                                                    <TableCell align="right">{date_begin}</TableCell>
+                                                    <TableCell align="right">
+                                                        <Moment format="YYYY/MM/DD HH:mm">
+                                                            {deadline_reservation}
+                                                        </Moment>
+                                                    </TableCell>
+                                                    <TableCell align="right">
+                                                        <Moment format="YYYY/MM/DD HH:mm">
+                                                            {date_begin}
+                                                        </Moment>
+                                                    </TableCell>
                                                     <TableCell align="right">{location}</TableCell>
                                                 </TableRow>
                                     )}
