@@ -1,7 +1,9 @@
-import React, {useContext} from 'react';
-import {  makeStyles, Card,  CardContent,  Typography, Avatar, Grid } from '@material-ui/core';
+import React, {useContext,useEffect} from 'react';
+import {  makeStyles, Card,  CardContent,   Typography, Avatar, Grid, Button, Table, TableBody,TableCell, TableHead, TableContainer, TableRow, Paper } from '@material-ui/core';
 import { MainContext } from '../../context/MainContext';
 import "../../css/Houses.css";
+
+   
 
 
 
@@ -22,12 +24,71 @@ import "../../css/Houses.css";
 
 
 
+
 export default function ModalProfile() {
 
-
-  const { user, } = useContext(MainContext);
   const classes = useStyles();
+  const { user, setShowProfile } = useContext(MainContext);
+  const [houseInfo, setHouseInfo] = React.useState();
+  const [latestPost, setLatestPost] = React.useState();
+  const [topContributor, setTopContributor] = React.useState();
+
+  const handlePersonClick =(user) =>{
+    setShowProfile(user);
+  }
+
+  const getHouseInfo = (e) => {
+    let post_body = 
+    "&house_id=" + e;
+    fetch('http://localhost:8080/house/detail', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+    .then(response => response.json())
+    .then(response =>{
+
+    setHouseInfo(response)    
   
+    })
+  }
+
+  const getLatestPost = (e) => {
+    let post_body = 
+    "&house_id=" + e +
+    "&nbPosts= " + 5; 
+    
+    fetch('http://localhost:8080/house/latestPost', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+    .then(response => response.json())
+    .then(response =>{
+
+      setLatestPost(response)  
+  
+    })
+  }
+
+  var limit_house = 0;
+  var limit_global = 0;
+  function printLineGlobal( elementToPrint) {
+    if ( limit_global < 15) {
+        limit_global++;
+          return <TableCell component="th" scope="row">
+          {elementToPrint}
+      </TableCell>
+    }
+    return;
+  }
+
+  useEffect(() => { 
+    {user && user.house && getHouseInfo(user.house.house_id);}
+    {user && user.house && getLatestPost(user.house.house_id);}
+  }, [user]); 
 
   return (
 
@@ -43,7 +104,7 @@ export default function ModalProfile() {
             <div class="div2">
             
                 <Typography component="h1" variant="h1"spacing={10}>
-                    MY HOUSE
+                    {houseInfo && houseInfo.name}
                 </Typography>
             </div>
             <div class="div3">
@@ -57,25 +118,43 @@ export default function ModalProfile() {
                         </Typography>
                     <Avatar className={classes.large}> 
                     <Typography component="h1" variant="h4"spacing={10}>
-                            2580 pts 
-                        </Typography>
+                        {houseInfo && houseInfo.total_pts} 
+                    </Typography>
 
                     </Avatar>   
                     </CardContent>
                 </Card>       
                            
                 <Card className="points" >
-                <CardContent  >
-                    <Typography component="h1" variant="h4"spacing={10}>
-                        Top Contributeur
-                        <br/>
-                        520 Pts
-                    </Typography>
-                </CardContent> 
+                      {
+                        houseInfo && houseInfo.top_user[0] &&
+                        <CardContent>
+                            <Typography component="h1" variant="h4"spacing={10}>
+                                Top Contributeur
+                                <br/>
+                              {houseInfo.top_user[0].points}
+                            </Typography>
+                        </CardContent> 
+                      }
 
-                    <Avatar className={classes.large}> 
-            
-                    </Avatar>   
+                      {
+                      houseInfo && houseInfo.top_user[0] &&
+                      <Button  size="small"onClick = { () => handlePersonClick(houseInfo.top_user[0])} >
+                        <Avatar className={classes.large}> 
+                          {<img height= {'100%'} src={houseInfo.top_user[0].avatar} alt= {houseInfo.top_user[0].initials}/> }
+                        </Avatar>    
+                      </Button>
+                      }  
+    
+                      {
+                      houseInfo && !houseInfo.top_user[0] &&
+                        <Typography text-align="left" component="h1" variant="h4">
+                          Aucun meilleur contributeur
+                        </Typography>
+                      } 
+                  
+                 
+                    
                         
                 </Card>     
             </div>
@@ -90,11 +169,11 @@ export default function ModalProfile() {
                         <br />
                         <Typography  >                     
                                
-                            <DisplayData name="# Membres :" data = {user.email}/>   
-                            <DisplayData name="# d'évenements :" data = {user.firstname}/>    
-                            <DisplayData name="# victoires :" data = {user.birth}/>    
-                            <DisplayData name="# Sujets" data = {user.house && user.house.name}/>  
-                            <DisplayData name="# Messages générés :" data = {user.lastname}/>  
+                            <DisplayData name="# Membres :" data = {houseInfo && houseInfo.nb_members}/>   
+                            <DisplayData name="# d'évenements :" data = {houseInfo && houseInfo.nb_events}/>    
+                            <DisplayData name="# victoires :" data = {"????"}/>    
+                            <DisplayData name="# Sujets" data = {houseInfo && houseInfo.nb_subjects}/>  
+                            <DisplayData name="# Messages générés :" data = {houseInfo && houseInfo.nb_posts}/>  
                             
                         </Typography>   
                     </CardContent>
@@ -106,7 +185,30 @@ export default function ModalProfile() {
                         </Typography>
                         <br />
                         <br />
-                        
+
+                        <TableContainer component={Paper}>
+                            <Table className={classes.table} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Sujet</TableCell>
+                                        <TableCell align="left">Autheur</TableCell>
+                                        <TableCell align="left">message</TableCell>
+                                        <TableCell align="left">Date</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                {latestPost && latestPost.map(({created,creator,message,last_update,name_subject,forum_post_id,subject_answer}) =>
+                                        <TableRow /* key={name} */>
+                                          {printLineGlobal(name_subject)}                                          
+                                          {printLineGlobal(creator.firstname)}    
+                                          {printLineGlobal(message)}        
+                                          {printLineGlobal(last_update)}
+                                        </TableRow>
+                                )}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+
                     </CardContent>
                 </Card>      
             </div>            
