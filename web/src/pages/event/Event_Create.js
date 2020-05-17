@@ -50,28 +50,31 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Event_Create() {
+
+    const Global = "Global";
+
     //user n'est plus accessible si on accède à ses sous-composants
     //on peut autrement faire user.house ou user.id si on extrait pas les deux données
     const {user, setDialog} = useContext(MainContext);
     const classes = useStyles();
 
-    const { value:name,                 bind:bindName, reset:resetName}                 = useInput('');
-    const { value:description,          bind:bindDescription, reset:resetDescription}          = useInput('');
-    const { value:is_competitive,       bind:bindIsCompetitive, reset:resetCompetitive}        = useInput('');
-    const { value:battleroyal,          bind:bindBattleRoyal, reset:resetBattleRoyal}          = useInput('');
-    const { value:difficulty,           bind:bindDifficulty, reset:resetDifficulty}           = useInput('');
-    const { value:price,                bind:bindPrice, reset:resetPrice}                = useInput('');
+    const { value:name,                 bind:bindName, reset:resetName}                         = useInput('');
+    const { value:description,          bind:bindDescription, reset:resetDescription}           = useInput('');
+    const { value:is_competitive,       bind:bindIsCompetitive, reset:resetCompetitive}         = useInput('');
+    const { value:battleroyal,          bind:bindBattleRoyal, reset:resetBattleRoyal}           = useInput('');
+    const { value:difficulty,           bind:bindDifficulty, reset:resetDifficulty}             = useInput('');
+    const { value:price,                bind:bindPrice, reset:resetPrice}                       = useInput('');
     const { value:attendees_min,        bind:bindAttendeesMin, reset:resetAttendeesMin}         = useInput('');
     const { value:attendees_max,        bind:bindAttendeesMax, reset:resetAttendeesMax}         = useInput('');
-    const { value:deadline_reservation, bind:bindDeadlineReservation, reset:resetReservation}  = useInput('');
-    const { value:date_begin,           bind:bindDateBegin, reset:resetDateBegin}            = useInput('');
-    const { value:date_end,             bind:bindDateEnd, reset:resetDateEnd}              = useInput('');
-    const { value:location,             bind:bindLocation, reset:resetLocation}             = useInput('');
-    const { value:street,               bind:bindStreet, reset:resetStreet}               = useInput('');
-    const { value:no,                   bind:bindNo, reset:resetNo}                   = useInput('');
-    const { value:postal_code,          bind:bindPostalCode, reset:resetPostalCode}           = useInput('');
-    const { value:city,                 bind:bindCity, reset:resetCity}                 = useInput('');
-    const { value:house_id,             bind:bindHouseId}              = useInput('');
+    const { value:deadline_reservation, bind:bindDeadlineReservation, reset:resetReservation}   = useInput('');
+    const { value:date_begin,           bind:bindDateBegin, reset:resetDateBegin}               = useInput('');
+    const { value:date_end,             bind:bindDateEnd, reset:resetDateEnd}                   = useInput('');
+    const { value:location,             bind:bindLocation, reset:resetLocation}                 = useInput('');
+    const { value:street,               bind:bindStreet, reset:resetStreet}                     = useInput('');
+    const { value:no,                   bind:bindNo, reset:resetNo}                             = useInput('');
+    const { value:postal_code,          bind:bindPostalCode, reset:resetPostalCode}             = useInput('');
+    const { value:city,                 bind:bindCity, reset:resetCity}                         = useInput('');
+    const { value:house_id,             bind:bindHouseId}                                       = useInput('');
 
     const buttonCreateEvent = (e) => {
         let post_body = 
@@ -197,12 +200,12 @@ export default function Event_Create() {
                                         id="house_id" 
                                         label="Limitation" 
                                         required = {true} 
-                                        defaultValue = {null}
+                                        defaultValue = {user.house && user.house.house_id}
                                         style = {{width: 150}}
                                         { ...bindHouseId } 
                                         select>
-                                             <MenuItem value={user.house && user.house.house_id}> {user.house && user.house.name}</MenuItem>
-                                            <MenuItem value={null}>Global</MenuItem>
+                                            <MenuItem value={user.house && user.house.house_id}>{user.house && user.house.name}</MenuItem>
+                                            <MenuItem value={0}>Global</MenuItem>
                                              </TextField>
                                     </Grid>
 

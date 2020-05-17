@@ -190,7 +190,12 @@ public class EventController {
             return Utils.errorJSONObjectBuilder("error_price_below_zero").build().toString();
         }
 
-        //TODO : checker si les dates ne sont pas antérieures à la date actuelle.
+        if(house_id == 0)
+        {
+            house_id = null;
+        }
+
+        //TODO : checker si les dates ne sont pas antérieures à la date ACTUELLE.
 
         //Check for permissions/syntax errors
         try (Connection conn = dataSource.getConnection()) {

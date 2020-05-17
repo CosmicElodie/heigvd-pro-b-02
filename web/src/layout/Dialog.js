@@ -326,7 +326,7 @@ const Dialog = () => {
                 </Snackbar> 
             }
 
-            { 
+{ 
                 dialog && dialog.error_min_max_between_dateBegin_deadline &&
                 <Snackbar 
                         open = { dialog.error_min_max_between_dateBegin_deadline.is_open }
@@ -334,6 +334,18 @@ const Dialog = () => {
                         autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
                         La date limite d'inscription doit être avant le début de l'événement.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.error_price_below_zero &&
+                <Snackbar 
+                        open = { dialog.error_price_below_zero.is_open }
+                        onClose = { () => handleClose({ error_price_below_zero: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Le prix ne peut pas être inférieur à zéro.
                     </Alert>
                 </Snackbar> 
             }
