@@ -17,6 +17,7 @@ import java.io.StringReader;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 
 @RestController
@@ -43,11 +44,11 @@ public class EventController {
     @GetMapping("/event/last_events")
     public String lastEventsList(@RequestParam("limit_nb") int limit_nb) throws SQLException {
 
-        String result = null;
+        String result;
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("SELECT DEV.getEventJSON(limit_nb) AS event_result");
+            ResultSet events = stmt.executeQuery("SELECT DEV.getEventJSON(" + limit_nb + ") AS event_result");
 
             events.next();
 
@@ -174,28 +175,28 @@ public class EventController {
 
         if (attendees_min > attendees_max) {
             return Utils.errorJSONObjectBuilder("error_min_max_attendees_length").build().toString();
-            }
+        }
 
-        if(date_begin.after(date_end))
-        {
+        if (date_begin.after(date_end)) {
             return Utils.errorJSONObjectBuilder("error_min_max_between_dateBegin_dateEnd").build().toString();
         }
 
-        if(deadline_reservation.after(date_begin)){
+        if (deadline_reservation.after(date_begin)) {
             return Utils.errorJSONObjectBuilder("error_min_max_between_dateBegin_deadline").build().toString();
         }
 
-        if(price < 0)
-        {
+        if (price < 0) {
             return Utils.errorJSONObjectBuilder("error_price_below_zero").build().toString();
         }
 
-        if(house_id == 0)
-        {
+        if (house_id == 0) {
             house_id = null;
         }
 
-        //TODO : checker si les dates ne sont pas antérieures à la date ACTUELLE.
+        Date currentDate = new Date(System.currentTimeMillis());
+        if(currentDate.before(date_begin) || currentDate.before(date_end) || currentDate.before(deadline_reservation)) {
+            return Utils.errorJSONObjectBuilder("error_date_set_in_the_past").build().toString();
+        }
 
         //Check for permissions/syntax errors
         try (Connection conn = dataSource.getConnection()) {
