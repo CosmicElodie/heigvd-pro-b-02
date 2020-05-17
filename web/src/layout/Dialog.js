@@ -290,6 +290,54 @@ const Dialog = () => {
                 </Snackbar> 
             }
 
+            { 
+                dialog && dialog.event_created &&
+                <Snackbar 
+                        open = { dialog.event_created.is_open }
+                        onClose = { () => handleClose({ event_created: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Événement créé avec succès !
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.error_min_max_attendees_length &&
+                <Snackbar 
+                        open = { dialog.error_min_max_attendees_length.is_open }
+                        onClose = { () => handleClose({ error_min_max_attendees_length: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Le minimum de gens participants à l'événement doit être plus petit que le max.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.error_min_max_between_dateBegin_dateEnd &&
+                <Snackbar 
+                        open = { dialog.error_min_max_between_dateBegin_dateEnd.is_open }
+                        onClose = { () => handleClose({ error_min_max_between_dateBegin_dateEnd: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        La date de début ne peut se dérouler après la date de fin.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.error_min_max_between_dateBegin_deadline &&
+                <Snackbar 
+                        open = { dialog.error_min_max_between_dateBegin_deadline.is_open }
+                        onClose = { () => handleClose({ error_min_max_between_dateBegin_deadline: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        La date limite d'inscription doit être avant le début de l'événement.
+                    </Alert>
+                </Snackbar> 
+            }
+
         </section>
     )
 }

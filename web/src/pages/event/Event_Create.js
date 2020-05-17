@@ -6,8 +6,6 @@ import Typography from '@material-ui/core/Typography';
 
 import Button from '@material-ui/core/Button';
 
-import { SnackbarProvider, useSnackbar } from 'notistack';
-
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -18,9 +16,6 @@ import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
-
-
-
 
 //TODO : Pour faire l'upload de l'image
 //https://www.youtube.com/watch?v=sp9r6hSWH_o
@@ -57,36 +52,33 @@ const useStyles = makeStyles(theme => ({
 export default function Event_Create() {
     //user n'est plus accessible si on accède à ses sous-composants
     //on peut autrement faire user.house ou user.id si on extrait pas les deux données
-    const {user} = useContext(MainContext);
+    const {user, setDialog} = useContext(MainContext);
     const classes = useStyles();
 
-    const { value:name,                 bind:bindName}                  = useInput('');
-    const { value:description,          bind:bindDescription }          = useInput('');
-    const { value:is_competitive,       bind:bindIsCompetitive }        = useInput('');
-    const { value:battleroyale,          bind:bindBattleRoyale }        = useInput('');
-    const { value:difficulty,           bind:bindDifficulty }           = useInput('');
-    const { value:price,                bind:bindPrice}                 = useInput('');
-    const { value:attendees_min,        bind:bindAttendeesMin}          = useInput('');
-    const { value:attendees_max,        bind:bindAttendeesMax}          = useInput('');
-    const { value:deadline_reservation, bind:bindDeadlineReservation}   = useInput('');
-    const { value:date_begin,           bind:bindDateBegin}             = useInput('');
-    const { value:date_end,             bind:bindDateEnd}               = useInput('');
-    const { value:location,             bind:bindLocation}              = useInput('');
-    const { value:street,               bind:bindStreet}                = useInput('');
-    const { value:no,                   bind:bindNo}                    = useInput('');
-    const { value:postal_code,          bind:bindPostalCode}            = useInput('');
-    const { value:city,                 bind:bindCity}                  = useInput('');
-    const { value:house_id,             bind:bindHouseId}               = useInput('');
-    
-    
+    const { value:name,                 bind:bindName, reset:resetName}                 = useInput('');
+    const { value:description,          bind:bindDescription, reset:resetDescription}          = useInput('');
+    const { value:is_competitive,       bind:bindIsCompetitive, reset:resetCompetitive}        = useInput('');
+    const { value:battleroyal,          bind:bindBattleRoyal, reset:resetBattleRoyal}          = useInput('');
+    const { value:difficulty,           bind:bindDifficulty, reset:resetDifficulty}           = useInput('');
+    const { value:price,                bind:bindPrice, reset:resetPrice}                = useInput('');
+    const { value:attendees_min,        bind:bindAttendeesMin, reset:resetAttendeesMin}         = useInput('');
+    const { value:attendees_max,        bind:bindAttendeesMax, reset:resetAttendeesMax}         = useInput('');
+    const { value:deadline_reservation, bind:bindDeadlineReservation, reset:resetReservation}  = useInput('');
+    const { value:date_begin,           bind:bindDateBegin, reset:resetDateBegin}            = useInput('');
+    const { value:date_end,             bind:bindDateEnd, reset:resetDateEnd}              = useInput('');
+    const { value:location,             bind:bindLocation, reset:resetLocation}             = useInput('');
+    const { value:street,               bind:bindStreet, reset:resetStreet}               = useInput('');
+    const { value:no,                   bind:bindNo, reset:resetNo}                   = useInput('');
+    const { value:postal_code,          bind:bindPostalCode, reset:resetPostalCode}           = useInput('');
+    const { value:city,                 bind:bindCity, reset:resetCity}                 = useInput('');
+    const { value:house_id,             bind:bindHouseId}              = useInput('');
 
     const buttonCreateEvent = (e) => {
-
         let post_body = 
         "&name=" + name +
         "&description=" + description + 
         "&is_competitive=" + is_competitive +
-        "&battleroyale=" + battleroyale +
+        "&battleroyal=" + battleroyal +
         "&difficulty=" + difficulty +
         "&price=" + price +
         "&attendees_min=" + attendees_min +
@@ -108,23 +100,32 @@ export default function Event_Create() {
                 body: post_body
             })
         .then(response => response.json())
+        .then(({status, dialog_id}) => {
+            resetName();
+            resetDescription();
+            resetCompetitive();
+            resetBattleRoyal();
+            resetDifficulty();
+            resetPrice();
+            resetAttendeesMin();
+            resetAttendeesMax();
+            resetReservation();
+            resetDateBegin();
+            resetDateEnd();
+            resetLocation();
+            resetStreet();
+            resetNo();
+            resetPostalCode();
+            resetCity();
+            setDialog({
+                [dialog_id]: {
+                    is_open: true
+                }
+            });
+        });
     }
 
-    
-
-    function MyCreationButton() {
-        const { enqueueSnackbar } = useSnackbar();
-
-        const handleClickVariant = (variant) => {
-            buttonCreateEvent(variant)
-            enqueueSnackbar('Événement créé avec succès !', { variant })
-            /* //handle error/success message
-            this.props
-               .then(() => enqueueSnackbar('Événement créé avec succès !', { variant }))
-               .catch(() => enqueueSnackbar('Erreur', { variant }));
-               */
-         };
-
+    function MyCreationButton() { 
          return (
              <React.Fragment>
                 <Button
@@ -133,7 +134,7 @@ export default function Event_Create() {
                     variant="contained"
                     color="primary"
                     className={classes.submit}
-                    onClick={handleClickVariant('success')}>
+                    onClick={buttonCreateEvent}>
                         Créer événement
                 </Button>
              </React.Fragment>
@@ -225,7 +226,7 @@ export default function Event_Create() {
                                 <Grid container>
                                     <Grid item xs>
                                         <TextField 
-                                            id="battleroyale" 
+                                            id="battleroyal" 
                                             label="Battle Royal Mode" 
                                             helperText = "Battle royal : chacun pour soi."
                                             required = {false} 
@@ -233,7 +234,7 @@ export default function Event_Create() {
                                             disabled = { false }
 
                                             style = {{width: 150}} 
-                                            { ...bindBattleRoyale }
+                                            { ...bindBattleRoyal }
                                             select>
                                                 <MenuItem value={0}>Non</MenuItem>
                                                 <MenuItem value={1}>Oui</MenuItem>
@@ -391,9 +392,7 @@ export default function Event_Create() {
                             </FormControl>
                         </CardContent>
                         <CardActions>
-                            <SnackbarProvider maxSnack={3}>
                                 <MyCreationButton />
-                            </SnackbarProvider>
                         </CardActions>
                     </Card>
             </main>

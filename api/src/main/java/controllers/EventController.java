@@ -174,10 +174,25 @@ public class EventController {
 
         if (attendees_min > attendees_max) {
             return Utils.errorJSONObjectBuilder("error_min_max_attendees_length").build().toString();
+            }
+
+        if(date_begin.after(date_end))
+        {
+            return Utils.errorJSONObjectBuilder("error_min_max_between_dateBegin_dateEnd").build().toString();
         }
 
-        //Check for permissions/syntax errors
+        if(deadline_reservation.after(date_begin)){
+            return Utils.errorJSONObjectBuilder("error_min_max_between_dateBegin_deadline").build().toString();
+        }
 
+        if(price < 0)
+        {
+            return Utils.errorJSONObjectBuilder("error_price_below_zero").build().toString();
+        }
+
+        //TODO : checker si les dates ne sont pas antérieures à la date actuelle.
+
+        //Check for permissions/syntax errors
         try (Connection conn = dataSource.getConnection()) {
 
             CallableStatement insertEvent = conn.prepareCall("{call DEV.createEvent(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
