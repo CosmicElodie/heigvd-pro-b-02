@@ -96,13 +96,14 @@ export default function Event_Create() {
     const { value:house_id,             bind:bindHouseId}                                       = useInput('');
 
     const buttonCreateEvent = (e) => {
+        
         let post_body = 
         "&name=" + name +
         "&description=" + description + 
         "&is_competitive=" + is_competitive +
         "&battleroyal=" + battleroyal +
         "&difficulty=" + difficulty +
-        "&price=" + price +
+        "&price=" + ((price == null || price == 0) ? 0 : price) +
         "&attendees_min=" + attendees_min +
         "&attendees_max=" + attendees_max +
         "&date_begin=" + date_begin +
@@ -114,6 +115,8 @@ export default function Event_Create() {
         "&postal_code=" + postal_code +
         "&city=" + city +
         "&house_id=" + house_id;
+
+        console.log("************" + post_body);
 
         fetch('http://localhost:8080/event/insert_event', {
                 method: 'POST',
@@ -296,7 +299,7 @@ export default function Event_Create() {
                                             helperText = "All vs All ou affrontement par équipe."
                                             required = {false} 
                                             defaultValue = {0}
-                                            disabled = {battleRoyalOnorOff}
+                                            disabled = {false} //{battleRoyalOnorOff}
 
                                             style = {{width: 150}} 
                                             { ...bindBattleRoyal }
@@ -369,9 +372,9 @@ export default function Event_Create() {
                                             placeholder="Veuillez indiquer le tarif éventuel de l'événement."
                                             variant="outlined"
                                             defaultValue = {0}
-                                            required = {true}
+                                            required = {false}
                                             { ...bindPrice }
-                                        />
+                                            />
                                     </Grid>
                                     <Grid item xs = {4}> 
                                         <TextField
