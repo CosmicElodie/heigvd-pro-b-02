@@ -153,11 +153,11 @@ export default function Event_List() {
     };
 
 
-
+    //Affiche les events selon les niveaux d'accès
     function displayEveryEventExceptCancelledOnes(index, event_id, name, description, is_competitive, difficulty, battleroyale,
         status, price, attendees_min, attendees_max, created, deadline_reservation,
         date_begin, date_end, location, address, house, organisator, participants, nb_attendees) {
-        if (user.access_level < 50 && status != "Annulé") {
+        if (((user.access_level < 50 && status != "Annulé") || user.user_id == organisator.user_id) || user.access_level >= 50 ) {
             return (<TableRow tabIndex={-1}>
                 <TableCell align="right"
                     component="th"
