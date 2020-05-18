@@ -101,7 +101,7 @@ export default function Auditoire() {
                                     </Typography>
                                     <CardMedia
                                         className={classes.cardMedia}
-                                        image="https://i.imgur.com/NSM8kNK.png"
+                                        image=""
                                         title="Image title"
                                     />
 

@@ -103,11 +103,11 @@ export default function Event() {
                                             </TableHead>
                                             <TableBody>
                                              
-                                            {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, difficulty, battleroyale, status, price, attendees_min, attendees_max, created, deadline_reservation, date_begin, date_end, location, addresshouse, organisator, participants, nb_attendees}) =>
+                                            {data && data.length > 0 && data.map(({event_id, name, description, is_competitive, difficulty, battleroyale, status, price, attendees_min, attendees_max, created, deadline_reservation, date_begin, date_end, location, address, house, organisator, participants, nb_attendees}) =>
                                                     <TableRow /* key={name} */>
-                                                        {printLine(addresshouse,name)}
-                                                        {printLine(addresshouse,date_begin)}
-                                                        {printLine(addresshouse,nb_attendees)}
+                                                        {printLine(house,name)}
+                                                        {printLine(house,date_begin)}
+                                                        {printLine(house,nb_attendees)}
                                                     </TableRow>
                                             )}
                                             

@@ -390,7 +390,7 @@ public class EventController {
     @PostMapping("/event/join_event")
     public String joinEvent(@RequestParam("user_id") int user_id,
                             @RequestParam("event_id") int event_id
-                            ) throws SQLException {
+    ) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
