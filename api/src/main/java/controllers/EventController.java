@@ -194,7 +194,7 @@ public class EventController {
         }
 
         Date currentDate = new Date(System.currentTimeMillis());
-        if(currentDate.before(date_begin) || currentDate.before(date_end) || currentDate.before(deadline_reservation)) {
+        if(currentDate.after(date_begin) || currentDate.after(date_end) || currentDate.after(deadline_reservation)) {
             return Utils.errorJSONObjectBuilder("error_date_set_in_the_past").build().toString();
         }
 
@@ -241,7 +241,6 @@ public class EventController {
             } else {
                 insertEvent.setInt(15, house_id);
             }
-
 
             boolean hasRs = insertEvent.execute();
             if (hasRs) {
