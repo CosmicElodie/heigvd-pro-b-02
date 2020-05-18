@@ -97,6 +97,10 @@ public class EventController {
 
             events.next();
             result = events.getString("event_result");
+
+            if(result == null) {
+                return "{}";
+            }
         }
         return result;
     }
