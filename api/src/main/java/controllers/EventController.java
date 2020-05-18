@@ -180,7 +180,7 @@ public class EventController {
         Date deadline_reservation;
 
         try {
-            DateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+            DateFormat format = new SimpleDateFormat("yyyy-MM-ddTHH:mm");
             date_begin = (Date) format.parse(str_date_begin);
             date_end = (Date) format.parse(str_date_end);
             deadline_reservation = (Date) format.parse(str_deadline_reservation);
