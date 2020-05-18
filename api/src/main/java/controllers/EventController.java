@@ -17,6 +17,7 @@ import java.io.StringReader;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 
 @RestController
@@ -43,11 +44,11 @@ public class EventController {
     @GetMapping("/event/last_events")
     public String lastEventsList(@RequestParam("limit_nb") int limit_nb) throws SQLException {
 
-        String result = null;
+        String result;
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("SELECT DEV.getEventJSON(limit_nb) AS event_result");
+            ResultSet events = stmt.executeQuery("SELECT DEV.getEventJSON(" + limit_nb + ") AS event_result");
 
             events.next();
 
@@ -146,18 +147,23 @@ public class EventController {
     }
 
     @PostMapping("/event/insert_event")
-    public String insertEvent(@RequestParam("name") String name, @RequestParam("description") String description,
+    public String insertEvent(@RequestParam("name") String name,
+                              @RequestParam("description") String description,
                               @RequestParam(value = "is_competitive", required = false) Integer is_competitive,
                               @RequestParam(value = "difficulty", required = false) Integer difficulty,
                               @RequestParam(value = "price", required = false) Integer price,
-                              @RequestParam(value = "battleroyale", required = false) Integer battleroyale,
+                              @RequestParam(value = "battleroyal", required = false) Integer battleroyale,
                               @RequestParam("attendees_min") int attendees_min,
-                              @RequestParam("attendees_max") int attendees_max, @RequestParam("date_begin") Date date_begin,
-                              @RequestParam("date_end") Date date_end, @RequestParam("deadline_reservation") Date deadline_reservation,
-                              @RequestParam("location") String location, @RequestParam("no") String no,
-                              @RequestParam("street") String street, @RequestParam("postal_code") int postal_code,
+                              @RequestParam("attendees_max") int attendees_max,
+                              @RequestParam("date_begin") Date date_begin,
+                              @RequestParam("date_end") Date date_end,
+                              @RequestParam("deadline_reservation") Date deadline_reservation,
+                              @RequestParam("location") String location,
+                              @RequestParam("no") String no,
+                              @RequestParam("street") String street,
+                              @RequestParam("postal_code") int postal_code,
                               @RequestParam("city") String city,
-                              @RequestParam(value = "battleroyale", required = false) Integer house_id) throws SQLException {
+                              @RequestParam(value = "house_id", required = false) Integer house_id) throws SQLException {
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -171,8 +177,28 @@ public class EventController {
             return Utils.errorJSONObjectBuilder("error_min_max_attendees_length").build().toString();
         }
 
-        //Check for permissions/syntax errors
+        if (date_begin.after(date_end)) {
+            return Utils.errorJSONObjectBuilder("error_min_max_between_dateBegin_dateEnd").build().toString();
+        }
 
+        if (deadline_reservation.after(date_begin)) {
+            return Utils.errorJSONObjectBuilder("error_min_max_between_dateBegin_deadline").build().toString();
+        }
+
+        if (price < 0) {
+            return Utils.errorJSONObjectBuilder("error_price_below_zero").build().toString();
+        }
+
+        if (house_id == 0) {
+            house_id = null;
+        }
+
+        Date currentDate = new Date(System.currentTimeMillis());
+        if(currentDate.after(date_begin) || currentDate.after(date_end) || currentDate.after(deadline_reservation)) {
+            return Utils.errorJSONObjectBuilder("error_date_set_in_the_past").build().toString();
+        }
+
+        //Check for permissions/syntax errors
         try (Connection conn = dataSource.getConnection()) {
 
             CallableStatement insertEvent = conn.prepareCall("{call DEV.createEvent(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
@@ -216,7 +242,6 @@ public class EventController {
                 insertEvent.setInt(15, house_id);
             }
 
-
             boolean hasRs = insertEvent.execute();
             if (hasRs) {
                 ResultSet rs = insertEvent.getResultSet();
@@ -235,7 +260,7 @@ public class EventController {
                               @RequestParam(value = "is_competitive", required = false) Integer is_competitive,
                               @RequestParam(value = "difficulty", required = false) Integer difficulty,
                               @RequestParam(value = "price", required = false) Integer price,
-                              @RequestParam(value = "battleroyale", required = false) Integer battleroyale,
+                              @RequestParam(value = "battleroyal", required = false) Integer battleroyale,
                               @RequestParam("attendees_min") int attendees_min,
                               @RequestParam("attendees_max") int attendees_max,
                               @RequestParam("date_begin") Date date_begin,
@@ -246,7 +271,7 @@ public class EventController {
                               @RequestParam("street") String street,
                               @RequestParam("postal_code") int postal_code,
                               @RequestParam("city") String city,
-                              @RequestParam(value = "battleroyale", required = false) Integer house_id) throws SQLException {
+                              @RequestParam(value = "house_id", required = false) Integer house_id) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
