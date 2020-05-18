@@ -350,6 +350,18 @@ const Dialog = () => {
                 </Snackbar> 
             }
 
+            { 
+                dialog && dialog.error_date_set_in_the_past &&
+                <Snackbar 
+                        open = { dialog.error_date_set_in_the_past.is_open }
+                        onClose = { () => handleClose({ error_date_set_in_the_past: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Une des dates que vous avez mentionnées sont antérieures à la date actuelle.
+                    </Alert>
+                </Snackbar> 
+            }
+
         </section>
     )
 }

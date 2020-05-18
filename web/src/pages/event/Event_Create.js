@@ -3,6 +3,7 @@ import {MainContext} from '../../context/MainContext';
 import { useInput } from '../../hooks/input';
 
 import Typography from '@material-ui/core/Typography';
+import Popover from '@material-ui/core/Popover';
 
 import Button from '@material-ui/core/Button';
 
@@ -45,13 +46,31 @@ const useStyles = makeStyles(theme => ({
     },
     cardActions: {
         alignItems: 'right'
-    }
+    },
+    popover: {
+        pointerEvents: 'none',
+        width : '250px',
+        color: '#ffff99',
+      },
+      paper: {
+        padding: theme.spacing(1),
+        width : '250px',
+      },
 
 }));
 
 export default function Event_Create() {
-
-    const Global = "Global";
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl1, setAnchorEl1] = React.useState(null);
+    const handlePopoverOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+    
+      const handlePopoverClose = () => {
+        setAnchorEl(null);
+      };
+    
+      const open = Boolean(anchorEl);
 
     //user n'est plus accessible si on accède à ses sous-composants
     //on peut autrement faire user.house ou user.id si on extrait pas les deux données
@@ -144,6 +163,22 @@ export default function Event_Create() {
          );
     }
 
+    function battleRoyalOn()
+    {
+        return(
+            battleRoyalOn = true
+        );
+    }
+
+    function battleRoyalOff()
+    {
+        return(
+            battleRoyalOn = false
+        );
+    }
+
+    let battleRoyalOnorOff = true;
+
   
     return (
         <React.Fragment>
@@ -190,26 +225,52 @@ export default function Event_Create() {
                                         style = {{width: 150}}
                                         { ...bindIsCompetitive }
                                         select>
-                                            <MenuItem value={1}>Compétitif</MenuItem>
-                                            <MenuItem value={0}>Non-compétitif</MenuItem>
+                                            <MenuItem value={1} {...battleRoyalOn}>Compétitif</MenuItem>
+                                            <MenuItem value={0} {...battleRoyalOff}>Non-compétitif</MenuItem>
                                         </TextField>
                                     </Grid>
 
                                     <Grid item xs> 
-                                        <TextField 
-                                        id="house_id" 
-                                        label="Limitation" 
-                                        required = {true} 
-                                        defaultValue = {user.house && user.house.house_id}
-                                        style = {{width: 150}}
-                                        { ...bindHouseId } 
-                                        select>
-                                            <MenuItem value={user.house && user.house.house_id}>{user.house && user.house.name}</MenuItem>
-                                            <MenuItem value={0}>Global</MenuItem>
-                                             </TextField>
+                                    <Typography
+                                        aria-owns={open ? 'limitation-popover' : undefined}
+                                        aria-haspopup="true"
+                                        onMouseEnter={handlePopoverOpen}
+                                        onMouseLeave={handlePopoverClose}>
+                                            <TextField 
+                                                id="house_id" 
+                                                label="Limitation" 
+                                                required = {true} 
+                                                defaultValue = {user.house && user.house.house_id}
+                                                style = {{width: 150}}
+                                                { ...bindHouseId } 
+                                                select>
+                                                    <MenuItem value={user.house && user.house.house_id}>{user.house && user.house.name}</MenuItem>
+                                                    <MenuItem value={0}>Global</MenuItem>
+                                            </TextField>
+                                    </Typography>
+                                    <Popover
+                                            id="limitation-popover"
+                                            className={classes.popover}
+                                            classes={{
+                                            paper: classes.paper,
+                                            }}
+                                            open={open}
+                                            anchorEl={anchorEl}
+                                            anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'left',
+                                            }}
+                                            transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'left',
+                                            }}
+                                            onClose={handlePopoverClose}
+                                            disableRestoreFocus>
+                                            <Typography>Un événement peut être soit adressé aux membres de votre orientation uniquement, ou avoir une portée globale à toutes les orientations.</Typography>
+                                        </Popover>
                                     </Grid>
 
-                                    <Grid item xs = {3}> 
+                                    <Grid item xs = {3}>
                                         <TextField 
                                         id="difficulty" 
                                         label="Difficulté" 
@@ -223,6 +284,7 @@ export default function Event_Create() {
                                             <MenuItem value={3}>Difficile</MenuItem>
                                             <MenuItem value={4}>Extrême</MenuItem>
                                         </TextField>
+                  
                                     </Grid>
                                 </Grid>
                                 <br /><br />
@@ -231,10 +293,10 @@ export default function Event_Create() {
                                         <TextField 
                                             id="battleroyal" 
                                             label="Battle Royal Mode" 
-                                            helperText = "Battle royal : chacun pour soi."
+                                            helperText = "All vs All ou affrontement par équipe."
                                             required = {false} 
                                             defaultValue = {0}
-                                            disabled = { false }
+                                            disabled = {battleRoyalOnorOff}
 
                                             style = {{width: 150}} 
                                             { ...bindBattleRoyal }
@@ -262,7 +324,7 @@ export default function Event_Create() {
                                     <TextField
                                             id="deadline_reservation"
                                             label="Date limite inscription"
-                                            type="date"
+                                            type="datetime-local"
                                             defaultValue= {new Date()} //TODO -> mettre une default value qui prend la date/heure actuelle
                                             className={classes.textField}
                                             InputLabelProps={{
@@ -289,7 +351,7 @@ export default function Event_Create() {
                                     <TextField
                                             id="date_begin"
                                             label="Date et heure de l'événement"
-                                            type="date"
+                                            type="datetime-local"
                                             defaultValue={new Date()}
                                             className={classes.textField}
                                             InputLabelProps={{
@@ -315,7 +377,7 @@ export default function Event_Create() {
                                         <TextField
                                             id="date_end"
                                             label="Date et heure de fin"
-                                            type="date"
+                                            type="datetime-local"
                                             defaultValue={new Date()}
                                             className={classes.textField}
                                             InputLabelProps={{
