@@ -18,8 +18,6 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Calendar;
 
 @RestController
 public class EventController {
@@ -180,10 +178,10 @@ public class EventController {
         Date deadline_reservation;
 
         try {
-            DateFormat format = new SimpleDateFormat("yyyy-MM-ddTHH:mm");
-            date_begin = (Date) format.parse(str_date_begin.replace('T', ' '));
-            date_end = (Date) format.parse(str_date_end.replace('T', ' '));
-            deadline_reservation = (Date) format.parse(str_deadline_reservation.replace('T', ' '));
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            date_begin = new Date(format.parse(str_date_begin.replace('T', ' ')).getTime());
+            date_end = new Date(format.parse(str_date_end.replace('T', ' ')).getTime());
+            deadline_reservation = new Date(format.parse(str_deadline_reservation.replace('T', ' ')).getTime());
         } catch(ParseException e) {
             return Utils.errorJSONObjectBuilder("incorrect_date_format").build().toString();
         }
