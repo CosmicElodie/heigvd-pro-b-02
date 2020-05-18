@@ -19,14 +19,29 @@ public class RankingController {
     @Autowired
     private DataSource dataSource;
 
-    @GetMapping("/auditoire")
-    public String ranking() throws SQLException {
+    @GetMapping("/auditoire/yearly")
+    public String rankingAnnually() throws SQLException {
 
         String result = null;
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
             ResultSet forums = stmt.executeQuery("select DEV.getRankingJSON() AS result");
+
+            forums.next();
+            result = forums.getString("result");
+        }
+        return result;
+    }
+
+    @GetMapping("/auditoire/monthly")
+    public String rankingMonthly() throws SQLException {
+
+        String result = null;
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet forums = stmt.executeQuery("select DEV.getRankingMonthlyJSON() AS result");
 
             forums.next();
             result = forums.getString("result");
