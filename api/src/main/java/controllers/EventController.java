@@ -280,9 +280,9 @@ public class EventController {
                               @RequestParam(value = "battleroyal", required = false) Integer battleroyale,
                               @RequestParam("attendees_min") int attendees_min,
                               @RequestParam("attendees_max") int attendees_max,
-                              @RequestParam("date_begin") Date date_begin,
-                              @RequestParam("date_end") Date date_end,
-                              @RequestParam("deadline_reservation") Date deadline_reservation,
+                              @RequestParam("date_begin") String str_date_begin,
+                              @RequestParam("date_end") String str_date_end,
+                              @RequestParam("deadline_reservation") String str_deadline_reservation,
                               @RequestParam("location") String location,
                               @RequestParam("no") String no,
                               @RequestParam("street") String street,
@@ -292,12 +292,37 @@ public class EventController {
 
         JsonObjectBuilder responseObject;
 
+        Date date_begin;
+        Date date_end;
+        Date deadline_reservation;
+
+        try {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            date_begin = new Date(format.parse(str_date_begin.replace('T', ' ')).getTime());
+            date_end = new Date(format.parse(str_date_end.replace('T', ' ')).getTime());
+            deadline_reservation = new Date(format.parse(str_deadline_reservation.replace('T', ' ')).getTime());
+        } catch(ParseException e) {
+            return Utils.errorJSONObjectBuilder("incorrect_date_format").build().toString();
+        }
+
         if (name.length() == 0 || description.length() >= 100) {
             return Utils.errorJSONObjectBuilder("incorrect_input_length").build().toString();
         }
 
         if (attendees_min > attendees_max) {
             return Utils.errorJSONObjectBuilder("error_min_max_attendees_length").build().toString();
+        }
+
+        if (date_begin.after(date_end)) {
+            return Utils.errorJSONObjectBuilder("error_min_max_between_dateBegin_dateEnd").build().toString();
+        }
+
+        if (deadline_reservation.after(date_begin)) {
+            return Utils.errorJSONObjectBuilder("error_min_max_between_dateBegin_deadline").build().toString();
+        }
+
+        if (price < 0) {
+            return Utils.errorJSONObjectBuilder("error_price_below_zero").build().toString();
         }
 
         try (Connection conn = dataSource.getConnection()) {
