@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 import java.io.StringReader;
 import java.sql.*;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -159,19 +160,33 @@ public class EventController {
                               @RequestParam(value = "battleroyal", required = false) Integer battleroyale,
                               @RequestParam("attendees_min") int attendees_min,
                               @RequestParam("attendees_max") int attendees_max,
-                              @RequestParam("date_begin") Date date_begin,
-                              @RequestParam("date_end") Date date_end,
-                              @RequestParam("deadline_reservation") Date deadline_reservation,
+                              @RequestParam("date_begin") String str_date_begin,
+                              @RequestParam("date_end") String str_date_end,
+                              @RequestParam("deadline_reservation") String str_deadline_reservation,
                               @RequestParam("location") String location,
                               @RequestParam("no") String no,
                               @RequestParam("street") String street,
                               @RequestParam("postal_code") int postal_code,
                               @RequestParam("city") String city,
-                              @RequestParam(value = "house_id", required = false) Integer house_id) throws SQLException {
+                              @RequestParam(value = "house_id", required = false) Integer house_id)
+            throws SQLException {
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int user_id = user.getId();
+
+        Date date_begin;
+        Date date_end;
+        Date deadline_reservation;
+
+        try {
+            DateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm");
+            date_begin = (Date) format.parse(str_date_begin);
+            date_end = (Date) format.parse(str_date_end);
+            deadline_reservation = (Date) format.parse(str_deadline_reservation);
+        } catch(ParseException e) {
+            return Utils.errorJSONObjectBuilder("incorrect_date_format").build().toString();
+        }
 
         if (name.length() == 0 || description.length() >= 100) {
             return Utils.errorJSONObjectBuilder("incorrect_input_length").build().toString();
