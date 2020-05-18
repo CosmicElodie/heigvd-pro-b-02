@@ -181,9 +181,9 @@ public class EventController {
 
         try {
             DateFormat format = new SimpleDateFormat("yyyy-MM-ddTHH:mm");
-            date_begin = (Date) format.parse(str_date_begin);
-            date_end = (Date) format.parse(str_date_end);
-            deadline_reservation = (Date) format.parse(str_deadline_reservation);
+            date_begin = (Date) format.parse(str_date_begin.replace('T', ' '));
+            date_end = (Date) format.parse(str_date_end.replace('T', ' '));
+            deadline_reservation = (Date) format.parse(str_deadline_reservation.replace('T', ' '));
         } catch(ParseException e) {
             return Utils.errorJSONObjectBuilder("incorrect_date_format").build().toString();
         }
