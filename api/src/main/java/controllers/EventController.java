@@ -627,7 +627,7 @@ public class EventController {
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
 
-            String sqlGetOwnerID = "SELECT user_id as result FROM event WHERE event = " + event_id;
+            String sqlGetOwnerID = "SELECT user_id as result FROM event WHERE event_id = " + event_id;
             String sqlGetEventHouseID = "SELECT house_id as result FROM event WHERE event_id = " + event_id;
 
             int eventHouseId = Utils.getSingletonInt(statement, sqlGetEventHouseID);
