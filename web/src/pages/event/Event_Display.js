@@ -64,23 +64,77 @@ export default function Event() {
 
     const classes = useStyles();
 
-    
+    //Affiche le bouton "Supprimer"
     function printDeleteButton(permission) {
         if (permission === 75 || permission === 25) {
-                return <Button variant="contained" size="small" color="primary" className={classes.margin}> Supprimer </Button>
+                return <Button variant="contained" size="small" color="primary" onClick={deleteEvent} className={classes.margin}> Supprimer </Button>
         }
     
         return;
     }
 
+    function deleteEvent()
+    {
+        fetch('http://localhost:8080/event/delete_event', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&event_id=" + parseInt(current.event_id)
+            })
+        .then(response => response.json())
 
+        return;
+    }
+
+
+    //Affiche les boutons "Modifier" ou "Annuler"
     function printCancelOrModifyButton(permission, organisator, text) {
         if (permission === 75 || permission === 25 || user.used_id === organisator) {
-            return <Button variant="contained" size="small" color="primary" className={classes.margin}> {text} </Button>
-        }
+            if(text === "Modifier")
+            {
+                return <Button variant="contained" size="small" color="primary" onClick={modifyEvent} className={classes.margin}> {text} </Button>;
+            }
+            else { //text = Annuler
+                return <Button variant="contained" size="small" color="primary" onClick={cancel} className={classes.margin}> {text} </Button>;
+            }
+            }
     
         return;
-    } 
+    }
+
+    //Met l'état de l'event à "Annulé"
+    function cancel()
+    {
+        fetch('http://localhost:8080/event/cancel_event', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&event_id=" + parseInt(current.event_id)
+            })
+        .then(response => response.json())
+
+        return;
+    }
+
+    //Permet de modifier les champs de l'événement
+    function modifyEvent() {
+        console.log("*************************MODIFYBUTTON");
+        return;
+    }
+
+    function joinEvent()
+    {
+        fetch('http://localhost:8080/event/join_event', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&user_id=" + parseInt(current.user_id) + "&event_id=" + parseInt(current.event_id)
+            })
+        .then(response => response.json())
+
+        return;
+    }
+
 
     const getEventByID = (event_id, data) => {
         for (const event of data) if(event.event_id === event_id) return event;
@@ -106,6 +160,7 @@ export default function Event() {
                             />
 
                             <CardContent className={classes.cardContent}>
+                                <Button variant="contained" size="small" color="primary" onClick={joinEvent} className={classes.margin}> Rejoindre </Button>
                                 {/* Bouton "/modifier/annuler", uniquement visible pour l'admin/modo + l'organiateur de l'event */}
 
                                 {
