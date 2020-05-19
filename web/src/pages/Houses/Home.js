@@ -169,11 +169,11 @@ export default function ModalProfile() {
                         <br />
                         <Typography  >                     
                                
-                            <DisplayData name="# Membres :" data = {houseInfo && houseInfo.nb_members}/>   
-                            <DisplayData name="# d'évenements :" data = {houseInfo && houseInfo.nb_events}/>    
-                            <DisplayData name="# victoires :" data = {"????"}/>    
-                            <DisplayData name="# Sujets" data = {houseInfo && houseInfo.nb_subjects}/>  
-                            <DisplayData name="# Messages générés :" data = {houseInfo && houseInfo.nb_posts}/>  
+                            <DisplayData name="Nombre de membres :" data = {houseInfo && houseInfo.nb_members}/>   
+                            <DisplayData name="Nombre d'évenements :" data = {houseInfo && houseInfo.nb_events}/>    
+                            <DisplayData name="Nombre de victoires :" data = {"????"}/>    
+                            <DisplayData name="Nombre de sujets" data = {houseInfo && houseInfo.nb_subjects}/>  
+                            <DisplayData name="Nombre de messages générés :" data = {houseInfo && houseInfo.nb_posts}/>  
                             
                         </Typography>   
                     </CardContent>
