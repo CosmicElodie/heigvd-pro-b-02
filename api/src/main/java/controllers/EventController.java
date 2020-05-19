@@ -40,7 +40,7 @@ public class EventController {
         return result;
     }
 
-    @GetMapping("/event/last_events")
+    @PostMapping("/event/last_events")
     public String lastEventsList(@RequestParam("limit_nb") int limit_nb) throws SQLException {
 
         String result;
@@ -134,7 +134,7 @@ public class EventController {
         return result;
     }
 
-    @GetMapping("/event/from_house")
+    @PostMapping("/event/from_house")
     public String eventFromHouseList(@RequestParam("house_id") int house_id, @RequestParam("limit_nb") int limit_nb) throws SQLException {
 
         String result;
@@ -182,6 +182,7 @@ public class EventController {
             date_begin = new Date(format.parse(str_date_begin.replace('T', ' ')).getTime());
             date_end = new Date(format.parse(str_date_end.replace('T', ' ')).getTime());
             deadline_reservation = new Date(format.parse(str_deadline_reservation.replace('T', ' ')).getTime());
+
         } catch(ParseException e) {
             return Utils.errorJSONObjectBuilder("incorrect_date_format").build().toString();
         }
@@ -390,7 +391,7 @@ public class EventController {
     @PostMapping("/event/join_event")
     public String joinEvent(@RequestParam("user_id") int user_id,
                             @RequestParam("event_id") int event_id
-    ) throws SQLException {
+                            ) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
