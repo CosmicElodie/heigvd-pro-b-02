@@ -141,7 +141,12 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("select DEV.getEventFromHouseJSON(" + house_id + ", " + limit_nb + ") AS event_result");
+            ResultSet events;
+            if (house_id == 0) {
+                events = stmt.executeQuery("select DEV.getEventJSON(" + limit_nb + ") AS event_result");
+            } else {
+                events = stmt.executeQuery("select DEV.getEventFromHouseJSON(" + house_id + ", " + limit_nb + ") AS event_result");
+            }
 
             events.next();
             result = events.getString("event_result");
