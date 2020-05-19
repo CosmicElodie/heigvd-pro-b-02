@@ -128,7 +128,7 @@ export default function Event() {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: "&user_id=" + parseInt(current.user_id) + "&event_id=" + parseInt(current.event_id)
+            body: "&user_id=" + parseInt(user.user_id) + "&event_id=" + parseInt(current.event_id)
             })
         .then(response => response.json())
 
