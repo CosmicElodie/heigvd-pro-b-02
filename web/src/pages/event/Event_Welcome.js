@@ -10,7 +10,7 @@ import '../../css/Event.css';
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
         height: '750px',
-        width: '45%',
+        width: '80%',
         display: 'flex',
         flexDirection: 'column'
     },
@@ -62,6 +62,7 @@ export default function Event() {
                 <Grid container direction="row" justify="space-evenly" alignItems="center">
                     <EventWelcomeHouseContainer />
                 </Grid>
+                <br /><br />
                 <Grid container direction="row" justify="space-evenly" alignItems="center">
                     <EventWelcomeGlobalContainer />
                 </Grid>
