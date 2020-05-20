@@ -61,7 +61,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function Event_Create() {
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [anchorEl1, setAnchorEl1] = React.useState(null);
     const handlePopoverOpen = (event) => {
         setAnchorEl(event.currentTarget);
       };
