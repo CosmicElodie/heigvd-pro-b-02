@@ -284,10 +284,7 @@ public class EventController {
                               @RequestParam("date_end") String str_date_end,
                               @RequestParam("deadline_reservation") String str_deadline_reservation,
                               @RequestParam("location") String location,
-                              @RequestParam("no") String no,
-                              @RequestParam("street") String street,
-                              @RequestParam("postal_code") int postal_code,
-                              @RequestParam("city") String city,
+                              @RequestParam("no") String address,
                               @RequestParam(value = "house_id", required = false) Integer house_id) throws SQLException {
 
         JsonObjectBuilder responseObject;
@@ -371,7 +368,6 @@ public class EventController {
             updateEvent.setDate(12, date_end);
             updateEvent.setString(13, location);
 
-            String address = street + " " + no + ", " + postal_code + " " + city;
             updateEvent.setString(14, address);
 
             if(house_id == null) {
