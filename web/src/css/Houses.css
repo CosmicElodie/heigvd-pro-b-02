@@ -24,6 +24,11 @@
         margin: auto;
         padding: 10px;
     }
+
+    .div2.h1 {
+        font-size: 1em;
+    }
+
     .div3 {
         grid-area: 1 / 6 / 3 / 8;     
         object-fit: contain;

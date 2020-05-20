@@ -103,7 +103,7 @@ export default function ModalProfile() {
             </div>
             <div class="div2">
             
-                <Typography component="h1" variant="h1"spacing={10}>
+                <Typography component="h1" variant="h1" spacing={10}>
                     {houseInfo && houseInfo.name}
                 </Typography>
             </div>
