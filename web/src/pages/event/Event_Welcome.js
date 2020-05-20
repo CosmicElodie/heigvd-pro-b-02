@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     },
     control: {
         padding: theme.spacing(2),
-      },
+    },
 }));
 
 export default function Event() {
@@ -58,11 +58,15 @@ export default function Event() {
                             <a href="/event_list">Voir tous les événements</a>
                         </MyButton>
                     </center>
+                </Grid>
+                <Grid container direction="row" justify="space-evenly" alignItems="center">
                     <EventWelcomeHouseContainer />
+                </Grid>
+                <Grid container direction="row" justify="space-evenly" alignItems="center">
                     <EventWelcomeGlobalContainer />
                 </Grid>
             </main>
-        </React.Fragment>
+        </React.Fragment >
     );
 }
 
