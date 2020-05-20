@@ -374,7 +374,7 @@ public class EventController {
             if(house_id == null) {
                 updateEvent.setNull(15, Types.INTEGER);
             } else {
-                updateEvent.setInt(16, house_id);
+                updateEvent.setInt(15, house_id);
             }
 
 
