@@ -323,6 +323,10 @@ public class EventController {
             return Utils.errorJSONObjectBuilder("error_price_below_zero").build().toString();
         }
 
+        if (house_id == 0) {
+            house_id = null;
+        }
+
         try (Connection conn = dataSource.getConnection()) {
             // check si nombre d'attendee max ne descend pas en dessous du nombre de participants.
             if (!conn.createStatement().executeQuery(
@@ -376,7 +380,6 @@ public class EventController {
             } else {
                 updateEvent.setInt(15, house_id);
             }
-
 
             updateEvent.execute();
             responseObject = Utils.successJSONObjectBuilder("event_updated", null);
