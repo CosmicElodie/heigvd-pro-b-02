@@ -25,7 +25,8 @@ const useStyles = makeStyles(theme => ({
     cardMedia: {
         paddingTop: '100%',
         flexDirection: 'row',
-        justify: 'space-evenly'
+        justify: 'space-evenly',
+        width: 'auto',
     },
     cardContent: {
         flexGrow: 1
