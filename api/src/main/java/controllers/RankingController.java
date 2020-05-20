@@ -26,7 +26,7 @@ public class RankingController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet forums = stmt.executeQuery("select DEV.getRankingJSON() AS result");
+            ResultSet forums = stmt.executeQuery("select DEV.`getPointsTHEREALFUNCTION`(1,0) AS result");
 
             forums.next();
             result = forums.getString("result");
@@ -41,7 +41,7 @@ public class RankingController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet forums = stmt.executeQuery("select DEV.getRankingMonthlyJSON() AS result");
+            ResultSet forums = stmt.executeQuery("select DEV.getRankingMonthlyJSON(0,0) AS result");
 
             forums.next();
             result = forums.getString("result");

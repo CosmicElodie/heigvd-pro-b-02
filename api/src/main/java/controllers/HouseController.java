@@ -48,8 +48,8 @@ public class HouseController {
         return result;
     }
 
-    @PostMapping("/house/topUser")
-    public String houseTopUser(@RequestParam("house_id") int house_id,
+    @PostMapping("/house/topUser/yearly")
+    public String houseTopUserYearly(@RequestParam("house_id") int house_id,
                                   @RequestParam("nbLimit") int nbLimit) throws SQLException {
 
         String result;
@@ -57,7 +57,24 @@ public class HouseController {
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
             ResultSet houseDetail =
-                    stmt.executeQuery("select DEV.getTopUserFromHouseJSON(" + house_id + "," + nbLimit + ") AS result");
+                    stmt.executeQuery("select DEV.`getPointsTHEREALFUNCTION`(1," + house_id + ") AS result");
+
+            houseDetail.next();
+            result = houseDetail.getString("result");
+        }
+        return result;
+    }
+
+    @PostMapping("/house/topUser/monthly")
+    public String houseTopUserMonthly(@RequestParam("house_id") int house_id,
+                               @RequestParam("nbLimit") int nbLimit) throws SQLException {
+
+        String result;
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet houseDetail =
+                    stmt.executeQuery("select DEV.`getPointsTHEREALFUNCTION`(0," + house_id + ") AS result");
 
             houseDetail.next();
             result = houseDetail.getString("result");
