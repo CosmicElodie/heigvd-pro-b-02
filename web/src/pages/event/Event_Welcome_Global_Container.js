@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
+import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import { MainContext } from '../../context/MainContext';
 import Moment from 'react-moment';
@@ -48,19 +49,30 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
+
+
+
 const EventWelcomeGlobalContainer = () => {
     const { user } = useContext(MainContext);
     const classes = useStyles();
     const [events, setEvents] = useState();
     let counterGlobal = 1;
+    
+    let history = useHistory();
 
-    function printGlobalEvent(houseEvent, name, date_begin, nb_attendees) {
+    function printGlobalEvent(houseEvent, name, date_begin, nb_attendees,event_id) {
         if (counterGlobal <= 5) {
             counterGlobal++;
             return (<TableRow>
-                <TableCell component="th" scope="row">
-                    {name}
-                </TableCell>
+                
+                    <TableCell component="th" scope="row"  >
+                        <Button
+                        onClick= {  () => redirectPage("/event_display/"+ event_id) }
+                        >
+                            {name}
+                        </Button>
+                    </TableCell>
+                    
                 <TableCell component="th" scope="row">
                     <Moment format="YYYY/MM/DD - HH:mm">
                         {date_begin}
@@ -72,7 +84,12 @@ const EventWelcomeGlobalContainer = () => {
             </TableRow>);
         }
     }
-
+    
+    const redirectPage = useCallback((link) => {
+        // Will change the URL, behaves like a link
+        history.push(link);         
+    }, ) ; 
+    
     //remplit l'état
     useEffect(() => {
         user && user.house && fetch('http://localhost:8080/event/from_house', {
@@ -113,7 +130,7 @@ const EventWelcomeGlobalContainer = () => {
                             {events && events.length > 0 && events.map(({ event_id, name, description, is_competitive, difficulty, battleroyale,
                                 status, price, attendees_min, attendees_max, created, deadline_reservation,
                                 date_begin, date_end, location, address, house, organisator, participants, nb_attendees }, index) =>
-                                printGlobalEvent(house, name, date_begin, nb_attendees)
+                                printGlobalEvent(house, name, date_begin, nb_attendees,event_id)
                             )}
                         </TableBody>
                     </Table>

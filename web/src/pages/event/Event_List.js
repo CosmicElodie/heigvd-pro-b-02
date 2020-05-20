@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
+import { useHistory } from "react-router-dom";
 import { EventContext } from '../../context/EventContext';
 import { MainContext } from '../../context/MainContext';
 
@@ -118,6 +119,8 @@ EnhancedTableHead.propTypes = {
 };
 
 export default function Event_List() {
+    
+    let history = useHistory();
     const classes = useStyles();
     const { user, setDialog } = useContext(MainContext);
     const { data } = useContext(EventContext);
@@ -152,6 +155,10 @@ export default function Event_List() {
         return size;
     };
 
+    const redirectPage = useCallback((link) => {
+        // Will change the URL, behaves like a link
+        history.push(link);         
+    }, ) ; 
 
     //Affiche les events selon les niveaux d'accès
     function displayEveryEventExceptCancelledOnes(index, event_id, name, description, is_competitive, difficulty, battleroyale,
@@ -162,7 +169,15 @@ export default function Event_List() {
                 <TableCell align="right"
                     component="th"
                     id={`enhanced-table-checkbox-${index}`}
-                    scope="row">{name}
+                    scope="row">
+
+                        <Button
+                        onClick= {  () => redirectPage("/event_display/"+ event_id) }
+                        >
+                            {name}
+                        </Button>
+
+
                 </TableCell>
                 <TableCell align="right">
                     {organisator.firstname + ' ' + organisator.lastname}
