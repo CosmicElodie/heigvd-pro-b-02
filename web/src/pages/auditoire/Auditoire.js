@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState,useEffect} from 'react';
 import {MainContext} from '../../context/MainContext';
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -36,6 +36,12 @@ export default function Auditoire() {
 
     //const {user} = useContext(MainContext);
     const classes = useStyles();
+
+    const [topUserIE, setTopUserIE] = React.useState();
+    const [topUserIL, setTopUserIL] = React.useState();
+    const [topUserID, setTopUserID] = React.useState();
+    const [topUserTR, setTopUserTR] = React.useState();
+    const [topUserTS, setTopUserTS] = React.useState();
     //const [ data, setData ] = useState(); //mettre json à la place de useState
 
     function createUser(name, lastname, points) {
@@ -55,6 +61,51 @@ export default function Auditoire() {
 
     var rankIL = 1;
     var rankIE = 1;
+    
+    const getTopUsers = (e) => {
+        let post_body = 
+        "&house_id=" + e +
+        "&nbLimit=" + 5;
+        fetch('http://localhost:8080/house/topUser', {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: post_body
+            })
+        .then(response => response.json())
+        .then(response =>{
+
+            switch(e) {
+                case 1:
+                    setTopUserIE(response)
+                  break;
+                case 2:
+                    setTopUserTS(response)
+                  break;
+                case 3:
+                    setTopUserTR(response)
+                  break;
+                case 4:
+                    setTopUserIL(response)
+                    break;
+                case 5:
+                    setTopUserID(response)
+                    break;
+                        
+                default:
+                  // code block
+              }  
+      
+        })
+      }
+      useEffect(() => { 
+        
+        getTopUsers(1);
+        getTopUsers(2);
+        getTopUsers(3);
+        getTopUsers(4);
+        getTopUsers(5);
+      }, []); 
 
     const houseIL = [
         createUser('Elodie', 'Lagier', 203),
@@ -101,7 +152,7 @@ export default function Auditoire() {
                                     </Typography>
                                     <CardMedia
                                         className={classes.cardMedia}
-                                        image=  'http://localhost:8080/content/IL.png'
+                                        image=  'http://localhost:8080/content/Informatique logicielle.png'
                                         title="Image title"
                                     />
 
@@ -118,13 +169,13 @@ export default function Auditoire() {
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
-                                                    {houseIL.map(row => (
-                                                        <TableRow >
-                                                            <TableCell>{rankIL++}</TableCell>
-                                                            <TableCell>{row.name + ' ' + row.lastname}</TableCell>
-                                                            <TableCell>{row.points}</TableCell>
-                                                        </TableRow>
-                                                    ))}
+                                                    {topUserIL && topUserIL.map(({birth,email,house,active,avatar,points,status,created,user_id,initials,lastname,firstname,last_online,access_level}) =>
+                                                            <TableRow >
+                                                                <TableCell>{rankIL++}</TableCell>
+                                                                <TableCell>{firstname + ' ' + lastname}</TableCell>
+                                                                <TableCell>{points}</TableCell>
+                                                            </TableRow>
+                                                    )}
                                                     </TableBody>
                                                 </Table>
                                             </TableContainer>
@@ -139,7 +190,7 @@ export default function Auditoire() {
                                         </Typography>
                                         <CardMedia
                                             className={classes.cardMedia}
-                                            image="https://i.imgur.com/NSM8kNK.png"
+                                            image='http://localhost:8080/content/Ingénierie des données.png'
                                             title="Image title"
                                         />
                                         ... points<br />
@@ -156,14 +207,14 @@ export default function Auditoire() {
                                                             </TableRow>
                                                         </TableHead>
                                                         <TableBody>
-                                                    {houseIE.map(row => (
-                                                        <TableRow >
-                                                            <TableCell>{rankIE++}</TableCell>
-                                                            <TableCell>{row.name + ' ' + row.lastname}</TableCell>
-                                                            <TableCell>{row.points}</TableCell>
-                                                        </TableRow>
-                                                    ))}
-                                                    </TableBody>
+                                                            {topUserID && topUserID.map(({birth,email,house,active,avatar,points,status,created,user_id,initials,lastname,firstname,last_online,access_level}) =>
+                                                                <TableRow >
+                                                                    <TableCell>{rankIL++}</TableCell>
+                                                                    <TableCell>{firstname + ' ' + lastname}</TableCell>
+                                                                    <TableCell>{points}</TableCell>
+                                                                </TableRow>
+                                                            )}
+                                                        </TableBody>
                                                     </Table>
                                                 </TableContainer>
                                             </Typography>
@@ -183,24 +234,29 @@ export default function Auditoire() {
                                     ... points<br />
                                     ... membres
                                     <CardContent className={classes.cardContent}>
-                                        <Typography>
-                                            <TableContainer component={Paper}>
-                                                <Table className={classes.table} aria-label="simple table">
-                                                    <TableHead>
-                                                        <TableRow>
-                                                            <TableCell>#</TableCell>
-                                                            <TableCell align="left">Nom</TableCell>
-                                                            <TableCell align="left">Points</TableCell>
-                                                        </TableRow>
-                                                    </TableHead>
-                                                    <TableBody>
-                                                        <TableRow >
-                                                        </TableRow>
-                                                    </TableBody>
-                                                </Table>
-                                            </TableContainer>
-                                        </Typography>
-                                    </CardContent>
+                                            <Typography>
+                                                <TableContainer component={Paper}>
+                                                    <Table className={classes.table} aria-label="simple table">
+                                                        <TableHead>
+                                                            <TableRow>
+                                                                <TableCell>#</TableCell>
+                                                                <TableCell align="left">Nom</TableCell>
+                                                                <TableCell align="left">Points</TableCell>
+                                                            </TableRow>
+                                                        </TableHead>
+                                                        <TableBody>
+                                                            {topUserTR && topUserTR.map(({birth,email,house,active,avatar,points,status,created,user_id,initials,lastname,firstname,last_online,access_level}) =>
+                                                                <TableRow >
+                                                                    <TableCell>{rankIL++}</TableCell>
+                                                                    <TableCell>{firstname + ' ' + lastname}</TableCell>
+                                                                    <TableCell>{points}</TableCell>
+                                                                </TableRow>
+                                                            )}
+                                                        </TableBody>
+                                                    </Table>
+                                                </TableContainer>
+                                            </Typography>
+                                        </CardContent>
                                 </Card>
                                 </Grid>
                             </Grid>
@@ -213,7 +269,7 @@ export default function Auditoire() {
                                 </Typography>
                                 <CardMedia
                                     className={classes.cardMedia}
-                                    image="https://i.imgur.com/NSM8kNK.png"
+                                    image='http://localhost:8080/content/Sécurité informatique.png'
                                     title="Image title"
                                 />
                                 ... points<br />
@@ -230,8 +286,13 @@ export default function Auditoire() {
                                                     </TableRow>
                                                 </TableHead>
                                                 <TableBody>
-                                                    <TableRow >
-                                                    </TableRow>
+                                                    {topUserTS && topUserTS.map(({birth,email,house,active,avatar,points,status,created,user_id,initials,lastname,firstname,last_online,access_level}) =>
+                                                        <TableRow >
+                                                            <TableCell>{rankIL++}</TableCell>
+                                                            <TableCell>{firstname + ' ' + lastname}</TableCell>
+                                                            <TableCell>{points}</TableCell>
+                                                        </TableRow>
+                                                    )}
                                                 </TableBody>
                                             </Table>
                                         </TableContainer>
@@ -247,7 +308,7 @@ export default function Auditoire() {
                                 </Typography>
                                 <CardMedia
                                     className={classes.cardMedia}
-                                    image="https://i.imgur.com/NSM8kNK.png"
+                                    image='http://localhost:8080/content/Systèmes informatiques embarqués.png'
                                     title="Image title"
                                 />
                                 ... points<br />
@@ -264,8 +325,13 @@ export default function Auditoire() {
                                                     </TableRow>
                                                 </TableHead>
                                                 <TableBody>
-                                                    <TableRow >
-                                                    </TableRow>
+                                                    {topUserIE && topUserIE.map(({birth,email,house,active,avatar,points,status,created,user_id,initials,lastname,firstname,last_online,access_level}) =>
+                                                        <TableRow >
+                                                            <TableCell>{rankIL++}</TableCell>
+                                                            <TableCell>{firstname + ' ' + lastname}</TableCell>
+                                                            <TableCell>{points}</TableCell>
+                                                        </TableRow>
+                                                    )}
                                                 </TableBody>
                                             </Table>
                                         </TableContainer>
