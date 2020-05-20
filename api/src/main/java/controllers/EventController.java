@@ -284,7 +284,7 @@ public class EventController {
                               @RequestParam("date_end") String str_date_end,
                               @RequestParam("deadline_reservation") String str_deadline_reservation,
                               @RequestParam("location") String location,
-                              @RequestParam("no") String address,
+                              @RequestParam("address") String address,
                               @RequestParam(value = "house_id", required = false) Integer house_id) throws SQLException {
 
         JsonObjectBuilder responseObject;
