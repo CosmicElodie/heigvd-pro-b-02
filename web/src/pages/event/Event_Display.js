@@ -1,5 +1,6 @@
-import React , {useState, useContext, useEffect} from 'react';
+import React , {useState, useContext, useEffect, useCallback } from 'react';
 import { useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {MainContext} from '../../context/MainContext';
 import Moment from 'react-moment';
 import EventAccountPoints from './EventAccountPoints';
@@ -63,6 +64,7 @@ export default function Event() {
     }, [data, setCurrent]);
 
     const classes = useStyles();
+    let history = useHistory();
 
     //Affiche le bouton "Supprimer"
     function printDeleteButton(permission) {
@@ -119,6 +121,8 @@ export default function Event() {
     //Permet de modifier les champs de l'événement
     function modifyEvent() {
         console.log("*************************MODIFYBUTTON");
+        
+        history.push("/event_modify/" + current.event_id); 
         return;
     }
 
