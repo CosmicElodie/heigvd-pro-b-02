@@ -47,4 +47,21 @@ public class HouseController {
         }
         return result;
     }
+
+    @PostMapping("/house/topUser")
+    public String houseTopUser(@RequestParam("house_id") int house_id,
+                                  @RequestParam("nbLimit") int nbLimit) throws SQLException {
+
+        String result;
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet houseDetail =
+                    stmt.executeQuery("select DEV.getTopUserFromHouseJSON(" + house_id + "," + nbLimit + ") AS result");
+
+            houseDetail.next();
+            result = houseDetail.getString("result");
+        }
+        return result;
+    }
 }
