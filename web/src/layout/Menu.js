@@ -7,70 +7,81 @@ import { useHistory, useLocation } from "react-router-dom";
 
 const useTabStyles = makeStyles({
     root: {
-      flexGrow: 1,
-      maxWidth: "100%"
+        flexGrow: 1,
+        maxWidth: "100%"
     },
 });
 
 const Menu = () => {
     const classes = useTabStyles();
     const [active, setActive] = useState(0); // Tabs state -> tracking active tab
-    
+
     let history = useHistory(); // hook that allows URL change -> navigation
     let location = useLocation();
 
     const tabs = {
-        forum   : 3,
-        event : 2,
-        about   : 1,
-        home    : 0
+        forum: 3,
+        event: 2,
+        about: 1,
+        home: 0
     }
 
     useEffect(() => {
         let activeRoot = location.pathname.split('/')[1];
-        if(!activeRoot) activeRoot = "home";
+        if (!activeRoot) activeRoot = "home";
         setActive(tabs[activeRoot]);
-    },[location.pathname, tabs]);
+    }, [location.pathname, tabs]);
 
     const handleTabChange = useCallback((_, newActive) => setActive(newActive), [setActive]);
     const handleClick = useCallback((link) => history.push(link), [history]);
-    
-    return useMemo(() => 
+
+    return useMemo(() =>
         <Paper square className={classes.root}>
             <Tabs
-                value = { active }
-                onChange = { handleTabChange }
-                variant = "scrollable"
-                textColor = "primary"
-                aria-label = "icon label tabs example"
+                value={active}
+                onChange={handleTabChange}
+                variant="scrollable"
+                textColor="primary"
+                aria-label="icon label tabs example"
             >
-                <Tab 
-                    label="Home" 
-                    to="/"      
-                    onClick={ () => handleClick("/") }    
+                <Tab
+                    label="Home"
+                    to="/"
+                    onClick={() => handleClick("/")}
                 />
-                <Tab 
-                    label="Auditoire" 
-                    to="/Auditoire"      
-                    onClick={ () => handleClick("/Auditoire") }  
+                <Tab
+                    label="Rules"
+                    to="/rules"
+                    onClick={() => handleClick("/rules")}
+                />
+                <Tab
+                    label="Auditoire"
+                    to="/Auditoire"
+                    onClick={() => handleClick("/Auditoire")}
                 />
 
-                <Tab 
-                    label="Event" 
-                    to="/event_welcome"      
-                    onClick={ () => handleClick("/event_welcome") }  
+                <Tab
+                    label="Event"
+                    to="/event_welcome"
+                    onClick={() => handleClick("/event_welcome")}
                 />
 
-                <Tab 
-                    label="Forum" 
-                    to="/forum"      
-                    onClick={ () => handleClick("/forum") }  
+                <Tab
+                    label="Forum"
+                    to="/forum"
+                    onClick={() => handleClick("/forum")}
                 />
-                
+
+                <Tab
+                    label="Palmarès"
+                    to="/palmares"
+                    onClick={() => handleClick("/palmares")}
+                />
+
             </Tabs>
         </Paper>, [active, handleClick, handleTabChange, classes.root]
-        
+
     )
 }
 
-export default  Menu;
+export default Menu;

@@ -57,6 +57,12 @@ export default function Event() {
                             className={classes.submit}>
                             <a href="/event_list">Voir tous les événements</a>
                         </MyButton>
+                        <MyButton
+                            type="submit"
+                            variant="contained"
+                            className={classes.submit}>
+                            <a href="/event_create">Créer un événement</a>
+                        </MyButton>
                     </center>
                 </Grid>
                 <Grid container direction="row" justify="space-evenly" alignItems="center">

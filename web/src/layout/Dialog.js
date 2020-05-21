@@ -362,6 +362,114 @@ const Dialog = () => {
                 </Snackbar> 
             }
 
+            { 
+                dialog && dialog.incorrect_date_format &&
+                <Snackbar 
+                        open = { dialog.incorrect_date_format.is_open }
+                        onClose = { () => handleClose({ incorrect_date_format: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Format date incorrect !
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.incorrect_input_length &&
+                <Snackbar 
+                        open = { dialog.incorrect_input_length.is_open }
+                        onClose = { () => handleClose({ incorrect_input_length: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Text de description trop long. 
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.error_max_attendees_lower_than_nb_attendees &&
+                <Snackbar 
+                        open = { dialog.error_max_attendees_lower_than_nb_attendees.is_open }
+                        onClose = { () => handleClose({ error_max_attendees_lower_than_nb_attendees: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Le nombre participants max doit être plus petit que le nombre de participants min.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.event_updated &&
+                <Snackbar 
+                        open = { dialog.event_updated.is_open }
+                        onClose = { () => handleClose({ event_updated: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        L'événement a bien été mis à jour.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.event_joined &&
+                <Snackbar 
+                        open = { dialog.event_joined.is_open }
+                        onClose = { () => handleClose({ event_joined: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Vous avez bien rejoint l'événement !
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.event_quited &&
+                <Snackbar 
+                        open = { dialog.event_quited.is_open }
+                        onClose = { () => handleClose({ event_quited: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Vous avez bien quitté l'événement !
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.event_cancelled &&
+                <Snackbar 
+                        open = { dialog.event_cancelled.is_open }
+                        onClose = { () => handleClose({ event_cancelled: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Événement annulé !
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.event_delete_insufficient_permission &&
+                <Snackbar 
+                        open = { dialog.event_delete_insufficient_permission.is_open }
+                        onClose = { () => handleClose({ event_delete_insufficient_permission: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Vous n'avez pas les droits nécessaire pour supprimer cet événement.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.event_deleted &&
+                <Snackbar 
+                        open = { dialog.event_deleted.is_open }
+                        onClose = { () => handleClose({ event_deleted: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Événement supprimé !
+                    </Alert>
+                </Snackbar> 
+            }
+
         </section>
     )
 }

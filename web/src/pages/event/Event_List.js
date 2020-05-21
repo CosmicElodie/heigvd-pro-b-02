@@ -5,6 +5,7 @@ import { MainContext } from '../../context/MainContext';
 
 import PropTypes from "prop-types";
 import Moment from 'react-moment';
+import { styled } from '@material-ui/core/styles';
 
 import {
     Button,
@@ -75,11 +76,12 @@ function stableSort(array, comparator) {
 const headCells = [
     { id: 'name', numeric: false, disablePadding: false, label: 'Nom' },
     { id: 'organisator.lastname', numeric: false, disablePadding: false, label: 'Organisateur' },
-    { id: 'house_id', numeric: false, disablePadding: false, label: 'Limitation' },
+    { id: 'house_id', numeric: true, disablePadding: false, label: 'Limitation' },
     { id: 'nb_attendees', numeric: true, disablePadding: false, label: 'Nb participants' },
     { id: 'deadline_reservation', numeric: false, disablePadding: false, label: 'Date limite inscription' },
     { id: 'date_begin', numeric: false, disablePadding: false, label: 'Date' },
-    { id: 'location', numeric: false, disablePadding: false, label: 'Lieu' }
+    { id: 'location', numeric: false, disablePadding: false, label: 'Lieu' },
+    { id: 'status', numeric: false, disablePadding: false, label: 'Statut' }
 ];
 
 function EnhancedTableHead(props) {
@@ -119,7 +121,7 @@ EnhancedTableHead.propTypes = {
 };
 
 export default function Event_List() {
-    
+
     let history = useHistory();
     const classes = useStyles();
     const { user, setDialog } = useContext(MainContext);
@@ -157,48 +159,53 @@ export default function Event_List() {
 
     const redirectPage = useCallback((link) => {
         // Will change the URL, behaves like a link
-        history.push(link);         
-    }, ) ; 
+        history.push(link);
+    });
+
+    const MyButton = styled(Button)({
+        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+        border: 0,
+        borderRadius: 3,
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        color: 'white',
+        height: 48,
+    });
 
     //Affiche les events selon les niveaux d'accès
-    function displayEveryEventExceptCancelledOnes(index, event_id, name, description, is_competitive, difficulty, battleroyale,
+    function displayEveryEvents(index, event_id, name, description, is_competitive, difficulty, battleroyale,
         status, price, attendees_min, attendees_max, created, deadline_reservation,
         date_begin, date_end, location, address, house, organisator, participants, nb_attendees) {
-        if (((user.access_level < 50 && status != "Annulé") || user.user_id == organisator.user_id) || user.access_level >= 50 ) {
-            return (<TableRow tabIndex={-1}>
-                <TableCell align="right"
-                    component="th"
-                    id={`enhanced-table-checkbox-${index}`}
-                    scope="row">
+        return (<TableRow tabIndex={-1}>
+            <TableCell align="right"
+                component="th"
+                id={`enhanced-table-checkbox-${index}`}
+                scope="row">
+                <Button
+                    onClick={() => redirectPage("/event_display/" + event_id)}
+                >
+                    {name}
+                </Button>
+            </TableCell>
+            <TableCell align="right">
+                {organisator.firstname + ' ' + organisator.lastname}
+            </TableCell>
 
-                        <Button
-                        onClick= {  () => redirectPage("/event_display/"+ event_id) }
-                        >
-                            {name}
-                        </Button>
-
-
-                </TableCell>
-                <TableCell align="right">
-                    {organisator.firstname + ' ' + organisator.lastname}
-                </TableCell>
-
-                <TableCell align="right"> {house == null ? "Global" : house.shortname}</TableCell>
-                <TableCell align="right">{nb_attendees + ' / ' + attendees_max}</TableCell>
-                <TableCell align="right">
-                    <Moment format="YYYY/MM/DD HH:mm">
-                        {deadline_reservation}
-                    </Moment>
-                </TableCell>
-                <TableCell align="right">
-                    <Moment format="YYYY/MM/DD HH:mm">
-                        {date_begin}
-                    </Moment>
-                </TableCell>
-                <TableCell align="right">{location}</TableCell>
-            </TableRow>
-            );
-        }
+            <TableCell align="right"> {house == null ? "Global" : house.shortname}</TableCell>
+            <TableCell align="right">{nb_attendees + ' / ' + attendees_max}</TableCell>
+            <TableCell align="right">
+                <Moment format="YYYY/MM/DD HH:mm">
+                    {deadline_reservation}
+                </Moment>
+            </TableCell>
+            <TableCell align="right">
+                <Moment format="YYYY/MM/DD HH:mm">
+                    {date_begin}
+                </Moment>
+            </TableCell>
+            <TableCell align="right">{location}</TableCell>
+            <TableCell align="right">{status}</TableCell>
+        </TableRow>
+        );
     }
 
     return (
@@ -209,6 +216,12 @@ export default function Event_List() {
                     <Card className={classes.card}>
                         <CardContent className={classes.cardContent}>
                             <center><h1>Liste des événements</h1></center>
+                            <p>
+                                <MyButton href="event_create" variant="contained" color="secondary">
+                                    Créer un événement
+                                </MyButton>
+                            </p>
+
                             <TableContainer component={Paper}>
                                 <Table className={classes.table}
                                     aria-labelledby="tableTitle"
@@ -230,7 +243,7 @@ export default function Event_List() {
                                                 status, price, attendees_min, attendees_max, created, deadline_reservation,
                                                 date_begin, date_end, location, address, house, organisator, participants, nb_attendees }, index) =>
 
-                                                displayEveryEventExceptCancelledOnes(index, event_id, name, description, is_competitive, difficulty, battleroyale,
+                                                displayEveryEvents(index, event_id, name, description, is_competitive, difficulty, battleroyale,
                                                     status, price, attendees_min, attendees_max, created, deadline_reservation,
                                                     date_begin, date_end, location, address, house, organisator, participants, nb_attendees)
                                             )}
@@ -246,9 +259,6 @@ export default function Event_List() {
                                 onChangePage={handleChangePage}
                                 onChangeRowsPerPage={handleChangeRowsPerPage}
                             />
-                            <Button href="event_create" variant="contained" color="secondary">
-                                Créer un événement
-                            </Button>
                         </CardContent>
                     </Card>
                 </Grid>
