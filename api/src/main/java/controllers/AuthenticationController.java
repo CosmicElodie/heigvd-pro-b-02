@@ -51,7 +51,7 @@ public class AuthenticationController {
 
         if(user.getPassword().equals(password)){
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL);
+            SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_THREADLOCAL);
             SecurityContextHolder.getContext().setAuthentication(auth);
             authenticated.put("is_authenticated", true);
             responseObject.put("dialog_id", "login_success");
@@ -65,7 +65,7 @@ public class AuthenticationController {
         JSONObject responseObject = new JSONObject();
         JSONObject authenticated = new JSONObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL);
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_THREADLOCAL);
         auth.setAuthenticated(false);
         SecurityContextHolder.clearContext();
         authenticated.put("is_authenticated", false);

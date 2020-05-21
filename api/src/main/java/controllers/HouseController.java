@@ -49,15 +49,15 @@ public class HouseController {
     }
 
     @PostMapping("/house/topUser/yearly")
-    public String houseTopUserYearly(@RequestParam("house_id") int house_id,
-                                  @RequestParam("nbLimit") int nbLimit) throws SQLException {
+    public String houseTopUserYearly(@RequestParam("house_id") int house_id) throws SQLException {
 
         String result;
 
+        //if house_id == 0 ? return error
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
             ResultSet houseDetail =
-                    stmt.executeQuery("select DEV.`getPointsTHEREALFUNCTION`(1," + house_id + ") AS result");
+                    stmt.executeQuery("select DEV.`getRankingByHouse`(1," + house_id + ") AS result");
 
             houseDetail.next();
             result = houseDetail.getString("result");
@@ -66,15 +66,14 @@ public class HouseController {
     }
 
     @PostMapping("/house/topUser/monthly")
-    public String houseTopUserMonthly(@RequestParam("house_id") int house_id,
-                               @RequestParam("nbLimit") int nbLimit) throws SQLException {
+    public String houseTopUserMonthly(@RequestParam("house_id") int house_id) throws SQLException {
 
         String result;
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
             ResultSet houseDetail =
-                    stmt.executeQuery("select DEV.`getPointsTHEREALFUNCTION`(0," + house_id + ") AS result");
+                    stmt.executeQuery("select DEV.`getRankingByHouse`(0," + house_id + ") AS result");
 
             houseDetail.next();
             result = houseDetail.getString("result");
