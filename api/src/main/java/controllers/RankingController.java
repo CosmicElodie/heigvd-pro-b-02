@@ -4,6 +4,7 @@ import models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,7 @@ public class RankingController {
     @Autowired
     private DataSource dataSource;
 
-    @GetMapping("/auditoire/yearly")
+    @PostMapping("/auditoire/yearly")
     public String rankingAnnually(@RequestParam("house_id") int house_id) throws SQLException {
 
         String result = null;
@@ -35,7 +36,7 @@ public class RankingController {
         return result;
     }
 
-    @GetMapping("/auditoire/monthly")
+    @PostMapping("/auditoire/monthly")
     public String rankingMonthly(@RequestParam("house_id") int house_id) throws SQLException {
 
         String result = null;

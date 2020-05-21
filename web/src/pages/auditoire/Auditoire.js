@@ -52,24 +52,23 @@ export default function Auditoire() {
 
     function getTotalPoints(house) {
         var total_points = 0;
-        for (var members = 0; members < house.len; ++members) {
-            total_points += house.points;
-            console.log('total_points : ' + total_points)
-        }
+        house.map(({ birth, email, house, active, avatar, status, created, user_id, initials, lastname, firstname, last_online, points_year, access_level,points_month }) =>
+            total_points += points_year
+        )
         return total_points
     }
 
     var rankIL = 1;
-    var rankIE = 1;
 
 
     const getTopUsers = (e) => {
         let post_body =
-            "&house_id=" + e +
-            "&nbLimit=" + 5;
+            "&house_id=" + e;
         fetch('http://localhost:8080/auditoire/yearly', { //pour l'instant yearly envoie tous les users toutes maisons confondues.
-            method: 'GET',
-            credentials: 'include'
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
         })
             .then(response => response.json())
             .then(response => {
@@ -97,8 +96,55 @@ export default function Auditoire() {
 
             })
     }
-    useEffect(() => {
 
+
+
+    const displayHouse = (name,topUser) =>{
+        return(
+
+            <Card className={classes.card}>
+            <Typography gutterBottom variant="h6" align="center">
+                {name}
+            </Typography>
+            <CardMedia
+                className={classes.cardMedia}
+                image = {'http://localhost:8080/content/' + name +'.png'}
+                title="Image title"
+            />
+
+            {topUser && getTotalPoints(topUser)} points <br />
+            {topUser && Object.keys(topUser).length} membres
+                    <CardContent className={classes.cardContent}>
+                <Typography>
+                    <TableContainer component={Paper}>
+                        <Table className={classes.table} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>#</TableCell>
+                                    <TableCell align="left">Nom</TableCell>
+                                    <TableCell align="left">Points</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody n = {rankIL = 1}>                                            
+                                {topUser && topUser.map(({ birth, email, house, active, avatar, status, created, user_id, initials, lastname, firstname, last_online, points_year, access_level,points_month }) =>
+                                    
+                                    <TableRow  >                                                       
+                                        <TableCell>{rankIL++}</TableCell>
+                                        <TableCell>{firstname + ' ' + lastname}</TableCell>
+                                        <TableCell>{points_year}</TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Typography>
+            </CardContent>
+        </Card>
+            
+        )
+    }
+
+    useEffect(() => {
         getTopUsers(1);
         getTopUsers(2);
         getTopUsers(3);
@@ -120,223 +166,40 @@ export default function Auditoire() {
         createUser('LN', 'Dubuis', 12),
         createUser('Marie', 'Antoinette', 1)
     ];
-    /*
-        const houseID = [
-            createUser('Anne', 'O\'nyme', 27),
-            createUser('Sébastien', 'Rosat', 66),
-            createUser('Grégoire', 'Decorvet', 89),
-            createUser('Pier', 'Donini', 2),
-            createUser('Stéfanie', 'Dupont', 43)
-        ];
-    
-        const houseTR = [
-            createUser('Nair', 'Alic', 342)
-        ];
-    
-        const houseTS = [
-            createUser('Jojo', 'Lémainrouj', 231)
-        ];
-    
-        */
+
 
     return (
         <React.Fragment>
             <CssBaseline />
             <main>
                 <Grid container direction="row" justify="space-evenly" alignItems="center">
-                    <Grid item xs>
-                        <Card className={classes.card}>
-                            <Typography gutterBottom variant="h6" align="center">
-                                Informatique logicielle
-                                    </Typography>
-                            <CardMedia
-                                className={classes.cardMedia}
-                                image='http://localhost:8080/content/Informatique logicielle.png'
-                                title="Image title"
-                            />
 
-                            {getTotalPoints(houseIL)} points
-                                    <CardContent className={classes.cardContent}>
-                                <Typography>
-                                    <TableContainer component={Paper}>
-                                        <Table className={classes.table} aria-label="simple table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell>#</TableCell>
-                                                    <TableCell align="left">Nom</TableCell>
-                                                    <TableCell align="left">Points</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {topUserIL && topUserIL.map(({ birth, email, house, active, avatar, points, status, created, user_id, initials, lastname, firstname, last_online, access_level }) =>
-                                                    <TableRow >
-                                                        <TableCell>{rankIL++}</TableCell>
-                                                        <TableCell>{firstname + ' ' + lastname}</TableCell>
-                                                        <TableCell>{points}</TableCell>
-                                                    </TableRow>
-                                                )}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                </Typography>
-                            </CardContent>
-                        </Card>
+
+                    <Grid item xs>      
+                        {displayHouse('Informatique logicielle',topUserIL)}       
                     </Grid>
+
                     <Grid item xs>
-                        <Card className={classes.card}>
-                            <Typography gutterBottom variant="h6" align="center">
-                                Ingénierie des données
-                                        </Typography>
-                            <CardMedia
-                                className={classes.cardMedia}
-                                image='http://localhost:8080/content/Ingénierie des données.png'
-                                title="Image title"
-                            />
-                                        ... points<br />
-                                        ... membres
-                                        <CardContent className={classes.cardContent}>
-                                <Typography>
-                                    <TableContainer component={Paper}>
-                                        <Table className={classes.table} aria-label="simple table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell>#</TableCell>
-                                                    <TableCell align="left">Nom</TableCell>
-                                                    <TableCell align="left">Points</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {topUserID && topUserID.map(({ birth, email, house, active, avatar, points, status, created, user_id, initials, lastname, firstname, last_online, access_level }) =>
-                                                    <TableRow >
-                                                        <TableCell>{rankIL++}</TableCell>
-                                                        <TableCell>{firstname + ' ' + lastname}</TableCell>
-                                                        <TableCell>{points}</TableCell>
-                                                    </TableRow>
-                                                )}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                </Typography>
-                            </CardContent>
-                        </Card>
+                        {displayHouse('Ingénierie des données',topUserID)}
                     </Grid>
+
                     <Grid item xs={3}>
-                        <Card className={classes.card}>
-                            <Typography gutterBottom variant="h6" align="center">
-                                Réseaux et systèmes
-                                    </Typography>
-                            <CardMedia
-                                className={classes.cardMedia}
-                                image="https://i.imgur.com/NSM8kNK.png"
-                                title="Image title"
-                            />
-                                    ... points<br />
-                                    ... membres
-                                    <CardContent className={classes.cardContent}>
-                                <Typography>
-                                    <TableContainer component={Paper}>
-                                        <Table className={classes.table} aria-label="simple table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell>#</TableCell>
-                                                    <TableCell align="left">Nom</TableCell>
-                                                    <TableCell align="left">Points</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {topUserTR && topUserTR.map(({ birth, email, house, active, avatar, points, status, created, user_id, initials, lastname, firstname, last_online, access_level }) =>
-                                                    <TableRow >
-                                                        <TableCell>{rankIL++}</TableCell>
-                                                        <TableCell>{firstname + ' ' + lastname}</TableCell>
-                                                        <TableCell>{points}</TableCell>
-                                                    </TableRow>
-                                                )}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                </Typography>
-                            </CardContent>
-                        </Card>
+                        {displayHouse('Réseaux et systèmes',topUserTR)}
                     </Grid>
+                    
                 </Grid>
+
+
                 <br />
+
+
                 <Grid container direction="row" justify="space-evenly" alignItems="center">
                     <Grid item xs={3}>
-                        <Card className={classes.card}>
-                            <Typography gutterBottom variant="h6" align="center">
-                                Sécurité informatique
-                                </Typography>
-                            <CardMedia
-                                className={classes.cardMedia}
-                                image='http://localhost:8080/content/Sécurité informatique.png'
-                                title="Image title"
-                            />
-                                ... points<br />
-                                ... membres
-                                <CardContent className={classes.cardContent}>
-                                <Typography>
-                                    <TableContainer component={Paper}>
-                                        <Table className={classes.table} aria-label="simple table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell>#</TableCell>
-                                                    <TableCell align="left">Nom</TableCell>
-                                                    <TableCell align="left">Points</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {topUserTS && topUserTS.map(({ birth, email, house, active, avatar, points, status, created, user_id, initials, lastname, firstname, last_online, access_level }) =>
-                                                    <TableRow >
-                                                        <TableCell>{rankIL++}</TableCell>
-                                                        <TableCell>{firstname + ' ' + lastname}</TableCell>
-                                                        <TableCell>{points}</TableCell>
-                                                    </TableRow>
-                                                )}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                </Typography>
-                            </CardContent>
-                        </Card>
+                        {displayHouse('Sécurité informatique',topUserTS)}
                     </Grid>
 
                     <Grid item xs={3}>
-                        <Card className={classes.card}>
-                            <Typography gutterBottom variant="h6" align="center">
-                                Systèmes informatiques embarqués
-                                </Typography>
-                            <CardMedia
-                                className={classes.cardMedia}
-                                image='http://localhost:8080/content/Systèmes informatiques embarqués.png'
-                                title="Image title"
-                            />
-                                ... points<br />
-                                ... membres
-                                <CardContent className={classes.cardContent}>
-                                <Typography>
-                                    <TableContainer component={Paper}>
-                                        <Table className={classes.table} aria-label="simple table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell>#</TableCell>
-                                                    <TableCell align="left">Nom</TableCell>
-                                                    <TableCell align="left">Points</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {topUserIE && topUserIE.map(({ birth, email, house, active, avatar, points, status, created, user_id, initials, lastname, firstname, last_online, access_level }) =>
-                                                    <TableRow >
-                                                        <TableCell>{rankIL++}</TableCell>
-                                                        <TableCell>{firstname + ' ' + lastname}</TableCell>
-                                                        <TableCell>{points}</TableCell>
-                                                    </TableRow>
-                                                )}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                </Typography>
-                            </CardContent>
-                        </Card>
+                        {displayHouse('Systèmes informatiques embarqués',topUserIE)}
                     </Grid>
                 </Grid>
             </main>
