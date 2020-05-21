@@ -277,7 +277,7 @@ public class EventController {
                               @RequestParam("description") String description,
                               @RequestParam(value = "is_competitive", required = false) Integer is_competitive,
                               @RequestParam(value = "difficulty", required = false) Integer difficulty,
-                              @RequestParam(value = "price", required = false) Integer price,
+                              @RequestParam(value = "price", required = false) Double price,
                               @RequestParam(value = "battleroyal", required = false) Integer battleroyale,
                               @RequestParam("attendees_min") int attendees_min,
                               @RequestParam("attendees_max") int attendees_max,
@@ -363,7 +363,7 @@ public class EventController {
             if (price == null) {
                 updateEvent.setNull(7, Types.INTEGER);
             } else {
-                updateEvent.setInt(7, price);
+                updateEvent.setDouble(7, price);
             }
 
             updateEvent.setInt(8, attendees_min);
