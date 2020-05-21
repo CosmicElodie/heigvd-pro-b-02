@@ -99,7 +99,7 @@ export default function Auditoire() {
 
     function displayLine(rank, firstname, lastname, points_year)
     {
-        if(rank < 5)
+        if(rank <= 5)
         {
             return(<TableRow  >
                 <TableCell>{rankIL++}</TableCell>
