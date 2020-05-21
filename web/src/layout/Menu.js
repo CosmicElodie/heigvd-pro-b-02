@@ -50,9 +50,9 @@ const Menu = () => {
                     onClick={ () => handleClick("/") }    
                 />
                 <Tab 
-                    label="About" 
-                    to="/about"      
-                    onClick={ () => handleClick("/about") }  
+                    label="Auditoire" 
+                    to="/Auditoire"      
+                    onClick={ () => handleClick("/Auditoire") }  
                 />
 
                 <Tab 
