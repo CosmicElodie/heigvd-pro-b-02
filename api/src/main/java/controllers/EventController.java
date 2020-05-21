@@ -154,7 +154,7 @@ public class EventController {
                               @RequestParam("description") String description,
                               @RequestParam(value = "is_competitive", required = false) Integer is_competitive,
                               @RequestParam(value = "difficulty", required = false) Integer difficulty,
-                              @RequestParam(value = "price", required = false) Integer price,
+                              @RequestParam(value = "price", required = false) Double price,
                               @RequestParam(value = "battleroyal", required = false) Integer battleroyale,
                               @RequestParam("attendees_min") int attendees_min,
                               @RequestParam("attendees_max") int attendees_max,
@@ -187,7 +187,7 @@ public class EventController {
             return Utils.errorJSONObjectBuilder("incorrect_date_format").build().toString();
         }
 
-        if (name.length() == 0 || description.length() >= 100) {
+        if (name.length() == 0 || description.length() >= 500) {
             return Utils.errorJSONObjectBuilder("incorrect_input_length").build().toString();
         }
 
@@ -240,7 +240,7 @@ public class EventController {
             if (price == null) {
                 insertEvent.setNull(6, Types.INTEGER);
             } else {
-                insertEvent.setInt(6, price);
+                insertEvent.setDouble(6, price);
             }
 
             insertEvent.setInt(7, attendees_min);
