@@ -31,7 +31,7 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("SELECT json_arrayagg(getEventDetailJson(event_id)) AS event_result FROM upcomingEvent");
+            ResultSet events = stmt.executeQuery("SELECT json_arrayagg(getEventDetailJson(event_id)) AS event_result FROM event");
 
             events.next();
 
@@ -395,6 +395,13 @@ public class EventController {
         JsonObjectBuilder responseObject;
 
         try (Connection conn = dataSource.getConnection()) {
+
+            // Test si l'email existe déjà dans la base de donnée.
+            if (conn.createStatement().executeQuery(
+                    "SELECT user_id, event_id FROM user_participate_event WHERE user_id = '" + user_id + "' AND event_id = '" + event_id + "';"
+            ).next()) {
+                return Utils.errorJSONObjectBuilder("already_joined").build().toString();
+            }
 
             CallableStatement joinEvent = conn.prepareCall("{call DEV.joinEvent(?,?)}");
             joinEvent.setInt(1, user_id);
