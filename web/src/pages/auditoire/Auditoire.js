@@ -1,5 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { MainContext } from '../../context/MainContext';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {
