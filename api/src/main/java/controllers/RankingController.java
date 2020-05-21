@@ -4,6 +4,7 @@ import models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.json.Json;
@@ -20,13 +21,13 @@ public class RankingController {
     private DataSource dataSource;
 
     @GetMapping("/auditoire/yearly")
-    public String rankingAnnually() throws SQLException {
+    public String rankingAnnually(@RequestParam("house_id") int house_id) throws SQLException {
 
         String result = null;
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet forums = stmt.executeQuery("select DEV.`getPointsTHEREALFUNCTION`(1,0) AS result");
+            ResultSet forums = stmt.executeQuery("select DEV.`getRankingByHouse`(1," + house_id + ") AS result");
 
             forums.next();
             result = forums.getString("result");
@@ -35,13 +36,13 @@ public class RankingController {
     }
 
     @GetMapping("/auditoire/monthly")
-    public String rankingMonthly() throws SQLException {
+    public String rankingMonthly(@RequestParam("house_id") int house_id) throws SQLException {
 
         String result = null;
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet forums = stmt.executeQuery("select DEV.getRankingMonthlyJSON(0,0) AS result");
+            ResultSet forums = stmt.executeQuery("select DEV.getRankingByHouse(0," + house_id + ") AS result");
 
             forums.next();
             result = forums.getString("result");
