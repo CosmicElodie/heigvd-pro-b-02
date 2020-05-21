@@ -31,7 +31,7 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("select DEV.getEventJSON(0) AS event_result");
+            ResultSet events = stmt.executeQuery("SELECT json_arrayagg(getEventDetailJson(event_id)) AS event_result FROM upcomingEvent");
 
             events.next();
 
@@ -63,7 +63,7 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("SELECT json_arrayagg(getDetailEventJson(event_id)) as event_result FROM upcomingEvent");
+            ResultSet events = stmt.executeQuery("SELECT json_arrayagg(getEventDetailJson(event_id)) as event_result FROM upcomingEvent");
 
             events.next();
             result = events.getString("event_result");
@@ -78,7 +78,7 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("select DEV.getDetailEventJson(" + event_id + ") AS event_result");
+            ResultSet events = stmt.executeQuery("select DEV.getEventDetailJSON(" + event_id + ") AS event_result");
 
             events.next();
             result = events.getString("event_result");
