@@ -118,36 +118,36 @@ export default function ModalProfile() {
                         </Typography>
                     <Avatar className={classes.large}> 
                     <Typography component="h1" variant="h4"spacing={10}>
-                        {houseInfo && houseInfo.total_pts} 
+                        {houseInfo && houseInfo.points_month}
                     </Typography>
 
                     </Avatar>   
                     </CardContent>
-                </Card>       
+                </Card>
                            
                 <Card className="points" >
                       {
-                        houseInfo && houseInfo.top_user[0] &&
+                        houseInfo && houseInfo.top_user &&
                         <CardContent>
                             <Typography component="h1" variant="h4"spacing={10}>
                                 Top Contributeur
                                 <br/>
-                              {houseInfo.top_user[0].points}
+                              {houseInfo.top_user.points_month}
                             </Typography>
                         </CardContent> 
                       }
 
                       {
-                      houseInfo && houseInfo.top_user[0] &&
-                      <Button  size="small"onClick = { () => handlePersonClick(houseInfo.top_user[0])} >
+                      houseInfo && houseInfo.top_user &&
+                      <Button  size="small"onClick = { () => handlePersonClick(houseInfo.top_user)} >
                         <Avatar className={classes.large}> 
-                          {<img height= {'100%'} src={houseInfo.top_user[0].avatar} alt= {houseInfo.top_user[0].initials}/> }
+                          {<img height= {'100%'} src={houseInfo.top_user.avatar} alt= {houseInfo.top_user.initials}/> }
                         </Avatar>    
                       </Button>
                       }  
     
                       {
-                      houseInfo && !houseInfo.top_user[0] &&
+                      houseInfo && !houseInfo.top_user &&
                         <Typography text-align="left" component="h1" variant="h4">
                           Aucun meilleur contributeur
                         </Typography>

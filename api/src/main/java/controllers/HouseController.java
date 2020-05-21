@@ -23,7 +23,7 @@ public class HouseController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet houseDetail = stmt.executeQuery("select DEV.getDetailHouseJson(" + house_id + ") AS result");
+            ResultSet houseDetail = stmt.executeQuery("select DEV.getHouseDetailJSON(" + house_id + ") AS result");
 
             houseDetail.next();
             result = houseDetail.getString("result");

@@ -63,7 +63,7 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("select DEV.getUpcomingEventJSON() AS event_result");
+            ResultSet events = stmt.executeQuery("SELECT json_arrayagg(getDetailEventJson(event_id)) as event_result FROM upcomingEvent");
 
             events.next();
             result = events.getString("event_result");
