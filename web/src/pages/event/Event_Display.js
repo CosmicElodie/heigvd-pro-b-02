@@ -2,8 +2,14 @@ import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { MainContext } from '../../context/MainContext';
-import Moment from 'react-moment';
+import { EventContext } from '../../context/EventContext';
 import EventAccountPoints from './EventAccountPoints';
+
+import { makeStyles } from '@material-ui/core/styles';
+import '../../css/Event.css';
+
+import Moment from 'react-moment';
+
 import {
     Button,
     Card,
@@ -16,10 +22,6 @@ import {
     TableHead,
     TableRow
 } from '@material-ui/core';
-
-import { makeStyles } from '@material-ui/core/styles';
-import { EventContext } from '../../context/EventContext';
-import '../../css/Event.css';
 
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
@@ -90,13 +92,23 @@ export default function Event() {
 
 
     //Affiche les boutons "Modifier" ou "Annuler"
-    function printCancelOrModifyButton(permission, organisator, text) {
+    function printCancelOrModifyButton(permission, organisator, text, current_event) {
         if (permission === 75 || permission === 25 || user.used_id === organisator) {
-            if (text === "Modifier") {
-                return <Button variant="contained" size="small" color="primary" onClick={modifyEvent} className={classes.margin}> {text} </Button>;
-            }
-            else { //text = Annuler
-                return <Button variant="contained" size="small" color="primary" onClick={cancel} className={classes.margin}> {text} </Button>;
+            if (current_event.status === "En attente d'autres participants" || current_event.status === "Planifié") {
+                if (text === "Modifier") {
+
+                    console.log("Modifier");
+                    console.log(current_event.status);
+                    return <Button variant="contained" size="small" color="primary" onClick={modifyEvent} className={classes.margin}> {text} </Button>;
+
+                }
+                else { //text = Annuler
+
+                    console.log("Annuler");
+                    console.log(current_event.status);
+                    return <Button variant="contained" size="small" color="primary" onClick={cancel} className={classes.margin}> {text} </Button>;
+
+                }
             }
         }
 
@@ -118,8 +130,6 @@ export default function Event() {
 
     //Permet de modifier les champs de l'événement
     function modifyEvent() {
-        console.log("*************************MODIFYBUTTON");
-
         history.push("/event_modify/" + current.event_id);
         return;
     }
@@ -186,11 +196,11 @@ export default function Event() {
                         {/* Bouton "/modifier/annuler", uniquement visible pour l'admin/modo + l'organiateur de l'event */}
 
                         {
-                            printCancelOrModifyButton(user.access_level, user.user_id, "Modifier")
+                            printCancelOrModifyButton(user.access_level, user.user_id, "Modifier", current)
                         }
 
                         {
-                            printCancelOrModifyButton(user.access_level, user.user_id, "Annuler")
+                            printCancelOrModifyButton(user.access_level, user.user_id, "Annuler", current)
                         }
 
                         {/* Bouton "supprimer", uniquement visible pour l'admin/modo */}
