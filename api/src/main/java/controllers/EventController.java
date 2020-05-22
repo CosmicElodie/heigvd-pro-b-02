@@ -395,12 +395,23 @@ public class EventController {
         JsonObjectBuilder responseObject;
 
         try (Connection conn = dataSource.getConnection()) {
+            Statement statement = conn.createStatement();
 
             // Test si l'email existe déjà dans la base de donnée.
             if (conn.createStatement().executeQuery(
                     "SELECT user_id, event_id FROM user_participate_event WHERE user_id = '" + user_id + "' AND event_id = '" + event_id + "';"
             ).next()) {
                 return Utils.errorJSONObjectBuilder("already_joined").build().toString();
+            }
+
+            String maxParticipant = "SELECT attendees_max FROM event WHERE event_id = " + event_id;
+            String nbParticipant = "SELECT COUNT(user_id) FROM user_participate_event WHERE event_id = " + event_id;
+
+            int maxAttendee = Utils.getSingletonInt(statement, maxParticipant);
+            int nbAttendee = Utils.getSingletonInt(statement, nbParticipant);
+
+            if(maxAttendee == nbAttendee) {
+                return Utils.errorJSONObjectBuilder("err_join_event_full").build().toString();
             }
 
             CallableStatement joinEvent = conn.prepareCall("{call DEV.joinEvent(?,?)}");
