@@ -102,7 +102,7 @@ export default function Event() {
     function printButton(permission, organisator, text, current_event) {
         if (current_event.status === "En attente d'autres participants" || current_event.status === "Planifié") {
 
-            if (permission === 75 || permission === 25 || user.used_id === organisator) {
+            if (permission === 75 || permission === 25 || user.used_id === organisator.user_id) {
 
                 if (text === "Modifier") {
                     return <Button variant="contained" size="small" color="primary" onClick={modifyEvent} className={classes.margin}> {text} </Button>;
@@ -113,6 +113,7 @@ export default function Event() {
 
                 }
             }
+
             if (text === "Rejoindre" ) {
                 return <Button variant="contained" size="small" color="primary" onClick={joinEvent} className={classes.margin}> Rejoindre </Button>;
             }
