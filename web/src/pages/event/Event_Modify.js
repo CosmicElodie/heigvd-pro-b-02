@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { MainContext } from '../../context/MainContext';
+import { EventContext } from '../../context/EventContext';
 import { useInput } from '../../hooks/input';
-
+import { useLocation } from "react-router-dom";
 import Typography from '@material-ui/core/Typography';
 import Popover from '@material-ui/core/Popover';
 
@@ -23,7 +24,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-const titre_créerEvent = "Créer un événement"
+const titre_créerEvent = "Modifier un événement"
 
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
@@ -59,7 +60,24 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-export default function Event_Create() {
+export default function Event_Modify() {
+    const { user, setDialog } = useContext(MainContext);
+    const { data } = useContext(EventContext);
+
+    const classes = useStyles();
+    const location_event = useLocation();
+    const [current, setCurrent] = useState();
+    const [value, setValue] = React.useState('Controlled');
+
+    useEffect(() => {
+        if (data) {
+            let eventId = parseInt(location_event.pathname.split('/')[2]);
+            let event = getEventByID(eventId, data);
+            setCurrent(event);
+        }
+    }, [data, setCurrent]);
+
+    //SERT POUR LA BULLE D'INFO SUR LE CHAMP LIMITATION
     const [anchorEl, setAnchorEl] = React.useState(null);
     const handlePopoverOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -70,11 +88,6 @@ export default function Event_Create() {
     };
 
     const open = Boolean(anchorEl);
-
-    //user n'est plus accessible si on accède à ses sous-composants
-    //on peut autrement faire user.house ou user.id si on extrait pas les deux données
-    const { user, setDialog } = useContext(MainContext);
-    const classes = useStyles();
 
     const { value: name, bind: bindName, reset: resetName } = useInput('');
     const { value: description, bind: bindDescription, reset: resetDescription } = useInput('');
@@ -88,15 +101,14 @@ export default function Event_Create() {
     const { value: date_begin, bind: bindDateBegin, reset: resetDateBegin } = useInput('');
     const { value: date_end, bind: bindDateEnd, reset: resetDateEnd } = useInput('');
     const { value: location, bind: bindLocation, reset: resetLocation } = useInput('');
-    const { value: street, bind: bindStreet, reset: resetStreet } = useInput('');
-    const { value: no, bind: bindNo, reset: resetNo } = useInput('');
-    const { value: postal_code, bind: bindPostalCode, reset: resetPostalCode } = useInput('');
-    const { value: city, bind: bindCity, reset: resetCity } = useInput('');
+    const { value: address, bind: bindAddress, reset: resetAddress } = useInput('');
     const { value: house_id, bind: bindHouseId } = useInput('');
 
-    const buttonCreateEvent = (e) => {
+    const buttonModifyEvent = (e) => {
+        console.log(current.event_id);
 
         let post_body =
+            "&event_id=" + parseInt(current.event_id) +
             "&name=" + name +
             "&description=" + description +
             "&is_competitive=" + is_competitive +
@@ -109,13 +121,10 @@ export default function Event_Create() {
             "&date_end=" + date_end +
             "&deadline_reservation=" + deadline_reservation +
             "&location=" + location +
-            "&no=" + no +
-            "&street=" + street +
-            "&postal_code=" + postal_code +
-            "&city=" + city +
+            "&address=" + address +
             "&house_id=" + house_id;
 
-        fetch('http://localhost:8080/event/insert_event', {
+        fetch('http://localhost:8080/event/update_event', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -123,8 +132,6 @@ export default function Event_Create() {
         })
             .then(response => response.json())
             .then(({ status, dialog_id }) => {
-                console.log("********************");
-                console.log(status);
                 if(status === "ok") {
                     resetName();
                 resetDescription();
@@ -138,12 +145,9 @@ export default function Event_Create() {
                 resetDateBegin();
                 resetDateEnd();
                 resetLocation();
-                resetStreet();
-                resetNo();
-                resetPostalCode();
-                resetCity();
+                resetAddress();
                 }
-
+                
                 setDialog({
                     [dialog_id]: {
                         is_open: true
@@ -161,33 +165,26 @@ export default function Event_Create() {
                     variant="contained"
                     color="primary"
                     className={classes.submit}
-                    onClick={buttonCreateEvent}>
-                    Créer événement
+                    onClick={buttonModifyEvent}>
+                    Modifier l'événement
                 </Button>
             </React.Fragment>
         );
     }
 
-    function battleRoyalOn() {
-        return (
-            battleRoyalOn = true
-        );
+    const getEventByID = (event_id, data) => {
+        for (const event of data) if (event.event_id === event_id) return event;
     }
 
-    function battleRoyalOff() {
-        return (
-            battleRoyalOn = false
-        );
-    }
-
-    let battleRoyalOnorOff = true;
-
+    const handleChange = (event) => {
+        setValue(event.target.value);
+    };
 
     return (
         <React.Fragment>
             <CssBaseline />
             <main>
-                <Card className={classes.card}>
+                {current && <Card className={classes.card}>
                     <CardMedia
                         className={classes.cardMedia}
                         image="https://i.imgur.com/VDRkKqw.png"
@@ -201,7 +198,8 @@ export default function Event_Create() {
                             <TextField
                                 id="name"
                                 label="Nom événement"
-                                placeholder="Veuillez indiquer le nom de votre événement."
+                                placeholder={current.name}
+                                defaultValue={current.name}
                                 variant="outlined"
                                 required={true}
                                 {...bindName}
@@ -210,8 +208,10 @@ export default function Event_Create() {
                             <TextField
                                 id="description"
                                 label="Description"
-                                placeholder="En quoi consiste votre événement ?"
+                                placeholder={current.description}
+                                defaultValue={current.description}
                                 multiline
+                                rows={5}
                                 variant="outlined"
                                 required={true}
                                 style={{ minWidth: 600 }}
@@ -224,12 +224,13 @@ export default function Event_Create() {
                                         id="is_competitive"
                                         label="Type"
                                         required="true"
-                                        defaultValue={0}
+                                        placeholder={current.is_competitive}
+                                        defaultValue={current.is_competitive}
                                         style={{ width: 150 }}
                                         {...bindIsCompetitive}
                                         select>
-                                        <MenuItem value={1} {...battleRoyalOn}>Compétitif</MenuItem>
-                                        <MenuItem value={0} {...battleRoyalOff}>Non-compétitif</MenuItem>
+                                        <MenuItem value={1} >Compétitif</MenuItem>
+                                        <MenuItem value={0} >Non-compétitif</MenuItem>
                                     </TextField>
                                 </Grid>
 
@@ -243,7 +244,8 @@ export default function Event_Create() {
                                             id="house_id"
                                             label="Limitation"
                                             required={true}
-                                            defaultValue={user.house && user.house.house_id}
+                                            placeholder={current.limitation}
+                                            defaultValue={current.limitation}
                                             style={{ width: 150 }}
                                             {...bindHouseId}
                                             select>
@@ -278,7 +280,8 @@ export default function Event_Create() {
                                         id="difficulty"
                                         label="Difficulté"
                                         style={{ width: 150 }}
-                                        defaultValue={1}
+                                        placeholder={current.difficulty}
+                                        defaultValue={current.difficulty}
                                         required={true}
                                         {...bindDifficulty}
                                         select>
@@ -298,7 +301,8 @@ export default function Event_Create() {
                                         label="Battle Royal Mode"
                                         helperText="All vs All ou affrontement par équipe."
                                         required={false}
-                                        defaultValue={0}
+                                        placeholder={current.battleroyale}
+                                        defaultValue={current.battleroyale}
                                         disabled={false} //{battleRoyalOnorOff}
 
                                         style={{ width: 150 }}
@@ -315,7 +319,8 @@ export default function Event_Create() {
                                     <TextField
                                         id="attendees_min"
                                         label="Nb. min participants"
-                                        placeholder="Veuillez indiquer le nombre minimum de participants."
+                                        placeholder={current.attendees_min}
+                                        defaultValue={current.attendees_min}
                                         variant="outlined"
                                         defaultValue={0}
                                         required={true}
@@ -328,7 +333,8 @@ export default function Event_Create() {
                                         id="deadline_reservation"
                                         label="Date limite inscription"
                                         type="datetime-local"
-                                        defaultValue={new Date()} //TODO -> mettre une default value qui prend la date/heure actuelle
+                                        placeholder={current.deadline_reservation}
+                                        defaultValue={current.deadline_reservation}
                                         className={classes.textField}
                                         InputLabelProps={{
                                             shrink: true,
@@ -343,7 +349,8 @@ export default function Event_Create() {
                                     <TextField
                                         id="attendees_max"
                                         label="Nb. max participants"
-                                        placeholder="Veuillez indiquer le nombre maximum de participants."
+                                        placeholder={current.attendees_max}
+                                        defaultValue={current.attendees_max}
                                         variant="outlined"
                                         defaultValue={0}
                                         required={true}
@@ -355,7 +362,8 @@ export default function Event_Create() {
                                         id="date_begin"
                                         label="Date et heure de l'événement"
                                         type="datetime-local"
-                                        defaultValue={new Date()}
+                                        placeholder={current.date_begin}
+                                        defaultValue={current.date_begin}
                                         className={classes.textField}
                                         InputLabelProps={{
                                             shrink: true,
@@ -369,9 +377,9 @@ export default function Event_Create() {
                                     <TextField
                                         id="price"
                                         label="Tarif"
-                                        placeholder="Veuillez indiquer le tarif éventuel de l'événement."
+                                        placeholder={current.price}
+                                        defaultValue={current.price}
                                         variant="outlined"
-                                        defaultValue={0}
                                         required={false}
                                         {...bindPrice}
                                     />
@@ -381,7 +389,8 @@ export default function Event_Create() {
                                         id="date_end"
                                         label="Date et heure de fin"
                                         type="datetime-local"
-                                        defaultValue={new Date()}
+                                        placeholder={current.date_end}
+                                        defaultValue={current.date_end}
                                         className={classes.textField}
                                         InputLabelProps={{
                                             shrink: true,
@@ -397,7 +406,8 @@ export default function Event_Create() {
                                     <TextField
                                         id="location"
                                         label="Lieu"
-                                        placeholder="Lieu de l'événement"
+                                        placeholder={current.location}
+                                        defaultValue={current.location}
                                         variant="outlined"
                                         required={true}
                                         style={{ minWidth: 450 }}
@@ -410,48 +420,13 @@ export default function Event_Create() {
                                 <Grid item xs>
                                     <TextField
                                         id="street"
-                                        label="Rue"
-                                        placeholder="Lieu de l'événement"
+                                        label="Adresse"
+                                        placeholder={current.address}
+                                        defaultValue={current.address}
                                         variant="outlined"
                                         required={true}
                                         style={{ minWidth: 450 }}
-                                        {...bindStreet}
-                                    />
-                                </Grid>
-                                <Grid item xs={2}>
-                                    <TextField
-                                        id="no"
-                                        label="N° de rue"
-                                        placeholder="Lieu de l'événement"
-                                        variant="outlined"
-                                        required={true}
-                                        style={{ minWidth: 100, width: 100 }}
-                                        {...bindNo}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <br />
-                            <Grid container >
-                                <Grid item xs>
-                                    <TextField
-                                        id="postal_code"
-                                        label="Code postal"
-                                        placeholder="Lieu de l'événement"
-                                        variant="outlined"
-                                        required={true}
-                                        style={{ minWidth: 80 }}
-                                        {...bindPostalCode}
-                                    />
-                                </Grid>
-                                <Grid item xs={7}>
-                                    <TextField
-                                        id="city"
-                                        label="Ville"
-                                        placeholder="Lieu de l'événement"
-                                        variant="outlined"
-                                        required={true}
-                                        style={{ minWidth: 150, width: 350 }}
-                                        {...bindCity}
+                                        {...bindAddress}
                                     />
                                 </Grid>
                             </Grid>
@@ -463,6 +438,7 @@ export default function Event_Create() {
                         <MyCreationButton />
                     </CardActions>
                 </Card>
+                }
             </main>
         </React.Fragment>
     );

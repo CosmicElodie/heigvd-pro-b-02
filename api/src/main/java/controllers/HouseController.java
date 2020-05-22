@@ -23,7 +23,7 @@ public class HouseController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet houseDetail = stmt.executeQuery("select DEV.getDetailHouseJson(" + house_id + ") AS result");
+            ResultSet houseDetail = stmt.executeQuery("select DEV.getHouseDetailJSON(" + house_id + ") AS result");
 
             houseDetail.next();
             result = houseDetail.getString("result");
@@ -41,6 +41,39 @@ public class HouseController {
             Statement stmt = conn.createStatement();
             ResultSet houseDetail =
                     stmt.executeQuery("select DEV.getLatestPostJson(" + house_id + "," + nbPosts + ") AS result");
+
+            houseDetail.next();
+            result = houseDetail.getString("result");
+        }
+        return result;
+    }
+
+    @PostMapping("/house/topUser/yearly")
+    public String houseTopUserYearly(@RequestParam("house_id") int house_id) throws SQLException {
+
+        String result;
+
+        //if house_id == 0 ? return error
+        try (Connection conn = dataSource.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet houseDetail =
+                    stmt.executeQuery("select DEV.`getRankingByHouse`(1," + house_id + ") AS result");
+
+            houseDetail.next();
+            result = houseDetail.getString("result");
+        }
+        return result;
+    }
+
+    @PostMapping("/house/topUser/monthly")
+    public String houseTopUserMonthly(@RequestParam("house_id") int house_id) throws SQLException {
+
+        String result;
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet houseDetail =
+                    stmt.executeQuery("select DEV.`getRankingByHouse`(0," + house_id + ") AS result");
 
             houseDetail.next();
             result = houseDetail.getString("result");

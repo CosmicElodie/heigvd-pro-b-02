@@ -7,7 +7,7 @@ CREATE EVENT DEV.event_status_manager
 		DECLARE v_i INT DEFAULT 0; 
         DECLARE v_event JSON;
 		DECLARE v_active_events JSON DEFAULT (	
-												SELECT json_arrayagg(DEV.getDetailEventJson(event_id)) as events 
+												SELECT json_arrayagg(DEV.getEventDetailJson(event_id)) as events
 												FROM DEV.event 
                                                 WHERE status <> 'Annulé' AND status <> 'Terminé' AND status <> 'En attente de résultats'
 											);

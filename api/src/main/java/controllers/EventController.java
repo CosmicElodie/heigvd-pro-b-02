@@ -16,8 +16,8 @@ import javax.sql.DataSource;
 import java.io.StringReader;
 import java.sql.*;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 @RestController
 public class EventController {
@@ -31,7 +31,7 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("select DEV.getEventJSON(0) AS event_result");
+            ResultSet events = stmt.executeQuery("SELECT json_arrayagg(getEventDetailJson(event_id)) AS event_result FROM event ORDER BY date_begin ASC");
 
             events.next();
 
@@ -40,14 +40,14 @@ public class EventController {
         return result;
     }
 
-    @GetMapping("/event/last_events")
+    @PostMapping("/event/last_events")
     public String lastEventsList(@RequestParam("limit_nb") int limit_nb) throws SQLException {
 
-        String result = null;
+        String result;
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("SELECT DEV.getEventJSON(limit_nb) AS event_result");
+            ResultSet events = stmt.executeQuery("SELECT DEV.getEventJSON(" + limit_nb + ") AS event_result");
 
             events.next();
 
@@ -63,7 +63,7 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("select DEV.getUpcomingEventJSON() AS event_result");
+            ResultSet events = stmt.executeQuery("SELECT json_arrayagg(getEventDetailJson(event_id)) as event_result FROM upcomingEvent");
 
             events.next();
             result = events.getString("event_result");
@@ -78,7 +78,7 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("select DEV.getDetailEventJson(" + event_id + ") AS event_result");
+            ResultSet events = stmt.executeQuery("select DEV.getEventDetailJSON(" + event_id + ") AS event_result");
 
             events.next();
             result = events.getString("event_result");
@@ -96,6 +96,10 @@ public class EventController {
 
             events.next();
             result = events.getString("event_result");
+
+            if(result == null) {
+                return "{}";
+            }
         }
         return result;
     }
@@ -130,7 +134,7 @@ public class EventController {
         return result;
     }
 
-    @GetMapping("/event/from_house")
+    @PostMapping("/event/from_house")
     public String eventFromHouseList(@RequestParam("house_id") int house_id, @RequestParam("limit_nb") int limit_nb) throws SQLException {
 
         String result;
@@ -146,24 +150,44 @@ public class EventController {
     }
 
     @PostMapping("/event/insert_event")
-    public String insertEvent(@RequestParam("name") String name, @RequestParam("description") String description,
+    public String insertEvent(@RequestParam("name") String name,
+                              @RequestParam("description") String description,
                               @RequestParam(value = "is_competitive", required = false) Integer is_competitive,
                               @RequestParam(value = "difficulty", required = false) Integer difficulty,
-                              @RequestParam(value = "price", required = false) Integer price,
-                              @RequestParam(value = "battleroyale", required = false) Integer battleroyale,
+                              @RequestParam(value = "price", required = false) Double price,
+                              @RequestParam(value = "battleroyal", required = false) Integer battleroyale,
                               @RequestParam("attendees_min") int attendees_min,
-                              @RequestParam("attendees_max") int attendees_max, @RequestParam("date_begin") Date date_begin,
-                              @RequestParam("date_end") Date date_end, @RequestParam("deadline_reservation") Date deadline_reservation,
-                              @RequestParam("location") String location, @RequestParam("no") String no,
-                              @RequestParam("street") String street, @RequestParam("postal_code") int postal_code,
+                              @RequestParam("attendees_max") int attendees_max,
+                              @RequestParam("date_begin") String str_date_begin,
+                              @RequestParam("date_end") String str_date_end,
+                              @RequestParam("deadline_reservation") String str_deadline_reservation,
+                              @RequestParam("location") String location,
+                              @RequestParam("no") String no,
+                              @RequestParam("street") String street,
+                              @RequestParam("postal_code") int postal_code,
                               @RequestParam("city") String city,
-                              @RequestParam(value = "battleroyale", required = false) Integer house_id) throws SQLException {
+                              @RequestParam(value = "house_id", required = false) Integer house_id)
+            throws SQLException {
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int user_id = user.getId();
 
-        if (name.length() == 0 || description.length() >= 100) {
+        Date date_begin;
+        Date date_end;
+        Date deadline_reservation;
+
+        try {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            date_begin = new Date(format.parse(str_date_begin.replace('T', ' ')).getTime());
+            date_end = new Date(format.parse(str_date_end.replace('T', ' ')).getTime());
+            deadline_reservation = new Date(format.parse(str_deadline_reservation.replace('T', ' ')).getTime());
+
+        } catch(ParseException e) {
+            return Utils.errorJSONObjectBuilder("incorrect_date_format").build().toString();
+        }
+
+        if (name.length() == 0 || description.length() >= 500) {
             return Utils.errorJSONObjectBuilder("incorrect_input_length").build().toString();
         }
 
@@ -171,8 +195,28 @@ public class EventController {
             return Utils.errorJSONObjectBuilder("error_min_max_attendees_length").build().toString();
         }
 
-        //Check for permissions/syntax errors
+        if (date_begin.after(date_end)) {
+            return Utils.errorJSONObjectBuilder("error_min_max_between_dateBegin_dateEnd").build().toString();
+        }
 
+        if (deadline_reservation.after(date_begin)) {
+            return Utils.errorJSONObjectBuilder("error_min_max_between_dateBegin_deadline").build().toString();
+        }
+
+        if (price < 0) {
+            return Utils.errorJSONObjectBuilder("error_price_below_zero").build().toString();
+        }
+
+        if (house_id == 0) {
+            house_id = null;
+        }
+
+        Date currentDate = new Date(System.currentTimeMillis());
+        if(currentDate.after(date_begin) || currentDate.after(date_end) || currentDate.after(deadline_reservation)) {
+            return Utils.errorJSONObjectBuilder("error_date_set_in_the_past").build().toString();
+        }
+
+        //Check for permissions/syntax errors
         try (Connection conn = dataSource.getConnection()) {
 
             CallableStatement insertEvent = conn.prepareCall("{call DEV.createEvent(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
@@ -194,9 +238,9 @@ public class EventController {
                 insertEvent.setInt(5, difficulty);
             }
             if (price == null) {
-                insertEvent.setNull(6, Types.INTEGER);
+                insertEvent.setNull(6, Types.DOUBLE);
             } else {
-                insertEvent.setInt(6, price);
+                insertEvent.setDouble(6, price);
             }
 
             insertEvent.setInt(7, attendees_min);
@@ -216,7 +260,6 @@ public class EventController {
                 insertEvent.setInt(15, house_id);
             }
 
-
             boolean hasRs = insertEvent.execute();
             if (hasRs) {
                 ResultSet rs = insertEvent.getResultSet();
@@ -234,21 +277,31 @@ public class EventController {
                               @RequestParam("description") String description,
                               @RequestParam(value = "is_competitive", required = false) Integer is_competitive,
                               @RequestParam(value = "difficulty", required = false) Integer difficulty,
-                              @RequestParam(value = "price", required = false) Integer price,
-                              @RequestParam(value = "battleroyale", required = false) Integer battleroyale,
+                              @RequestParam(value = "price", required = false) Double price,
+                              @RequestParam(value = "battleroyal", required = false) Integer battleroyale,
                               @RequestParam("attendees_min") int attendees_min,
                               @RequestParam("attendees_max") int attendees_max,
-                              @RequestParam("date_begin") Date date_begin,
-                              @RequestParam("date_end") Date date_end,
-                              @RequestParam("deadline_reservation") Date deadline_reservation,
+                              @RequestParam("date_begin") String str_date_begin,
+                              @RequestParam("date_end") String str_date_end,
+                              @RequestParam("deadline_reservation") String str_deadline_reservation,
                               @RequestParam("location") String location,
-                              @RequestParam("no") String no,
-                              @RequestParam("street") String street,
-                              @RequestParam("postal_code") int postal_code,
-                              @RequestParam("city") String city,
-                              @RequestParam(value = "battleroyale", required = false) Integer house_id) throws SQLException {
+                              @RequestParam("address") String address,
+                              @RequestParam(value = "house_id", required = false) Integer house_id) throws SQLException {
 
         JsonObjectBuilder responseObject;
+
+        Date date_begin;
+        Date date_end;
+        Date deadline_reservation;
+
+        try {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            date_begin = new Date(format.parse(str_date_begin.replace('T', ' ')).getTime());
+            date_end = new Date(format.parse(str_date_end.replace('T', ' ')).getTime());
+            deadline_reservation = new Date(format.parse(str_deadline_reservation.replace('T', ' ')).getTime());
+        } catch(ParseException e) {
+            return Utils.errorJSONObjectBuilder("incorrect_date_format").build().toString();
+        }
 
         if (name.length() == 0 || description.length() >= 100) {
             return Utils.errorJSONObjectBuilder("incorrect_input_length").build().toString();
@@ -256,6 +309,22 @@ public class EventController {
 
         if (attendees_min > attendees_max) {
             return Utils.errorJSONObjectBuilder("error_min_max_attendees_length").build().toString();
+        }
+
+        if (date_begin.after(date_end)) {
+            return Utils.errorJSONObjectBuilder("error_min_max_between_dateBegin_dateEnd").build().toString();
+        }
+
+        if (deadline_reservation.after(date_begin)) {
+            return Utils.errorJSONObjectBuilder("error_min_max_between_dateBegin_deadline").build().toString();
+        }
+
+        if (price < 0) {
+            return Utils.errorJSONObjectBuilder("error_price_below_zero").build().toString();
+        }
+
+        if (house_id == 0) {
+            house_id = null;
         }
 
         try (Connection conn = dataSource.getConnection()) {
@@ -292,9 +361,9 @@ public class EventController {
                 updateEvent.setInt(6, difficulty);
             }
             if (price == null) {
-                updateEvent.setNull(7, Types.INTEGER);
+                updateEvent.setNull(7, Types.DOUBLE);
             } else {
-                updateEvent.setInt(7, price);
+                updateEvent.setDouble(7, price);
             }
 
             updateEvent.setInt(8, attendees_min);
@@ -304,15 +373,13 @@ public class EventController {
             updateEvent.setDate(12, date_end);
             updateEvent.setString(13, location);
 
-            String address = street + " " + no + ", " + postal_code + " " + city;
             updateEvent.setString(14, address);
 
             if(house_id == null) {
                 updateEvent.setNull(15, Types.INTEGER);
             } else {
-                updateEvent.setInt(16, house_id);
+                updateEvent.setInt(15, house_id);
             }
-
 
             updateEvent.execute();
             responseObject = Utils.successJSONObjectBuilder("event_updated", null);
@@ -328,6 +395,24 @@ public class EventController {
         JsonObjectBuilder responseObject;
 
         try (Connection conn = dataSource.getConnection()) {
+            Statement statement = conn.createStatement();
+
+            // Test si l'email existe déjà dans la base de donnée.
+            if (conn.createStatement().executeQuery(
+                    "SELECT user_id, event_id FROM user_participate_event WHERE user_id = '" + user_id + "' AND event_id = '" + event_id + "';"
+            ).next()) {
+                return Utils.errorJSONObjectBuilder("already_joined").build().toString();
+            }
+
+            String maxParticipant = "SELECT attendees_max FROM event WHERE event_id = " + event_id;
+            String nbParticipant = "SELECT COUNT(user_id) FROM user_participate_event WHERE event_id = " + event_id;
+
+            int maxAttendee = Utils.getSingletonInt(statement, maxParticipant);
+            int nbAttendee = Utils.getSingletonInt(statement, nbParticipant);
+
+            if(maxAttendee == nbAttendee) {
+                return Utils.errorJSONObjectBuilder("err_join_event_full").build().toString();
+            }
 
             CallableStatement joinEvent = conn.prepareCall("{call DEV.joinEvent(?,?)}");
             joinEvent.setInt(1, user_id);
@@ -347,6 +432,13 @@ public class EventController {
         JsonObjectBuilder responseObject;
 
         try (Connection conn = dataSource.getConnection()) {
+
+            if (!conn.createStatement().executeQuery(
+                    "SELECT user_id, event_id FROM user_participate_event WHERE user_id = '" + user_id + "' AND event_id = '" + event_id + "';"
+            ).next()) {
+                return Utils.errorJSONObjectBuilder("event_not_joined_first").build().toString();
+            }
+
 
             CallableStatement quitEvent = conn.prepareCall("{call DEV.quitEvent(?,?)}");
             quitEvent.setInt(1, user_id);
@@ -598,7 +690,7 @@ public class EventController {
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
 
-            String sqlGetOwnerID = "SELECT user_id as result FROM event WHERE event = " + event_id;
+            String sqlGetOwnerID = "SELECT user_id as result FROM event WHERE event_id = " + event_id;
             String sqlGetEventHouseID = "SELECT house_id as result FROM event WHERE event_id = " + event_id;
 
             int eventHouseId = Utils.getSingletonInt(statement, sqlGetEventHouseID);

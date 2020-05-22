@@ -111,7 +111,7 @@ public class ForumController {
             int subjectAccessLevel = Utils.getSingletonInt(statement, sqlGetSubjectAccessID);
 
             boolean isAllowedOperation = ((user.getHouseID() == subjectHouseId || subjectHouseId == 0) &&
-                    (user.getAccessLevel() <= subjectAccessLevel)) || (user.getAccessLevel() >= 50);
+                    (user.getAccessLevel() >= subjectAccessLevel)) || (user.getAccessLevel() >= 50);
 
             if (!isAllowedOperation) {
                 return Utils.errorJSONObjectBuilder("wrong_house_or_access_insert_subject_permission").build().toString();
@@ -150,10 +150,11 @@ public class ForumController {
             String sqlGetSubjectAccessID = "SELECT access_level as RESULT FROM forum_section " +
                     "INNER JOIN forum_subject USING (forum_section_id) WHERE forum_subject_id =" + subject_id;
 
-            int subjectHouseId = Utils.getSingletonInt(statement, sqlGetSubjectHouseID);
-            int subjectAccessLevel = Utils.getSingletonInt(statement, sqlGetSubjectAccessID);
 
-            boolean isAllowedOperation = ((user.getHouseID() == subjectHouseId || subjectHouseId == 0) && (user.getAccessLevel() <= subjectAccessLevel)) ||
+            int subjectHouseId = Utils.getSingletonInt(statement, sqlGetSubjectHouseID); //null
+            int subjectAccessLevel = Utils.getSingletonInt(statement, sqlGetSubjectAccessID); // 0
+
+            boolean isAllowedOperation = ((user.getHouseID() == subjectHouseId || subjectHouseId == 0) && (user.getAccessLevel() >= subjectAccessLevel)) ||
                     (user.getAccessLevel() >= 50);
 
             if (!isAllowedOperation) {
