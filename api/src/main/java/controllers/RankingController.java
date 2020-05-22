@@ -46,4 +46,21 @@ public class RankingController {
         }
         return result;
     }
+
+
+    @PostMapping("/auditoire/palmares")
+    public String housePalmares() throws SQLException {
+
+        String result;
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet housePalmares =
+                    stmt.executeQuery("select DEV.getPalmares() AS result");
+
+            housePalmares.next();
+            result = housePalmares.getString("result");
+        }
+        return result;
+    }
 }
