@@ -24,15 +24,16 @@ import "../../css/Houses.css";
 
 
 
-
 export default function ModalProfile() {
 
   const classes = useStyles();
   const { user, setShowProfile } = useContext(MainContext);
   const [houseInfo, setHouseInfo] = React.useState();
+  const [houseBanner, setHouseBanner] = React.useState();
   const [latestPost, setLatestPost] = React.useState();
   const [topContributor, setTopContributor] = React.useState();
-
+  let root = document.documentElement;
+  
   const handlePersonClick =(user) =>{
     setShowProfile(user);
   }
@@ -88,32 +89,31 @@ export default function ModalProfile() {
   useEffect(() => { 
     {user && user.house && getHouseInfo(user.house.house_id);}
     {user && user.house && getLatestPost(user.house.house_id);}
-  }, [user]); 
+    {user && user.house && setHouseBanner('url(\'http://localhost:8080/content/' + user.house.name + '.png\')')}
 
+  }, [user]); 
+  {houseBanner && root.style.setProperty('--house-banner', houseBanner)};
   return (
 
     <div class="parent">
+      
             <div class="div1" > 
-            <Card  class="banner" >
-                <CardContent  >
-                    
-                </CardContent>
-            </Card>
-
+              <Card  class="banner" >
+                  <CardContent>
+                        <Typography component="h1" variant="h1" align='justify'>
+                          {houseInfo && houseInfo.name}
+                        </Typography>
+                  </CardContent>
+              </Card>
             </div>
-            <div class="div2">
+            <div class="div2" >                     
+            </div>
             
-                <Typography component="h1" variant="h1" spacing={10}>
-                    {houseInfo && houseInfo.name}
-                </Typography>
-            </div>
-            <div class="div3">
-             </div>
             <div class="div4">             
                 <Card className="points" >
                     <CardContent  > 
                                         
-                        <Typography component="h1" variant="h4"spacing={10}>
+                        <Typography component="h1" variant="h4"spacing={10} color= 'inherit'>
                             Points
                         </Typography>
                     <Avatar className={classes.large}> 
@@ -126,32 +126,40 @@ export default function ModalProfile() {
                 </Card>
                            
                 <Card className="points" >
-                      {
-                        houseInfo && houseInfo.top_user &&
-                        <CardContent>
-                            <Typography component="h1" variant="h4"spacing={10}>
-                                Top Contributeur
-                                <br/>
-                              {houseInfo.top_user.points_month}
-                            </Typography>
-                        </CardContent> 
-                      }
+                      
+                      
 
-                      {
-                      houseInfo && houseInfo.top_user &&
-                      <Button  size="small"onClick = { () => handlePersonClick(houseInfo.top_user)} >
-                        <Avatar className={classes.large}> 
-                          {<img height= {'100%'} src={houseInfo.top_user.avatar} alt= {houseInfo.top_user.initials}/> }
-                        </Avatar>    
-                      </Button>
-                      }  
-    
-                      {
-                      houseInfo && !houseInfo.top_user &&
-                        <Typography text-align="left" component="h1" variant="h4">
-                          Aucun meilleur contributeur
-                        </Typography>
-                      } 
+                          <Grid item xs={6}>
+                          {
+                            houseInfo && houseInfo.top_user &&
+                            <CardContent>
+                                <Typography component="h1" variant="h4"spacing={10}>
+                                    Top Contributeur
+                                    <br/>
+                                  {houseInfo.top_user.points_month}
+                                </Typography>
+                            </CardContent> 
+                          }
+                          </Grid>
+
+                          <Grid item xs={6}>
+                          {
+                          houseInfo && houseInfo.top_user &&
+                          <Button  size="small"onClick = { () => handlePersonClick(houseInfo.top_user)} >
+                            <Avatar className={classes.large}> 
+                              {<img height= {'100%'} src={houseInfo.top_user.avatar} alt= {houseInfo.top_user.initials}/>}
+                            </Avatar>    
+                          </Button>
+                          }  
+        
+                          {
+                          houseInfo && !houseInfo.top_user &&
+                            <Typography text-align="left" component="h1" variant="h4">
+                              Aucun meilleur contributeur
+                            </Typography>
+                          } 
+                          </Grid>
+
                   
                  
                     
@@ -218,9 +226,12 @@ export default function ModalProfile() {
 
 const useStyles = makeStyles(theme => ({
 
-
-
-
+  blason:{
+    width: '100%',
+    height: '100%',
+    ObjectFit: 'cover',
+    overflow: 'hidden',
+  },
   pos: {
     marginBottom: 12,
   },
@@ -238,7 +249,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#ffffff',  
   },
   house:{
-    backgroundImage :  `url()`,
+    backgroundImage :  `url(hou)`,
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
