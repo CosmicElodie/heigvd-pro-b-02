@@ -433,6 +433,13 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
 
+            if (!conn.createStatement().executeQuery(
+                    "SELECT user_id, event_id FROM user_participate_event WHERE user_id = '" + user_id + "' AND event_id = '" + event_id + "';"
+            ).next()) {
+                return Utils.errorJSONObjectBuilder("event_not_joined_first").build().toString();
+            }
+
+
             CallableStatement quitEvent = conn.prepareCall("{call DEV.quitEvent(?,?)}");
             quitEvent.setInt(1, user_id);
             quitEvent.setInt(2, event_id);

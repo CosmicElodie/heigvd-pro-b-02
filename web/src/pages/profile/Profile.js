@@ -8,7 +8,6 @@ import Modal from '@material-ui/core/Modal';
 import { useInput } from '../../hooks/input';
 import {DropzoneDialog} from 'material-ui-dropzone'
 import { useHistory } from "react-router-dom";
-import "../../css/Profile.css";
 
 
 

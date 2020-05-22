@@ -470,6 +470,30 @@ const Dialog = () => {
                 </Snackbar> 
             }
 
+            { 
+                dialog && dialog.already_joined &&
+                <Snackbar 
+                        open = { dialog.already_joined.is_open }
+                        onClose = { () => handleClose({ already_joined: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Vous avez déjà rejoint cet événement. 
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.err_join_event_full &&
+                <Snackbar 
+                        open = { dialog.err_join_event_full.is_open }
+                        onClose = { () => handleClose({ err_join_event_full: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Vous avez déjà rejoint cet événement. 
+                    </Alert>
+                </Snackbar> 
+            }
+
         </section>
     )
 }

@@ -100,16 +100,10 @@ export default function Event() {
 
     //Affiche les boutons "Modifier" ou "Annuler"
     function printButton(permission, IDutilisateurCourant, IDorganisateur, statutEvent, text) {
-        //(user.access_level, user.user_id, current.user_id, 
 
         if (statutEvent === "En attente d'autres participants" || statutEvent === "Planifié") {
 
             if (permission === 75 || permission === 25 || IDutilisateurCourant === IDorganisateur) {
-                console.log("USER courant ");
-                console.log(IDutilisateurCourant);
-
-                console.log("ORGANISATEUR");
-                console.log(IDorganisateur);
 
                 if (text === "Modifier") {
                     return <Button variant="contained" size="small" color="primary" onClick={modifyEvent} className={classes.margin}> {text} </Button>;
@@ -122,7 +116,10 @@ export default function Event() {
             }
 
             if (text === "Rejoindre") {
-                return <Button variant="contained" size="small" color="primary" onClick={joinEvent} className={classes.margin}> Rejoindre </Button>;
+                return <Button variant="contained" size="small" color="primary" onClick={joinEvent} className={classes.margin}> {text} </Button>;
+            } 
+            else if (text === "Quitter") {
+                return <Button variant="contained" size="small" color="primary" onClick={joinEvent} className={classes.margin}> {text} </Button>;
             }
         }
 
@@ -324,7 +321,7 @@ export default function Event() {
                             <TableBody>
                                 <TableRow>
                                     <TableCell>
-                                        {current.is_competitive ? "Oui" : "Non"}
+                                        {current.is_competitve ? "Oui" : "Non"}
                                     </TableCell>
                                     <TableCell>
                                         {current.battleroyale ? "Oui" : "Non"}
