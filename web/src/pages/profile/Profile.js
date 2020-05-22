@@ -8,6 +8,7 @@ import Modal from '@material-ui/core/Modal';
 import { useInput } from '../../hooks/input';
 import {DropzoneDialog} from 'material-ui-dropzone'
 import { useHistory } from "react-router-dom";
+import "../../css/Profile.css";
 
 
 
@@ -55,21 +56,40 @@ export default function ModalProfile() {
   const [img, setImg] = React.useState('');
   const [imgName, setImgName] = React.useState('');
   const { user, setUser, setDialog } = useContext(MainContext);
-  const [houseBanner, setHouseBanner] = React.useState();
+  const [houseBanner, setHouseBanner] = React.useState();  
+  const [userInfo, setUserInfo] = React.useState();
   const classes = useStyles();
   let root = document.documentElement;
   
 
-useEffect(() => { 
-  submitImage()
-}, [img]); 
- 
-useEffect(() => { 
-  {user && user.house && setHouseBanner('url(\'http://localhost:8080/content/' + user.house.name + '.png\')')}
-}, [user]); 
+  useEffect(() => { 
+    { img && submitImage()}
+    { img && getUserInfo()}
+  }, [img]); 
+   
+  useEffect(() => { 
+    {user && user.house && setHouseBanner('url(\'http://localhost:8080/content/' + user.house.name + '.png\')')}
+    {user && user.user_id && getUserInfo()}
+  }, [user]); 
 
 
 {houseBanner && root.style.setProperty('--house-banner', houseBanner)};
+
+const getUserInfo = (e) => {
+  let post_body = 
+  "&user_id=" + user.user_id;
+  fetch('http://localhost:8080/profile/all', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: post_body
+      })
+  .then(response => response.json())
+  .then(response =>{
+
+    setUserInfo(response)    
+  })
+}
 
 const submitImage = (e) => {
   let post_body = 
@@ -247,23 +267,19 @@ const submitPassword = (e) => {
                   Profile
                 </Typography>
 
-                <Avatar className={classes.contour}> 
-                  <IconButton aria-label="edit"  size="small"onClick = {handlePPEditOpen}>
-                                            
-                    {
-                      user.avatar &&
-                      <Avatar className={classes.large}> 
-                        <img height= {'100%'} src={user.avatar} alt="No img"/>
-                      </Avatar>
-                    }
+                <IconButton aria-label="edit"  size="small"onClick = {handlePPEditOpen}>
+                             
+                      {
+                        userInfo && userInfo.avatar &&
+                        <Avatar className={classes.contour} src = {userInfo.avatar}> 
+                        </Avatar>
+                      }
 
-                    {
-                      !user.avatar &&
-                      <Avatar className="avatar"> { user.initials } </Avatar> 
-                    }
-
-                  </IconButton>
-                </Avatar>
+                      {
+                        !user.avatar &&
+                        <Avatar className="avatar"> { user.initials } </Avatar> 
+                      }
+                </IconButton>
               </Grid>
               <Grid item>
                 
@@ -297,6 +313,8 @@ const submitPassword = (e) => {
                       
                   </IconButton>
                 }/> 
+                <DisplayData name="Points (mensuel) :" data = {userInfo && userInfo.points_month}/>                   
+                <DisplayData name="Points (Annuel) :" data = {userInfo && userInfo.points_year}/>
               </Typography>   
               
               <Modal

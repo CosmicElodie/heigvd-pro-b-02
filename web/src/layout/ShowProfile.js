@@ -43,8 +43,7 @@ const ShowProfile = () => {
                             
                               {
                                 showProfile.avatar &&
-                                <Avatar className={classes.large} > 
-                                  <img className={classes.resize} src={showProfile.avatar} alt="No img"/>
+                                <Avatar className={classes.large} src={showProfile.avatar}  > 
                                 </Avatar>
                               }
 
