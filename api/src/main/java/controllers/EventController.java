@@ -31,7 +31,7 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("SELECT json_arrayagg(getEventDetailJson(event_id)) AS event_result FROM event");
+            ResultSet events = stmt.executeQuery("SELECT json_arrayagg(getEventDetailJson(event_id)) AS event_result FROM event ORDER BY date_begin ASC");
 
             events.next();
 
@@ -238,7 +238,7 @@ public class EventController {
                 insertEvent.setInt(5, difficulty);
             }
             if (price == null) {
-                insertEvent.setNull(6, Types.INTEGER);
+                insertEvent.setNull(6, Types.DOUBLE);
             } else {
                 insertEvent.setDouble(6, price);
             }
@@ -361,7 +361,7 @@ public class EventController {
                 updateEvent.setInt(6, difficulty);
             }
             if (price == null) {
-                updateEvent.setNull(7, Types.INTEGER);
+                updateEvent.setNull(7, Types.DOUBLE);
             } else {
                 updateEvent.setDouble(7, price);
             }
