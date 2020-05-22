@@ -535,6 +535,27 @@ public class EventController {
             thirdPlaceProcedure.setInt(3, third_point);
             thirdPlaceProcedure.execute();
 
+            CallableStatement setFirstWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
+            setFirstWinnerEvent.setInt(1, first_place);
+            setFirstWinnerEvent.setNull(2, Types.INTEGER);
+            setFirstWinnerEvent.setInt(3, 1);
+            setFirstWinnerEvent.setInt(4, event_id);
+            setFirstWinnerEvent.execute();
+
+            CallableStatement setSecondWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
+            setSecondWinnerEvent.setInt(1, second_place);
+            setSecondWinnerEvent.setNull(2, Types.INTEGER);
+            setSecondWinnerEvent.setInt(3, 2);
+            setSecondWinnerEvent.setInt(4, event_id);
+            setSecondWinnerEvent.execute();
+
+            CallableStatement setThirdWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
+            setThirdWinnerEvent.setInt(1, third_place);
+            setThirdWinnerEvent.setNull(2, Types.INTEGER);
+            setThirdWinnerEvent.setInt(3, 3);
+            setThirdWinnerEvent.setInt(4, event_id);
+            setThirdWinnerEvent.execute();
+
             CallableStatement endStatusEvent = conn.prepareCall("{CALL endStatusEvent(?)}");
             endStatusEvent.setInt(1, event_id);
             endStatusEvent.execute();
@@ -600,6 +621,28 @@ public class EventController {
             thirdPlaceProcedure.setInt(3, third_place);
             thirdPlaceProcedure.execute();
 
+            CallableStatement setFirstWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
+
+            setFirstWinnerEvent.setNull(1, Types.INTEGER);
+            setFirstWinnerEvent.setInt(2, first_place);
+            setFirstWinnerEvent.setInt(3, 1);
+            setFirstWinnerEvent.setInt(4, event_id);
+            setFirstWinnerEvent.execute();
+
+            CallableStatement setSecondWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
+            setSecondWinnerEvent.setNull(1, Types.INTEGER);
+            setSecondWinnerEvent.setInt(2, second_place);
+            setSecondWinnerEvent.setInt(3, 2);
+            setSecondWinnerEvent.setInt(4, event_id);
+            setSecondWinnerEvent.execute();
+
+            CallableStatement setThirdWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
+            setThirdWinnerEvent.setNull(1, Types.INTEGER);
+            setThirdWinnerEvent.setInt(2, third_place);
+            setThirdWinnerEvent.setInt(3, 3);
+            setThirdWinnerEvent.setInt(4, event_id);
+            setThirdWinnerEvent.execute();
+
             CallableStatement endStatusEvent = conn.prepareCall("{CALL endStatusEvent(?)}");
             endStatusEvent.setInt(1, event_id);
             endStatusEvent.execute();
@@ -609,6 +652,20 @@ public class EventController {
 
         }
         return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/result/winner")
+    public String eventWinner(@RequestParam("event_id") int event_id) throws SQLException {
+
+        String result;
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet forums = stmt.executeQuery("select DEV.getWinnerEvent(" + event_id + ") AS result");
+            forums.next();
+            result = forums.getString("result");
+        }
+        return result;
     }
 
     /*@PostMapping("/event/event_create")
