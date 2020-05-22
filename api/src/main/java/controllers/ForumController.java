@@ -393,7 +393,7 @@ public class ForumController {
                 return Utils.errorJSONObjectBuilder("same_author_post_subject_solved").build().toString();
             }
 
-            if (!(statusPost == 1 || statusSubject == 1)) {
+            if (statusPost == 1 || statusSubject == 1) {
                 return Utils.errorJSONObjectBuilder("subject_or_post_already_solved").build().toString();
             }
 
@@ -433,11 +433,7 @@ public class ForumController {
             if (user.getId() != subjectOwnerUserId) {
                 return Utils.errorJSONObjectBuilder("wrong_author_subject_unsolved").build().toString();
             }
-
-            if (user.getId() != postOwnerUserId) {
-                return Utils.errorJSONObjectBuilder("same_author_post_subject_unsolved").build().toString();
-            }
-
+            
             if (!(statusPost == 1 || statusSubject == 1)) {
                 return Utils.errorJSONObjectBuilder("subject_or_post_already_unsolved").build().toString();
             }

@@ -50,10 +50,10 @@ public class Utils {
 
     //Useful methods below for unset/set best answer
     public static String getSubjectOwnerIDFromPost(int post_id) {
-        return "SELECT user_id as result " +
+        return "SELECT forum_subject.user_id as result " +
                 "FROM forum_subject " +
-                "INNER JOIN forum_post_id USING (forum_post_id) " +
-                "WHERE forum_post_id = " + post_id;
+                "INNER JOIN forum_post USING(forum_subject_id) " +
+                "WHERE forum_post.forum_post_id = " + post_id;
     }
 
     public static String getSubjectOwnerFromSubject(int subject_id) {
@@ -66,7 +66,7 @@ public class Utils {
     }
 
     public static String getSubjectID(int post_id){
-        return "SELECT subject_id as result FROM forum_post WHERE forum_post_id = " + post_id;
+        return "SELECT forum_subject_id as result FROM forum_post WHERE forum_post_id = " + post_id;
     }
 
     public static String getStatusPost(int post_id) {
@@ -81,8 +81,8 @@ public class Utils {
 
     public static String getStatusSubject(int post_id) {
         return  "SELECT resolved as result FROM forum_subject " +
-                "INNER JOIN forum_post_id USING (forum_post_id) " +
-                "WHERE forum_post_id = " + post_id;
+                "INNER JOIN forum_post USING (forum_subject_id) " +
+                "WHERE forum_post.forum_post_id = " + post_id;
     }
 
     public static String getHouseID(int subject_id) {
