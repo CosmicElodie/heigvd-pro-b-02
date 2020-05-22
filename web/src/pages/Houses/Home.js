@@ -115,6 +115,7 @@ export default function ModalProfile() {
                                         
                         <Typography component="h1" variant="h4"spacing={10} color= 'inherit'>
                             Points
+                            <br/>
                         </Typography>
                     <Avatar className={classes.large}> 
                     <Typography component="h1" variant="h4"spacing={10}>
@@ -125,45 +126,45 @@ export default function ModalProfile() {
                     </CardContent>
                 </Card>
                            
-                <Card className="points" >
-                      
-                      
+                <Card className="points" align='center' >
 
-                          <Grid item xs={6}>
-                          {
-                            houseInfo && houseInfo.top_user &&
-                            <CardContent>
-                                <Typography component="h1" variant="h4"spacing={10}>
-                                    Top Contributeur
-                                    <br/>
-                                  {houseInfo.top_user.points_month}
-                                </Typography>
-                            </CardContent> 
-                          }
-                          </Grid>
+                  <CardContent  >  
+                    {
+                      houseInfo && houseInfo.top_user &&
+                          <Typography component="h1" variant="h4"spacing={10}>
+                              Top Contributeur
+                              <br/>
+                          </Typography>
+                    }
+                      <br/>
+                    {
+                    houseInfo && houseInfo.top_user &&
+                    <Button  size="small"onClick = { () => handlePersonClick(houseInfo.top_user)} >
+                      <Avatar className={classes.large}> 
+                      {<img height= {'100%'} src={houseInfo.top_user.avatar} alt= {houseInfo.top_user.initials}/>}
+                      </Avatar>    
+                    </Button>
+                    }  
 
-                          <Grid item xs={6}>
-                          {
-                          houseInfo && houseInfo.top_user &&
-                          <Button  size="small"onClick = { () => handlePersonClick(houseInfo.top_user)} >
-                            <Avatar className={classes.large}> 
-                              {<img height= {'100%'} src={houseInfo.top_user.avatar} alt= {houseInfo.top_user.initials}/>}
-                            </Avatar>    
-                          </Button>
-                          }  
-        
-                          {
-                          houseInfo && !houseInfo.top_user &&
-                            <Typography text-align="left" component="h1" variant="h4">
-                              Aucun meilleur contributeur
-                            </Typography>
-                          } 
-                          </Grid>
-
-                  
-                 
+                    {
+                    houseInfo && !houseInfo.top_user &&
+                      <Typography text-align="left" component="h1" variant="h4">
+                      Aucun meilleur contributeur
+                      </Typography>
+                    } 
                     
-                        
+
+                    {
+                      houseInfo && houseInfo.top_user &&
+                      <Typography component="h1" variant="h4"spacing={10}>
+                        {houseInfo.top_user.points_month} pts
+                      </Typography>
+                    }
+
+                  </CardContent>
+
+
+
                 </Card>     
             </div>
             <div class="div5">             
