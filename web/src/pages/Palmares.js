@@ -155,17 +155,6 @@ const getTopHouses = (e) => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                        {topUser && 
-                        <TablePagination
-                                rowsPerPageOptions={[5, 10, 25]}
-                                component="div"
-                                count={topUser.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onChangePage={handleChangePage}
-                                onChangeRowsPerPage={handleChangeRowsPerPage}
-                            />
-                        }
                     </Typography>
                 </CardContent>
             </Card>
@@ -205,17 +194,6 @@ const getTopHouses = (e) => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                        {topUser && 
-                        <TablePagination
-                                rowsPerPageOptions={[5, 10, 25]}
-                                component="div"
-                                count={topUser.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onChangePage={handleChangePage}
-                                onChangeRowsPerPage={handleChangeRowsPerPage}
-                            />
-                        }
                     </Typography>
                 </CardContent>
             </Card>
@@ -288,16 +266,16 @@ const getTopHouses = (e) => {
                 <Grid container direction="row" justify="space-evenly" alignItems="center">
 
                     <Grid item xs={4}>
-                        {displayMonthlyRank('Ranking mensuel', topUserMonthly)}
+                        {displayMonthlyRank('Top utilisateur (mensuel)', topUserMonthly)}
                     </Grid>
 
                     <Grid item xs={4}>
-                        {displayAnnualRank('Ranking annuel', topUserYearly)}
+                        {displayAnnualRank('Top utilisateur (annuel)', topUserYearly)}
                     </Grid>
                 </Grid>
                 <br/>
                 <Grid container direction="row" justify="space-evenly" alignItems="center">
-                        {displayHouseRank('Ranking annuel', topHouses)}
+                        {displayHouseRank('Vainqueurs', topHouses)}
                 </Grid>
             </main>
         </React.Fragment>
