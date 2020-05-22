@@ -52,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function Event() {
-    const {user, setDialog} = useContext(MainContext);
+    const { user, setDialog } = useContext(MainContext);
     const { data } = useContext(EventContext);
     const location = useLocation();
     const [current, setCurrent] = useState();
@@ -86,7 +86,7 @@ export default function Event() {
             body: "&event_id=" + parseInt(current.event_id)
         })
             .then(response => response.json())
-            .then(({status, dialog_id}) => {
+            .then(({ status, dialog_id }) => {
                 setDialog({
                     [dialog_id]: {
                         is_open: true
@@ -100,22 +100,24 @@ export default function Event() {
 
     //Affiche les boutons "Modifier" ou "Annuler"
     function printButton(permission, organisator, text, current_event) {
-        if (permission === 75 || permission === 25 || user.used_id === organisator) {
-            if (current_event.status === "En attente d'autres participants" || current_event.status === "Planifié") {
+        if (current_event.status === "En attente d'autres participants" || current_event.status === "Planifié") {
+
+            if (permission === 75 || permission === 25 || user.used_id === organisator) {
+
                 if (text === "Modifier") {
                     return <Button variant="contained" size="small" color="primary" onClick={modifyEvent} className={classes.margin}> {text} </Button>;
 
-                }
-                else if(text === "Rejoindre")
-                {
-                    return <Button variant="contained" size="small" color="primary" onClick={joinEvent} className={classes.margin}> Rejoindre </Button>;
                 }
                 else { //text = Annuler
                     return <Button variant="contained" size="small" color="primary" onClick={cancel} className={classes.margin}> {text} </Button>;
 
                 }
             }
+            if (text === "Rejoindre" ) {
+                return <Button variant="contained" size="small" color="primary" onClick={joinEvent} className={classes.margin}> Rejoindre </Button>;
+            }
         }
+        
 
         return;
     }
@@ -129,7 +131,7 @@ export default function Event() {
             body: "&event_id=" + parseInt(current.event_id)
         })
             .then(response => response.json())
-            .then(({status, dialog_id}) => {
+            .then(({ status, dialog_id }) => {
                 setDialog({
                     [dialog_id]: {
                         is_open: true
@@ -154,7 +156,7 @@ export default function Event() {
             body: "&user_id=" + parseInt(user.user_id) + "&event_id=" + parseInt(current.event_id)
         })
             .then(response => response.json())
-            .then(({status, dialog_id}) => {
+            .then(({ status, dialog_id }) => {
                 setDialog({
                     [dialog_id]: {
                         is_open: true
@@ -165,8 +167,7 @@ export default function Event() {
         return;
     }
 
-    function isParticipating(id_of_user)
-    {
+    function isParticipating(id_of_user) {
         fetch('http://localhost:8080/event/detail', {
             method: 'POST',
             credentials: 'include',
@@ -174,7 +175,7 @@ export default function Event() {
             body: "&user_id=" + parseInt(user.user_id)
         })
             .then(response => response.json())
-            .then(({status, dialog_id}) => {
+            .then(({ status, dialog_id }) => {
                 setDialog({
                     [dialog_id]: {
                         is_open: true
