@@ -314,7 +314,7 @@ export default function Event() {
                             <TableBody>
                                 <TableRow>
                                     <TableCell>
-                                        {current.is_competitve ? "Oui" : "Non"}
+                                        {current.is_competitive ? "Oui" : "Non"}
                                     </TableCell>
                                     <TableCell>
                                         {current.battleroyale ? "Oui" : "Non"}
