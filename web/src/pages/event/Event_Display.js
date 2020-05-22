@@ -99,26 +99,33 @@ export default function Event() {
 
 
     //Affiche les boutons "Modifier" ou "Annuler"
-    function printButton(permission, organisator, text, current_event) {
-        if (current_event.status === "En attente d'autres participants" || current_event.status === "Planifié") {
+    function printButton(permission, IDutilisateurCourant, IDorganisateur, statutEvent, text) {
+        //(user.access_level, user.user_id, current.user_id, 
 
-            if (permission === 75 || permission === 25 || user.used_id === organisator.user_id) {
+        if (statutEvent === "En attente d'autres participants" || statutEvent === "Planifié") {
+
+            if (permission === 75 || permission === 25 || IDutilisateurCourant === IDorganisateur) {
+                console.log("USER courant ");
+                console.log(IDutilisateurCourant);
+
+                console.log("ORGANISATEUR");
+                console.log(IDorganisateur);
 
                 if (text === "Modifier") {
                     return <Button variant="contained" size="small" color="primary" onClick={modifyEvent} className={classes.margin}> {text} </Button>;
 
                 }
-                else { //text = Annuler
+                else if (text === "Annuler") { //text = Annuler
                     return <Button variant="contained" size="small" color="primary" onClick={cancel} className={classes.margin}> {text} </Button>;
 
                 }
             }
 
-            if (text === "Rejoindre" ) {
+            if (text === "Rejoindre") {
                 return <Button variant="contained" size="small" color="primary" onClick={joinEvent} className={classes.margin}> Rejoindre </Button>;
             }
         }
-        
+
 
         return;
     }
@@ -233,16 +240,15 @@ export default function Event() {
                     />
 
                     <CardContent className={classes.cardContent}>
-                        {/* Bouton "/modifier/annuler", uniquement visible pour l'admin/modo + l'organiateur de l'event */}
+                        {/* Bouton "/modifier/annuler", uniquement visible pour l'admin/modo + l'organisateur de l'event */}
                         {
-                            printButton(user.access_level, user.user_id, "Rejoindre", current)
+                            printButton(user.access_level, user.user_id, current.user_id, current.status, "Rejoindre")
                         }
                         {
-                            printButton(user.access_level, user.user_id, "Modifier", current)
+                            printButton(user.access_level, user.user_id, current.user_id, current.status, "Modifier")
                         }
-
                         {
-                            printButton(user.access_level, user.user_id, "Annuler", current)
+                            printButton(user.access_level, user.user_id, current.user_id, current.status, "Annuler")
                         }
 
                         {/* Bouton "supprimer", uniquement visible pour l'admin/modo */}
@@ -250,6 +256,8 @@ export default function Event() {
 
                         {printAccountPointsButton(current)}
                         <h1>{current.name}</h1>
+                        <center><i>{current.status}</i></center>
+
                         <Table>
                             <TableHead>
                                 <TableRow>
