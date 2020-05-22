@@ -1,0 +1,25 @@
+:root {
+    --house-banner: ;
+}
+
+.parent {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+
+.TopBanner {
+    grid-area: 1 / 1 / 3 / 8; 
+    
+    border-radius: 5px;
+    background: transparent;
+    background-color: lightblue;      
+    background-image: var(--house-banner);        
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: right;             
+      
+}
