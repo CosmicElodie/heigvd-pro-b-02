@@ -8,7 +8,7 @@ import Modal from '@material-ui/core/Modal';
 import { useInput } from '../../hooks/input';
 import {DropzoneDialog} from 'material-ui-dropzone'
 import { useHistory } from "react-router-dom";
-
+import "../../css/Profile.css";
 
 
 
@@ -56,20 +56,29 @@ export default function ModalProfile() {
   const [img, setImg] = React.useState('');
   const [imgName, setImgName] = React.useState('');
   const { user, setUser, setDialog } = useContext(MainContext);
+  const [houseBanner, setHouseBanner] = React.useState();
   const classes = useStyles();
+  let root = document.documentElement;
   
 
 useEffect(() => { 
   submitImage()
 }, [img]); 
+ 
+useEffect(() => { 
+  {user && user.house && setHouseBanner('url(\'http://localhost:8080/content/' + user.house.name + '.png\')')}
+}, [user]); 
 
+
+{houseBanner && root.style.setProperty('--house-banner', houseBanner)};
 
 const submitImage = (e) => {
   let post_body = 
   "&user_id=" + user.user_id +
   "&img_name=" + img.name +
   "&avatar=" + img.data;
-  
+
+
   fetch('http://localhost:8080/profile/update_avatar', {
           method: 'POST',
           credentials: 'include',
@@ -228,42 +237,43 @@ const submitPassword = (e) => {
     </div>
   );
 
+
   return (
     <div>
-      <Card className={classes.bannerBox}>
-        <CardContent className={classes.house} >
-          <Grid container spacing={3}>
-            <Grid item xs>
-              <Typography className={classes.title} color="textSecondary" gutterBottom>
-                Profile
-              </Typography>
+        <Card class="TopBanner">
+          <CardContent className={classes.house} >
+            <Grid container spacing={3}>
+              <Grid item xs>
+                <Typography className={classes.title} color="textSecondary" gutterBottom>
+                  Profile
+                </Typography>
 
-              <Avatar className={classes.contour}> 
-                <IconButton aria-label="edit"  size="small"onClick = {handlePPEditOpen}>
-                                           
-                  {
-                    user.avatar &&
-                    <Avatar className={classes.large}> 
-                      <img height= {'100%'} src={user.avatar} alt="No img"/>
-                    </Avatar>
-                  }
+                <Avatar className={classes.contour}> 
+                  <IconButton aria-label="edit"  size="small"onClick = {handlePPEditOpen}>
+                                            
+                    {
+                      user.avatar &&
+                      <Avatar className={classes.large}> 
+                        <img height= {'100%'} src={user.avatar} alt="No img"/>
+                      </Avatar>
+                    }
 
-                  {
-                    !user.avatar &&
-                    <Avatar className="avatar"> { user.initials } </Avatar> 
-                  }
+                    {
+                      !user.avatar &&
+                      <Avatar className="avatar"> { user.initials } </Avatar> 
+                    }
 
-                </IconButton>
-              </Avatar>
+                  </IconButton>
+                </Avatar>
+              </Grid>
+              <Grid item>
+                
+              </Grid>
+              
             </Grid>
-            <Grid item>
-              <img className={classes.banner} src={HOUSE_DATA.img} alt="No img"/>
-            </Grid>
-            
-          </Grid>
 
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>   
 
       <Card className={classes.InfoBox}>
         <CardContent >
@@ -353,7 +363,6 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#ffffff',  
   },
   house:{
-    backgroundImage :  `url('https://upload.wikimedia.org/wikipedia/commons/4/48/Epcot_Page_Banner.jpg')`,
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
