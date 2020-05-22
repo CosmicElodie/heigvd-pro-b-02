@@ -132,7 +132,8 @@ export default function Event_Modify() {
         })
             .then(response => response.json())
             .then(({ status, dialog_id }) => {
-                resetName();
+                if(status === "ok") {
+                    resetName();
                 resetDescription();
                 resetCompetitive();
                 resetBattleRoyal();
@@ -145,6 +146,8 @@ export default function Event_Modify() {
                 resetDateEnd();
                 resetLocation();
                 resetAddress();
+                }
+                
                 setDialog({
                     [dialog_id]: {
                         is_open: true
