@@ -1,5 +1,5 @@
 import React, {useContext,useEffect} from 'react';
-import {  makeStyles, Card,  CardContent,   Typography, Avatar, Grid, Button, Table, TableBody,TableCell, TableHead, TableContainer, TableRow, Paper } from '@material-ui/core';
+import {  makeStyles, Card,  CardContent,   Typography, Avatar, Grid, Button, Table, TableBody, TablePagination, TableCell, TableHead, TableContainer, TableRow, Paper } from '@material-ui/core';
 import { MainContext } from '../../context/MainContext';
 import "../../css/Houses.css";
 
@@ -31,7 +31,10 @@ export default function ModalProfile() {
   const [houseInfo, setHouseInfo] = React.useState();
   const [houseBanner, setHouseBanner] = React.useState();
   const [latestPost, setLatestPost] = React.useState();
+  const [size, setSize] = React.useState();
   const [topContributor, setTopContributor] = React.useState();
+  const [page, setPage] = React.useState(0);    
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   let root = document.documentElement;
   
   const handlePersonClick =(user) =>{
@@ -54,7 +57,14 @@ export default function ModalProfile() {
   
     })
   }
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
+  const handleChangeRowsPerPage = event => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   const getLatestPost = (e) => {
     let post_body = 
     "&house_id=" + e +
@@ -77,12 +87,12 @@ export default function ModalProfile() {
   var limit_house = 0;
   var limit_global = 0;
   function printLineGlobal( elementToPrint) {
-    if ( limit_global < 15) {
+    
         limit_global++;
           return <TableCell component="th" scope="row">
           {elementToPrint}
       </TableCell>
-    }
+    
     return;
   }
 
@@ -92,20 +102,22 @@ export default function ModalProfile() {
     {user && user.house && setHouseBanner('url(\'http://localhost:8080/content/' + user.house.name + '.png\')')}
 
   }, [user]); 
+  
   {houseBanner && root.style.setProperty('--house-banner', houseBanner)};
   return (
 
     <div class="parent">
       
-            <div class="div1" > 
+            <div class="div1"> 
               <Card  class="banner" >
                   <CardContent>
-                        <Typography component="h1" variant="h1" align='justify'>
-                          {houseInfo && houseInfo.name}
-                        </Typography>
+                        <h1 class="test">
+                        {houseInfo && houseInfo.name.toUpperCase()}
+                        </h1>
                   </CardContent>
               </Card>
             </div>
+            
             <div class="div2" >                     
             </div>
             
@@ -206,17 +218,31 @@ export default function ModalProfile() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                {latestPost && latestPost.map(({created,creator,message,last_update,name_subject,forum_post_id,subject_answer}) =>
+                                {latestPost && latestPost
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map(({created,creator,message,last_update,name_subject,forum_post_id,subject_answer}) =>
                                         <TableRow /* key={name} */>
                                           {printLineGlobal(name_subject)}                                          
                                           {printLineGlobal(creator.firstname)}    
                                           {printLineGlobal(message)}        
-                                          {printLineGlobal(last_update)}
+                                          {printLineGlobal(last_update)}      
                                         </TableRow>
                                 )}
                                 </TableBody>
                             </Table>
                         </TableContainer>
+
+                        {latestPost && 
+                        <TablePagination
+                                rowsPerPageOptions={[5, 10, 25]}
+                                component="div"
+                                count={latestPost.length}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onChangePage={handleChangePage}
+                                onChangeRowsPerPage={handleChangeRowsPerPage}
+                            />
+                        }
 
                     </CardContent>
                 </Card>      
