@@ -290,6 +290,43 @@ const Dialog = () => {
                 </Snackbar> 
             }
 
+            { 
+                dialog && dialog.same_author_post_subject_solved &&
+                <Snackbar 
+                        open = { dialog.same_author_post_subject_solved.is_open }
+                        onClose = { () => handleClose({ same_author_post_subject_solved: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Vous ne pouvez pas indiquer votre réponse comme étant la meuilleure. Bien essayé!
+                    </Alert>
+                </Snackbar> 
+            }
+            
+            
+            { 
+                dialog && dialog.solved_post_and_subject &&
+                <Snackbar 
+                        open = { dialog.solved_post_and_subject.is_open }
+                        onClose = { () => handleClose({ solved_post_and_subject: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        Vous avec définis la meilleure réponse.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.unsolved_post_and_subject &&
+                <Snackbar 
+                        open = { dialog.unsolved_post_and_subject.is_open }
+                        onClose = { () => handleClose({ unsolved_post_and_subject: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="success">
+                        La meilleure réponse a été enlevée.
+                    </Alert>
+                </Snackbar> 
+            }
+
         </section>
     )
 }

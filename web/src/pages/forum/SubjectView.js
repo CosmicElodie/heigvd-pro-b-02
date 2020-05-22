@@ -4,6 +4,7 @@ import Bubble from '../../layout/Bubble';
 import Person from '../../layout/Person';
 import PostEdit from './PostEdit';
 import PostDelete from './PostDelete';
+import ConsoleLog from '../../ConsoleLog';
 import { useInput } from '../../hooks/input';
 import { ForumContext } from '../../context/ForumContext';
 import { MainContext } from '../../context/MainContext';
@@ -80,26 +81,59 @@ const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, foru
     const handleCloseDeletePost = useCallback(() => setDeletePost({ is_open: false }), [setDeletePost]);
 
     const handleSetAnswer   = useCallback((post) => {
-        let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
-        let subjectToResolve = reference.subjects[index];
-        let postToEdit = subjectToResolve.posts[post.index];
-        subjectToResolve.resolved = 1;
-        postToEdit.subject_answer = 1;
-        subjectToResolve.posts.splice(post.index, 1);  
-        subjectToResolve.posts.unshift(postToEdit);
-        setData(JSON.parse(JSON.stringify(data)));
+        
+        fetch('http://localhost:8080/forum/set_best_answer', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&forum_post_id=" + post.forum_post_id 
+        })
+        .then(response => response.json())
+        .then(({ status, dialog_id }) => {
+            if(status === 'ok'){
+                let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
+                let subjectToResolve = reference.subjects[index];
+                let postToEdit = subjectToResolve.posts[post.index];
+                subjectToResolve.resolved = 1;
+                postToEdit.subject_answer = 1;
+                subjectToResolve.posts.splice(post.index, 1);  
+                subjectToResolve.posts.unshift(postToEdit);
+                setData(JSON.parse(JSON.stringify(data)));
+            }
+            setTimeout(() => setDialog( { [dialog_id] : {
+                    is_open: true
+            }}), 0);
+        });  
         handleActionsClose();
+        
     },[data, forum_subject_id, handleActionsClose, setData]);
     
     const handleUnsetAnswer = useCallback((post) => {
-        let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
-        let subjectToUnResolve = reference.subjects[index];
-        let postToEdit = subjectToUnResolve.posts[post.index];
-        subjectToUnResolve.resolved = 0;
-        postToEdit.subject_answer = 0;
-        subjectToUnResolve.posts.sort((a,b) => { return new Date(b.created) - new Date(a.created) });
-        setData(JSON.parse(JSON.stringify(data)));
+        
+        fetch('http://localhost:8080/forum/unset_best_answer', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&forum_post_id=" + post.forum_post_id 
+        })
+        .then(response => response.json())
+        .then(({ status, dialog_id }) => {
+            if(status === 'ok'){
+                let { reference, index } = traverseForums('subjects', forum_subject_id, data, getSubjectByID);
+                let subjectToUnResolve = reference.subjects[index];
+                let postToEdit = subjectToUnResolve.posts[post.index];
+                subjectToUnResolve.resolved = 0;
+                postToEdit.subject_answer = 0;
+                subjectToUnResolve.posts.sort((a,b) => { return new Date(b.created) - new Date(a.created) });
+                setData(JSON.parse(JSON.stringify(data)));
+            }
+            setTimeout(() => setDialog( { [dialog_id] : {
+                    is_open: true
+            }}), 0);
+        });  
         handleActionsClose();
+        
+      
     }, [data, setData, handleActionsClose, forum_subject_id]);
 
     return useMemo(() => 
@@ -107,7 +141,8 @@ const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, foru
             <NewPost buttonSendPost = { buttonSendPost } />
             <section className="posts-list">{
                 posts && posts.length > 0 && posts.map((post, index) => 
-                    <section className={ "post-item " + ( action === 'add-post' && index === 0 ? 'is_new' : '' ) + ( post.subject_answer ? 'subject-answer' : '' ) }>
+                
+                    <section className={ "post-item " + ( action === 'add-post' && index === 0 ? 'is_new' : '' ) + ( post.subject_answer === 1 ? ' subject-answer' : '' ) }>
                         <section class="line between clickable">
                             <Person user = { post.creator } />
                             {( 
@@ -122,13 +157,14 @@ const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, foru
                 ) 
             }
             </section>
+        
             { post && post.creator && <Menu
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleActionsClose}
                 >
-                    { current.selected.help_section !== 0 && subject_creator.user_id === user.user_id && post.subject_answer === 0 && !subject_resolved
+                    { current.selected.help_section !== 0 && subject_creator.user_id === user.user_id && post.subject_answer === 0 && subject_resolved === 0
                     && <MenuItem onClick={ () => handleSetAnswer(post) }>Définir comme réponse</MenuItem> }
                     { current.selected.help_section !== 0 && subject_creator.user_id === user.user_id && post.subject_answer !== 0
                     && <MenuItem onClick={ () => handleUnsetAnswer(post) }>Supprimer le status de réponse</MenuItem> }
@@ -138,7 +174,7 @@ const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, foru
                 )
                 && <MenuItem onClick={ handleOpenEditPost }>Modifier</MenuItem> }
                 
-                <MenuItem onClick={ handleOpenDeletePost }>Supprimer</MenuItem>
+                { post.subject_answer === 0 && <MenuItem onClick={ handleOpenDeletePost }>Supprimer</MenuItem> }
             </Menu> }
             <PostEdit { ...{ ...editPost, ...post, handleCloseEditPost } } />
             <PostDelete { ...{ ...deletePost, ...post, handleCloseDeletePost } } />
