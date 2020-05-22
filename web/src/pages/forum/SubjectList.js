@@ -10,7 +10,7 @@ import { ForumContext } from '../../context/ForumContext';
 import { MainContext } from '../../context/MainContext';
 import AutosizeInput from 'react-input-autosize';
 import { getSubjectByID, traverseForums } from './Utility';
-import ConsoleLog from '../../ConsoleLog';
+
 
 const SubjectList = ( ) => {
     const { current: { selected } } = useContext(ForumContext);
@@ -179,7 +179,6 @@ const SubjectDetails = ( { // Component local non-exporté
             <Grid container alignItems="center" justify="space-between" >
                 <Grid item>
                     <Grid container direction="row" spacing={1}> 
-                        <ConsoleLog> { subject } </ConsoleLog>
                         { subject.resolved !== 0 && <Grid item> 
                             <Icon className="subject-resolved" />
                         </Grid> }
