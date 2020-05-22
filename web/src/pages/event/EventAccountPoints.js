@@ -3,7 +3,7 @@ import { Icon, Button, Dialog, DialogActions, DialogContent, DialogTitle, Box, F
 import { useInput } from '../../hooks/input';
 import {MainContext} from '../../context/MainContext';
 
-const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battleroyale, house } ) => {
+const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battleroyale, is_competitive, house } ) => {
     const { value:firstPlace, setValue:setFirstPlace, bind:bindFirstPlace } = useInput('');
     const { value:secondPlace, setValue:setSecondPlace, bind:bindSecondPlace } = useInput('');
     const { value:thirdPlace, setValue:setThirdPlace, bind:bindThirdPlace } = useInput('');
@@ -57,8 +57,8 @@ const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battle
             
             </DialogContent>
             <Box m={1} />
-                { !house && <HumanSelector { ...{ participants, bindFirstPlace, bindSecondPlace, bindThirdPlace } } /> }
-                { house && <HouseSelector { ...{ bindFirstPlace, bindSecondPlace, bindThirdPlace } } /> }
+                { is_competitive === 1 && battleroyale === 1 && <HumanSelector { ...{ participants, bindFirstPlace, bindSecondPlace, bindThirdPlace } } /> }
+                { is_competitive === 1 && battleroyale === 0 && !house && <HouseSelector { ...{ bindFirstPlace, bindSecondPlace, bindThirdPlace } } /> }
             <DialogActions>
             
             <Button
