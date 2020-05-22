@@ -275,7 +275,7 @@ const getTopHouses = (e) => {
                 </Grid>
                 <br/>
                 <Grid container direction="row" justify="space-evenly" alignItems="center">
-                        {displayHouseRank('Vainqueurs', topHouses)}
+                        {displayHouseRank('Classement des Maison', topHouses)}
                 </Grid>
             </main>
         </React.Fragment>
