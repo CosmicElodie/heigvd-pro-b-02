@@ -44,6 +44,10 @@ export default function Home() {
     //const [ data, setData ] = useState(); //mettre json à la place de useState
     const [events, setEvents] = React.useState();
 
+    useEffect(() => {
+        {user.user_id && getJoinedEvents();}
+        {user.user_id && getCreatedEvents();}
+    }, [ user.user_id]);
 
     const getCreatedEvents = () => {
         let post_body = "&user_id=" + parseInt(user.user_id);
@@ -130,10 +134,7 @@ export default function Home() {
         )
     }
 
-    useEffect(() => {
-        getJoinedEvents();
-        getCreatedEvents();
-    }, []);
+    
 
     return (
         <React.Fragment>
