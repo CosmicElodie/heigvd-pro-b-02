@@ -186,9 +186,9 @@ export default function Event_Create() {
 
 
     return (
-        <React.Fragment>
-            <CssBaseline />
+            
             <main>
+                <CssBaseline />
                 <Card className={classes.card}>
                     <CardMedia
                         className={classes.cardMedia}
@@ -468,6 +468,5 @@ export default function Event_Create() {
                     </CardActions>
                 </Card>
             </main>
-        </React.Fragment>
     );
 }
