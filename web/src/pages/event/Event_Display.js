@@ -238,15 +238,6 @@ export default function Event() {
 
                     <CardContent className={classes.cardContent}>
                         {/* Bouton "/modifier/annuler", uniquement visible pour l'admin/modo + l'organisateur de l'event */}
-                        {console.log("ACCESS LEVEL")}
-                        {console.log(user.access_level)}
-                        {console.log("USER COURANT")}
-                        {console.log(user.user_id)}
-                        {console.log("ORGANISATEUR")}
-                        {console.log(current.organisator.user_id)}
-                        {console.log("STATUT EVENT")}
-                        {console.log(current.status)}
-
                         {
                             printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Rejoindre")
                         }
