@@ -239,13 +239,13 @@ export default function Event() {
                     <CardContent className={classes.cardContent}>
                         {/* Bouton "/modifier/annuler", uniquement visible pour l'admin/modo + l'organisateur de l'event */}
                         {
-                            printButton(user.access_level, user.user_id, current.user_id, current.status, "Rejoindre")
+                            printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Rejoindre")
                         }
                         {
-                            printButton(user.access_level, user.user_id, current.user_id, current.status, "Modifier")
+                            printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Modifier")
                         }
                         {
-                            printButton(user.access_level, user.user_id, current.user_id, current.status, "Annuler")
+                            printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Annuler")
                         }
 
                         {/* Bouton "supprimer", uniquement visible pour l'admin/modo */}
@@ -286,17 +286,17 @@ export default function Event() {
                             <TableBody>
                                 <TableRow>
                                     <TableCell>
-                                        <Moment format="YYYY/MM/DD - HH:mm">
+                                        <Moment format="DD/MM/YYYY - HH:mm">
                                             {current.deadline_reservation}
                                         </Moment>
                                     </TableCell>
                                     <TableCell>
-                                        <Moment format="YYYY/MM/DD - HH:mm">
+                                        <Moment format="DD/MM/YYYY - HH:mm">
                                             {current.date_begin}
                                         </Moment>
                                     </TableCell>
                                     <TableCell>
-                                        <Moment format="YYYY/MM/DD - HH:mm">
+                                        <Moment format="DD/MM/YYYY - HH:mm">
                                             {current.date_end}
                                         </Moment>
                                     </TableCell>

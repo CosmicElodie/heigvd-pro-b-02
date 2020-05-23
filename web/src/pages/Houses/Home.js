@@ -104,6 +104,8 @@ export default function ModalProfile() {
   }, [user]); 
   
   {houseBanner && root.style.setProperty('--house-banner', houseBanner)};
+
+
   return (
 
     <div class="parent">
@@ -112,6 +114,8 @@ export default function ModalProfile() {
               <Card  class="banner" >
                   <CardContent>
                         <h1 class="test">
+                          {user && user.house && <img src={"http://localhost:8080/content/" + user.house.name  + ".png"} width="300px"/>}
+                          <br />
                         {houseInfo && houseInfo.name.toUpperCase()}
                         </h1>
                   </CardContent>
@@ -121,7 +125,7 @@ export default function ModalProfile() {
             <div class="div2" >                     
             </div>
             
-            <div class="div4">             
+            <div class="div4">  
                 <Card className="points" >
                     <CardContent  > 
                                         
@@ -184,7 +188,7 @@ export default function ModalProfile() {
                     <CardContent >
                         
                         <Typography text-align="left" component="h1" variant="h4">
-                            Info
+                            Informations
                         </Typography>
                         <br />
                         <br />
@@ -212,9 +216,9 @@ export default function ModalProfile() {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Sujet</TableCell>
-                                        <TableCell align="left">Autheur</TableCell>
+                                        <TableCell align="left">Auteur</TableCell>
                                         <TableCell align="left">message</TableCell>
-                                        <TableCell align="left">Date</TableCell>
+                                        <TableCell align="left" style={{ minWidth: 110 }}>Date</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>

@@ -24,13 +24,11 @@
         grid-area: 1 / 1 / 3 / 8; 
         
         border-radius: 5px;
-        background: transparent;
-        background-color: lightblue;      
-        background-image: var(--house-banner);        
+        background: transparent;    
+        /*background-image: var(--house-banner);*/        
         background-size: contain;
         background-repeat: no-repeat;
-        background-position-x: right;             
-          
+        background-position-x: center;                  
     }
     .div2 {
         grid-area: 1 / 1 / 3 / 3; 

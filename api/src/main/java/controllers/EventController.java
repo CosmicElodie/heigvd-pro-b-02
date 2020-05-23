@@ -31,7 +31,7 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("SELECT json_arrayagg(getEventDetailJson(event_id)) AS event_result FROM event ORDER BY date_begin ASC");
+            ResultSet events = stmt.executeQuery("SELECT json_arrayagg(getEventDetailJson(event_id)) AS event_result FROM event ORDER BY date_begin");
 
             events.next();
 
@@ -173,15 +173,15 @@ public class EventController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int user_id = user.getId();
 
-        Date date_begin;
-        Date date_end;
-        Date deadline_reservation;
+        Timestamp date_begin;
+        Timestamp date_end;
+        Timestamp deadline_reservation;
 
         try {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            date_begin = new Date(format.parse(str_date_begin.replace('T', ' ')).getTime());
-            date_end = new Date(format.parse(str_date_end.replace('T', ' ')).getTime());
-            deadline_reservation = new Date(format.parse(str_deadline_reservation.replace('T', ' ')).getTime());
+            date_begin = new Timestamp(format.parse(str_date_begin.replace('T', ' ')).getTime());
+            date_end = new Timestamp(format.parse(str_date_end.replace('T', ' ')).getTime());
+            deadline_reservation = new Timestamp(format.parse(str_deadline_reservation.replace('T', ' ')).getTime());
 
         } catch(ParseException e) {
             return Utils.errorJSONObjectBuilder("incorrect_date_format").build().toString();
@@ -189,6 +189,12 @@ public class EventController {
 
         if (name.length() == 0 || description.length() >= 500) {
             return Utils.errorJSONObjectBuilder("incorrect_input_length").build().toString();
+        }
+
+        if(description.length() <= 0 || attendees_max <= 0 || attendees_min <= 0 || location.length() <= 0 ||
+                no.length() <= 0 || street.length() <= 0 || postal_code <= 0 || city.length() <= 0)
+        {
+            return Utils.errorJSONObjectBuilder("error_empty_information").build().toString();
         }
 
         if (attendees_min > attendees_max) {
@@ -245,9 +251,9 @@ public class EventController {
 
             insertEvent.setInt(7, attendees_min);
             insertEvent.setInt(8, attendees_max);
-            insertEvent.setDate(9, deadline_reservation);
-            insertEvent.setDate(10, date_begin);
-            insertEvent.setDate(11, date_end);
+            insertEvent.setTimestamp(9, deadline_reservation);
+            insertEvent.setTimestamp(10, date_begin);
+            insertEvent.setTimestamp(11, date_end);
             insertEvent.setString(12, location);
 
             String address = street + " " + no + ", " + postal_code + " " + city;
@@ -290,15 +296,15 @@ public class EventController {
 
         JsonObjectBuilder responseObject;
 
-        Date date_begin;
-        Date date_end;
-        Date deadline_reservation;
+        Timestamp date_begin;
+        Timestamp date_end;
+        Timestamp deadline_reservation;
 
         try {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            date_begin = new Date(format.parse(str_date_begin.replace('T', ' ')).getTime());
-            date_end = new Date(format.parse(str_date_end.replace('T', ' ')).getTime());
-            deadline_reservation = new Date(format.parse(str_deadline_reservation.replace('T', ' ')).getTime());
+            date_begin = new Timestamp(format.parse(str_date_begin.replace('T', ' ')).getTime());
+            date_end = new Timestamp(format.parse(str_date_end.replace('T', ' ')).getTime());
+            deadline_reservation = new Timestamp(format.parse(str_deadline_reservation.replace('T', ' ')).getTime());
         } catch(ParseException e) {
             return Utils.errorJSONObjectBuilder("incorrect_date_format").build().toString();
         }
@@ -368,9 +374,9 @@ public class EventController {
 
             updateEvent.setInt(8, attendees_min);
             updateEvent.setInt(9, attendees_max);
-            updateEvent.setDate(10, deadline_reservation);
-            updateEvent.setDate(11, date_begin);
-            updateEvent.setDate(12, date_end);
+            updateEvent.setTimestamp(10, deadline_reservation);
+            updateEvent.setTimestamp(11, date_begin);
+            updateEvent.setTimestamp(12, date_end);
             updateEvent.setString(13, location);
 
             updateEvent.setString(14, address);
