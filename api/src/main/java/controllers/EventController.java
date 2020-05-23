@@ -191,6 +191,12 @@ public class EventController {
             return Utils.errorJSONObjectBuilder("incorrect_input_length").build().toString();
         }
 
+        if(description.length() <= 0 || attendees_max <= 0 || attendees_min <= 0 || location.length() <= 0 ||
+                no.length() <= 0 || street.length() <= 0 || postal_code <= 0 || city.length() <= 0)
+        {
+            return Utils.errorJSONObjectBuilder("error_empty_information").build().toString();
+        }
+
         if (attendees_min > attendees_max) {
             return Utils.errorJSONObjectBuilder("error_min_max_attendees_length").build().toString();
         }
