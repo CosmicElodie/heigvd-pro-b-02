@@ -209,60 +209,58 @@ export default function Event_List() {
     }
 
     return (
-        <React.Fragment>
+        <main>
             <CssBaseline />
-            <main>
-                <Grid>
-                    <Card className={classes.card}>
-                        <CardContent className={classes.cardContent}>
-                            <center><h1>Liste des événements</h1></center>
-                            <p>
-                                <MyButton href="event_create" variant="contained" color="secondary">
-                                    Créer un événement
+            <Grid>
+                <Card className={classes.card}>
+                    <CardContent className={classes.cardContent}>
+                        <center><h1>Liste des événements</h1></center>
+                        <p>
+                            <MyButton href="event_create" variant="contained" color="secondary">
+                                Créer un événement
                                 </MyButton>
-                            </p>
+                        </p>
 
-                            <TableContainer component={Paper}>
-                                <Table className={classes.table}
-                                    aria-labelledby="tableTitle"
-                                    size={dense ? "small" : "medium"}
-                                    aria-label="enhanced table"
-                                >
-                                    <EnhancedTableHead
-                                        classes={classes}
-                                        numSelected={selected.length}
-                                        order={order}
-                                        orderBy={orderBy}
-                                        onRequestSort={handleRequestSort}
-                                        rowCount={7}
-                                    />
-                                    <TableBody>
-                                        {data && stableSort(data, getComparator(order, orderBy))
-                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map(({ event_id, name, description, is_competitive, difficulty, battleroyale,
+                        <TableContainer component={Paper}>
+                            <Table className={classes.table}
+                                aria-labelledby="tableTitle"
+                                size={dense ? "small" : "medium"}
+                                aria-label="enhanced table"
+                            >
+                                <EnhancedTableHead
+                                    classes={classes}
+                                    numSelected={selected.length}
+                                    order={order}
+                                    orderBy={orderBy}
+                                    onRequestSort={handleRequestSort}
+                                    rowCount={7}
+                                />
+                                <TableBody>
+                                    {data && stableSort(data, getComparator(order, orderBy))
+                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        .map(({ event_id, name, description, is_competitive, difficulty, battleroyale,
+                                            status, price, attendees_min, attendees_max, created, deadline_reservation,
+                                            date_begin, date_end, location, address, house, organisator, participants, nb_attendees }, index) =>
+
+                                            displayEveryEvents(index, event_id, name, description, is_competitive, difficulty, battleroyale,
                                                 status, price, attendees_min, attendees_max, created, deadline_reservation,
-                                                date_begin, date_end, location, address, house, organisator, participants, nb_attendees }, index) =>
-
-                                                displayEveryEvents(index, event_id, name, description, is_competitive, difficulty, battleroyale,
-                                                    status, price, attendees_min, attendees_max, created, deadline_reservation,
-                                                    date_begin, date_end, location, address, house, organisator, participants, nb_attendees)
-                                            )}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                            <TablePagination
-                                rowsPerPageOptions={[5, 10, 25]}
-                                component="div"
-                                count={Object.size(data)}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onChangePage={handleChangePage}
-                                onChangeRowsPerPage={handleChangeRowsPerPage}
-                            />
-                        </CardContent>
-                    </Card>
-                </Grid>
-            </main>
-        </React.Fragment>
+                                                date_begin, date_end, location, address, house, organisator, participants, nb_attendees)
+                                        )}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            rowsPerPageOptions={[5, 10, 25]}
+                            component="div"
+                            count={Object.size(data)}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onChangePage={handleChangePage}
+                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                        />
+                    </CardContent>
+                </Card>
+            </Grid>
+        </main>
     );
 }

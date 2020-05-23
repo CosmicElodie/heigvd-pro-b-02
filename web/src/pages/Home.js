@@ -12,7 +12,6 @@ import {
 
 import Moment from 'react-moment';
 
-
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
         minWidth: '350px',
@@ -21,7 +20,8 @@ const useStyles = makeStyles(theme => ({
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 10,
-        paddingBottom: 10
+        paddingBottom: 10,
+        height: "100%",
     },
     cardMedia: {
         paddingTop: '0%',
@@ -46,17 +46,17 @@ export default function Home() {
     const [createdEvents, setCreatedEvents] = React.useState();
 
     useEffect(() => {
-        {user.user_id && getJoinedEvents();}
-        {user.user_id && getCreatedEvents();}
+        { user.user_id && getJoinedEvents(); }
+        { user.user_id && getCreatedEvents(); }
     }, [user.user_id]);
 
     const getCreatedEvents = () => {
         let post_body = "&user_id=" + parseInt(user.user_id);
-            console.log("CREATED");
-            console.log(post_body);
-            
+        console.log("CREATED");
+        console.log(post_body);
+
         fetch('http://localhost:8080/event/created_by_user',
-            { 
+            {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -68,9 +68,9 @@ export default function Home() {
 
     const getJoinedEvents = () => {
         let post_body = "&user_id=" + parseInt(user.user_id);
-            console.log("PARTICIPATED");
-            console.log(post_body);
-        fetch('http://localhost:8080/event/participated_by_user', { 
+        console.log("PARTICIPATED");
+        console.log(post_body);
+        fetch('http://localhost:8080/event/participated_by_user', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -82,13 +82,12 @@ export default function Home() {
 
     function displayLine(name, date_begin, limitation, nb_attendees, status) {
         return (<TableRow>
-            <TableCell>{NamedNodeMap}</TableCell>
+            <TableCell align="left">{name}</TableCell>
             <TableCell align="left"><Moment format="DD/MM/YYYY - HH:mm">{date_begin}</Moment></TableCell>
             <TableCell align="left">{limitation}</TableCell>
             <TableCell align="left">{nb_attendees}</TableCell>
             <TableCell align="left">{status}</TableCell>
         </TableRow>
-
         );
     }
 
@@ -131,7 +130,6 @@ export default function Home() {
                     </Typography>
                 </CardContent>
             </Card>
-
         )
     }
 
@@ -183,7 +181,7 @@ export default function Home() {
             <CssBaseline />
             <main>
                 <h1>Bienvenue, {user.firstname} !</h1>
-                <Grid spacing={2} container direction="row" justify="space-evenly" alignItems="center">
+                <Grid spacing={2} container direction="row" justify="space-evenly" alignItems="stretch">
 
                     <Grid item xs>
                         {displayJoinedEvents('Événements rejoints par ' + user.firstname, joinedEvents)}

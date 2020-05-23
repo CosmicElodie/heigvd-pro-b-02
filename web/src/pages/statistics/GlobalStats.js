@@ -1,86 +1,87 @@
-import React, {useContext, useState} from 'react';
-import {MainContext} from '../../context/MainContext';
-import {makeStyles} from '@material-ui/core/styles';
+import React, { useContext, useState } from 'react';
+import { MainContext } from '../../context/MainContext';
+import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { 
-    Card, CardContent, CardMedia, 
-    CssBaseline, 
-    Grid, 
-    Table, TableBody, TableCell, TableHead, TableContainer, TableRow, 
-    Paper} from '@material-ui/core';
+import {
+  Card, CardContent, CardMedia,
+  CssBaseline,
+  Grid,
+  Table, TableBody, TableCell, TableHead, TableContainer, TableRow,
+  Paper
+} from '@material-ui/core';
 
 import { ColumnChart } from '@opd/g2plot-react'
 
-const dataTemp = {title: 
+const dataTemp = {
+  title:
   {
-  visible: true,
-  text: 'nb événements organisés par orientation',
-},
-forceFit: true,
-data: [
-  {
-    orientation: 'ID',
-    events: 38,
-    color: 'red',
+    visible: true,
+    text: 'nb événements organisés par orientation',
   },
-  {
-    orientation: 'IE',
-    events: 52,
-  },
-  {
-    orientation: 'TS',
-    events: 61,
-  },
-  {
-    orientation: 'TR',
-    events: 145,
-  },
-],
+  forceFit: true,
+  data: [
+    {
+      orientation: 'ID',
+      events: 38,
+      color: 'red',
+    },
+    {
+      orientation: 'IE',
+      events: 52,
+    },
+    {
+      orientation: 'TS',
+      events: 61,
+    },
+    {
+      orientation: 'TR',
+      events: 145,
+    },
+  ],
 
-padding: 'auto',
-xField: 'orientation',
-yField: 'events',
-meta: 
-{
-  type: 
+  padding: 'auto',
+  xField: 'orientation',
+  yField: 'events',
+  meta:
   {
-    alias: 'Orientations',
+    type:
+    {
+      alias: 'Orientations',
+    },
+    events:
+    {
+      alias: 'Nb événements',
+    },
   },
-  events: 
-  {
-    alias: 'Nb événements',
-  },
-},
 }
 
 
 export default function GlobalStats() {
   return (
-    <React.Fragment>
-      <CssBaseline/>
-      <main>
-          <Grid container direction="row" justify="space-evenly" alignItems="center">
-              <Grid item xs> 
-                  <Card>
-                    <h1>Statistiques</h1>
-                    <CardMedia
-                      image="https://i.imgur.com/NSM8kNK.png"
-                      title="Image title" />
-                      <CardContent>
-                        <Typography>
-                        <section>
-                          <h2>Nombres d'événements organisés par orientation</h2>
-                          <ColumnChart {...dataTemp} />
-                        </section>
-                        </Typography>
-                      </CardContent>
-                      </Card>
-                </Grid>
-              </Grid>
-      </main>
-    </React.Fragment>
+
+    <main>
+      <CssBaseline />
+      <Grid container direction="row" justify="space-evenly" alignItems="center">
+        <Grid item xs>
+          <Card>
+            <h1>Statistiques</h1>
+            <CardMedia
+              image="https://i.imgur.com/NSM8kNK.png"
+              title="Image title" />
+            <CardContent>
+              <Typography>
+                <section>
+                  <h2>Nombres d'événements organisés par orientation</h2>
+                  <ColumnChart {...dataTemp} />
+                </section>
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </main>
   );
-} 
+}
 
 /*
 import React, { useState } from 'react';

@@ -16,8 +16,8 @@
     
     border-radius: 5px;
     background: transparent;
-    background-color: lightblue;      
-    background-image: var(--house-banner);        
+    /* background-color: lightblue; */      
+    /*background-image: var(--house-banner); */ 
     background-size: contain;
     background-repeat: no-repeat;
     background-position-x: right;             

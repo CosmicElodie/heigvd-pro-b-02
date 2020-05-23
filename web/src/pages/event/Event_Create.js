@@ -156,7 +156,6 @@ export default function Event_Create() {
 
     function MyCreationButton() {
         return (
-            <React.Fragment>
                 <Button
                     type="submit"
                     fullWidth
@@ -166,7 +165,7 @@ export default function Event_Create() {
                     onClick={buttonCreateEvent}>
                     Créer événement
                 </Button>
-            </React.Fragment>
+
         );
     }
 

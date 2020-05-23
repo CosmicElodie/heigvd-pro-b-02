@@ -158,7 +158,6 @@ export default function Event_Modify() {
 
     function MyCreationButton() {
         return (
-            <React.Fragment>
                 <Button
                     type="submit"
                     fullWidth
@@ -168,7 +167,6 @@ export default function Event_Modify() {
                     onClick={buttonModifyEvent}>
                     Modifier l'événement
                 </Button>
-            </React.Fragment>
         );
     }
 

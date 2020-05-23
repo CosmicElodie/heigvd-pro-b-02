@@ -12,13 +12,16 @@ import '../../css/Auditoire.css';
 
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
-        minHeight: '700px',
+        maxWidth: 400,
         display: 'flex',
         flexDirection: 'column',
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 10,
-        paddingBottom: 10
+        paddingBottom: 10,
+        height: "100%",
+        minHeight: '700px',
+
     },
     cardMedia: {
         paddingTop: '100%',
@@ -96,11 +99,9 @@ export default function Auditoire() {
             })
     }
 
-    function displayLine(rank, firstname, lastname, points_year)
-    {
-        if(rank <= 5)
-        {
-            return(<TableRow  >
+    function displayLine(rank, firstname, lastname, points_year) {
+        if (rank <= 5) {
+            return (<TableRow  >
                 <TableCell>{rankIL++}</TableCell>
                 <TableCell>{firstname + ' ' + lastname}</TableCell>
                 <TableCell>{points_year}</TableCell>
@@ -125,7 +126,7 @@ export default function Auditoire() {
                     title="Image title"
                 />
                 <CardContent className={classes.cardContent}>
-                <Typography>
+                    <Typography>
                         <TableContainer component={Paper}>
                             <Table className={classes.table}>
                                 <TableHead>
@@ -135,10 +136,10 @@ export default function Auditoire() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                        <TableRow  >
-                                            <TableCell>{topUser && Object.keys(topUser).length}</TableCell>
-                                            <TableCell>{topUser && getTotalPoints(topUser)}</TableCell>
-                                        </TableRow>
+                                    <TableRow  >
+                                        <TableCell>{topUser && Object.keys(topUser).length}</TableCell>
+                                        <TableCell>{topUser && getTotalPoints(topUser)}</TableCell>
+                                    </TableRow>
                                 </TableBody>
                             </Table>
                         </TableContainer>
@@ -180,10 +181,10 @@ export default function Auditoire() {
     }, []);
 
     return (
-        <React.Fragment>
+        <main>
             <CssBaseline />
-            <main>
-                <Grid container spacing={5} direction="row" justify="space-evenly" alignItems="center">
+            <center>
+                <Grid container spacing={5} direction="row" justify="center" alignItems="stretch">
                     <Grid item xs>
                         {displayHouse('Informatique logicielle', topUserIL)}
                     </Grid>
@@ -195,7 +196,7 @@ export default function Auditoire() {
                     <Grid item xs>
                         {displayHouse('Réseaux et systèmes', topUserTR)}
                     </Grid>
-                    
+
                     <Grid item xs>
                         {displayHouse('Sécurité informatique', topUserTS)}
                     </Grid>
@@ -204,7 +205,8 @@ export default function Auditoire() {
                         {displayHouse('Systèmes informatiques embarqués', topUserIE)}
                     </Grid>
                 </Grid>
-            </main>
-        </React.Fragment>
+            </center>
+
+        </main>
     );
 }

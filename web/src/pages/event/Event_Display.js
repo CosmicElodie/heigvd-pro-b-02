@@ -117,7 +117,7 @@ export default function Event() {
 
             if (text === "Rejoindre") {
                 return <Button variant="contained" size="small" color="primary" onClick={joinEvent} className={classes.margin}> {text} </Button>;
-            } 
+            }
             else if (text === "Quitter") {
                 return <Button variant="contained" size="small" color="primary" onClick={joinEvent} className={classes.margin}> {text} </Button>;
             }
@@ -225,157 +225,160 @@ export default function Event() {
     }
 
     return (
-        <React.Fragment>
+
+        <main>
             {current && <EventAccountPoints {...{ ...accountPointDialogState, ...current, ...{ handleClose: handleAccountPointDialogClose } }} />}
             <CssBaseline />
-            <main>
-                {current && <Card className={classes.card}>
-                    <CardMedia
-                        className={classes.cardMedia}
-                        //image="https://heig-vd.ch/images/default-source/img-vie-sur-le-campus/heig-vd-site-web-sm-00075562.jpg?sfvrsn=e01580ea_2"
-                        title="Image title"
-                    />
+            {current &&
+                <center>
+                    <Card className={classes.card}>
+                        <CardMedia
+                            className={classes.cardMedia}
+                            //image="https://heig-vd.ch/images/default-source/img-vie-sur-le-campus/heig-vd-site-web-sm-00075562.jpg?sfvrsn=e01580ea_2"
+                            title="Image title"
+                        />
 
-                    <CardContent className={classes.cardContent}>
-                        {/* Bouton "/modifier/annuler", uniquement visible pour l'admin/modo + l'organisateur de l'event */}
-                        {
-                            printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Rejoindre")
-                        }
-                        {
-                            printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Modifier")
-                        }
-                        {
-                            printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Annuler")
-                        }
+                        <CardContent className={classes.cardContent}>
+                            {/* Bouton "/modifier/annuler", uniquement visible pour l'admin/modo + l'organisateur de l'event */}
+                            {
+                                printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Rejoindre")
+                            }
+                            {
+                                printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Modifier")
+                            }
+                            {
+                                printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Annuler")
+                            }
 
-                        {/* Bouton "supprimer", uniquement visible pour l'admin/modo */}
-                        {printDeleteButton(user.access_level)}
+                            {/* Bouton "supprimer", uniquement visible pour l'admin/modo */}
+                            {printDeleteButton(user.access_level)}
 
-                        {printAccountPointsButton(current)}
-                        <h1>{current.name}</h1>
-                        <center><i>{current.status}</i></center>
+                            {printAccountPointsButton(current)}
+                            <h1>{current.name}</h1>
+                            <center><i>{current.status}</i></center>
 
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>
-                                        <h2>Description</h2>
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                <TableCell align='justify'>
-                                    {current.description} </TableCell>
-                            </TableBody>
-                        </Table>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>
+                                            <h2>Description</h2>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableCell align='justify'>
+                                        {current.description} </TableCell>
+                                </TableBody>
+                            </Table>
 
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell style={{ width: 210 }}>
-                                        <h2>Date limite d'inscription</h2>
-                                    </TableCell>
-                                    <TableCell style={{ width: 210 }}>
-                                        <h2>Début de l'événement</h2>
-                                    </TableCell>
-                                    <TableCell style={{ width: 210 }}>
-                                        <h2>Fin de l'événement</h2>
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell>
-                                        <Moment format="DD/MM/YYYY - HH:mm">
-                                            {current.deadline_reservation}
-                                        </Moment>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Moment format="DD/MM/YYYY - HH:mm">
-                                            {current.date_begin}
-                                        </Moment>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Moment format="DD/MM/YYYY - HH:mm">
-                                            {current.date_end}
-                                        </Moment>
-                                    </TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell style={{ width: 210 }}>
+                                            <h2>Date limite d'inscription</h2>
+                                        </TableCell>
+                                        <TableCell style={{ width: 210 }}>
+                                            <h2>Début de l'événement</h2>
+                                        </TableCell>
+                                        <TableCell style={{ width: 210 }}>
+                                            <h2>Fin de l'événement</h2>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell>
+                                            <Moment format="DD/MM/YYYY - HH:mm">
+                                                {current.deadline_reservation}
+                                            </Moment>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Moment format="DD/MM/YYYY - HH:mm">
+                                                {current.date_begin}
+                                            </Moment>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Moment format="DD/MM/YYYY - HH:mm">
+                                                {current.date_end}
+                                            </Moment>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
 
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell style={{ width: 210 }}>
-                                        <h2>Compétitif</h2>
-                                    </TableCell>
-                                    <TableCell style={{ width: 210 }}>
-                                        <h2>Battle Royal</h2>
-                                    </TableCell>
-                                    <TableCell style={{ width: 210 }}>
-                                        <h2>Difficulté</h2>
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell>
-                                        {current.is_competitive ? "Oui" : "Non"}
-                                    </TableCell>
-                                    <TableCell>
-                                        {current.battleroyale ? "Oui" : "Non"}
-                                    </TableCell>
-                                    <TableCell>
-                                        {displayDifficulty(current.difficulty)}
-                                    </TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell style={{ width: 210 }}>
+                                            <h2>Compétitif</h2>
+                                        </TableCell>
+                                        <TableCell style={{ width: 210 }}>
+                                            <h2>Battle Royal</h2>
+                                        </TableCell>
+                                        <TableCell style={{ width: 210 }}>
+                                            <h2>Difficulté</h2>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell>
+                                            {current.is_competitive ? "Oui" : "Non"}
+                                        </TableCell>
+                                        <TableCell>
+                                            {current.battleroyale ? "Oui" : "Non"}
+                                        </TableCell>
+                                        <TableCell>
+                                            {displayDifficulty(current.difficulty)}
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
 
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell style={{ width: 210 }}>
-                                        <h2>Limitation</h2>
-                                    </TableCell>
-                                    <TableCell style={{ width: 210 }}>
-                                        <h2>Nombre de participants</h2>
-                                    </TableCell>
-                                    <TableCell style={{ width: 210 }}>
-                                        <h2>Prix</h2>
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell>
-                                        {displayLimitation(current.limitation)}
-                                    </TableCell>
-                                    <TableCell>
-                                        {current.nb_attendees} / {current.attendees_max}
-                                    </TableCell>
-                                    <TableCell>
-                                        {current.price} CHF
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell style={{ width: 210 }}>
+                                            <h2>Limitation</h2>
+                                        </TableCell>
+                                        <TableCell style={{ width: 210 }}>
+                                            <h2>Nombre de participants</h2>
+                                        </TableCell>
+                                        <TableCell style={{ width: 210 }}>
+                                            <h2>Prix</h2>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell>
+                                            {displayLimitation(current.limitation)}
+                                        </TableCell>
+                                        <TableCell>
+                                            {current.nb_attendees} / {current.attendees_max}
+                                        </TableCell>
+                                        <TableCell>
+                                            {current.price} CHF
                                             </TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                        <br />
-                        <center><h2>Adresse</h2></center>
-                        <Table>
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell align="center">
-                                        {current.address}
-                                    </TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                    </CardContent>
-                </Card>
-                }
-            </main>
-        </React.Fragment>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                            <br />
+                            <center><h2>Adresse</h2></center>
+                            <Table>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell align="center">
+                                            {current.address}
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </CardContent>
+                    </Card>
+                </center>
+            }
+
+        </main>
     );
 }
