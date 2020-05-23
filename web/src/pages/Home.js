@@ -42,12 +42,13 @@ export default function Home() {
     const classes = useStyles();
 
     //const [ data, setData ] = useState(); //mettre json à la place de useState
-    const [events, setEvents] = React.useState();
+    const [joinedEvents, setJoinedEvents] = React.useState();
+    const [createdEvents, setCreatedEvents] = React.useState();
 
     useEffect(() => {
         {user.user_id && getJoinedEvents();}
         {user.user_id && getCreatedEvents();}
-    }, [ user.user_id]);
+    }, [user.user_id]);
 
     const getCreatedEvents = () => {
         let post_body = "&user_id=" + parseInt(user.user_id);
@@ -62,7 +63,7 @@ export default function Home() {
                 body: post_body
             })
             .then(response => response.json())
-            .then(response => { setEvents(response) })
+            .then(response => { setCreatedEvents(response) })
     }
 
     const getJoinedEvents = () => {
@@ -76,7 +77,7 @@ export default function Home() {
             body: post_body
         })
             .then(response => response.json())
-            .then(response => { setEvents(response) })
+            .then(response => { setJoinedEvents(response) })
     }
 
     function displayLine(name, date_begin, limitation, nb_attendees, status) {
@@ -91,7 +92,7 @@ export default function Home() {
         );
     }
 
-    const displayHouse = (name, events) => {
+    const displayCreatedEvents = (name, events) => {
         return (
 
             <Card className={classes.card}>
@@ -118,7 +119,7 @@ export default function Home() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {events && events.length > 0 && events.map(({ index, event_id, name, description, is_competitive, difficulty, battleroyale,
+                                    {createdEvents && createdEvents.length > 0 && createdEvents.map(({ index, event_id, name, description, is_competitive, difficulty, battleroyale,
                                         status, price, attendees_min, attendees_max, created, deadline_reservation,
                                         date_begin, date_end, location, address, house, organisator, participants, nb_attendees }) =>
 
@@ -134,7 +135,48 @@ export default function Home() {
         )
     }
 
-    
+    const displayJoinedEvents = (name, events) => {
+        return (
+
+            <Card className={classes.card}>
+                <Typography gutterBottom variant="h6" align="center">
+                    {name}
+                </Typography>
+                <CardMedia
+                    className={classes.cardMedia}
+                    image=""
+                    title="Image title"
+                />
+
+                <CardContent className={classes.cardContent}>
+                    <Typography>
+                        <TableContainer component={Paper}>
+                            <Table className={classes.table}>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Nom</TableCell>
+                                        <TableCell align="left">Date début</TableCell>
+                                        <TableCell align="left">Limitation</TableCell>
+                                        <TableCell align="left">Nb participants</TableCell>
+                                        <TableCell align="left">Statut</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {joinedEvents && joinedEvents.length > 0 && joinedEvents.map(({ index, event_id, name, description, is_competitive, difficulty, battleroyale,
+                                        status, price, attendees_min, attendees_max, created, deadline_reservation,
+                                        date_begin, date_end, location, address, house, organisator, participants, nb_attendees }) =>
+
+                                        displayLine(name, date_begin, location, nb_attendees, status)
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Typography>
+                </CardContent>
+            </Card>
+
+        )
+    }
 
     return (
         <React.Fragment>
@@ -144,11 +186,11 @@ export default function Home() {
                 <Grid spacing={2} container direction="row" justify="space-evenly" alignItems="center">
 
                     <Grid item xs>
-                        {displayHouse('Événements rejoints par ' + user.firstname, events)}
+                        {displayJoinedEvents('Événements rejoints par ' + user.firstname, joinedEvents)}
                     </Grid>
 
                     <Grid item xs>
-                        {displayHouse('Événements créés par ' + user.firstname, events)}
+                        {displayCreatedEvents('Événements créés par ' + user.firstname, createdEvents)}
                     </Grid>
 
                 </Grid>
