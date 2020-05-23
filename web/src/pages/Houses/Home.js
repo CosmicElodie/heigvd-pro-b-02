@@ -214,7 +214,7 @@ export default function ModalProfile() {
                                         <TableCell>Sujet</TableCell>
                                         <TableCell align="left">Autheur</TableCell>
                                         <TableCell align="left">message</TableCell>
-                                        <TableCell align="left">Date</TableCell>
+                                        <TableCell align="left" style={{ minWidth: 110 }}>Date</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>

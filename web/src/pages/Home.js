@@ -10,11 +10,12 @@ import {
     Paper
 } from '@material-ui/core';
 
+import Moment from 'react-moment';
+
 
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
-        minWidth: '550px',
-        minHeight: '400px',
+        minWidth: '350px',
         display: 'flex',
         flexDirection: 'column',
         paddingLeft: 10,
@@ -50,7 +51,7 @@ export default function Home() {
             console.log(post_body);
             
         fetch('http://localhost:8080/event/created_by_user',
-            { //pour l'instant yearly envoie tous les users toutes maisons confondues.
+            { 
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -64,7 +65,7 @@ export default function Home() {
         let post_body = "&user_id=" + parseInt(user.user_id);
             console.log("PARTICIPATED");
             console.log(post_body);
-        fetch('http://localhost:8080/event/participated_by_user', { //pour l'instant yearly envoie tous les users toutes maisons confondues.
+        fetch('http://localhost:8080/event/participated_by_user', { 
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -77,7 +78,7 @@ export default function Home() {
     function displayLine(name, date_begin, limitation, nb_attendees, status) {
         return (<TableRow>
             <TableCell>{NamedNodeMap}</TableCell>
-            <TableCell align="left">{date_begin}</TableCell>
+            <TableCell align="left"><Moment format="YYYY/MM/DD - HH:mm">{date_begin}</Moment></TableCell>
             <TableCell align="left">{limitation}</TableCell>
             <TableCell align="left">{nb_attendees}</TableCell>
             <TableCell align="left">{status}</TableCell>
@@ -138,6 +139,7 @@ export default function Home() {
         <React.Fragment>
             <CssBaseline />
             <main>
+                <h1>Bienvenue, {user.firstname} !</h1>
                 <Grid container direction="row" justify="space-evenly" alignItems="center">
 
                     <Grid>
