@@ -2,21 +2,11 @@ import React, { useContext } from 'react';
 import { MainContext } from '../../context/MainContext';
 import { useInput } from '../../hooks/input';
 
-import Typography from '@material-ui/core/Typography';
-import Popover from '@material-ui/core/Popover';
+import { Typography, Popover, Button, 
+    Card, CardActions, CardContent, CardMedia, 
+    CssBaseline, Grid, FormControl, TextField, MenuItem } from '@material-ui/core';
 
-import Button from '@material-ui/core/Button';
-
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-
-import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
+import { Redirect } from 'react-router-dom';
 
 //TODO : Pour faire l'upload de l'image
 //https://www.youtube.com/watch?v=sp9r6hSWH_o
@@ -144,11 +134,14 @@ export default function Event_Create() {
                     resetCity();
                 }
 
-                setDialog({
+                setDialog
+                ({
                     [dialog_id]: {
                         is_open: true
                     }
                 });
+
+                return <Redirect to="/event_list" />
             });
     }
 

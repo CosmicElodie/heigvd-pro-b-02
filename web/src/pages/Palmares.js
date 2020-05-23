@@ -13,7 +13,6 @@ import {
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
         minWidth: '450px',
-        minHeight: '400px',
         display: 'flex',
         flexDirection: 'column',
         paddingLeft: 10,

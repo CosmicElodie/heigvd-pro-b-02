@@ -140,13 +140,13 @@ export default function Home() {
             <CssBaseline />
             <main>
                 <h1>Bienvenue, {user.firstname} !</h1>
-                <Grid container direction="row" justify="space-evenly" alignItems="center">
+                <Grid spacing={2} container direction="row" justify="space-evenly" alignItems="center">
 
-                    <Grid>
+                    <Grid item xs>
                         {displayHouse('Événements rejoints par ' + user.firstname, events)}
                     </Grid>
 
-                    <Grid item xs={5}>
+                    <Grid item xs>
                         {displayHouse('Événements créés par ' + user.firstname, events)}
                     </Grid>
 

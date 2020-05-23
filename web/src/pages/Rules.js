@@ -79,9 +79,11 @@ export default function Rules() {
                             <h2>Quelle est la période de compétition pour élir la meilleure orientation ?</h2>
                             <p>Du 15 septembre au 14 septembre de l’année suivante.</p>
 
-                            <h2>Quelles actions permettent de gagner des points sur le site ?</h2>
+                            <h2>Comment peut-on rapporter des points à son orientation ?</h2>
+                            <p>Vous pouvez gagner des points par le biais de différentes actions, renseignées ci-dessous :
+                            </p>
                             <TableContainer component={Paper}>
-                                <Table>
+                                <Table className={classes.table} aria-label="caption table">
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>Action</TableCell>
@@ -109,6 +111,71 @@ export default function Rules() {
                                 </Table>
                             </TableContainer>
 
+                            <p>Il est également possible de gagner des points si vous faites partie des trois premiers gagnants d'un événement compétitif :</p>
+
+                            <TableContainer component={Paper}>
+                                <Table className={classes.table} aria-label="caption table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell></TableCell>
+                                            <TableCell>1ère place</TableCell>
+                                            <TableCell>2ème place</TableCell>
+                                            <TableCell>3ème place</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell>Facile</TableCell>
+                                            <TableCell>10 pts</TableCell>
+                                            <TableCell>6 pts</TableCell>
+                                            <TableCell>3 pts </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>Moyen</TableCell>
+                                            <TableCell>25 pts</TableCell>
+                                            <TableCell>15 pts</TableCell>
+                                            <TableCell>7 pts </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                        <TableCell>Difficile</TableCell>
+                                            <TableCell>50 pts</TableCell>
+                                            <TableCell>25 pts</TableCell>
+                                            <TableCell>15 pts </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>Extrême</TableCell>
+                                            <TableCell>100 pts</TableCell>
+                                            <TableCell>60 pts</TableCell>
+                                            <TableCell>30 pts </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+
+
+                            <h2></h2>
+                            <p></p>
+
+                            <h2></h2>
+                            <p></p>
+
+                            <h2></h2>
+                            <p></p>
+
+                            <h2></h2>
+                            <p></p>
+
+                            <h2></h2>
+                            <p></p>
+
+                            <h2></h2>
+                            <p></p>
+
+                            <h2></h2>
+                            <p></p>
+
+                            <h2></h2>
+                            <p></p>
                         </CardContent>
                     </Card>
                 </Grid>

@@ -12,7 +12,6 @@ import '../../css/Auditoire.css';
 
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
-        minWidth: '300px',
         minHeight: '700px',
         display: 'flex',
         flexDirection: 'column',
@@ -184,29 +183,24 @@ export default function Auditoire() {
         <React.Fragment>
             <CssBaseline />
             <main>
-                <Grid container direction="row" justify="space-evenly" alignItems="center">
-
-
-                    <Grid item xs={3}>
+                <Grid container spacing={5} direction="row" justify="space-evenly" alignItems="center">
+                    <Grid item xs>
                         {displayHouse('Informatique logicielle', topUserIL)}
                     </Grid>
 
-                    <Grid item xs={3}>
+                    <Grid item xs>
                         {displayHouse('Ingénierie des données', topUserID)}
                     </Grid>
 
-                    <Grid item xs={3}>
+                    <Grid item xs>
                         {displayHouse('Réseaux et systèmes', topUserTR)}
                     </Grid>
-
-                </Grid>
-                <br />
-                <Grid container direction="row" justify="space-evenly" alignItems="center">
-                    <Grid item xs={2}>
+                    
+                    <Grid item xs>
                         {displayHouse('Sécurité informatique', topUserTS)}
                     </Grid>
 
-                    <Grid item xs={2}>
+                    <Grid item xs>
                         {displayHouse('Systèmes informatiques embarqués', topUserIE)}
                     </Grid>
                 </Grid>
