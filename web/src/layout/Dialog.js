@@ -400,18 +400,6 @@ const Dialog = () => {
             }
 
             { 
-                dialog && dialog.incorrect_input_length &&
-                <Snackbar 
-                        open = { dialog.incorrect_input_length.is_open }
-                        onClose = { () => handleClose({ incorrect_input_length: { is_open : false } }) } 
-                        autoHideDuration={6000} >
-                    <Alert variant="filled" severity="error">
-                        Text de description trop long. 
-                    </Alert>
-                </Snackbar> 
-            }
-
-            { 
                 dialog && dialog.error_max_attendees_lower_than_nb_attendees &&
                 <Snackbar 
                         open = { dialog.error_max_attendees_lower_than_nb_attendees.is_open }
@@ -525,6 +513,32 @@ const Dialog = () => {
                         autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
                         Vous avez déjà rejoint cet événement. 
+                    </Alert>
+                </Snackbar> 
+            }
+            
+
+            { 
+                dialog && dialog.error_empty_information &&
+                <Snackbar 
+                        open = { dialog.error_empty_information.is_open }
+                        onClose = { () => handleClose({ error_empty_information: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Veuillez renseigner toutes les informations nécessaires !
+                    </Alert>
+                </Snackbar> 
+            }
+            
+
+            { 
+                dialog && dialog.incorrect_input_length &&
+                <Snackbar 
+                        open = { dialog.incorrect_input_length.is_open }
+                        onClose = { () => handleClose({ incorrect_input_length: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Votre description doit faire 500 caractères maximum.
                     </Alert>
                 </Snackbar> 
             }

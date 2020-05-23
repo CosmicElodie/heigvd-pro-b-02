@@ -2,9 +2,11 @@ import React, { useContext } from 'react';
 import { MainContext } from '../../context/MainContext';
 import { useInput } from '../../hooks/input';
 
-import { Typography, Popover, Button, 
-    Card, CardActions, CardContent, CardMedia, 
-    CssBaseline, Grid, FormControl, TextField, MenuItem } from '@material-ui/core';
+import {
+    Typography, Popover, Button,
+    Card, CardActions, CardContent, CardMedia,
+    CssBaseline, Grid, FormControl, TextField, MenuItem
+} from '@material-ui/core';
 
 import { Redirect } from 'react-router-dom';
 
@@ -15,6 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 
 const titre_créerEvent = "Créer un événement"
+const CHARACTER_LIMIT = 500;
 
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
@@ -67,6 +70,12 @@ export default function Event_Create() {
     const { user, setDialog } = useContext(MainContext);
     const classes = useStyles();
 
+    const [inputMin, setInputMin] = React.useState(0);
+
+    const handleChange = (event) => {
+        setInputMin(event.target.value);
+      };
+
     const { value: name, bind: bindName, reset: resetName } = useInput('');
     const { value: description, bind: bindDescription, reset: resetDescription } = useInput('');
     const { value: is_competitive, bind: bindIsCompetitive, reset: resetCompetitive } = useInput('');
@@ -86,12 +95,12 @@ export default function Event_Create() {
     const { value: house_id, bind: bindHouseId } = useInput('');
 
     const buttonCreateEvent = (e) => {
-        
+
         let post_body =
             "&name=" + name +
             "&description=" + description +
             "&is_competitive=" + is_competitive +
-            "&battleroyal=" + ( is_competitive ? battleroyal : 0 ) +
+            "&battleroyal=" + (is_competitive ? battleroyal : 0) +
             "&difficulty=" + difficulty +
             "&price=" + ((price == null || price == 0) ? 0 : price) +
             "&attendees_min=" + attendees_min +
@@ -114,8 +123,8 @@ export default function Event_Create() {
         })
             .then(response => response.json())
             .then(({ status, dialog_id }) => {
-               
-                if(status === "ok") {
+
+                if (status === "ok") {
                     resetName();
                     resetDescription();
                     resetCompetitive();
@@ -135,11 +144,11 @@ export default function Event_Create() {
                 }
 
                 setDialog
-                ({
-                    [dialog_id]: {
-                        is_open: true
-                    }
-                });
+                    ({
+                        [dialog_id]: {
+                            is_open: true
+                        }
+                    });
 
                 return <Redirect to="/event_list" />
             });
@@ -286,21 +295,21 @@ export default function Event_Create() {
                             <br /><br />
                             <Grid container>
                                 <Grid item xs>
-                                  { is_competitive === 1 && <TextField
+                                    {is_competitive === 1 && <TextField
                                         id="battleroyal"
-                                        label="Battle Royal Mode"
-                                        helperText="All vs All ou affrontement par équipe."
+                                        label="Mode Battle Royal"
+                                        helperText="Tous vs Tous ou Équipe vs Équipe"
                                         required={false}
                                         defaultValue={0}
                                         disabled={false} //{battleRoyalOnorOff}
-
                                         style={{ width: 150 }}
                                         {...bindBattleRoyal}
                                         select>
-                                        <MenuItem value={0}>Non</MenuItem>
                                         <MenuItem value={1}>Oui</MenuItem>
-                                    </TextField> }  
-                                 
+                                        <MenuItem value={0}>Non</MenuItem>
+
+                                    </TextField>}
+
                                 </Grid>
                             </Grid>
                             <br /><br />
@@ -309,9 +318,9 @@ export default function Event_Create() {
                                     <TextField
                                         id="attendees_min"
                                         label="Nb. min participants"
-                                        placeholder="Veuillez indiquer le nombre minimum de participants."
                                         variant="outlined"
-                                        defaultValue={0}
+                                        value = {inputMin}
+                                        onChange={handleChange}
                                         required={true}
                                         {...bindAttendeesMin}
                                     />
