@@ -51,13 +51,22 @@ const ShowProfile = () => {
                                 !showProfile.avatar &&
                                 <Avatar className="avatar"> { showProfile.initials } </Avatar> 
                               }
-            
                               
                             </Avatar>
                             </div>
                             <br />
-                            <br />
+                            <section className={classes.status}>
+                            
+                            { showProfile.access_level === 25 && <section className={ classes.personStatus + " person-status person-access-prefet" } />  }
+                            { showProfile.access_level === 50 && <section className={ classes.personStatus + " person-status person-access-moderator" } />  }
+                            { showProfile.access_level === 75 && <section className={ classes.personStatus + " person-status person-access-admin" } />  }
 
+                            { showProfile.access_level === 0 && "Utilisateur" }
+                            { showProfile.access_level === 25 && "Préfet" }
+                            { showProfile.access_level === 50 && "Moderateur" }
+                            { showProfile.access_level === 75 && "Administrateur" }
+
+                            </section>
                             <Typography >                     
                               <DisplayData name="Nom :" data = {showProfile.lastname}/>    
                               <DisplayData name="Prenom :" data = {showProfile.firstname}/>    
@@ -81,7 +90,18 @@ export default ShowProfile;
 const useStyles = makeStyles(theme => ({
     
     
-
+    status: {
+      position: "relative",
+      display:"flex",
+      alignItems: "center",
+      justifyContent: "center"
+    },
+    personStatus: {
+      width:"24px",
+      height: "24px",
+      backgroundRepeat: "no-repeat",
+      marginTop:"4px"
+    },
     test:{
       textAlign:  "-moz-center",
     },

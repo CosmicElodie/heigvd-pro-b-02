@@ -7,15 +7,15 @@
     min-height: 48px;
 }
 
-.person .person-status.person-access-admin{
+.person-status.person-access-admin{
     background-image: url(../svg/person/crown.svg);
 }
 
-.person .person-status.person-access-prefet{
+.person-status.person-access-prefet{
     background-image: url(../svg/person/fencing-swords.svg);
 }
 
-.person .person-status.person-access-moderator{
+.person-status.person-access-moderator{
     background-image: url(../svg/person/armor.svg);
 }
 
