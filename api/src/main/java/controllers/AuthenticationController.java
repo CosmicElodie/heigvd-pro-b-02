@@ -11,10 +11,18 @@ import org.springframework.web.bind.annotation.*;
 import repositories.UserRepository;
 import utils.Utils;
 
+import javax.sql.DataSource;
 import java.security.Principal;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 @RestController
 public class AuthenticationController {
+
+    @Autowired
+    private DataSource dataSource;
 
     @Autowired // will inject the instance of UserRepository when AuthenticationController instance created
     private UserRepository userRepository;
@@ -77,6 +85,19 @@ public class AuthenticationController {
     @GetMapping("/authentication/user")
     public String currentUserName(Principal principal) {
         return principal.getName();
+    }
+
+    @GetMapping("/authentication/now_online")
+    public String getEventPartitipants() throws SQLException {
+        String result;
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet users = stmt.executeQuery("select DEV.getConnectedUsers() AS result");
+            users.next();
+            result = users.getString("result");
+        }
+        return result;
     }
 
 }

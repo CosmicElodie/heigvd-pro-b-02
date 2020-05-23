@@ -22,6 +22,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 //https://www.youtube.com/watch?v=sp9r6hSWH_o
 
 import { makeStyles } from '@material-ui/core/styles';
+import { Box } from '@material-ui/core';
 
 const titre_créerEvent = "Créer un événement"
 
@@ -95,12 +96,12 @@ export default function Event_Create() {
     const { value: house_id, bind: bindHouseId } = useInput('');
 
     const buttonCreateEvent = (e) => {
-
+        
         let post_body =
             "&name=" + name +
             "&description=" + description +
             "&is_competitive=" + is_competitive +
-            "&battleroyal=" + battleroyal +
+            "&battleroyal=" + ( is_competitive ? battleroyal : 0 ) +
             "&difficulty=" + difficulty +
             "&price=" + ((price == null || price == 0) ? 0 : price) +
             "&attendees_min=" + attendees_min +
@@ -123,25 +124,24 @@ export default function Event_Create() {
         })
             .then(response => response.json())
             .then(({ status, dialog_id }) => {
-                console.log("********************");
-                console.log(status);
+               
                 if(status === "ok") {
                     resetName();
-                resetDescription();
-                resetCompetitive();
-                resetBattleRoyal();
-                resetDifficulty();
-                resetPrice();
-                resetAttendeesMin();
-                resetAttendeesMax();
-                resetReservation();
-                resetDateBegin();
-                resetDateEnd();
-                resetLocation();
-                resetStreet();
-                resetNo();
-                resetPostalCode();
-                resetCity();
+                    resetDescription();
+                    resetCompetitive();
+                    resetBattleRoyal();
+                    resetDifficulty();
+                    resetPrice();
+                    resetAttendeesMin();
+                    resetAttendeesMax();
+                    resetReservation();
+                    resetDateBegin();
+                    resetDateEnd();
+                    resetLocation();
+                    resetStreet();
+                    resetNo();
+                    resetPostalCode();
+                    resetCity();
                 }
 
                 setDialog({
@@ -293,7 +293,7 @@ export default function Event_Create() {
                             <br /><br />
                             <Grid container>
                                 <Grid item xs>
-                                    <TextField
+                                  { is_competitive === 1 && <TextField
                                         id="battleroyal"
                                         label="Battle Royal Mode"
                                         helperText="All vs All ou affrontement par équipe."
@@ -306,7 +306,8 @@ export default function Event_Create() {
                                         select>
                                         <MenuItem value={0}>Non</MenuItem>
                                         <MenuItem value={1}>Oui</MenuItem>
-                                    </TextField>
+                                    </TextField> }  
+                                 
                                 </Grid>
                             </Grid>
                             <br /><br />

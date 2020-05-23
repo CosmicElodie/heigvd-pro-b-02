@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Auditoire from '../pages/auditoire/Auditoire';
-
+import NowConnected from './NowConnected';
 import Event_Welcome from '../pages/event/Event_Welcome';
 import Event_Create from '../pages/event/Event_Create';
 import Event_Calendar from '../pages/event/Event_Calendar';
@@ -58,7 +58,7 @@ const AppLayout = () => {
                     <Route path="*" component={() => "404 NOT FOUND"} />
                 </Switch>
             </section>
-
+            <NowConnected />
             <ShowProfile />
         </section>
     )
