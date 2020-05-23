@@ -9,15 +9,14 @@ import {
 } from '@material-ui/core';
 
 import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 //TODO : Pour faire l'upload de l'image
 //https://www.youtube.com/watch?v=sp9r6hSWH_o
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Box } from '@material-ui/core';
 
 const titre_créerEvent = "Créer un événement"
-const CHARACTER_LIMIT = 500;
 
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
@@ -74,7 +73,7 @@ export default function Event_Create() {
 
     const handleChange = (event) => {
         setInputMin(event.target.value);
-      };
+    };
 
     const { value: name, bind: bindName, reset: resetName } = useInput('');
     const { value: description, bind: bindDescription, reset: resetDescription } = useInput('');
@@ -149,9 +148,10 @@ export default function Event_Create() {
                             is_open: true
                         }
                     });
-
-                return <Redirect to="/event_list" />
+                    return <Redirect to="/event_list" />;
             });
+            
+            
     }
 
     function MyCreationButton() {
@@ -318,8 +318,9 @@ export default function Event_Create() {
                                     <TextField
                                         id="attendees_min"
                                         label="Nb. min participants"
+                                        placeholder="Veuillez indiquer le nombre minimum de participants."
                                         variant="outlined"
-                                        value = {inputMin}
+                                        value={inputMin}
                                         onChange={handleChange}
                                         required={true}
                                         {...bindAttendeesMin}

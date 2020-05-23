@@ -70,7 +70,7 @@ const EventWelcomeHouseContainer = () => {
                     </Button>
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    <Moment format="YYYY/MM/DD - HH:mm">
+                    <Moment format="DD/MM/YYYY - HH:mm">
                         {date_begin}
                     </Moment>
 

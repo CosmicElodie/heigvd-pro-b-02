@@ -286,17 +286,17 @@ export default function Event() {
                             <TableBody>
                                 <TableRow>
                                     <TableCell>
-                                        <Moment format="YYYY/MM/DD - HH:mm">
+                                        <Moment format="DD/MM/YYYY - HH:mm">
                                             {current.deadline_reservation}
                                         </Moment>
                                     </TableCell>
                                     <TableCell>
-                                        <Moment format="YYYY/MM/DD - HH:mm">
+                                        <Moment format="DD/MM/YYYY - HH:mm">
                                             {current.date_begin}
                                         </Moment>
                                     </TableCell>
                                     <TableCell>
-                                        <Moment format="YYYY/MM/DD - HH:mm">
+                                        <Moment format="DD/MM/YYYY - HH:mm">
                                             {current.date_end}
                                         </Moment>
                                     </TableCell>

@@ -78,7 +78,7 @@ export default function Home() {
     function displayLine(name, date_begin, limitation, nb_attendees, status) {
         return (<TableRow>
             <TableCell>{NamedNodeMap}</TableCell>
-            <TableCell align="left"><Moment format="YYYY/MM/DD - HH:mm">{date_begin}</Moment></TableCell>
+            <TableCell align="left"><Moment format="DD/MM/YYYY - HH:mm">{date_begin}</Moment></TableCell>
             <TableCell align="left">{limitation}</TableCell>
             <TableCell align="left">{nb_attendees}</TableCell>
             <TableCell align="left">{status}</TableCell>

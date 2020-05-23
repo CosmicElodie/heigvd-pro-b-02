@@ -193,12 +193,12 @@ export default function Event_List() {
             <TableCell align="right"> {house == null ? "Global" : house.shortname}</TableCell>
             <TableCell align="right">{nb_attendees + ' / ' + attendees_max}</TableCell>
             <TableCell align="right">
-                <Moment format="YYYY/MM/DD HH:mm">
+                <Moment format="DD/MM/YYYY HH:mm">
                     {deadline_reservation}
                 </Moment>
             </TableCell>
             <TableCell align="right">
-                <Moment format="YYYY/MM/DD HH:mm">
+                <Moment format="DD/MM/YYYY HH:mm">
                     {date_begin}
                 </Moment>
             </TableCell>
