@@ -57,22 +57,22 @@ const EventWelcomeGlobalContainer = () => {
     const classes = useStyles();
     const [events, setEvents] = useState();
     let counterGlobal = 1;
-    
+
     let history = useHistory();
 
-    function printGlobalEvent(houseEvent, name, date_begin, nb_attendees,event_id) {
+    function printGlobalEvent(houseEvent, name, date_begin, nb_attendees, event_id) {
         if (counterGlobal <= 5) {
             counterGlobal++;
             return (<TableRow>
-                
-                    <TableCell component="th" scope="row"  >
-                        <Button
-                        onClick= {  () => redirectPage("/event_display/"+ event_id) }
-                        >
-                            {name}
-                        </Button>
-                    </TableCell>
-                    
+
+                <TableCell component="th" scope="row"  >
+                    <Button
+                        onClick={() => redirectPage("/event_display/" + event_id)}
+                    >
+                        {name}
+                    </Button>
+                </TableCell>
+
                 <TableCell component="th" scope="row">
                     <Moment format="DD/MM/YYYY - HH:mm">
                         {date_begin}
@@ -84,12 +84,12 @@ const EventWelcomeGlobalContainer = () => {
             </TableRow>);
         }
     }
-    
+
     const redirectPage = useCallback((link) => {
         // Will change the URL, behaves like a link
-        history.push(link);         
-    }, ) ; 
-    
+        history.push(link);
+    });
+
     //remplit l'état
     useEffect(() => {
         user && user.house && fetch('http://localhost:8080/event/from_house', {
@@ -113,9 +113,7 @@ const EventWelcomeGlobalContainer = () => {
             title="Image title"
         />
         <CardContent className={classes.cardContent}>
-            <Typography gutterBottom variant="h5" component="h2">
-                Événements Globaux
-            </Typography>
+            <h1>Derniers événements Globaux</h1>
             <Typography>
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="simple table">
@@ -130,7 +128,7 @@ const EventWelcomeGlobalContainer = () => {
                             {events && events.length > 0 && events.map(({ event_id, name, description, is_competitive, difficulty, battleroyale,
                                 status, price, attendees_min, attendees_max, created, deadline_reservation,
                                 date_begin, date_end, location, address, house, organisator, participants, nb_attendees }, index) =>
-                                printGlobalEvent(house, name, date_begin, nb_attendees,event_id)
+                                printGlobalEvent(house, name, date_begin, nb_attendees, event_id)
                             )}
                         </TableBody>
                     </Table>

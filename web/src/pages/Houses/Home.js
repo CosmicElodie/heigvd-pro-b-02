@@ -118,7 +118,7 @@ export default function ModalProfile() {
   }
 
   return (
-    <Grid container spacing={2} alignItems="stretch">
+    <Grid container spacing={2} alignItems="stretch" direction="row" justify="space-evenly">
       {/*IMAGE ORIENTATION + TITRE */}
       <Grid item xs={12}>
         <h1 class="house-title">
@@ -142,9 +142,10 @@ export default function ModalProfile() {
           </CardContent>
         </Card>
       </Grid>
+
       {/* POINTS */}
       <Grid item xs={12} sm={6}>
-        <Card>
+        <Card style={{ height: "100%" }}>
           <CardContent>
             <h2 class="house-subtitle">Points</h2>
             <center>
@@ -228,7 +229,6 @@ export default function ModalProfile() {
             {latestPost &&
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
-                component="div"
                 count={latestPost.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
@@ -284,15 +284,7 @@ const useStyles = makeStyles(theme => ({
   wrapper: {
     position: 'relative',
   },
-  div: {
-    position: 'absolute',
-    top: 28,
-    right: 0,
-    left: 0,
-    border: '1px solid',
-    padding: theme.spacing(1),
-    backgroundColor: theme.palette.background.paper,
-  },
+
   paper: {
     position: 'absolute',
     width: 400,
@@ -300,6 +292,11 @@ const useStyles = makeStyles(theme => ({
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+  },
+  card: {
+    height: "100%",
+    display: 'flex',
+    flexDirection: 'column',
   },
 }));
 

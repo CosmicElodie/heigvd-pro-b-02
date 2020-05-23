@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { MainContext } from '../../context/MainContext';
 import { useInput } from '../../hooks/input';
+import { styled } from '@material-ui/core/styles';
 
 import {
     Typography, Popover, Button,
@@ -8,8 +9,8 @@ import {
     CssBaseline, Grid, FormControl, TextField, MenuItem
 } from '@material-ui/core';
 
-import { Redirect } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
+
 
 //TODO : Pour faire l'upload de l'image
 //https://www.youtube.com/watch?v=sp9r6hSWH_o
@@ -53,6 +54,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Event_Create() {
+    let history = useHistory();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const handlePopoverOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -148,26 +150,14 @@ export default function Event_Create() {
                             is_open: true
                         }
                     });
-                    return <Redirect to="/event_list" />;
+                { redirectPage("/event_list") }
             });
-            
-            
-    }
 
-    function MyCreationButton() {
-        return (
-                <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    onClick={buttonCreateEvent}>
-                    Créer événement
-                </Button>
 
-        );
     }
+    const redirectPage = useCallback((link) => {
+        history.push(link);
+    }, [history]);
 
     function battleRoyalOn() {
         return (
@@ -183,289 +173,309 @@ export default function Event_Create() {
 
     let battleRoyalOnorOff = true;
 
+    const MyButton = styled(Button)({
+        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+        border: 0,
+        borderRadius: 3,
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        color: 'white',
+        height: 48,
+        padding: '0px 20px',
+        margin: '30px 30px',
+    });
 
     return (
-            
-            <main>
-                <CssBaseline />
-                <Card className={classes.card}>
-                    <CardMedia
-                        className={classes.cardMedia}
-                        image="https://i.imgur.com/VDRkKqw.png"
-                        title="Titre_event_create"
-                    />
-                    <CardContent className={classes.cardContent}>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            {titre_créerEvent /*affiche le nom de la maison */}
-                        </Typography>
-                        <FormControl className={classes.formControl}>
-                            <TextField
-                                id="name"
-                                label="Nom événement"
-                                placeholder="Veuillez indiquer le nom de votre événement."
-                                variant="outlined"
-                                required={true}
-                                {...bindName}
-                            />
-                            <br />
-                            <TextField
-                                id="description"
-                                label="Description"
-                                placeholder="En quoi consiste votre événement ?"
-                                multiline
-                                variant="outlined"
-                                required={true}
-                                style={{ minWidth: 600 }}
-                                {...bindDescription}
-                            />
-                            <br />
-                            <Grid container >
-                                <Grid item xs>
+
+        <main>
+            <CssBaseline />
+            <Card className={classes.card}>
+                <CardMedia
+                    className={classes.cardMedia}
+                    image="https://i.imgur.com/VDRkKqw.png"
+                    title="Titre_event_create"
+                />
+                <CardContent className={classes.cardContent}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                        {titre_créerEvent /*affiche le nom de la maison */}
+                    </Typography>
+                    <FormControl className={classes.formControl}>
+                        <TextField
+                            id="name"
+                            label="Nom événement"
+                            placeholder="Veuillez indiquer le nom de votre événement."
+                            variant="outlined"
+                            required={true}
+                            {...bindName}
+                        />
+                        <br />
+                        <TextField
+                            id="description"
+                            label="Description"
+                            placeholder="En quoi consiste votre événement ?"
+                            multiline
+                            variant="outlined"
+                            required={true}
+                            style={{ minWidth: 600 }}
+                            {...bindDescription}
+                        />
+                        <br />
+                        <Grid container >
+                            <Grid item xs>
+                                <TextField
+                                    id="is_competitive"
+                                    label="Type"
+                                    required="true"
+                                    defaultValue={0}
+                                    style={{ width: 150 }}
+                                    {...bindIsCompetitive}
+                                    select>
+                                    <MenuItem value={1} {...battleRoyalOn}>Compétitif</MenuItem>
+                                    <MenuItem value={0} {...battleRoyalOff}>Non-compétitif</MenuItem>
+                                </TextField>
+                            </Grid>
+
+                            <Grid item xs>
+                                <Typography
+                                    aria-owns={open ? 'limitation-popover' : undefined}
+                                    aria-haspopup="true"
+                                    onMouseEnter={handlePopoverOpen}
+                                    onMouseLeave={handlePopoverClose}>
                                     <TextField
-                                        id="is_competitive"
-                                        label="Type"
-                                        required="true"
-                                        defaultValue={0}
+                                        id="house_id"
+                                        label="Limitation"
+                                        required={true}
+                                        defaultValue={user.house && user.house.house_id}
                                         style={{ width: 150 }}
-                                        {...bindIsCompetitive}
+                                        {...bindHouseId}
                                         select>
-                                        <MenuItem value={1} {...battleRoyalOn}>Compétitif</MenuItem>
-                                        <MenuItem value={0} {...battleRoyalOff}>Non-compétitif</MenuItem>
+                                        <MenuItem value={user.house && user.house.house_id}>{user.house && user.house.name}</MenuItem>
+                                        <MenuItem value={0}>Global</MenuItem>
                                     </TextField>
-                                </Grid>
-
-                                <Grid item xs>
-                                    <Typography
-                                        aria-owns={open ? 'limitation-popover' : undefined}
-                                        aria-haspopup="true"
-                                        onMouseEnter={handlePopoverOpen}
-                                        onMouseLeave={handlePopoverClose}>
-                                        <TextField
-                                            id="house_id"
-                                            label="Limitation"
-                                            required={true}
-                                            defaultValue={user.house && user.house.house_id}
-                                            style={{ width: 150 }}
-                                            {...bindHouseId}
-                                            select>
-                                            <MenuItem value={user.house && user.house.house_id}>{user.house && user.house.name}</MenuItem>
-                                            <MenuItem value={0}>Global</MenuItem>
-                                        </TextField>
-                                    </Typography>
-                                    <Popover
-                                        id="limitation-popover"
-                                        className={classes.popover}
-                                        classes={{
-                                            paper: classes.paper,
-                                        }}
-                                        open={open}
-                                        anchorEl={anchorEl}
-                                        anchorOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'left',
-                                        }}
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'left',
-                                        }}
-                                        onClose={handlePopoverClose}
-                                        disableRestoreFocus>
-                                        <Typography>Un événement peut être soit adressé aux membres de votre orientation uniquement, ou avoir une portée globale à toutes les orientations.</Typography>
-                                    </Popover>
-                                </Grid>
-
-                                <Grid item xs={3}>
-                                    <TextField
-                                        id="difficulty"
-                                        label="Difficulté"
-                                        style={{ width: 150 }}
-                                        defaultValue={1}
-                                        required={true}
-                                        {...bindDifficulty}
-                                        select>
-                                        <MenuItem value={1}>Facile</MenuItem>
-                                        <MenuItem value={2}>Moyen</MenuItem>
-                                        <MenuItem value={3}>Difficile</MenuItem>
-                                        <MenuItem value={4}>Extrême</MenuItem>
-                                    </TextField>
-
-                                </Grid>
+                                </Typography>
+                                <Popover
+                                    id="limitation-popover"
+                                    className={classes.popover}
+                                    classes={{
+                                        paper: classes.paper,
+                                    }}
+                                    open={open}
+                                    anchorEl={anchorEl}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'left',
+                                    }}
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'left',
+                                    }}
+                                    onClose={handlePopoverClose}
+                                    disableRestoreFocus>
+                                    <Typography>Un événement peut être soit adressé aux membres de votre orientation uniquement, ou avoir une portée globale à toutes les orientations.</Typography>
+                                </Popover>
                             </Grid>
-                            <br /><br />
-                            <Grid container>
-                                <Grid item xs>
-                                    {is_competitive === 1 && <TextField
-                                        id="battleroyal"
-                                        label="Mode Battle Royal"
-                                        helperText="Tous vs Tous ou Équipe vs Équipe"
-                                        required={false}
-                                        defaultValue={0}
-                                        disabled={false} //{battleRoyalOnorOff}
-                                        style={{ width: 150 }}
-                                        {...bindBattleRoyal}
-                                        select>
-                                        <MenuItem value={1}>Oui</MenuItem>
-                                        <MenuItem value={0}>Non</MenuItem>
 
-                                    </TextField>}
+                            <Grid item xs={3}>
+                                <TextField
+                                    id="difficulty"
+                                    label="Difficulté"
+                                    style={{ width: 150 }}
+                                    defaultValue={1}
+                                    required={true}
+                                    {...bindDifficulty}
+                                    select>
+                                    <MenuItem value={1}>Facile</MenuItem>
+                                    <MenuItem value={2}>Moyen</MenuItem>
+                                    <MenuItem value={3}>Difficile</MenuItem>
+                                    <MenuItem value={4}>Extrême</MenuItem>
+                                </TextField>
 
-                                </Grid>
                             </Grid>
-                            <br /><br />
-                            <Grid container >
-                                <Grid item xs>
-                                    <TextField
-                                        id="attendees_min"
-                                        label="Nb. min participants"
-                                        placeholder="Veuillez indiquer le nombre minimum de participants."
-                                        variant="outlined"
-                                        value={inputMin}
-                                        onChange={handleChange}
-                                        required={true}
-                                        {...bindAttendeesMin}
-                                    />
-                                </Grid>
+                        </Grid>
+                        <br /><br />
+                        <Grid container>
+                            <Grid item xs>
+                                {is_competitive === 1 && <TextField
+                                    id="battleroyal"
+                                    label="Mode Battle Royal"
+                                    helperText="Tous vs Tous ou Équipe vs Équipe"
+                                    required={false}
+                                    defaultValue={0}
+                                    disabled={false} //{battleRoyalOnorOff}
+                                    style={{ width: 150 }}
+                                    {...bindBattleRoyal}
+                                    select>
+                                    <MenuItem value={1}>Oui</MenuItem>
+                                    <MenuItem value={0}>Non</MenuItem>
 
-                                <Grid item xs={4}>
-                                    <TextField
-                                        id="deadline_reservation"
-                                        label="Date limite inscription"
-                                        type="datetime-local"
-                                        defaultValue={new Date()} //TODO -> mettre une default value qui prend la date/heure actuelle
-                                        className={classes.textField}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        {...bindDeadlineReservation}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <br /><br />
-                            <Grid container >
-                                <Grid item xs>
-                                    <TextField
-                                        id="attendees_max"
-                                        label="Nb. max participants"
-                                        placeholder="Veuillez indiquer le nombre maximum de participants."
-                                        variant="outlined"
-                                        defaultValue={0}
-                                        required={true}
-                                        {...bindAttendeesMax}
-                                    />
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <TextField
-                                        id="date_begin"
-                                        label="Date et heure de l'événement"
-                                        type="datetime-local"
-                                        defaultValue={new Date()}
-                                        className={classes.textField}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        {...bindDateBegin}
-                                    />
-                                </Grid>
-                            </Grid> <br /><br />
-                            <Grid container>
-                                <Grid item xs>
-                                    <TextField
-                                        id="price"
-                                        label="Tarif"
-                                        placeholder="Veuillez indiquer le tarif éventuel de l'événement."
-                                        variant="outlined"
-                                        defaultValue={0}
-                                        required={false}
-                                        {...bindPrice}
-                                    />
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <TextField
-                                        id="date_end"
-                                        label="Date et heure de fin"
-                                        type="datetime-local"
-                                        defaultValue={new Date()}
-                                        className={classes.textField}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        {...bindDateEnd}
-                                    />
-                                </Grid>
-                            </Grid><br /><br />
+                                </TextField>}
 
-                            {/* ============== ADRESSE EVENEMENT ============== */}
-                            <Grid container>
-                                <Grid>
-                                    <TextField
-                                        id="location"
-                                        label="Lieu"
-                                        placeholder="Lieu de l'événement"
-                                        variant="outlined"
-                                        required={true}
-                                        style={{ minWidth: 450 }}
-                                        {...bindLocation}
-                                    />
-                                </Grid>
                             </Grid>
-                            <br />
-                            <Grid container >
-                                <Grid item xs>
-                                    <TextField
-                                        id="street"
-                                        label="Rue"
-                                        placeholder="Lieu de l'événement"
-                                        variant="outlined"
-                                        required={true}
-                                        style={{ minWidth: 450 }}
-                                        {...bindStreet}
-                                    />
-                                </Grid>
-                                <Grid item xs={2}>
-                                    <TextField
-                                        id="no"
-                                        label="N° de rue"
-                                        placeholder="Lieu de l'événement"
-                                        variant="outlined"
-                                        required={true}
-                                        style={{ minWidth: 100, width: 100 }}
-                                        {...bindNo}
-                                    />
-                                </Grid>
+                        </Grid>
+                        <br /><br />
+                        <Grid container >
+                            <Grid item xs>
+                                <TextField
+                                    id="attendees_min"
+                                    label="Nb. min participants"
+                                    placeholder="Veuillez indiquer le nombre minimum de participants."
+                                    variant="outlined"
+                                    value={inputMin}
+                                    onChange={handleChange}
+                                    required={true}
+                                    {...bindAttendeesMin}
+                                />
                             </Grid>
-                            <br />
-                            <Grid container >
-                                <Grid item xs>
-                                    <TextField
-                                        id="postal_code"
-                                        label="Code postal"
-                                        placeholder="Lieu de l'événement"
-                                        variant="outlined"
-                                        required={true}
-                                        style={{ minWidth: 80 }}
-                                        {...bindPostalCode}
-                                    />
-                                </Grid>
-                                <Grid item xs={7}>
-                                    <TextField
-                                        id="city"
-                                        label="Ville"
-                                        placeholder="Lieu de l'événement"
-                                        variant="outlined"
-                                        required={true}
-                                        style={{ minWidth: 150, width: 350 }}
-                                        {...bindCity}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <br />
 
-                        </FormControl>
-                    </CardContent>
-                    <CardActions>
-                        <MyCreationButton />
-                    </CardActions>
-                </Card>
-            </main>
+                            <Grid item xs={4}>
+                                <TextField
+                                    id="deadline_reservation"
+                                    label="Date limite inscription"
+                                    type="datetime-local"
+                                    defaultValue={new Date()} //TODO -> mettre une default value qui prend la date/heure actuelle
+                                    className={classes.textField}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    {...bindDeadlineReservation}
+                                />
+                            </Grid>
+                        </Grid>
+                        <br /><br />
+                        <Grid container >
+                            <Grid item xs>
+                                <TextField
+                                    id="attendees_max"
+                                    label="Nb. max participants"
+                                    placeholder="Veuillez indiquer le nombre maximum de participants."
+                                    variant="outlined"
+                                    defaultValue={0}
+                                    required={true}
+                                    {...bindAttendeesMax}
+                                />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <TextField
+                                    id="date_begin"
+                                    label="Date et heure de l'événement"
+                                    type="datetime-local"
+                                    defaultValue={new Date()}
+                                    className={classes.textField}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    {...bindDateBegin}
+                                />
+                            </Grid>
+                        </Grid> <br /><br />
+                        <Grid container>
+                            <Grid item xs>
+                                <TextField
+                                    id="price"
+                                    label="Tarif"
+                                    placeholder="Veuillez indiquer le tarif éventuel de l'événement."
+                                    variant="outlined"
+                                    defaultValue={0}
+                                    required={false}
+                                    {...bindPrice}
+                                />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <TextField
+                                    id="date_end"
+                                    label="Date et heure de fin"
+                                    type="datetime-local"
+                                    defaultValue={new Date()}
+                                    className={classes.textField}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    {...bindDateEnd}
+                                />
+                            </Grid>
+                        </Grid><br /><br />
+
+                        {/* ============== ADRESSE EVENEMENT ============== */}
+                        <Grid container>
+                            <Grid>
+                                <TextField
+                                    id="location"
+                                    label="Lieu"
+                                    placeholder="Lieu de l'événement"
+                                    variant="outlined"
+                                    required={true}
+                                    style={{ minWidth: 450 }}
+                                    {...bindLocation}
+                                />
+                            </Grid>
+                        </Grid>
+                        <br />
+                        <Grid container >
+                            <Grid item xs>
+                                <TextField
+                                    id="street"
+                                    label="Rue"
+                                    placeholder="Lieu de l'événement"
+                                    variant="outlined"
+                                    required={true}
+                                    style={{ minWidth: 450 }}
+                                    {...bindStreet}
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <TextField
+                                    id="no"
+                                    label="N° de rue"
+                                    placeholder="Lieu de l'événement"
+                                    variant="outlined"
+                                    required={true}
+                                    style={{ minWidth: 100, width: 100 }}
+                                    {...bindNo}
+                                />
+                            </Grid>
+                        </Grid>
+                        <br />
+                        <Grid container >
+                            <Grid item xs>
+                                <TextField
+                                    id="postal_code"
+                                    label="Code postal"
+                                    placeholder="Lieu de l'événement"
+                                    variant="outlined"
+                                    required={true}
+                                    style={{ minWidth: 80 }}
+                                    {...bindPostalCode}
+                                />
+                            </Grid>
+                            <Grid item xs={7}>
+                                <TextField
+                                    id="city"
+                                    label="Ville"
+                                    placeholder="Lieu de l'événement"
+                                    variant="outlined"
+                                    required={true}
+                                    style={{ minWidth: 150, width: 350 }}
+                                    {...bindCity}
+                                />
+                            </Grid>
+                        </Grid>
+                        <br />
+
+                    </FormControl>
+                </CardContent>
+                <CardActions>
+                    <MyButton
+                        fullWidth
+
+                        className={classes.submit}
+                        onClick={buttonCreateEvent}
+                        type="submit"
+                        variant="contained"
+                        onClick>
+                        Créer événement
+                        </MyButton>
+
+                </CardActions>
+            </Card>
+        </main>
     );
 }

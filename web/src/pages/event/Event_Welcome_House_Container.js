@@ -64,7 +64,7 @@ const EventWelcomeHouseContainer = () => {
             return (<TableRow>
                 <TableCell component="th" scope="row">
                     <Button
-                    onClick= {  () => redirectPage("/event_display/"+ event_id) }
+                        onClick={() => redirectPage("/event_display/" + event_id)}
                     >
                         {name}
                     </Button>
@@ -84,8 +84,8 @@ const EventWelcomeHouseContainer = () => {
 
     const redirectPage = useCallback((link) => {
         // Will change the URL, behaves like a link
-        history.push(link);         
-    }, ) ; 
+        history.push(link);
+    });
 
     //remplit l'état
     useEffect(() => {
@@ -111,11 +111,8 @@ const EventWelcomeHouseContainer = () => {
             title="Image title"
         />
         <CardContent className={classes.cardContent}>
-            <Typography gutterBottom variant="h5" component="h2">
-                Événements {user.house && user.house.name}
-            </Typography>
+            <h1>Derniers événements {user.house && user.house.name}</h1>
             <Typography>
-
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>

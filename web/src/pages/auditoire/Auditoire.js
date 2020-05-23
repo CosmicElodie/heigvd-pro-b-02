@@ -117,9 +117,7 @@ export default function Auditoire() {
         return (
 
             <Card className={classes.card}>
-                <Typography gutterBottom variant="h6" align="center">
-                    {name}
-                </Typography>
+                <h1>{name}</h1>
                 <CardMedia
                     className={classes.cardMedia}
                     image={imagePath}

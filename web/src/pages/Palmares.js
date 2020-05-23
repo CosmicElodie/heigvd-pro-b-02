@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
         paddingRight: 10,
         paddingTop: 10,
         paddingBottom: 10,
-        height:"100%",
+        height: "100%",
     },
     cardMedia: {
         paddingTop: '0%',
@@ -124,9 +124,7 @@ export default function Palmares() {
 
         return (
             <Card className={classes.card}>
-                <Typography gutterBottom variant="h6" align="center">
-                    {name}
-                </Typography>
+                <h1>{name}</h1>
                 <CardMedia
                     className={classes.cardMedia}
                     image=""
@@ -163,9 +161,7 @@ export default function Palmares() {
 
         return (
             <Card className={classes.card}>
-                <Typography gutterBottom variant="h6" align="center">
-                    {name}
-                </Typography>
+                <h1>{name}</h1>
                 <CardMedia
                     className={classes.cardMedia}
                     image=""
@@ -202,9 +198,7 @@ export default function Palmares() {
         return (
 
             <Card className={classes.card}>
-                <Typography gutterBottom variant="h6" align="center">
-                    {name}
-                </Typography>
+                <h1>{name}</h1>
                 <CardMedia
                     className={classes.cardMedia}
                     image=""
@@ -268,10 +262,10 @@ export default function Palmares() {
                 <Grid item xs={12} sm={6}>
                     {displayAnnualRank('Top utilisateur (annuel)', topUserYearly)}
                 </Grid>
-            
-            <Grid item xs={12}>
-                {displayHouseRank('Classement des Maisons', topHouses)}
-            </Grid>
+
+                <Grid item xs={12}>
+                    {displayHouseRank('Classement des Maisons', topHouses)}
+                </Grid>
             </Grid>
         </main>
     );
