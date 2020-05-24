@@ -429,8 +429,8 @@ public class EventController {
                 return Utils.errorJSONObjectBuilder("already_joined").build().toString();
             }
 
-            String maxParticipant = "SELECT attendees_max FROM event WHERE event_id = " + event_id;
-            String nbParticipant = "SELECT COUNT(user_id) FROM user_participate_event WHERE event_id = " + event_id;
+            String maxParticipant = "SELECT attendees_max as result FROM event WHERE event_id = " + event_id;
+            String nbParticipant = "SELECT COUNT(user_id) as result FROM user_participate_event WHERE event_id = " + event_id;
 
             int maxAttendee = Utils.getSingletonInt(statement, maxParticipant);
             int nbAttendee = Utils.getSingletonInt(statement, nbParticipant);
