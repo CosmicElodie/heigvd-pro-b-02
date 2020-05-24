@@ -292,7 +292,20 @@ export default function ModalProfile() {
               <Typography component="h1" variant="h4" spacing={10}>
                 Informations
               </Typography>
-              <br /><br />
+              <br />
+              <section className={classes.status}>
+                            
+                            { user.access_level === 25 && <section className={ classes.personStatus + " person-status person-access-prefet" } />  }
+                            { user.access_level === 50 && <section className={ classes.personStatus + " person-status person-access-moderator" } />  }
+                            { user.access_level === 75 && <section className={ classes.personStatus + " person-status person-access-admin" } />  }
+
+                            { user.access_level === 0 && "Utilisateur" }
+                            { user.access_level === 25 && "Préfet" }
+                            { user.access_level === 50 && "Moderateur" }
+                            { user.access_level === 75 && "Administrateur" }
+
+                            </section>
+              <br />
               <Typography  >
                 <DisplayData name="Nom :" data={user.lastname} />
                 <DisplayData name="Prénom :" data={user.firstname} />
@@ -367,6 +380,18 @@ export default function ModalProfile() {
 }
 
 const useStyles = makeStyles(theme => ({
+  status: {
+    position: "relative",
+    display:"flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  personStatus: {
+    width:"24px",
+    height: "24px",
+    backgroundRepeat: "no-repeat",
+    marginTop:"4px"
+  },
   bannerBox: {
     minWidth: 275,
     Height: 300
