@@ -94,14 +94,10 @@ const EventWelcomeHouseContainer = () => {
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: "&house_id=" + (user.house.house_id ? user.house.house_id : 0) + "&limit_nb=" + parseInt(5)
-            //body: "&limit_nb=" + parseInt(5)
         })
             .then(response => response.json())
-            .then(response => {
-                setEvents(response);
-            })
-    }
-        , [user, setEvents]);
+            .then(response => { setEvents(response); })
+    }, [user, setEvents]);
 
     return (<Card className={classes.card}>
 

@@ -10,15 +10,12 @@ import { DropzoneDialog } from 'material-ui-dropzone'
 import { useHistory } from "react-router-dom";
 import "../../css/Profile.css";
 
-
-
 const HOUSE_DATA = {
   name: 'Michael Triponez',
   img: 'https://c1-ebgames.eb-cdn.com.au/merchandising/images/packshots/594355e64e564fb6bdcc760f8e2cc8e6_Large.png',
   inmg: 'https://www.pngkey.com/png/full/19-192944_thanos-head-png-thanos-png.png',
   username: 'Mich'
 }
-
 
 /* Displays data (name and corresponding data) */
 function DisplayData(props) {
@@ -34,11 +31,7 @@ function DisplayData(props) {
   )
 }
 
-
-
-
 export default function ModalProfile() {
-
 
   let history = useHistory(); // hook that allows URL change -> navigation
   const redirectPage = (link) => {
@@ -215,34 +208,33 @@ export default function ModalProfile() {
   }
 
   const body = (
-    <div style={modalStyle} className={classes.paper}>
-      <TextField
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        label="Ancien mot de passe"
-        {...bindOldPassword}
-      />
-      <TextField
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        label="nouveau mot de passe"
-        {...bindNewPassword}
-      />
-      <TextField
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        label="Confimez votre nouveau mot de passe"
-        {...bindVerifyPassword}
-      />
-      <br />
-      <br />
-      <div align="right">
+    <Grid>
+      <Card>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          label="Ancien mot de passe"
+          {...bindOldPassword}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          label="nouveau mot de passe"
+          {...bindNewPassword}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          label="Confimez votre nouveau mot de passe"
+          {...bindVerifyPassword}
+        />
+        <br /> <br />
         <Button
           type="submit"
           variant="text"
@@ -252,10 +244,35 @@ export default function ModalProfile() {
         >
           Valider
             </Button>
-      </div>
-
-    </div>
+      </Card>
+    </Grid>
   );
+
+  function defineRole(role_id)
+  {
+    switch(role_id)
+    {
+      case 0 : return "Utilisateur lambda";
+      case 25 : return "Préfet";
+      case 50 : return "Modérateur";
+      case 75 : return "Administrateur";
+    }
+  }
+
+  function defineStatus(status_id)
+  {
+    switch(status_id)
+    {
+      case 1 : return "Étudiant";
+      case 1 : return "Délégué";
+      case 1 : return "Assistant";
+      case 1 : return "Professeur";
+      case 1 : return "Collaborateur";
+      default : return "error : unknow status";
+    }
+  }
+
+
 
 
   return (
@@ -279,6 +296,8 @@ export default function ModalProfile() {
               <Typography  >
                 <DisplayData name="Nom :" data={user.lastname} />
                 <DisplayData name="Prénom :" data={user.firstname} />
+                <DisplayData name="Statut :" data={defineStatus(user.status_id)} />
+                <DisplayData name="Rôle :" data={defineRole(user.access_level)} />
                 <DisplayData name="Naissance :" data={user.birth} />
                 <DisplayData name="Maison :" data={user.house && user.house.name} />
                 <DisplayData name="E-mail :" data={user.email} />
@@ -322,9 +341,7 @@ export default function ModalProfile() {
           <Card className={classes.InfoBox}>
             <center>
               <CardContent >
-                <Typography className={classes.title} color="textSecondary" gutterBottom>
-                  {user.firstname}
-                </Typography>
+                <h1>{user.firstname}</h1>
 
                 <IconButton aria-label="edit" size="small" onClick={handlePPEditOpen}>
                   {
@@ -357,7 +374,7 @@ const useStyles = makeStyles(theme => ({
   InfoBox: {
     minWidth: 500,
     marginTop: 20,
-    height: "100%",  
+    height: "100%",
   },
   bullet: {
     display: 'inline-block',
