@@ -2,7 +2,6 @@ import React, { useContext, useCallback } from 'react';
 import { MainContext } from '../../context/MainContext';
 import { useInput } from '../../hooks/input';
 import { styled } from '@material-ui/core/styles';
-
 import {
     Typography, Popover, Button,
     Card, CardActions, CardContent, CardMedia,
@@ -180,9 +179,8 @@ export default function Event_Create() {
         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
         color: 'white',
         height: 48,
-        padding: '0px 20px',
-        margin: '30px 30px',
     });
+
 
     return (
 
@@ -297,10 +295,10 @@ export default function Event_Create() {
                                 {is_competitive === 1 && <TextField
                                     id="battleroyal"
                                     label="Mode Battle Royal"
-                                    helperText="Tous vs Tous ou Équipe vs Équipe"
+                                    helperText="Oui : Tous vs Tous, Non : Équipe vs Équipe"
                                     required={false}
                                     defaultValue={0}
-                                    disabled={false} //{battleRoyalOnorOff}
+                                    disabled={false}
                                     style={{ width: 150 }}
                                     {...bindBattleRoyal}
                                     select>
@@ -331,7 +329,7 @@ export default function Event_Create() {
                                     id="deadline_reservation"
                                     label="Date limite inscription"
                                     type="datetime-local"
-                                    defaultValue={new Date()} //TODO -> mettre une default value qui prend la date/heure actuelle
+                                    defaultValue={new Date()}
                                     className={classes.textField}
                                     InputLabelProps={{
                                         shrink: true,
@@ -463,17 +461,13 @@ export default function Event_Create() {
                     </FormControl>
                 </CardContent>
                 <CardActions>
-                    <MyButton
+                    <MyButton type="submit"
                         fullWidth
-
-                        className={classes.submit}
-                        onClick={buttonCreateEvent}
-                        type="submit"
                         variant="contained"
-                        onClick>
+                        className={classes.submit}
+                        onClick={buttonCreateEvent}>
                         Créer événement
-                        </MyButton>
-
+                    </MyButton>
                 </CardActions>
             </Card>
         </main>

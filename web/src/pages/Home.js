@@ -1,10 +1,12 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useCallback } from 'react';
+import { useHistory } from "react-router-dom";
 import { MainContext } from '../context/MainContext';
 import { EventContext } from '../context/EventContext';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from "prop-types";
 import {
+    Button,
     Card, CardContent, CardMedia,
     CssBaseline,
     Grid,
@@ -49,6 +51,15 @@ export default function Home() {
 
     //const {user} = useContext(MainContext);
     const classes = useStyles();
+
+
+    let history = useHistory();
+
+    const redirectPage = useCallback((link) => {
+        // Will change the URL, behaves like a link
+        history.push(link);
+    });
+
 
     const [order, setOrder] = React.useState("asc");
     const [orderBy, setOrderBy] = React.useState();
@@ -119,14 +130,19 @@ export default function Home() {
             .then(response => { setJoinedEvents(response) })
     }
 
-    function displayLine(index, name, date_begin, limitation, nb_attendees, status) {
+    function displayLine(index, event_id, name, date_begin, location, nb_attendees, status) {
         return (<TableRow tabIndex={-1}>
             <TableCell align="right"
                 component="th"
                 id={`enhanced-table-checkbox-${index}`}
-                scope="row">{name}</TableCell>
+                scope="row">
+                <Button
+                    onClick={() => redirectPage("/event_display/" + event_id)}>
+                    {name}
+                </Button>
+            </TableCell>
             <TableCell align="left"><Moment format="DD/MM/YYYY - HH:mm">{date_begin}</Moment></TableCell>
-            <TableCell align="left">{limitation}</TableCell>
+            <TableCell align="left">{location}</TableCell>
             <TableCell align="left">{nb_attendees}</TableCell>
             <TableCell align="left">{status}</TableCell>
         </TableRow>
@@ -147,7 +163,7 @@ export default function Home() {
                 <CardContent className={classes.cardContent}>
                     <Typography>
                         <TableContainer component={Paper}>
-                        <Table className={classes.table}
+                            <Table className={classes.table}
                                 aria-labelledby="tableTitle"
                                 size={dense ? "small" : "medium"}
                                 aria-label="enhanced table"
@@ -161,13 +177,13 @@ export default function Home() {
                                     rowCount={7}
                                 />
                                 <TableBody>
-                                    {createdEvents && createdEvents.length > 0&& stableSort(createdEvents, getComparator(order, orderBy))
+                                    {createdEvents && createdEvents.length > 0 && stableSort(createdEvents, getComparator(order, orderBy))
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(({ index, event_id, name, description, is_competitive, difficulty, battleroyale,
-                                        status, price, attendees_min, attendees_max, created, deadline_reservation,
-                                        date_begin, date_end, location, address, house, organisator, participants, nb_attendees }) =>
+                                            status, price, attendees_min, attendees_max, created, deadline_reservation,
+                                            date_begin, date_end, location, address, house, organisator, participants, nb_attendees }) =>
 
-                                        displayLine(index, name, date_begin, location, nb_attendees, status)
-                                    )}
+                                            displayLine(index, event_id, name, date_begin, location, nb_attendees, status)
+                                        )}
                                 </TableBody>
                             </Table>
                         </TableContainer>
@@ -201,7 +217,7 @@ export default function Home() {
                 <CardContent className={classes.cardContent}>
                     <Typography>
                         <TableContainer component={Paper}>
-                        <Table className={classes.table}
+                            <Table className={classes.table}
                                 aria-labelledby="tableTitle"
                                 size={dense ? "small" : "medium"}
                                 aria-label="enhanced table"
@@ -219,11 +235,11 @@ export default function Home() {
                                 <TableBody>
                                     {joinedEvents && joinedEvents.length > 0 && stableSort(joinedEvents, getComparator(order, orderBy))
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(({ index, event_id, name, description, is_competitive, difficulty, battleroyale,
-                                        status, price, attendees_min, attendees_max, created, deadline_reservation,
-                                        date_begin, date_end, location, address, house, organisator, participants, nb_attendees }) =>
+                                            status, price, attendees_min, attendees_max, created, deadline_reservation,
+                                            date_begin, date_end, location, address, house, organisator, participants, nb_attendees }) =>
 
-                                        displayLine(index, name, date_begin, location, nb_attendees, status)
-                                    )}
+                                            displayLine(index, event_id, name, date_begin, location, nb_attendees, status)
+                                        )}
                                 </TableBody>
                             </Table>
                         </TableContainer>
@@ -255,7 +271,7 @@ export default function Home() {
                     {headCells.map(headCell => (
                         <TableCell
                             key={headCell.id}
-                            align={"right"}
+                            align={"left"}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
                             <TableSortLabel
@@ -302,7 +318,7 @@ export default function Home() {
     const headCells = [
         { id: 'name', numeric: false, disablePadding: false, label: 'Nom' },
         { id: 'date_begin', numeric: true, disablePadding: false, label: 'Date début' },
-        { id: 'house_id', numeric: true, disablePadding: false, label: 'Limitation' },
+        { id: 'location', numeric: false, disablePadding: false, label: 'Lieu' },
         { id: 'nb_attendees', numeric: true, disablePadding: false, label: 'Nb participants' },
         { id: 'status', numeric: false, disablePadding: false, label: 'Statut' }
     ];

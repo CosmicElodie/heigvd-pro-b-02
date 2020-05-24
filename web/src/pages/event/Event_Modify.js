@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { MainContext } from '../../context/MainContext';
 import { EventContext } from '../../context/EventContext';
 import { useInput } from '../../hooks/input';
 import { useLocation } from "react-router-dom";
 import Typography from '@material-ui/core/Typography';
 import Popover from '@material-ui/core/Popover';
+
+import { useHistory } from "react-router-dom";
 
 import Button from '@material-ui/core/Button';
 
@@ -63,11 +65,16 @@ const useStyles = makeStyles(theme => ({
 export default function Event_Modify() {
     const { user, setDialog } = useContext(MainContext);
     const { data } = useContext(EventContext);
-
     const classes = useStyles();
     const location_event = useLocation();
     const [current, setCurrent] = useState();
     const [value, setValue] = React.useState('Controlled');
+
+    let history = useHistory();
+
+    const redirectPage = useCallback((link) => {
+        history.push(link);
+    }, [history]);
 
     useEffect(() => {
         if (data) {
@@ -153,6 +160,7 @@ export default function Event_Modify() {
                         is_open: true
                     }
                 });
+                { redirectPage("/event_display/" + current.event_id) }
             });
     }
 

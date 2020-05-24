@@ -56,6 +56,7 @@ export default function Event() {
     const { data } = useContext(EventContext);
     const location = useLocation();
     const [current, setCurrent] = useState();
+    let history = useHistory();
     const [accountPointDialogState, setAccountPointDialogState] = useState({ is_open: false });
 
     useEffect(() => {
@@ -67,7 +68,10 @@ export default function Event() {
     }, [data, setCurrent]);
 
     const classes = useStyles();
-    let history = useHistory();
+
+    const redirectPage = useCallback((link) => {
+        history.push(link);
+    }, [history]);
 
     //Affiche le bouton "Supprimer"
     function printDeleteButton(permission) {
@@ -92,6 +96,7 @@ export default function Event() {
                         is_open: true
                     }
                 });
+                { redirectPage("/event_list") }
             })
 
         return;
@@ -142,6 +147,7 @@ export default function Event() {
                         is_open: true
                     }
                 });
+                { redirectPage("/event_list") }
             })
 
         return;
@@ -167,6 +173,7 @@ export default function Event() {
                         is_open: true
                     }
                 });
+                { redirectPage("/event_display/" + current.event_id) }
             })
 
         return;
