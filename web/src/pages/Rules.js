@@ -123,7 +123,6 @@ export default function Rules() {
                         </ul>
 
                         <h1>Frequently Asked Questions</h1>
-
                         <ExpansionPanel square expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                             <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header">
                                 <Typography>Qui peut créer des événements ?</Typography>
@@ -146,7 +145,7 @@ export default function Rules() {
                         </ExpansionPanel>
                         <ExpansionPanel square expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
                             <ExpansionPanelSummary aria-controls="panel3d-content" id="panel3d-header">
-                                <Typography>Comment peut-on rapporter des points à son orientation ?</Typography>
+                                <Typography>Comment peut-on rapporter des points à sa maison ?</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <Typography>
