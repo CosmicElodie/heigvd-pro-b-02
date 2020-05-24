@@ -36,6 +36,8 @@ public class EventController {
             events.next();
 
             result = events.getString("event_result");
+
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }
@@ -52,6 +54,8 @@ public class EventController {
             events.next();
 
             result = events.getString("event_result");
+
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }
@@ -67,6 +71,8 @@ public class EventController {
 
             events.next();
             result = events.getString("event_result");
+
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }
@@ -82,6 +88,8 @@ public class EventController {
 
             events.next();
             result = events.getString("event_result");
+
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }
@@ -115,6 +123,8 @@ public class EventController {
 
             events.next();
             result = events.getString("event_result");
+
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }
@@ -130,6 +140,8 @@ public class EventController {
 
             events.next();
             result = events.getString("event_result");
+
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }
@@ -145,6 +157,8 @@ public class EventController {
 
             events.next();
             result = events.getString("event_result");
+
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }
@@ -309,8 +323,13 @@ public class EventController {
             return Utils.errorJSONObjectBuilder("incorrect_date_format").build().toString();
         }
 
-        if (name.length() == 0 || description.length() >= 100) {
+        if (name.length() == 0 || description.length() >= 500) {
             return Utils.errorJSONObjectBuilder("incorrect_input_length").build().toString();
+        }
+
+        if(description.length() <= 0 || attendees_max <= 0 || attendees_min <= 0 || location.length() <= 0 || address.length() <= 0)
+        {
+            return Utils.errorJSONObjectBuilder("error_empty_information").build().toString();
         }
 
         if (attendees_min > attendees_max) {
