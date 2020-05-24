@@ -149,7 +149,7 @@ export default function Event_Create() {
                             is_open: true
                         }
                     });
-                { redirectPage("/event_list") }
+                   // { redirectPage("/event_list") }
             });
 
 
