@@ -149,7 +149,8 @@ export default function Event_Create() {
                             is_open: true
                         }
                     });
-                   // { redirectPage("/event_list") }
+                    //{ window.location.reload(false)}
+                    //{ redirectPage("/event_list") }
             });
 
 

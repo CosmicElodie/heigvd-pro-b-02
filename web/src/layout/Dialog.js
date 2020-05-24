@@ -529,7 +529,6 @@ const Dialog = () => {
                     </Alert>
                 </Snackbar> 
             }
-            
 
             { 
                 dialog && dialog.incorrect_input_length &&
@@ -539,6 +538,18 @@ const Dialog = () => {
                         autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
                         Votre description doit faire 500 caractères maximum.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
+                dialog && dialog.event_not_joined_first &&
+                <Snackbar 
+                        open = { dialog.event_not_joined_first.is_open }
+                        onClose = { () => handleClose({ event_not_joined_first: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Vous ne pouvez pas quitter un événement que vous n'avez pas rejoint.
                     </Alert>
                 </Snackbar> 
             }

@@ -64,8 +64,6 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-
-
 export default function Event() {
     const { user, setDialog, setShowProfile } = useContext(MainContext);
     const [open, setOpen] = React.useState(false);
@@ -149,8 +147,9 @@ export default function Event() {
                 return <Button variant="contained" size="small" color="primary" onClick={joinEvent} className={classes.margin}> {text} </Button>;
             }
             else if (text === "Quitter") {
-                return <Button variant="contained" size="small" color="primary" onClick={joinEvent} className={classes.margin}> {text} </Button>;
+                return <Button variant="contained" size="small" color="primary" onClick={quitEvent} className={classes.margin}> {text} </Button>;
             }
+
         }
 
 
@@ -172,7 +171,7 @@ export default function Event() {
                         is_open: true
                     }
                 });
-                { redirectPage("/event_list") }
+                { redirectPage("/event_display/" + current.event_id) }
             })
 
         return;
@@ -186,6 +185,26 @@ export default function Event() {
 
     function joinEvent() {
         fetch('http://localhost:8080/event/join_event', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&user_id=" + parseInt(user.user_id) + "&event_id=" + parseInt(current.event_id)
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                { redirectPage("/event_display/" + current.event_id) }
+            })
+
+        return;
+    }
+
+    function quitEvent() {
+        fetch('http://localhost:8080/event/quit_event', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -284,6 +303,9 @@ export default function Event() {
                             {/* Bouton "/modifier/annuler", uniquement visible pour l'admin/modo + l'organisateur de l'event */}
                             {
                                 printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Rejoindre")
+                            }
+                            {
+                                printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Quitter")
                             }
                             {
                                 printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Modifier")
