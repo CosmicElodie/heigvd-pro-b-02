@@ -8,7 +8,51 @@ import {
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 } from '@material-ui/core';
 
+import { withStyles } from '@material-ui/core/styles';
+import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
+import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
+const ExpansionPanel = withStyles({
+    root: {
+        border: '1px solid rgba(0, 0, 0, .125)',
+        boxShadow: 'none',
+        '&:not(:last-child)': {
+            borderBottom: 0,
+        },
+        '&:before': {
+            display: 'none',
+        },
+        '&$expanded': {
+            margin: 'auto',
+        },
+    },
+    expanded: {},
+})(MuiExpansionPanel);
+
+const ExpansionPanelSummary = withStyles({
+    root: {
+        backgroundColor: 'rgba(0, 0, 0, .03)',
+        borderBottom: '1px solid rgba(0, 0, 0, .125)',
+        marginBottom: -1,
+        minHeight: 56,
+        '&$expanded': {
+            minHeight: 56,
+        },
+    },
+    content: {
+        '&$expanded': {
+            margin: '12px 0',
+        },
+    },
+    expanded: {},
+})(MuiExpansionPanelSummary);
+
+const ExpansionPanelDetails = withStyles((theme) => ({
+    root: {
+        padding: theme.spacing(2),
+    },
+}))(MuiExpansionPanelDetails);
 
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
@@ -35,6 +79,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Rules() {
+
+    const [expanded, setExpanded] = React.useState('panel1');
+
+    const handleChange = (panel) => (event, newExpanded) => {
+        setExpanded(newExpanded ? panel : false);
+    };
 
     //const {user} = useContext(MainContext);
     const classes = useStyles();
@@ -73,109 +123,109 @@ export default function Rules() {
                         </ul>
 
                         <h1>Frequently Asked Questions</h1>
-                        <h2>Qui peut créer des événements ?</h2>
-                        <p>Tout le monde ! Mais l’organisateur se doit d’être responsable du bon déroulement de l’événement et de fournir si nécessaire des preuves que l’événement se soit bien déroulé.</p>
 
-                        <h2>Quelle est la période de compétition pour élir la meilleure orientation ?</h2>
-                        <p>Du 15 septembre au 14 septembre de l’année suivante.</p>
+                        <ExpansionPanel square expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+                            <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header">
+                                <Typography>Qui peut créer des événements ?</Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                                <Typography>
+                                    Tout le monde ! Mais l’organisateur se doit d’être responsable du bon déroulement de l’événement et de fournir si nécessaire des preuves que l’événement se soit bien déroulé.
+                                 </Typography>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                        <ExpansionPanel square expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+                            <ExpansionPanelSummary aria-controls="panel2d-content" id="panel2d-header">
+                                <Typography>Quelle est la période de compétition pour élir la meilleure orientation ?</Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                                <Typography>
+                                    Du 15 septembre au 14 septembre de l’année suivante.
+                                </Typography>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                        <ExpansionPanel square expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+                            <ExpansionPanelSummary aria-controls="panel3d-content" id="panel3d-header">
+                                <Typography>Comment peut-on rapporter des points à son orientation ?</Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                                <Typography>
+                                    <p>Vous pouvez gagner des points par le biais de différentes actions, renseignées ci-dessous :</p>
+                                    <center>
+                                    <TableContainer component={Paper}>
+                                        <Table className={classes.table} aria-label="caption table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Action</TableCell>
+                                                    <TableCell>Points</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                <TableRow>
+                                                    <TableCell>Créer un sujet dans la section d’aide.</TableCell>
+                                                    <TableCell>1 point / heure</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Répondre à un sujet dans une section d’aide.</TableCell>
+                                                    <TableCell>1 point / heure</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Meilleure réponse dans un sujet provenant d’une section d’aide.</TableCell>
+                                                    <TableCell>2</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell>Participer à un événement.</TableCell>
+                                                    <TableCell>5</TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                    </center>
+                                    <p>Il est également possible de gagner des points si vous faites partie des trois premiers gagnants d'un événement compétitif :</p>
+                                    <center>
+                                    <TableContainer component={Paper}>
+                                        <Table className={classes.table} aria-label="caption table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell></TableCell>
+                                                    <TableCell>1ère place</TableCell>
+                                                    <TableCell>2ème place</TableCell>
+                                                    <TableCell>3ème place</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                <TableRow>
+                                                    <TableCell><b>Facile</b></TableCell>
+                                                    <TableCell>10 pts</TableCell>
+                                                    <TableCell>6 pts</TableCell>
+                                                    <TableCell>3 pts </TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell><b>Moyen</b></TableCell>
+                                                    <TableCell>25 pts</TableCell>
+                                                    <TableCell>15 pts</TableCell>
+                                                    <TableCell>7 pts </TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell><b>Difficile</b></TableCell>
+                                                    <TableCell>50 pts</TableCell>
+                                                    <TableCell>25 pts</TableCell>
+                                                    <TableCell>15 pts </TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell><b>Extrême</b></TableCell>
+                                                    <TableCell>100 pts</TableCell>
+                                                    <TableCell>60 pts</TableCell>
+                                                    <TableCell>30 pts </TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                    </center>
+                                </Typography>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
 
-                        <h2>Comment peut-on rapporter des points à son orientation ?</h2>
-                        <p>Vous pouvez gagner des points par le biais de différentes actions, renseignées ci-dessous :
-                            </p>
-                        <TableContainer component={Paper}>
-                            <Table className={classes.table} aria-label="caption table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Action</TableCell>
-                                        <TableCell>Points</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow>
-                                        <TableCell>Créer un sujet dans la section d’aide.</TableCell>
-                                        <TableCell>1 point / heure</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>Répondre à un sujet dans une section d’aide.</TableCell>
-                                        <TableCell>1 point / heure</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>Meilleure réponse dans un sujet provenant d’une section d’aide.</TableCell>
-                                        <TableCell>2</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>Participer à un événement.</TableCell>
-                                        <TableCell>5</TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-
-                        <p>Il est également possible de gagner des points si vous faites partie des trois premiers gagnants d'un événement compétitif :</p>
-
-                        <TableContainer component={Paper}>
-                            <Table className={classes.table} aria-label="caption table">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell></TableCell>
-                                        <TableCell>1ère place</TableCell>
-                                        <TableCell>2ème place</TableCell>
-                                        <TableCell>3ème place</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow>
-                                        <TableCell>Facile</TableCell>
-                                        <TableCell>10 pts</TableCell>
-                                        <TableCell>6 pts</TableCell>
-                                        <TableCell>3 pts </TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>Moyen</TableCell>
-                                        <TableCell>25 pts</TableCell>
-                                        <TableCell>15 pts</TableCell>
-                                        <TableCell>7 pts </TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>Difficile</TableCell>
-                                        <TableCell>50 pts</TableCell>
-                                        <TableCell>25 pts</TableCell>
-                                        <TableCell>15 pts </TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>Extrême</TableCell>
-                                        <TableCell>100 pts</TableCell>
-                                        <TableCell>60 pts</TableCell>
-                                        <TableCell>30 pts </TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-
-
-                        <h2></h2>
-                        <p></p>
-
-                        <h2></h2>
-                        <p></p>
-
-                        <h2></h2>
-                        <p></p>
-
-                        <h2></h2>
-                        <p></p>
-
-                        <h2></h2>
-                        <p></p>
-
-                        <h2></h2>
-                        <p></p>
-
-                        <h2></h2>
-                        <p></p>
-
-                        <h2></h2>
-                        <p></p>
                     </CardContent>
                 </Card>
             </Grid>

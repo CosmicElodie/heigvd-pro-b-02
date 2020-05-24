@@ -248,27 +248,23 @@ export default function ModalProfile() {
     </Grid>
   );
 
-  function defineRole(role_id)
-  {
-    switch(role_id)
-    {
-      case 0 : return "Utilisateur lambda";
-      case 25 : return "Préfet";
-      case 50 : return "Modérateur";
-      case 75 : return "Administrateur";
+  function defineRole(role_id) {
+    switch (role_id) {
+      case 0: return "Utilisateur lambda";
+      case 25: return "Préfet";
+      case 50: return "Modérateur";
+      case 75: return "Administrateur";
     }
   }
 
-  function defineStatus(status_id)
-  {
-    switch(status_id)
-    {
-      case 1 : return "Étudiant";
-      case 1 : return "Délégué";
-      case 1 : return "Assistant";
-      case 1 : return "Professeur";
-      case 1 : return "Collaborateur";
-      default : return "error : unknow status";
+  function defineStatus(status_id) {
+    switch (status_id) {
+      case 1: return "Étudiant";
+      case 1: return "Délégué";
+      case 1: return "Assistant";
+      case 1: return "Professeur";
+      case 1: return "Collaborateur";
+      default: return "error : unknow status";
     }
   }
 
@@ -294,17 +290,16 @@ export default function ModalProfile() {
               </Typography>
               <br />
               <section className={classes.status}>
-                            
-                            { user.access_level === 25 && <section className={ classes.personStatus + " person-status person-access-prefet" } />  }
-                            { user.access_level === 50 && <section className={ classes.personStatus + " person-status person-access-moderator" } />  }
-                            { user.access_level === 75 && <section className={ classes.personStatus + " person-status person-access-admin" } />  }
 
-                            { user.access_level === 0 && "Utilisateur" }
-                            { user.access_level === 25 && "Préfet" }
-                            { user.access_level === 50 && "Moderateur" }
-                            { user.access_level === 75 && "Administrateur" }
+                {user.access_level === 25 && <section className={classes.personStatus + " person-status person-access-prefet"} />}
+                {user.access_level === 50 && <section className={classes.personStatus + " person-status person-access-moderator"} />}
+                {user.access_level === 75 && <section className={classes.personStatus + " person-status person-access-admin"} />}
+                {user.access_level === 0 && "Utilisateur"}
+                {user.access_level === 25 && "Préfet"}
+                {user.access_level === 50 && "Moderateur"}
+                {user.access_level === 75 && "Administrateur"}
 
-                            </section>
+              </section>
               <br />
               <Typography  >
                 <DisplayData name="Nom :" data={user.lastname} />
@@ -381,15 +376,15 @@ export default function ModalProfile() {
 const useStyles = makeStyles(theme => ({
   status: {
     position: "relative",
-    display:"flex",
+    display: "flex",
     alignItems: "center",
     justifyContent: "center"
   },
   personStatus: {
-    width:"24px",
+    width: "24px",
     height: "24px",
     backgroundRepeat: "no-repeat",
-    marginTop:"4px"
+    marginTop: "4px"
   },
   bannerBox: {
     minWidth: 275,
