@@ -310,7 +310,6 @@ export default function ModalProfile() {
                 <DisplayData name="Nom :" data={user.lastname} />
                 <DisplayData name="Prénom :" data={user.firstname} />
                 <DisplayData name="Statut :" data={defineStatus(user.status_id)} />
-                <DisplayData name="Rôle :" data={defineRole(user.access_level)} />
                 <DisplayData name="Naissance :" data={user.birth} />
                 <DisplayData name="Maison :" data={user.house && user.house.name} />
                 <DisplayData name="E-mail :" data={user.email} />
