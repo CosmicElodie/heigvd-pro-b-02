@@ -226,16 +226,18 @@ export default function Event() {
     }
 
     function getParticipants() {
+        console.log("CURRENT");
+        console.log(current);
         fetch('http://localhost:8080/event/get_participants',
-        {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: "&event_id=" + parseInt(67)
-        })
-        .then(response => response.json())
-        .then(response => { setAttendees(response); }
-        )
+            {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: "&event_id=" + parseInt(67) //changer à current.event_id
+            })
+            .then(response => response.json())
+            .then(response => { setAttendees(response); }
+            )
     }
 
     function displayLimitation(level) {
@@ -252,14 +254,20 @@ export default function Event() {
     useEffect(() => {
         getParticipants()
     }, []);
-    
-    const handlePersonClick =(user) =>{
+
+    const handlePersonClick = (user) => {
         setShowProfile(user);
-      }
+    }
+
+    function printAttendee(participant) {
+        return (<p align="center"><button color="primary" onClick={() => handlePersonClick(participant)}>
+            {participant.firstname + " " + participant.lastname}
+        </button></p>);
+    }
 
     //  onClick = { () => handlePersonClick(user) }
     return (
-        
+
         <main>
             {current && <EventAccountPoints {...{ ...accountPointDialogState, ...current, ...{ handleClose: handleAccountPointDialogClose } }} />}
             <CssBaseline />
@@ -393,7 +401,7 @@ export default function Event() {
                                                 <button type="button" onClick={handleOpen}>
                                                     {current.nb_attendees} / {current.attendees_max}
                                                 </button>
-                                                
+
                                                 <Modal
                                                     aria-labelledby="transition-modal-title"
                                                     aria-describedby="transition-modal-description"
@@ -406,14 +414,12 @@ export default function Event() {
                                                         timeout: 500,
                                                     }}
                                                 >
-                                                    
+
                                                     <Fade in={open}>
                                                         <div className={classes.paper}>
                                                             <h2 id="transition-modal-title">Liste des participants</h2>
                                                             {attendees && attendees.map(({ participant }) =>
-                                                                <button  color="primary" onClick={() => handlePersonClick(participant)}>
-                                                                    {participant.firstname+ " " + participant.lastname}
-                                                                </button>
+                                                                printAttendee(participant)
                                                             )}
                                                         </div>
                                                     </Fade>
