@@ -506,13 +506,25 @@ const Dialog = () => {
             }
 
             { 
+                dialog && dialog.unexisting_event &&
+                <Snackbar 
+                        open = { dialog.unexisting_event.is_open }
+                        onClose = { () => handleClose({ unexisting_event: { is_open : false } }) } 
+                        autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        L'événement n'existe plus et ne peut être rejoint.
+                    </Alert>
+                </Snackbar> 
+            }
+
+            { 
                 dialog && dialog.err_join_event_full &&
                 <Snackbar 
                         open = { dialog.err_join_event_full.is_open }
                         onClose = { () => handleClose({ err_join_event_full: { is_open : false } }) } 
                         autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
-                        Vous avez déjà rejoint cet événement. 
+                        L'événement ne peut accepter plus de participants... 
                     </Alert>
                 </Snackbar> 
             }

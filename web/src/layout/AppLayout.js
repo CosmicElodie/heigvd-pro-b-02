@@ -17,6 +17,7 @@ import { Switch, Route } from "react-router-dom";
 import GlobalStats from '../pages/statistics/GlobalStats';
 import Home from '../pages/Home';
 import Houses from '../pages/Houses/Home';
+import HouseKeeping from '../pages/HouseKeeping';
 import Menu from './Menu';
 import Palmares from '../pages/Palmares';
 import Profile from '../pages/profile/Profile';
@@ -53,6 +54,7 @@ const AppLayout = () => {
                     <Route exact path="/palmares" component={Palmares} />
                     <Route path="/profile" component={Profile} />
                     <Route path="/house_home" component={Houses} />
+                    <Route path="/housekeeping" component={HouseKeeping} />
                     <Route path="/test" component={Houses} />
                     <Route path="/forum"><ForumProvider><Forum /></ForumProvider></Route>
                     <Route path="*" component={() => "404 NOT FOUND"} />

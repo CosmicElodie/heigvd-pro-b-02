@@ -62,7 +62,17 @@ const User = ( ) => {
         // Will change the URL, behaves like a link
         history.push(link);         
         setAnchorEl(null);
-    }, [history, setAnchorEl]); 
+    }, [history, setAnchorEl]);
+
+    function displayHousekeeping()
+    {
+        if(user.access_level === 75)
+        {
+            return(
+                <MenuItem onClick={ () => redirectPage("/housekeeping")}>Housekeeping</MenuItem>
+            );
+        }
+    }
 
     return useMemo(() => 
         <ClickAwayListener onClickAway={ handleMenuClose }>
@@ -77,6 +87,7 @@ const User = ( ) => {
                 >
                     <MenuItem onClick={ () => redirectPage("/profile")}>Profile</MenuItem>
                     <MenuItem onClick={ () => redirectPage("/house_home")}>Maison</MenuItem>
+                    {displayHousekeeping()}
                     <MenuItem onClick={ user_logout }>Logout</MenuItem>
                 </Menu>     
             </section>                                           
