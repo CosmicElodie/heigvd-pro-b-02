@@ -2,6 +2,9 @@ import React, { useContext } from 'react';
 import { MainContext } from '../context/MainContext';
 
 import {  Card, Dialog,  CardContent, makeStyles,  Typography, Avatar, Grid } from '@material-ui/core';
+import Moment from 'react-moment';
+import 'moment/locale/fr';  // without this line it didn't work
+
 
   
 const ShowProfile = () => {
@@ -27,6 +30,20 @@ const ShowProfile = () => {
       )
     }
 
+    function DisplayDate(props) {
+      return( 
+          <Grid container spacing={3}>
+            <Grid item xs>
+              <b>{props.name}</b>  
+            </Grid>
+            <Grid item>
+              <Moment locale="fr" format="DD MMMM YYYY">
+                  {props.data}
+              </Moment>
+            </Grid>
+          </Grid>
+      )
+    }
     return (
         <section>
             {
@@ -70,7 +87,7 @@ const ShowProfile = () => {
                             <Typography >                     
                               <DisplayData name="Nom :" data = {showProfile.lastname}/>    
                               <DisplayData name="Prenom :" data = {showProfile.firstname}/>    
-                              <DisplayData name="Naissance :" data = {showProfile.birth}/>    
+                              <DisplayDate name="Naissance :" data = {showProfile.birth}/>    
                               <DisplayData name="Maison :" data = {showProfile.house && showProfile.house.name}/>    
                               <DisplayData name="Email :" data = {showProfile.email}/>    
                             </Typography>   

@@ -24,7 +24,6 @@ const useStyles = makeStyles(theme => ({
 
     },
     cardMedia: {
-        paddingTop: '100%',
         flexDirection: 'row',
         justify: 'space-evenly',
         width: 'auto',
@@ -120,9 +119,8 @@ export default function Auditoire() {
                 <h1>{name}</h1>
                 <CardMedia
                     className={classes.cardMedia}
-                    image={imagePath}
                     title="Image title"
-                />
+                ><img width= {'100%'} src={imagePath} alt="No img"/></CardMedia>
                 <CardContent className={classes.cardContent}>
                     <Typography>
                         <TableContainer component={Paper}>
