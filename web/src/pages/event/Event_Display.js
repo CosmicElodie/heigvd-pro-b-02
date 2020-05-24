@@ -67,7 +67,7 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function Event() {
-    const { user, setDialog } = useContext(MainContext);
+    const { user, setDialog, setShowProfile } = useContext(MainContext);
     const [open, setOpen] = React.useState(false);
     const { data } = useContext(EventContext);
     const location = useLocation();
@@ -204,20 +204,6 @@ export default function Event() {
         return;
     }
 
-    useEffect(() => {
-        fetch('http://localhost:8080/event/get_participants',
-            {
-                method: 'POST',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: "&event_id=" + parseInt(67)
-            })
-            .then(response => response.json())
-            .then(response => { setAttendees(response); }
-            )
-
-    }, []);
-
     const getEventByID = (event_id, data) => {
         for (const event of data) if (event.event_id === event_id) return event;
     }
@@ -239,6 +225,19 @@ export default function Event() {
         }
     }
 
+    function getParticipants() {
+        fetch('http://localhost:8080/event/get_participants',
+        {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&event_id=" + parseInt(67)
+        })
+        .then(response => response.json())
+        .then(response => { setAttendees(response); }
+        )
+    }
+
     function displayLimitation(level) {
         switch (level) {
             case 1: return "Systèmes informatiques embarqués";
@@ -250,8 +249,17 @@ export default function Event() {
         }
     }
 
-    return (
+    useEffect(() => {
+        getParticipants()
+    }, []);
+    
+    const handlePersonClick =(user) =>{
+        setShowProfile(user);
+      }
 
+    //  onClick = { () => handlePersonClick(user) }
+    return (
+        
         <main>
             {current && <EventAccountPoints {...{ ...accountPointDialogState, ...current, ...{ handleClose: handleAccountPointDialogClose } }} />}
             <CssBaseline />
@@ -385,6 +393,7 @@ export default function Event() {
                                                 <button type="button" onClick={handleOpen}>
                                                     {current.nb_attendees} / {current.attendees_max}
                                                 </button>
+                                                
                                                 <Modal
                                                     aria-labelledby="transition-modal-title"
                                                     aria-describedby="transition-modal-description"
@@ -397,13 +406,14 @@ export default function Event() {
                                                         timeout: 500,
                                                     }}
                                                 >
+                                                    
                                                     <Fade in={open}>
                                                         <div className={classes.paper}>
                                                             <h2 id="transition-modal-title">Liste des participants</h2>
-                                                            {attendees && attendees.length > 0 && attendees.map(({ 
-                                                                birth, email, house, active, avatar, status, created, user_id, initials, lastname, firstname, last_online, points_year, access_level, points_month
-                                                              }) =>
-                                                                firstname + ' ' + lastname
+                                                            {attendees && attendees.map(({ participant }) =>
+                                                                <button  color="primary" onClick={() => handlePersonClick(participant)}>
+                                                                    {participant.firstname+ " " + participant.lastname}
+                                                                </button>
                                                             )}
                                                         </div>
                                                     </Fade>
