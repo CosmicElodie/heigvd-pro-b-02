@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { makeStyles, Card, CardContent, Typography, Avatar, Grid, Button, Table, TableBody, TablePagination, TableCell, TableHead, TableContainer, TableRow, Paper } from '@material-ui/core';
+import { makeStyles, Card, CardContent, Typography, Avatar, Grid, Button,  } from '@material-ui/core';
 import { MainContext } from '../../context/MainContext';
 import "../../css/Houses.css";
 
@@ -40,10 +40,6 @@ export default function ModalProfile() {
   const [houseBanner, setHouseBanner] = React.useState();
   const [houseColor, setHouseColor] = React.useState();
   const [latestPost, setLatestPost] = React.useState();
-  const [size, setSize] = React.useState();
-  const [topContributor, setTopContributor] = React.useState();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   let root = document.documentElement;
 
   const handlePersonClick = (user) => {
@@ -51,7 +47,6 @@ export default function ModalProfile() {
   }
 
   var reformatData = function(data) {
-    if (data) {
       return data.map(function(data) {
         // create a new object to store full name.
         var newObj = {};
@@ -64,10 +59,6 @@ export default function ModalProfile() {
         // return our new object.
         return newObj;
       });
-    }else{
-      return
-    }
-   
   };
 
   const options = {     
@@ -79,6 +70,7 @@ export default function ModalProfile() {
     search:"",
     download:"",
     viewColumns:"",
+    pagination:"",
   };
 
 
@@ -98,14 +90,7 @@ export default function ModalProfile() {
 
       })
   }
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
 
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
   const getLatestPost = (e) => {
     let post_body =
       "&house_id=" + e +
@@ -125,26 +110,19 @@ export default function ModalProfile() {
       })
   }
 
-  var limit_global = 0;
-  function printLineGlobal(elementToPrint) {
-
-    limit_global++;
-    return <TableCell component="th" scope="row">
-      {elementToPrint}
-    </TableCell>
-
-    return;
-  }
 
   useEffect(() => {
-    { user && user.house && getHouseInfo(user.house.house_id); }
-    { user && user.house && getLatestPost(user.house.house_id); }
-    { user && user.house && setHouseBanner('url(\'http://localhost:8080/content/' + user.house.name + '.png\')') }
-    { user && user.house && setHouseColor(chooseHouseColor(user.house.house_id)) }
+    if(user && user.house ){
+    getHouseInfo(user.house.house_id);
+    getLatestPost(user.house.house_id); 
+    setHouseBanner('url(\'http://localhost:8080/content/' + user.house.name + '.png\')'); 
+    setHouseColor(chooseHouseColor(user.house.house_id));
+  }
   }, [user]);
 
-  { houseBanner && root.style.setProperty('--house-banner', houseBanner) };
-  { houseColor && root.style.setProperty('--house-color', houseColor) };
+  if(user && user.house ){
+   houseBanner && root.style.setProperty('--house-banner', houseBanner) ;
+   houseColor && root.style.setProperty('--house-color', houseColor); }
 
   function chooseHouseColor(idOfHouse) {
     switch (idOfHouse) {
@@ -162,7 +140,7 @@ export default function ModalProfile() {
       {/*IMAGE ORIENTATION + TITRE */}
       <Grid item xs={12}>
         <h1 class="house-title">
-          {user && user.house && <img src={"http://localhost:8080/content/" + user.house.name + ".png"} width="450px" />}
+          {user && user.house && <img src={"http://localhost:8080/content/" + user.house.name + ".png"} width="450px" alt="" />}
           <br />
           {houseInfo && houseInfo.name.toUpperCase()}
           <br/>
