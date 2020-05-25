@@ -28,8 +28,8 @@ const useStyles = makeStyles(theme => ({
     },
     root: {
         '& .MuiTextField-root': {
-          margin: theme.spacing(1),
-          width: '25ch',
+            margin: theme.spacing(1),
+            width: '25ch',
         },
     }
 }));
@@ -64,8 +64,6 @@ export default function HouseKeeping() {
         setValue(_user);
         return (_user.lastname + ' ' + _user.firstname);
     }
-
-
 
     function defineAuth() {
 
@@ -107,15 +105,124 @@ export default function HouseKeeping() {
                             <br />
                             {<b>{"Activité : "}</b>}{(value == null ? "Non renseigné" : value.active)}
                             <br /><br />
-
-                            <TextField
-                                id="user-active"
-                                label="Active"
-                                //defaultValue={(value ? String(value.active) : "")}
-                                defaultValue = "Fuckyou"
-                                helperText="Some important text"
+                            {/* PRENOM */}
+                            {value && <TextField
+                                id="user-firstname"
+                                label="Prénom"
+                                defaultValue={String(value.firstname)}
+                                helperText="Prénom de l'utilisateur"
                                 variant="outlined"
-                            />
+                            />}
+                            {!value && <TextField
+                                id="user-firstname"
+                                label="Prénom"
+                                defaultValue="Non renseigné"
+                                helperText="Prénom de l'utilisateur"
+                                variant="outlined"
+                            />}
+
+                            <br /><br />
+                            {/* NOM */}
+                            {value && <TextField
+                                id="user-lastname"
+                                label="Nom"
+                                defaultValue={String(value.lastname)}
+                                helperText="Nom de l'utilisateur"
+                                variant="outlined"
+                            />}
+                            {!value && <TextField
+                                id="user-lastname"
+                                label="Nom"
+                                defaultValue="Non renseigné"
+                                helperText="Nom de l'utilisateur"
+                                variant="outlined"
+                            />}
+
+                            <br /><br />
+                            {/* MAISON */}
+                            {value && <TextField
+                                id="user-house"
+                                label="Maison"
+                                defaultValue={String(value.house && value.house.name)}
+                                helperText="Maison de l'utilisateur"
+                                variant="outlined"
+                            />}
+                            {!value && <TextField
+                                id="user-house"
+                                label="Nom"
+                                defaultValue="Non renseigné"
+                                helperText="Maison de l'utilisateur"
+                                variant="outlined"
+                            />}
+
+                            <br /><br />
+                            {/* POINTS */}
+                            {value && <TextField
+                                id="user-points"
+                                label="Points mensuels"
+                                defaultValue={String(value.points_month)}
+                                helperText="Points récoltés pendant le mois en cours"
+                                variant="outlined"
+                            />}
+                            {!value && <TextField
+                                id="user-points"
+                                label="Points mensuels"
+                                defaultValue="Non renseigné"
+                                helperText="Points récoltés pendant le mois en cours"
+                                variant="outlined"
+                            />}
+
+                            <br /><br />
+                            {/* NIVEAU D'ACCES */}
+                            {value && <TextField
+                                id="user-acces-lvl"
+                                label="Niveau d'accès"
+                                defaultValue={String(value.access_level)}
+                                helperText="75 : Admin | 50 : Modérateur | 25 : Préfet | 0 : Utilisateur"
+                                variant="outlined"
+                            />}
+                            {!value && <TextField
+                                id="user-acces-lvl"
+                                label="Niveau d'accès"
+                                defaultValue="Non renseigné"
+                                helperText="75 : Admin | 50 : Modérateur | 25 : Préfet | 0 : Utilisateur"
+                                variant="outlined"
+                            />}
+
+
+                            <br /><br />
+                            {/* STATUT */}
+                            {value && <TextField
+                                id="user-status"
+                                label="Statut"
+                                defaultValue={String(value.status && value.status.name)}
+                                helperText="1 : Étudiant | 2 : Délégué | 3 : Assistant | 4 : Professeur | 5 : Collaborateur"
+                                variant="outlined"
+                            />}
+                            {!value && <TextField
+                                id="user-status"
+                                label="Statut"
+                                defaultValue="Non renseigné"
+                                helperText="1 : Étudiant | 2 : Délégué | 3 : Assistant | 4 : Professeur | 5 : Collaborateur"
+                                variant="outlined"
+                            />}
+
+                            <br /><br />
+                            {/* ACTIF */}
+                            {value && <TextField
+                                id="user-active"
+                                label="Actif"
+                                defaultValue={String(value.active)}
+                                helperText="0 : inactif, 1 : actif"
+                                variant="outlined"
+                            />}
+                            {!value && <TextField
+                                id="user-active"
+                                label="Actif"
+                                defaultValue="Non renseigné"
+                                helperText="0 : inactif, 1 : actif"
+                                variant="outlined"
+                            />}
 
                         </Typography>
                     </CardContent>
