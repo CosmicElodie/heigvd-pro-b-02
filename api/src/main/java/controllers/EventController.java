@@ -695,6 +695,8 @@ public class EventController {
             ResultSet forums = stmt.executeQuery("select DEV.getWinnerEvent(" + event_id + ") AS result");
             forums.next();
             result = forums.getString("result");
+
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }
