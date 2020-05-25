@@ -14,6 +14,7 @@ import { MainContext } from '../context/MainContext';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
+
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
 
@@ -24,6 +25,12 @@ const useStyles = makeStyles(theme => ({
     cardContent: {
         width: "100%",
 
+    },
+    root: {
+        '& .MuiTextField-root': {
+          margin: theme.spacing(1),
+          width: '25ch',
+        },
     }
 }));
 
@@ -53,8 +60,7 @@ export default function HouseKeeping() {
             )
     }
 
-    function displayAndSetValues(_user)
-    {
+    function displayAndSetValues(_user) {
         setValue(_user);
         return (_user.lastname + ' ' + _user.firstname);
     }
@@ -74,7 +80,7 @@ export default function HouseKeeping() {
                         <Typography>
 
                             <h1>Interface administrateur</h1>
-                            
+
                             <Autocomplete
                                 value={value}
                                 onChange={(event, newValue) => {
@@ -97,9 +103,19 @@ export default function HouseKeeping() {
                             <br />
                             {<b>{"Statut : "}</b>}{(value == null ? "Non renseigné" : (value.status && value.status.name))}
                             <br />
-                            {<b>{"Points (mois) : "}</b>}{ (value == null ? "Non renseigné" : value.points_month)}
+                            {<b>{"Points (mois) : "}</b>}{(value == null ? "Non renseigné" : value.points_month)}
                             <br />
-                            
+                            {<b>{"Activité : "}</b>}{(value == null ? "Non renseigné" : value.active)}
+                            <br /><br />
+
+                            <TextField
+                                id="user-active"
+                                label="Active"
+                                //defaultValue={(value ? String(value.active) : "")}
+                                defaultValue = "Fuckyou"
+                                helperText="Some important text"
+                                variant="outlined"
+                            />
 
                         </Typography>
                     </CardContent>
