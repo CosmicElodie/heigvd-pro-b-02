@@ -2,9 +2,12 @@ import React, { useContext, useCallback } from 'react';
 import { useHistory } from "react-router-dom";
 import { EventContext } from '../../context/EventContext';
 import { MainContext } from '../../context/MainContext';
+import MUIDataTable from "mui-datatables";
 
 import PropTypes from "prop-types";
 import Moment from 'react-moment';
+
+import moment from 'moment';
 import { styled } from '@material-ui/core/styles';
 
 import {
@@ -56,76 +59,29 @@ function descendingComparator(a, b, orderBy) {
     return 0;
 }
 
-function getComparator(order, orderBy) {
-    return order === "desc"
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
-}
 
-function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) return order;
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map(el => el[0]);
-}
+const columns = [
+    { name: 'name', label: 'Nom' , options: {filter: false, sort: true,}},
+    { name: 'organisator',  label: 'Organisateur' , options: {filter: false, sort: true,}},
+    { name: 'limitation', label: 'Limitation', options: {filter: true, sort: true,} },
+    { name: 'nb_attendees',label: 'Nb participants', options: {filter: false, sort: true,} },
+    { name: 'deadline_reservation',label: 'Date limite inscription', options: {filter: false, sort: true,} },
+    { name: 'date_begin', label: 'Date', options: {filter: false, sort: true,} },
+    { name: 'location',label: 'Lieu', options: {filter: false, sort: true,} },
+    { name: 'status',  label: 'Statut', options: {filter: true, sort: true,} },
+    { name: 'event_id',  label: 'event', options: {viewColumns : false, filter: false,display: false,} }
+   ];
 
-//Titre des colonnes
-const headCells = [
-    { id: 'name', numeric: false, disablePadding: false, label: 'Nom' },
-    { id: 'organisator.lastname', numeric: false, disablePadding: false, label: 'Organisateur' },
-    { id: 'house_id', numeric: true, disablePadding: false, label: 'Limitation' },
-    { id: 'nb_attendees', numeric: true, disablePadding: false, label: 'Nb participants' },
-    { id: 'deadline_reservation', numeric: false, disablePadding: false, label: 'Date limite inscription' },
-    { id: 'date_begin', numeric: false, disablePadding: false, label: 'Date' },
-    { id: 'location', numeric: false, disablePadding: false, label: 'Lieu' },
-    { id: 'status', numeric: false, disablePadding: false, label: 'Statut' }
-];
 
-function EnhancedTableHead(props) {
-    const { order, orderBy, onRequestSort } = props;
-    const createSortHandler = property => event => {
-        onRequestSort(event, property);
-    };
-    return (
-        <TableHead>
-            <TableRow>
-                {headCells.map(headCell => (
-                    <TableCell
-                        key={headCell.id}
-                        align={"right"}
-                        sortDirection={orderBy === headCell.id ? order : false}
-                    >
-                        <TableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : "asc"}
-                            onClick={createSortHandler(headCell.id)}
-                        >
-                            {headCell.label}
-                        </TableSortLabel>
-                    </TableCell>
-                ))}
-            </TableRow>
-        </TableHead>
-    );
-}
-
-EnhancedTableHead.propTypes = {
-    classes: PropTypes.object.isRequired,
-    onRequestSort: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired
-};
 
 export default function Event_List() {
 
     let history = useHistory();
     const classes = useStyles();
     const { user, setDialog } = useContext(MainContext);
+
     const { data } = useContext(EventContext);
+    const [fullName, setFullName] = React.useState();
 
     const [order, setOrder] = React.useState("asc");
     const [orderBy, setOrderBy] = React.useState();
@@ -162,6 +118,18 @@ export default function Event_List() {
         history.push(link);
     });
 
+    const options = {       
+        filterType: 'checkbox',
+        print: "",
+        selectableRows: 'none',
+        
+        onRowClick: (rowData, rowState) => {
+            let _id = rowData[8]
+            console.log(rowData);
+            redirectPage("/event_display/" + _id)
+        }
+      };
+
     const MyButton = styled(Button)({
         background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
         border: 0,
@@ -171,47 +139,34 @@ export default function Event_List() {
         height: 48,
     });
 
-    //Affiche les events selon les niveaux d'accès
-    function displayEveryEvents(index, event_id, name, description, is_competitive, difficulty, battleroyale,
-        status, price, attendees_min, attendees_max, created, deadline_reservation,
-        date_begin, date_end, location, address, house, organisator, participants, nb_attendees) {
-        return (<TableRow tabIndex={-1}>
-            <TableCell align="right"
-                component="th"
-                id={`enhanced-table-checkbox-${index}`}
-                scope="row">
-                <Button
-                    onClick={() => redirectPage("/event_display/" + event_id)}
-                >
-                    {name}
-                </Button>
-            </TableCell>
-            <TableCell align="right">
-                {organisator.firstname + ' ' + organisator.lastname}
-            </TableCell>
 
-            <TableCell align="right"> {house == null ? "Global" : house.shortname}</TableCell>
-            <TableCell align="right">{nb_attendees + ' / ' + attendees_max}</TableCell>
-            <TableCell align="right">
-                <Moment format="DD/MM/YYYY HH:mm">
-                    {deadline_reservation}
-                </Moment>
-            </TableCell>
-            <TableCell align="right">
-                <Moment format="DD/MM/YYYY HH:mm">
-                    {date_begin}
-                </Moment>
-            </TableCell>
-            <TableCell align="right">{location}</TableCell>
-            <TableCell align="right">{status}</TableCell>
-        </TableRow>
-        );
-    }
+    var reformatData = function(data) {
+        return data.map(function(data) {
+          // create a new object to store full name.
+          var newObj = {};
+          newObj["event_id"] = data.event_id
+          newObj["name"] = data.name
+          newObj["status"] = data.status
+          newObj["deadline_reservation"] = moment(data.deadline_reservation).format('DD/MM/YYYY HH:mm')
+          newObj["date_begin"] =  moment(data.date_begin).format('DD/MM/YYYY HH:mm')
+          newObj["location"] = data.location
+          newObj["limitation"] = data.house == null ? "Global" : data.house.shortname
+          newObj["organisator"] = data.organisator.firstname + ' ' + data.organisator.lastname
+          newObj["nb_attendees"] = data.nb_attendees + ' / ' + data.attendees_max
+          // return our new object.
+          return newObj;
+        });
+      };
+    
 
     return (
         <main>
             <CssBaseline />
             <Grid>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
                 <Card className={classes.card}>
                     <CardContent className={classes.cardContent}>
                         <center><h1>Liste des événements</h1></center>
@@ -221,43 +176,14 @@ export default function Event_List() {
                                 </MyButton>
                         </p>
 
-                        <TableContainer component={Paper}>
-                            <Table className={classes.table}
-                                aria-labelledby="tableTitle"
-                                size={dense ? "small" : "medium"}
-                                aria-label="enhanced table"
-                            >
-                                <EnhancedTableHead
-                                    classes={classes}
-                                    numSelected={selected.length}
-                                    order={order}
-                                    orderBy={orderBy}
-                                    onRequestSort={handleRequestSort}
-                                    rowCount={7}
-                                />
-                                <TableBody>
-                                    {data && stableSort(data, getComparator(order, orderBy))
-                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map(({ event_id, name, description, is_competitive, difficulty, battleroyale,
-                                            status, price, attendees_min, attendees_max, created, deadline_reservation,
-                                            date_begin, date_end, location, address, house, organisator, participants, nb_attendees }, index) =>
-
-                                            displayEveryEvents(index, event_id, name, description, is_competitive, difficulty, battleroyale,
-                                                status, price, attendees_min, attendees_max, created, deadline_reservation,
-                                                date_begin, date_end, location, address, house, organisator, participants, nb_attendees)
-                                        )}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <TablePagination
-                            rowsPerPageOptions={[5, 10, 25]}
-                            component="div"
-                            count={Object.size(data)}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            onChangePage={handleChangePage}
-                            onChangeRowsPerPage={handleChangeRowsPerPage}
-                        />
+                        {
+                            data && <MUIDataTable
+                            data={reformatData(data)}
+                            columns={columns}
+                            options={options}
+                            />
+                        }
+                        
                     </CardContent>
                 </Card>
             </Grid>
