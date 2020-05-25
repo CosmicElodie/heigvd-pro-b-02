@@ -127,7 +127,7 @@ export default function ModalProfile() {
           {houseInfo && houseInfo.name.toUpperCase()}
           <br/>
           <br/>
-          C'est moche :)
+          
         </h1>
       </Grid>
       {/* INFORMATIONS GÉNÉRALES */}

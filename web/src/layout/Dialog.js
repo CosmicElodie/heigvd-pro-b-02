@@ -58,7 +58,7 @@ const Dialog = () => {
                         onClose = { () => handleClose({ user_created: { is_open : false } }) } 
                         autoHideDuration={6000} >
                     <Alert variant="filled" severity="info">
-                        Votre compte a été crée...
+                        Votre compte a été créé...
                     </Alert>
                 </Snackbar> 
             }

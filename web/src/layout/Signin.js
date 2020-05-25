@@ -59,7 +59,7 @@ const Signin = ( props ) => {
                 <Icon className="app-signin" />
               
               <Typography component="h1" variant="h5">
-                Sign in
+                Connexion
               </Typography>
               
               <form className={classes.form} noValidate>
@@ -69,7 +69,7 @@ const Signin = ( props ) => {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label="Adresse e-mail"
                   name="email"
                   autoComplete="email"
                   autoFocus
@@ -81,7 +81,7 @@ const Signin = ( props ) => {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label="Mot de passe"
                   type="password"
                   id="password"
                   autoComplete="current-password"
@@ -89,7 +89,7 @@ const Signin = ( props ) => {
                 />
                 <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
+                  label="Se souvenir de moi"
                 />
                 <Button
                   type="submit"
@@ -99,17 +99,17 @@ const Signin = ( props ) => {
                   className={classes.submit}
                   onClick= { buttonSignIn }
                 >
-                  Sign In
+                  Se connecter
                 </Button>
                 <Grid container>
                   <Grid item xs>
                     <Link href="#" variant="body2">
-                      Forgot password?
+                      Mot de passe oublié ?
                     </Link>
                   </Grid>
                   <Grid item>
                     <Link href="#" variant="body2" onClick={ () => redirectPage("/Signup")}>
-                      {"Don't have an account? Sign Up"}
+                      {"Pas encore de compte ? S'inscrire"}
                     </Link>
                   </Grid>
                 </Grid>
@@ -165,7 +165,7 @@ const useLoginStyles = makeStyles(theme => ({
       <Typography variant="body2" color="textSecondary" align="center">
         {'Copyright © '}
         <Link color="inherit" href="https://heig-vd.ch//">
-          Heig-VD
+          HEIG-VD
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}

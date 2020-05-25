@@ -50,7 +50,7 @@ const Menu = () => {
                     onClick={() => handleClick("/")}
                 />
                 <Tab
-                    label="Rules"
+                    label="Règlement"
                     to="/rules"
                     onClick={() => handleClick("/rules")}
                 />
@@ -61,7 +61,7 @@ const Menu = () => {
                 />
 
                 <Tab
-                    label="Event"
+                    label="Événements"
                     to="/event_welcome"
                     onClick={() => handleClick("/event_welcome")}
                 />
