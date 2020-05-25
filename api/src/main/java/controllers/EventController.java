@@ -18,6 +18,8 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 public class EventController {
@@ -190,6 +192,19 @@ public class EventController {
         Timestamp date_begin;
         Timestamp date_end;
         Timestamp deadline_reservation;
+
+        String patternString = "[A-Za-z0-9àèéêïëüùÿßç\\'\\(\\)\\.\\-\\,\\ ]*";
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(name);
+
+        if(!matcher.matches()) {
+            return Utils.errorJSONObjectBuilder("illegal_character").build().toString();
+        }
+
+        matcher = pattern.matcher(description);
+        if(!matcher.matches()) {
+            return Utils.errorJSONObjectBuilder("illegal_character").build().toString();
+        }
 
         try {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
