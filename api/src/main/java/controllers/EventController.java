@@ -193,13 +193,23 @@ public class EventController {
         Timestamp date_end;
         Timestamp deadline_reservation;
 
+        System.out.println(name);
+
         String patternString = "[A-Za-z0-9àèéêïëüùÿßç\\'\\(\\)\\.\\-\\,\\ ]*";
         Pattern pattern = Pattern.compile(patternString);
         Matcher matcher = pattern.matcher(name);
 
+        if(name.contains("&")) {
+            name.replace("&", "\\&");
+            System.out.println(name);
+        }
+
         if(!matcher.matches()) {
+            System.out.println("test1");
+
             return Utils.errorJSONObjectBuilder("illegal_character").build().toString();
         }
+        System.out.println("test3");
 
         matcher = pattern.matcher(description);
         if(!matcher.matches()) {

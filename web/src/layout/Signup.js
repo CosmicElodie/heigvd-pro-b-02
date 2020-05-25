@@ -83,7 +83,7 @@ const Signup = ( props ) => {
               <Icon className="app-signin" />
               
               <Typography component="h1" variant="h5">
-                Sign Up
+                Inscription
               </Typography>
               <form className={classes.form}>
                 <Grid container >
@@ -94,7 +94,7 @@ const Signup = ( props ) => {
                             required
                             fullWidth
                             id="email"
-                            label="Email Address"
+                            label="Adresse e-mail"
                             { ...bindEmail }
                         />
                     </Grid>
@@ -117,7 +117,7 @@ const Signup = ( props ) => {
                     margin="normal"
                     required
                     fullWidth
-                    label="Password"
+                    label="Mot de passe"
                     { ...bindPassword }
                 />
 
@@ -126,7 +126,7 @@ const Signup = ( props ) => {
                     margin="normal"
                     required
                     fullWidth
-                    label="Prenom"
+                    label="Prénom"
                     { ...bindFirstname }
                 />
 
@@ -183,7 +183,7 @@ const Signup = ( props ) => {
                     className={classes.submit}
                     onClick= { buttonSignUP }
                 >
-                  Sign Up
+                  S'inscrire
                 </Button>
 
               </form>

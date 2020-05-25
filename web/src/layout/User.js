@@ -85,7 +85,7 @@ const User = ( ) => {
                     open={Boolean(anchorEl)}
                     onClose={ handleMenuClose }
                 >
-                    <MenuItem onClick={ () => redirectPage("/profile")}>Profile</MenuItem>
+                    <MenuItem onClick={ () => redirectPage("/profile")}>Profil</MenuItem>
                     <MenuItem onClick={ () => redirectPage("/house_home")}>Maison</MenuItem>
                     {displayHousekeeping()}
                     <MenuItem onClick={ user_logout }>Logout</MenuItem>
