@@ -3,6 +3,8 @@ import { makeStyles, Card, CardContent, Typography, Avatar, Grid, Button, Table,
 import { MainContext } from '../../context/MainContext';
 import "../../css/Houses.css";
 
+import MUIDataTable from "mui-datatables";
+import moment from 'moment';
 
 
 
@@ -21,7 +23,13 @@ function DisplayData(props) {
   )
 }
 
-
+const columns = [
+  { name: 'name_section',label: 'Section', options: {filter: false, sort: true,} },
+  { name: 'name_subject', label: 'Sujet' , options: {filter: false, sort: true,}},
+  { name: 'creator',  label: 'Auteur' , options: {filter: false, sort: true,}},
+  { name: 'message', label: 'message', options: {filter: true, sort: true,} },
+  { name: 'last_update',label: 'Nb Date', options: {filter: false, sort: true,} },
+ ];
 
 
 export default function ModalProfile() {
@@ -41,6 +49,38 @@ export default function ModalProfile() {
   const handlePersonClick = (user) => {
     setShowProfile(user);
   }
+
+  var reformatData = function(data) {
+    if (data) {
+      return data.map(function(data) {
+        // create a new object to store full name.
+        var newObj = {};
+        
+        newObj["name_section"] = data.name_section
+        newObj["creator"] = data.creator.firstname+ ' ' + data.creator.lastname
+        newObj["message"] = data.message
+        newObj["last_update"] = moment(data.last_update).format('DD/MM/YYYY HH:mm')
+        newObj["name_subject"] = data.name_subject
+        // return our new object.
+        return newObj;
+      });
+    }else{
+      return
+    }
+   
+  };
+
+  const options = {     
+            
+    filterType: 'checkbox',
+    print: "",
+    selectableRows: 'none',
+    filter:"",
+    search:"",
+    download:"",
+    viewColumns:"",
+  };
+
 
   const getHouseInfo = (e) => {
     let post_body =
@@ -204,44 +244,21 @@ export default function ModalProfile() {
           <CardContent >
             <h2 class="house-subtitle">Messages Récents</h2>
             <br /><br />
-            <TableContainer component={Paper}>
-              <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Sujet</TableCell>
-                    <TableCell align="left">Auteur</TableCell>
-                    <TableCell align="left">message</TableCell>
-                    <TableCell align="left" style={{ minWidth: 110 }}>Date</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {latestPost && latestPost
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map(({ created, creator, message, last_update, name_subject, forum_post_id, subject_answer }) =>
-                      <TableRow /* key={name} */>
-                        {printLineGlobal(name_subject)}
-                        {printLineGlobal(creator.firstname)}
-                        {printLineGlobal(message)}
-                        {printLineGlobal(last_update)}
-                      </TableRow>
-                    )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-
-            {latestPost &&
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                count={latestPost.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
+            {
+              latestPost && <MUIDataTable
+              data={reformatData(latestPost)}
+              columns={columns}
+              options={options}
               />
             }
 
+
           </CardContent>
         </Card>
+
+        <center><h1>Événements créés </h1></center>
+        
+
       </Grid>
     </Grid>
   );
