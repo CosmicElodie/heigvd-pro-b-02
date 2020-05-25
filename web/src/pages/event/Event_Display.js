@@ -252,7 +252,7 @@ export default function Event() {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: "&event_id=" + parseInt(67) //changer à current.event_id
+                body: "&event_id=" + parseInt(current.event_id)
             })
             .then(response => response.json())
             .then(response => { setAttendees(response); }
@@ -270,9 +270,9 @@ export default function Event() {
         }
     }
 
-    useEffect(() => {
-        getParticipants()
-    }, []);
+    useEffect(() => {   
+        current && getParticipants()
+    }, [current]);
 
     const handlePersonClick = (user) => {
         setShowProfile(user);
