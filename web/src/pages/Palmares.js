@@ -110,11 +110,11 @@ export default function Palmares() {
     function displayHouseLine(annee, premier, deuxieme, troisieme, quatrieme, cinquieme, premier_pts, deuxieme_pts, troisieme_pts, quatrieme_pts, cinquieme_pts) {
         return (<TableRow  >
             <TableCell>{annee}</TableCell>
-            <TableCell>{premier + ' (' + premier_pts + ' pts)'}</TableCell>
-            <TableCell>{deuxieme + ' (' + deuxieme_pts + ' pts)'}</TableCell>
-            <TableCell>{troisieme + ' (' + troisieme_pts + ' pts)'}</TableCell>
-            <TableCell>{quatrieme + ' (' + quatrieme_pts + ' pts)'}</TableCell>
-            <TableCell>{cinquieme + ' (' + cinquieme_pts + ' pts)'}</TableCell>
+            <TableCell>{premier}<br />{' (' + premier_pts + ' pts)'}</TableCell>
+            <TableCell>{deuxieme}<br />{' (' + deuxieme_pts + ' pts)'}</TableCell>
+            <TableCell>{troisieme}<br />{' (' + troisieme_pts + ' pts)'}</TableCell>
+            <TableCell>{quatrieme}<br />{' (' + quatrieme_pts + ' pts)'}</TableCell>
+            <TableCell>{cinquieme}<br />{' (' + cinquieme_pts + ' pts)'}</TableCell>
         </TableRow>
 
         );
@@ -264,7 +264,7 @@ export default function Palmares() {
                 </Grid>
 
                 <Grid item xs={12}>
-                    {displayHouseRank('Classement des Maisons', topHouses)}
+                    {displayHouseRank('Coupe des 5 maisons', topHouses)}
                 </Grid>
             </Grid>
         </main>
