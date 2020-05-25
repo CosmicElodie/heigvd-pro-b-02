@@ -168,20 +168,20 @@ export default function Rules() {
                                             </TableHead>
                                             <TableBody>
                                                 <TableRow>
-                                                    <TableCell>Créer un sujet dans la section d’aide.</TableCell>
+                                                    <TableCell>Créer un sujet dans la section d’aide ou en dehors de celle-ci.</TableCell>
                                                     <TableCell>1 point / heure</TableCell>
                                                 </TableRow>
                                                 <TableRow>
-                                                    <TableCell>Répondre à un sujet dans une section d’aide.</TableCell>
+                                                    <TableCell>Répondre à un sujet dans une section d’aide ou en dehors de celle-ci.</TableCell>
                                                     <TableCell>1 point / heure</TableCell>
                                                 </TableRow>
                                                 <TableRow>
                                                     <TableCell>Meilleure réponse dans un sujet provenant d’une section d’aide.</TableCell>
-                                                    <TableCell>2</TableCell>
+                                                    <TableCell>2 points / heure</TableCell>
                                                 </TableRow>
                                                 <TableRow>
                                                     <TableCell>Participer à un événement.</TableCell>
-                                                    <TableCell>5</TableCell>
+                                                    <TableCell>5 points</TableCell>
                                                 </TableRow>
                                             </TableBody>
                                         </Table>
