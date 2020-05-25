@@ -9,7 +9,7 @@ const NowConnected = () => {
             method: 'GET',
             credentials: 'include' // mandatory for every JSON fetch
         })
-        .then(response => response.json())
+        .then(response => (response ? response.json() : ""))
         .then(response => {
             setConnected(response);
             

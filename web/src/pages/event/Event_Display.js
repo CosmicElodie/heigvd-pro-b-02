@@ -245,8 +245,6 @@ export default function Event() {
     }
 
     function getParticipants() {
-        console.log("CURRENT");
-        console.log(current);
         fetch('http://localhost:8080/event/get_participants',
             {
                 method: 'POST',
