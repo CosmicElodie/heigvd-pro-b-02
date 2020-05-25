@@ -125,6 +125,9 @@ export default function ModalProfile() {
           {user && user.house && <img src={"http://localhost:8080/content/" + user.house.name + ".png"} width="450px" />}
           <br />
           {houseInfo && houseInfo.name.toUpperCase()}
+          <br/>
+          <br/>
+          C'est moche :)
         </h1>
       </Grid>
       {/* INFORMATIONS GÉNÉRALES */}
