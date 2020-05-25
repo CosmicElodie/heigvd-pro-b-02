@@ -22,23 +22,26 @@ const useStyles = makeStyles(theme => ({
 
     },
     cardContent: {
+        width: "100%",
 
     }
 }));
 
 let imagePath = 'http://localhost:8080/content/404.png';
+const options = ['Option 1', 'Option 2'];
 
 export default function HouseKeeping() {
     const { user, setUser, setDialog } = useContext(MainContext);
-    const [ users, setUsers ]  = useState();
+    const [users, setUsers] = useState();
+    const [value, setValue] = React.useState(users);
     const classes = useStyles();
 
-    useEffect(() => {   
-        
+    useEffect(() => {
+        getUsers()
     }, []);
 
-    getUsers()
-    
+
+
     function getUsers() {
         fetch('http://localhost:8080/housekeeping/all',
             {
@@ -49,6 +52,14 @@ export default function HouseKeeping() {
             .then(response => { setUsers(response); }
             )
     }
+
+    function displayAndSetValues(_user)
+    {
+        setValue(_user);
+        return (_user.firstname + ' ' + _user.lastname);
+    }
+
+
 
     function defineAuth() {
 
@@ -63,10 +74,32 @@ export default function HouseKeeping() {
                         <Typography>
 
                             <h1>Interface administrateur</h1>
-                            <h2>Sélectionner user</h2>
-                            {users && users.length > 0 && users.map(({ participant }) =>
-                                participant
-                            )}
+                            
+                            <Autocomplete
+                                value={value}
+                                onChange={(event, newValue) => {
+                                    setValue(newValue);
+                                }}
+                                id="select-user"
+                                options={users}
+                                getOptionLabel={(option) => displayAndSetValues(option.user)}
+                                style={{ width: 300 }}
+                                renderInput={(params) => <TextField {...params} label="Sélectionner utilisateur" variant="outlined" />}
+                            />
+                            <br />
+                            {<b>{"Nom : "}</b>}{(value == null ? "Non renseigné" : value.lastname)}
+                            <br />
+                            {<b>{"Prénom : "}</b>}{(value == null ? "Non renseigné" : value.firstname)}
+                            <br />
+                            {<b>{"Maison : "}</b>}{(value == null ? "Non renseigné" : (value.house && value.house.name))}
+                            <br />
+                            {<b>{"Acces level : "}</b>}{(value == null ? "Non renseigné" : value.access_level)}
+                            <br />
+                            {<b>{"Statut : "}</b>}{(value == null ? "Non renseigné" : (value.status && value.status.name))}
+                            <br />
+                            {<b>{"Points (mois) : "}</b>}{ (value == null ? "Non renseigné" : value.points_month)}
+                            <br />
+                            
 
                         </Typography>
                     </CardContent>
