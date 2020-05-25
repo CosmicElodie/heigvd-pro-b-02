@@ -1,26 +1,12 @@
 import React, { useEffect, useContext, useCallback } from 'react';
 import { useHistory } from "react-router-dom";
 import { MainContext } from '../context/MainContext';
-import { EventContext } from '../context/EventContext';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
 import moment from 'moment';
 import {
-    Button,
-    Card, CardContent, CardMedia,
     CssBaseline,
     Grid,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableContainer,
-    TablePagination,
-    TableRow,
-    TableSortLabel,
-    Paper
 } from '@material-ui/core';
 
 import Moment from 'react-moment';

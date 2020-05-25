@@ -7,15 +7,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Modal from '@material-ui/core/Modal';
 import { useInput } from '../../hooks/input';
 import { DropzoneDialog } from 'material-ui-dropzone'
-import { useHistory } from "react-router-dom";
 import "../../css/Profile.css";
 
-const HOUSE_DATA = {
-  name: 'Michael Triponez',
-  img: 'https://c1-ebgames.eb-cdn.com.au/merchandising/images/packshots/594355e64e564fb6bdcc760f8e2cc8e6_Large.png',
-  inmg: 'https://www.pngkey.com/png/full/19-192944_thanos-head-png-thanos-png.png',
-  username: 'Mich'
-}
+
 
 /* Displays data (name and corresponding data) */
 function DisplayData(props) {
@@ -33,11 +27,7 @@ function DisplayData(props) {
 
 export default function ModalProfile() {
 
-  let history = useHistory(); // hook that allows URL change -> navigation
-  const redirectPage = (link) => {
-    history.push(link);
-  };
-  const [modalStyle] = React.useState(getModalStyle);
+
   const [openPwdEdit, setOpenPwdEdit] = React.useState(false);
   const [openPPEdit, setOpenPPEdit] = React.useState(false);
 
@@ -47,7 +37,6 @@ export default function ModalProfile() {
   const { value: verifyPassword, bind: bindVerifyPassword, setError: setErrorVerifyPassword } = useInput('');
 
   const [img, setImg] = React.useState('');
-  const [imgName, setImgName] = React.useState('');
   const { user, setUser, setDialog } = useContext(MainContext);
   const [houseBanner, setHouseBanner] = React.useState();
   const [userInfo, setUserInfo] = React.useState();
@@ -56,13 +45,16 @@ export default function ModalProfile() {
 
 
   useEffect(() => {
-    { img && submitImage() }
-    { img && getUserInfo() }
+    if(img){
+      submitImage();
+      getUserInfo();
+    }
   }, [img]);
 
   useEffect(() => {
-    { user && user.house && setHouseBanner('url(\'http://localhost:8080/content/' + user.house.name + '.png\')') }
-    { user && user.user_id && getUserInfo() }
+    if(user){
+     user.house && setHouseBanner('url(\'http://localhost:8080/content/' + user.house.name + '.png\')') 
+     user.user_id && getUserInfo() }
   }, [user]);
 
 
@@ -162,18 +154,6 @@ export default function ModalProfile() {
   }
 
 
-
-  function getModalStyle() {
-    const top = 50 + rand();
-    const left = 50 + rand();
-
-    return {
-      top: `${top}%`,
-      left: `${left}%`,
-      transform: `translate(-${top}%, -${left}%)`,
-    };
-  }
-
   const handlePwdEditOpen = () => {
     setOpenPwdEdit(true);
   };
@@ -248,28 +228,6 @@ export default function ModalProfile() {
     </Grid>
   );
 
-  function defineRole(role_id) {
-    switch (role_id) {
-      case 0: return "Utilisateur lambda";
-      case 25: return "Préfet";
-      case 50: return "Modérateur";
-      case 75: return "Administrateur";
-    }
-  }
-
-  function defineStatus(status_id) {
-    switch (status_id) {
-      case 1: return "Étudiant";
-      case 1: return "Délégué";
-      case 1: return "Assistant";
-      case 1: return "Professeur";
-      case 1: return "Collaborateur";
-      default: return "error : unknow status";
-    }
-  }
-
-
-
 
   return (
     <div>
@@ -304,7 +262,7 @@ export default function ModalProfile() {
               <Typography  >
                 <DisplayData name="Nom :" data={user.lastname} />
                 <DisplayData name="Prénom :" data={user.firstname} />
-                <DisplayData name="Statut :" data={defineStatus(user.status_id)} />
+                <DisplayData name="Statut :" data={userInfo && userInfo.status.name} />
                 <DisplayData name="Naissance :" data={user.birth} />
                 <DisplayData name="Maison :" data={user.house && user.house.name} />
                 <DisplayData name="E-mail :" data={user.email} />
@@ -438,13 +396,4 @@ function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
 
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
 
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}

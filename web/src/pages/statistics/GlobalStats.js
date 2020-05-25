@@ -1,13 +1,9 @@
-import React, { useContext, useState } from 'react';
-import { MainContext } from '../../context/MainContext';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useContext } from 'react';
 import Typography from '@material-ui/core/Typography';
 import {
   Card, CardContent, CardMedia,
   CssBaseline,
   Grid,
-  Table, TableBody, TableCell, TableHead, TableContainer, TableRow,
-  Paper
 } from '@material-ui/core';
 
 import { ColumnChart } from '@opd/g2plot-react'

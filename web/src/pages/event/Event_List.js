@@ -1,11 +1,8 @@
 import React, { useContext, useCallback } from 'react';
 import { useHistory } from "react-router-dom";
 import { EventContext } from '../../context/EventContext';
-import { MainContext } from '../../context/MainContext';
 import MUIDataTable from "mui-datatables";
 
-import PropTypes from "prop-types";
-import Moment from 'react-moment';
 
 import moment from 'moment';
 import { styled } from '@material-ui/core/styles';
@@ -16,16 +13,6 @@ import {
     CardContent,
     CssBaseline,
     Grid,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableContainer,
-    TablePagination,
-    TableRow,
-    TableSortLabel,
-    Paper,
-    useRadioGroup
 } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -49,16 +36,6 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-        return 1;
-    }
-    return 0;
-}
-
 
 const columns = [
     { name: 'name', label: 'Nom' , options: {filter: false, sort: true,}},
@@ -78,32 +55,10 @@ export default function Event_List() {
 
     let history = useHistory();
     const classes = useStyles();
-    const { user, setDialog } = useContext(MainContext);
 
     const { data } = useContext(EventContext);
-    const [fullName, setFullName] = React.useState();
 
-    const [order, setOrder] = React.useState("asc");
-    const [orderBy, setOrderBy] = React.useState();
-    const [selected] = React.useState([]);
-    const [page, setPage] = React.useState(0);
-    const [dense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-    const handleRequestSort = (event, property) => {
-        const isAsc = orderBy === property && order === "asc";
-        setOrder(isAsc ? "desc" : "asc");
-        setOrderBy(property);
-    };
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = event => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
 
     Object.size = function (obj) {
         var size = 0, key;
