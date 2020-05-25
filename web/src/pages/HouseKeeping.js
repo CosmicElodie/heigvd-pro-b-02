@@ -56,7 +56,7 @@ export default function HouseKeeping() {
     function displayAndSetValues(_user)
     {
         setValue(_user);
-        return (_user.firstname + ' ' + _user.lastname);
+        return (_user.lastname + ' ' + _user.firstname);
     }
 
 
