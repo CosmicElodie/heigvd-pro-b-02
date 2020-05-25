@@ -3,9 +3,10 @@ import { MainContext } from '../context/MainContext';
 import {  TextField, Button, CssBaseline, Paper, Grid, Icon, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useInput } from '../hooks/input';
- 
+import { useHistory } from "react-router-dom";
+
 const Signup = ( props ) => {
-    
+  let history = useHistory(); // hook that allows URL change -> navigation  
     // css classes are defined bellow -> scroll down
     const classes = useLoginStyles(); 
     
@@ -21,7 +22,11 @@ const Signup = ( props ) => {
     const { value:lastname,   bind:bindLastname }                               = useInput('');
     const { value:password,   bind:bindPassword }                               = useInput('');
     const { value:house,      bind:bindHouse,     setValue:setHouse }           = useInput('');
-    
+
+    const redirectPage = (link) => {
+      // Will change the URL, behaves like a link
+      history.push(link);
+    }
     useEffect(() => {
       // houses se fetch dans le MainContext -> global car il s'agit des informations
       // potentiellement nécessaires à travere l'application
@@ -69,7 +74,7 @@ const Signup = ( props ) => {
                 ...latest,
                 [response.dialog_id] : { is_open : true }
               }));
-              setTimeout(() => props.history.push("/signin"), 3000);
+              redirectPage("/Signin")
             }
         })
     }
@@ -184,6 +189,12 @@ const Signup = ( props ) => {
                     onClick= { buttonSignUP }
                 >
                   S'inscrire
+                </Button>
+                <Button
+                    color="primary"
+                    onClick= { () => redirectPage("/Signin") }
+                >
+                  annuler
                 </Button>
 
               </form>
