@@ -35,17 +35,36 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+let imagePath = 'http://localhost:8080/content/404.png';
+
 export default function HouseKeeping() {
-
-
-    const { user } = useContext(MainContext);
+    const { user, setUser, setDialog } = useContext(MainContext);
     const classes = useStyles();
 
+    function defineAuth() {
+
+        if (user.access_level < 75) {
+            return (<center><img width={'100%'} src={imagePath} alt="err_404" /></center>);
+        }
+        else {
+            return (<main>
+                
+                    <Card className={classes.card}>
+                        <CardContent className={classes.cardContent}>
+                            <Typography>
+                                {
+                                    <h1>Interface administrateur</h1>
+                                    //ajouter tableau miche
+                                }
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                
+            </main>);
+        }
+    }
+
     return (
-        <main>
-            <h1>
-                TEEEEEEEEEEEEEEEEEEEEEEST
-            </h1>
-        </main>
+        defineAuth()
     );
 }
