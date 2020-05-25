@@ -80,7 +80,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Rules() {
 
-    const [expanded, setExpanded] = React.useState('panel1');
+    const [expanded, setExpanded] = React.useState('panel0');                            //modifié ici
 
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
@@ -109,14 +109,21 @@ export default function Rules() {
                     <CardContent className={classes.cardContent}>
                         <h1>Conditions générales d'utilisation</h1>
                         <ul>
-                            <li>Seules les personnes affiliées à la Haute École d’Ingénierie et de Gestion du Canton de Vaud (HEIG-VD) sont admissibles sur l’application ‘Compétition entre Orientations Inter TIC’ (CO-IT)</li>
-                            <li>Chaque utilisateur fait partie d’une maison représentant son orientation ou du domaine de ses recherche (professeur), à savoir : Informatique Logiciel (IL), Informatique Systèmes Embarqués (IE), Ingénierie des données (ID), Réseaux & Système (TR), Sécurité Informatique (TS).</li>
-                            <li>Si un utilisateur change d’orientation à l’issue de la première année, il en avisera un administrateur afin de procéder au changement de sa maison qui prendra effet dès le 15 septembre de l’année en cours.</li>
+                            <li>Seules les personnes affiliées à la Haute École d’Ingénierie et de Gestion du Canton de Vaud (HEIG-VD) sont admissibles sur l’application <i>Compétition entre Orientations Inter TIC</i> (CO-IT)</li>
+                            <li>Chaque utilisateur fait partie d’une maison représentant son orientation ou du domaine de ses recherches (professeur), à savoir : </li>
+                                <ul>
+                                    <li>Informatique Logiciel (IL)</li>
+                                    <li>Informatique Systèmes Embarqués (IE)</li>
+                                    <li>Ingénierie des données (ID)</li>
+                                    <li>Réseaux & Système (TR)</li>
+                                    <li>Sécurité Informatique (TS)</li>
+                                </ul>
+                            <li>Si un utilisateur change d’orientation à l’issue de la première année, il en avisera un administrateur afin de procéder au changement de sa maison qui prendra effet dès le 15 septembre, lors de la prochaine année de compétition.</li>
                             <li>La maison qui aura rapporté le plus de points en une année sera déclarée la maison vainqueur.</li>
-                            <li>Le créateur de l’événement est responsable de la bonne tenue dudit événement.</li>
+                            <li>Le créateur de l’événement est responsable de la bonne tenue dudit événement, à savoir son organisation et la comptabilisation des points.</li>
                             <li>Le créateur d’un événement, ayant organisé un événement entre le premier jour du mois et le dernier jour du mois, a jusqu’au cinquième jour du mois suivant pour donner les résultats. Sans quoi, aucun point ne sera distribué aux gagnants. Si un problème subsiste, il doit en informer un administrateur.</li>
-                            <li>Il est interdit de gonfler les points.</li>
-                            <li>Tout propos haineux, insultant, raciste ou portant atteinte à l’intégrité et/ou l’honneur d’une personne est interdit, le modérateur ou le préfet peuvent supprimer le post.</li>
+                            <li>Il est interdit de gonfler les points par la création répétée d'événements 'fantômes' au sein d'une même maison.</li>
+                            <li>Tout propos haineux, insultant, raciste ou portant atteinte à l’intégrité et/ou l’honneur d’une personne est interdit. Le modérateur ou le préfet peuvent supprimer le post.</li>
                             <li>Tout abus ou comportement ne respectant pas les règles de l’application peut résulter en un malus de points ou en un avertissement.</li>
                             <li>En cas de faute grave, l’utilisateur peut être banni définitivement du site.</li>
 
@@ -124,22 +131,22 @@ export default function Rules() {
 
                         <h1>Frequently Asked Questions</h1>
                         <ExpansionPanel square expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-                            <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header">
-                                <Typography>Qui peut créer des événements ?</Typography>
-                            </ExpansionPanelSummary>
-                            <ExpansionPanelDetails>
-                                <Typography>
-                                    Tout le monde ! Mais l’organisateur se doit d’être responsable du bon déroulement de l’événement et de fournir si nécessaire des preuves que l’événement se soit bien déroulé.
-                                 </Typography>
-                            </ExpansionPanelDetails>
-                        </ExpansionPanel>
-                        <ExpansionPanel square expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
                             <ExpansionPanelSummary aria-controls="panel2d-content" id="panel2d-header">
-                                <Typography>Quelle est la période de compétition pour élir la meilleure orientation ?</Typography>
+                                <Typography>Quelle est la période de compétition pour élire la meilleure orientation ?</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <Typography>
                                     Du 15 septembre au 14 septembre de l’année suivante.
+                                </Typography>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                        <ExpansionPanel square expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+                            <ExpansionPanelSummary aria-controls="panel2d-content" id="panel2d-header">
+                                <Typography>J'ai envie de parler de chats mais il n'y a aucune section à ce sujet, que faire?</Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                                <Typography>
+                                    S'il y a une forte demande des utilisateurs sur un thème particulier, un administrateur peut ajouter une section dans le forum, il suffit donc d'en faire la demande.
                                 </Typography>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
@@ -224,7 +231,48 @@ export default function Rules() {
                                 </Typography>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
-
+                        <ExpansionPanel square expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+                            <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header">
+                                <Typography>Qui peut créer des événements ?</Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                                <Typography>
+                                    Tout le monde ! Mais l’organisateur se doit d’être responsable du bon déroulement de l’événement et de fournir si nécessaire des preuves que l’événement se soit bien déroulé.
+                                 </Typography>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                        <ExpansionPanel square expanded={expanded === 'panel5'} onChange={handleChange('panel5')}>
+                            <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header">
+                                <Typography>Que faire en cas d'égalité au cours d'un événement ? </Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                                <Typography>
+                                    L'organisateur procédera alors à un tirage au sort (de son choix) pour départager les personnes ex-aequo.
+                                 </Typography>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                        <ExpansionPanel square expanded={expanded === 'panel6'} onChange={handleChange('panel6')}>
+                            <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header">
+                                <Typography>Je suis délégué-e, professeur-e ou assistant-e à l'HEIG-VD. Comment obtenir ce status</Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                                <Typography>
+                                    Il faudra vous adresser à un administrateur afin qu'il puisse procéder à des modifications.
+                                 </Typography>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                        <ExpansionPanel square expanded={expanded === 'panel7'} onChange={handleChange('panel7')}>
+                            <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header">
+                                <Typography>Que représentent les status de Préfet, Modérateur et Administrateur ?</Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                                <Typography>
+                                    Les préfets représentent les délégués de l'HEIG-VD et veillent à la prospérité du site en modérant leur section dans le forum.<br/>
+                                    Les modérateurs épaulent les préfets en cas de forte activité du site web.<br/>
+                                    Enfin, les administrateurs gèrent l'intégralité du site web ainsi que les demandes particulières des utilisateurs<br/>
+                                 </Typography>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
                     </CardContent>
                 </Card>
             </Grid>
