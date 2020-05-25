@@ -202,7 +202,7 @@ export default function ModalProfile() {
       <Grid item xs={12}>
         <Card >
           <CardContent >
-            <h2 class="house-subtitle">Messages Récents</h2>
+            <h2 class="house-subtitle">Messages récents</h2>
             <br /><br />
             <TableContainer component={Paper}>
               <Table className={classes.table} aria-label="simple table">
@@ -210,7 +210,7 @@ export default function ModalProfile() {
                   <TableRow>
                     <TableCell>Sujet</TableCell>
                     <TableCell align="left">Auteur</TableCell>
-                    <TableCell align="left">message</TableCell>
+                    <TableCell align="left">Message</TableCell>
                     <TableCell align="left" style={{ minWidth: 110 }}>Date</TableCell>
                   </TableRow>
                 </TableHead>

@@ -44,7 +44,7 @@ public class HouseController {
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
             ResultSet houseDetail =
-                    stmt.executeQuery("select DEV.getLatestPostJson(" + house_id + ","+accessLevel+ "," + nbPosts + ") AS result");
+                    stmt.executeQuery("select DEV.getLatestPostJson(" + house_id + ","+ accessLevel + "," + nbPosts + ") AS result");
 
             houseDetail.next();
             result = houseDetail.getString("result");
