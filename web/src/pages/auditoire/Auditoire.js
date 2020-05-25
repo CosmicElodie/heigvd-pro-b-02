@@ -55,11 +55,6 @@ export default function Auditoire() {
     }
 
     var rankIL = 1;
-    var afficheIL = 1;
-    var afficheID = 1;
-    var afficheIE = 1;
-    var afficheTS = 1;
-    var afficheTR = 1;
 
 
     const getTopUsers = (e) => {

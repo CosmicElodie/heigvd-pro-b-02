@@ -1,6 +1,8 @@
 package controllers;
 
+import models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,11 +38,13 @@ public class HouseController {
                                   @RequestParam("nbPosts") int nbPosts) throws SQLException {
 
         String result;
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int accessLevel = user.getAccessLevel();
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
             ResultSet houseDetail =
-                    stmt.executeQuery("select DEV.getLatestPostJson(" + house_id + "," + nbPosts + ") AS result");
+                    stmt.executeQuery("select DEV.getLatestPostJson(" + house_id + ","+ accessLevel + "," + nbPosts + ") AS result");
 
             houseDetail.next();
             result = houseDetail.getString("result");

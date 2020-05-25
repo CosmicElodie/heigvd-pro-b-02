@@ -1,8 +1,10 @@
 import React, { useContext, useEffect } from 'react';
-import { makeStyles, Card, CardContent, Typography, Avatar, Grid, Button, Table, TableBody, TablePagination, TableCell, TableHead, TableContainer, TableRow, Paper } from '@material-ui/core';
+import { makeStyles, Card, CardContent, Typography, Avatar, Grid, Button,  } from '@material-ui/core';
 import { MainContext } from '../../context/MainContext';
 import "../../css/Houses.css";
 
+import MUIDataTable from "mui-datatables";
+import moment from 'moment';
 
 
 
@@ -21,7 +23,13 @@ function DisplayData(props) {
   )
 }
 
-
+const columns = [
+  { name: 'name_section',label: 'Section', options: {filter: false, sort: true,} },
+  { name: 'name_subject', label: 'Sujet' , options: {filter: false, sort: true,}},
+  { name: 'creator',  label: 'Auteur' , options: {filter: false, sort: true,}},
+  { name: 'message', label: 'message', options: {filter: true, sort: true,} },
+  { name: 'last_update',label: 'Nb Date', options: {filter: false, sort: true,} },
+ ];
 
 
 export default function ModalProfile() {
@@ -32,15 +40,39 @@ export default function ModalProfile() {
   const [houseBanner, setHouseBanner] = React.useState();
   const [houseColor, setHouseColor] = React.useState();
   const [latestPost, setLatestPost] = React.useState();
-  const [size, setSize] = React.useState();
-  const [topContributor, setTopContributor] = React.useState();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   let root = document.documentElement;
 
   const handlePersonClick = (user) => {
     setShowProfile(user);
   }
+
+  var reformatData = function(data) {
+      return data.map(function(data) {
+        // create a new object to store full name.
+        var newObj = {};
+        
+        newObj["name_section"] = data.name_section
+        newObj["creator"] = data.creator.firstname+ ' ' + data.creator.lastname
+        newObj["message"] = data.message
+        newObj["last_update"] = moment(data.last_update).format('DD/MM/YYYY HH:mm')
+        newObj["name_subject"] = data.name_subject
+        // return our new object.
+        return newObj;
+      });
+  };
+
+  const options = {     
+            
+    filterType: 'checkbox',
+    print: "",
+    selectableRows: 'none',
+    filter:"",
+    search:"",
+    download:"",
+    viewColumns:"",
+    pagination:"",
+  };
+
 
   const getHouseInfo = (e) => {
     let post_body =
@@ -58,14 +90,7 @@ export default function ModalProfile() {
 
       })
   }
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
 
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
   const getLatestPost = (e) => {
     let post_body =
       "&house_id=" + e +
@@ -85,26 +110,19 @@ export default function ModalProfile() {
       })
   }
 
-  var limit_global = 0;
-  function printLineGlobal(elementToPrint) {
-
-    limit_global++;
-    return <TableCell component="th" scope="row">
-      {elementToPrint}
-    </TableCell>
-
-    return;
-  }
 
   useEffect(() => {
-    { user && user.house && getHouseInfo(user.house.house_id); }
-    { user && user.house && getLatestPost(user.house.house_id); }
-    { user && user.house && setHouseBanner('url(\'http://localhost:8080/content/' + user.house.name + '.png\')') }
-    { user && user.house && setHouseColor(chooseHouseColor(user.house.house_id)) }
+    if(user && user.house ){
+    getHouseInfo(user.house.house_id);
+    getLatestPost(user.house.house_id); 
+    setHouseBanner('url(\'http://localhost:8080/content/' + user.house.name + '.png\')'); 
+    setHouseColor(chooseHouseColor(user.house.house_id));
+  }
   }, [user]);
 
-  { houseBanner && root.style.setProperty('--house-banner', houseBanner) };
-  { houseColor && root.style.setProperty('--house-color', houseColor) };
+  if(user && user.house ){
+   houseBanner && root.style.setProperty('--house-banner', houseBanner) ;
+   houseColor && root.style.setProperty('--house-color', houseColor); }
 
   function chooseHouseColor(idOfHouse) {
     switch (idOfHouse) {
@@ -122,7 +140,7 @@ export default function ModalProfile() {
       {/*IMAGE ORIENTATION + TITRE */}
       <Grid item xs={12}>
         <h1 class="house-title">
-          {user && user.house && <img src={"http://localhost:8080/content/" + user.house.name + ".png"} width="450px" />}
+          {user && user.house && <img src={"http://localhost:8080/content/" + user.house.name + ".png"} width="450px" alt="" />}
           <br />
           {houseInfo && houseInfo.name.toUpperCase()}
           <br/>
@@ -204,44 +222,21 @@ export default function ModalProfile() {
           <CardContent >
             <h2 class="house-subtitle">Messages Récents</h2>
             <br /><br />
-            <TableContainer component={Paper}>
-              <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Sujet</TableCell>
-                    <TableCell align="left">Auteur</TableCell>
-                    <TableCell align="left">message</TableCell>
-                    <TableCell align="left" style={{ minWidth: 110 }}>Date</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {latestPost && latestPost
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map(({ created, creator, message, last_update, name_subject, forum_post_id, subject_answer }) =>
-                      <TableRow /* key={name} */>
-                        {printLineGlobal(name_subject)}
-                        {printLineGlobal(creator.firstname)}
-                        {printLineGlobal(message)}
-                        {printLineGlobal(last_update)}
-                      </TableRow>
-                    )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-
-            {latestPost &&
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                count={latestPost.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
+            {
+              latestPost && <MUIDataTable
+              data={reformatData(latestPost)}
+              columns={columns}
+              options={options}
               />
             }
 
+
           </CardContent>
         </Card>
+
+        <center><h1>Événements créés </h1></center>
+        
+
       </Grid>
     </Grid>
   );
@@ -302,4 +297,3 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
   },
 }));
-

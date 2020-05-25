@@ -68,7 +68,6 @@ export default function Event_Modify() {
     const classes = useStyles();
     const location_event = useLocation();
     const [current, setCurrent] = useState();
-    const [value, setValue] = React.useState('Controlled');
 
     let history = useHistory();
 
@@ -181,10 +180,6 @@ export default function Event_Modify() {
     const getEventByID = (event_id, data) => {
         for (const event of data) if (event.event_id === event_id) return event;
     }
-
-    const handleChange = (event) => {
-        setValue(event.target.value);
-    };
 
     return (
         <React.Fragment>

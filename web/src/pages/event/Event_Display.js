@@ -80,7 +80,7 @@ export default function Event() {
             let event = getEventByID(eventId, data);
             setCurrent(event);
         }
-    }, [data, setCurrent]);
+    }, [data,location.pathname,getParticipants]);
 
     const classes = useStyles();
 
@@ -119,7 +119,7 @@ export default function Event() {
                         is_open: true
                     }
                 });
-                { redirectPage("/event_list") }
+                redirectPage("/event_list") 
             })
 
         return;
@@ -171,7 +171,7 @@ export default function Event() {
                         is_open: true
                     }
                 });
-                { redirectPage("/event_display/" + current.event_id) }
+                 redirectPage("/event_display/" + current.event_id) 
             })
 
         return;
@@ -197,7 +197,7 @@ export default function Event() {
                         is_open: true
                     }
                 });
-                { redirectPage("/event_display/" + current.event_id) }
+                 redirectPage("/event_display/" + current.event_id) 
             })
 
         return;
@@ -217,7 +217,7 @@ export default function Event() {
                         is_open: true
                     }
                 });
-                { redirectPage("/event_display/" + current.event_id) }
+                 redirectPage("/event_display/" + current.event_id) 
             })
 
         return;
