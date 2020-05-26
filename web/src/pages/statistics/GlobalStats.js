@@ -1,80 +1,226 @@
-import React, { useContext } from 'react';
+import React, { useContext,useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
+import CanvasJSReact from './canvasjs.react';
 import {
   Card, CardContent, CardMedia,
   CssBaseline,
   Grid,
 } from '@material-ui/core';
 
-import { ColumnChart } from '@opd/g2plot-react'
 
-const dataTemp = {
-  title:
-  {
-    visible: true,
-    text: 'nb événements organisés par orientation',
-  },
-  forceFit: true,
-  data: [
-    {
-      orientation: 'ID',
-      events: 38,
-      color: 'red',
-    },
-    {
-      orientation: 'IE',
-      events: 52,
-    },
-    {
-      orientation: 'TS',
-      events: 61,
-    },
-    {
-      orientation: 'TR',
-      events: 145,
-    },
-  ],
-
-  padding: 'auto',
-  xField: 'orientation',
-  yField: 'events',
-  meta:
-  {
-    type:
-    {
-      alias: 'Orientations',
-    },
-    events:
-    {
-      alias: 'Nb événements',
-    },
-  },
-}
-
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 export default function GlobalStats() {
+
+  const [IEInfo, setIEInfo] = React.useState();
+  const [TSInfo, setTSInfo] = React.useState();
+  const [TRInfo, setTRInfo] = React.useState();
+  const [ILInfo, setILInfo] = React.useState();
+  const [IDInfo, setIDInfo] = React.useState();  
+  const [reformat, setReformat] = React.useState();
+
+  const getHouseInfo = (e) => {
+    let post_body =
+      "&house_id=" + e;
+    fetch('http://localhost:8080/house/detail', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: post_body
+    })
+      .then(response => response.json())
+      .then(response => {
+
+        switch(e) {
+          case 1:
+            setIEInfo(response)
+            break;
+          case 2:
+            setTSInfo(response)
+            break;
+          case 3:
+            setTRInfo(response)
+            break;
+          case 4:
+            setILInfo(response)
+            break;
+          case 5:
+            setIDInfo(response)
+            break;
+          default:
+            // code block
+        } 
+
+      })
+  }
+
+
+  useEffect(() => {
+    getHouseInfo(1);
+    getHouseInfo(2);
+    getHouseInfo(3);
+    getHouseInfo(4);
+    getHouseInfo(5);
+  }, []);
+  
+
+
+  const data = [
+        { name: "Unsatisfied", y: 5 },
+        { name: "Very Unsatisfied", y: 31 },
+        { name: "Very Satisfied", y: 40 },
+        { name: "Satisfied", y: 17 },
+        { name: "Neutral", y: 7 }
+  ];
+  
+
+
+  var option = function(dataIE,dataTS,dataTR,dataIL,dataID, titre) {
+    return{
+    animationEnabled: true,
+    title: {
+      text: titre
+    },
+    data: [{
+      type: "doughnut",
+      showInLegend: true,
+      indexLabel: "{name}: {y}",
+      yValueFormatString: "#,###",
+      dataPoints:[{name:"IE", y:dataIE},
+                  {name:"TS", y:dataTS,},
+                  {name:"TR", y:dataTR,},
+                  {name:"IL", y:dataIL,},
+                  {name:"ID", y:dataID,}], 
+    }]
+  }
+  };
+
+  const { data: chartData } = data;
+
+
+
+
+
+
   return (
 
     <main>
       <CssBaseline />
-      <Grid container direction="row" justify="space-evenly" alignItems="center">
-        <Grid item xs>
+      <Grid container spacing={5} direction="row" justify="center" alignItems="stretch">
+        
+          <Grid item xs={3}>
+            <Card>
+              <div style={{ justifyContent:'center' }}>
+                <CardMedia
+                  image="https://i.imgur.com/NSM8kNK.png"
+                  title="Image title" />
+                <CardContent>
+                {IEInfo && TSInfo && TRInfo && ILInfo && IDInfo &&
+                  <CanvasJSChart 
+                  options = {option(IEInfo.nb_members,TSInfo.nb_members,TRInfo.nb_members,ILInfo.nb_members,IDInfo.nb_members,'Membre')}
+                />}
+                </CardContent>
+              </div>  
+            </Card>
+
+          </Grid>
+
+          <Grid item xs={3}>
+            
+            <Card>
+              <div style={{ justifyContent:'center' }}>
+                <CardMedia
+                  image="https://i.imgur.com/NSM8kNK.png"
+                  title="Image title" />
+                <CardContent>
+                {IEInfo && TSInfo && TRInfo && ILInfo && IDInfo &&
+                  <CanvasJSChart 
+                  options = {option(IEInfo.nb_victory,TSInfo.nb_victory,TRInfo.nb_victory,ILInfo.nb_victory,IDInfo.nb_victory,'Victoire')}
+                />}
+                </CardContent>
+              </div>  
+            </Card>
+          </Grid>
+          <Grid item xs={3}>
           <Card>
-            <h1>Statistiques</h1>
-            <CardMedia
-              image="https://i.imgur.com/NSM8kNK.png"
-              title="Image title" />
-            <CardContent>
-              <Typography>
-                <section>
-                  <h2>Nombres d'événements organisés par orientation</h2>
-                  <ColumnChart {...dataTemp} />
-                </section>
-              </Typography>
-            </CardContent>
+            <div style={{ justifyContent:'center' }}>
+              <CardMedia
+                image="https://i.imgur.com/NSM8kNK.png"
+                title="Image title" />
+              <CardContent>
+              {IEInfo && TSInfo && TRInfo && ILInfo && IDInfo &&
+                <CanvasJSChart 
+                options = {option(IEInfo.nb_participants,TSInfo.nb_participants,TRInfo.nb_participants,ILInfo.nb_participants,IDInfo.nb_participants,'Participations')}
+              />}
+              </CardContent>
+            </div>  
           </Card>
         </Grid>
       </Grid>
+                <br/>
+                <br/>
+                <br/>
+      <Grid container direction="row" justify="space-evenly" alignItems="center">
+        <Grid item xs={3}>
+          <Card>
+            <div style={{ justifyContent:'center' }}>
+              <CardMedia
+                image="https://i.imgur.com/NSM8kNK.png"
+                title="Image title" />
+              <CardContent>
+              {IEInfo && TSInfo && TRInfo && ILInfo && IDInfo &&
+                <CanvasJSChart 
+                options = {option(IEInfo.nb_subjects,TSInfo.nb_subjects,TRInfo.nb_subjects,ILInfo.nb_subjects,IDInfo.nb_subjects,'Sujets')}
+              />}
+              </CardContent>
+            </div>  
+          </Card>
+        </Grid>
+        
+        <Grid item xs={3}>
+          <Card>
+            <div style={{ justifyContent:'center' }}>
+              <CardMedia
+                image="https://i.imgur.com/NSM8kNK.png"
+                title="Image title" />
+              <CardContent>
+              {IEInfo && TSInfo && TRInfo && ILInfo && IDInfo &&
+                <CanvasJSChart 
+                options = {option(IEInfo.nb_posts,TSInfo.nb_posts,TRInfo.nb_posts,ILInfo.nb_posts,IDInfo.nb_posts,'Posts')}
+              />}
+              </CardContent>
+            </div>  
+          </Card>
+        </Grid>
+
+        <Grid item xs={3}>
+          <Card>
+            <div style={{ justifyContent:'center' }}>
+              <CardMedia
+                image="https://i.imgur.com/NSM8kNK.png"
+                title="Image title" />
+              <CardContent>
+              {IEInfo && TSInfo && TRInfo && ILInfo && IDInfo &&
+                <CanvasJSChart 
+                options = {option(IEInfo.points_month,TSInfo.points_month,TRInfo.points_month,ILInfo.points_month,IDInfo.points_month,'Points')}
+              />}
+              </CardContent>
+            </div>  
+          </Card>
+        </Grid>
+      </Grid>
+    
+      
+      
+
+
+
+
+      
+
+
+
+
     </main>
   );
 }
