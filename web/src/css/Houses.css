@@ -1,6 +1,11 @@
     :root {
         --house-banner: ;
         --house-color: ;
+        --house-bg-color: ;
+    }
+
+    body {
+        background:var(--house-bg-color);
     }
 
     .parent {
@@ -27,6 +32,13 @@
         text-align: center;
         text-shadow: -2px 0 rgb(63, 63, 63), 0 2px rgb(63, 63, 63), 2px 0 rgb(63, 63, 63), 0 -2px rgb(63, 63, 63);
         animation: slidingFadeIn 1s 1;
+    }
+
+    .points-font {
+        font-family: Calibri, Geneva, Tahoma, sans-serif;
+        color: #4B4B4B;
+        font-size: 2.2em;
+        text-align: center;
     }
 
     .div1 {

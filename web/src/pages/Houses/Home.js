@@ -1,13 +1,10 @@
 import React, { useContext, useEffect } from 'react';
-import { makeStyles, Card, CardContent, Typography, Avatar, Grid, Button,  } from '@material-ui/core';
+import { makeStyles, Card, CardContent, Typography, Avatar, Grid, Button, } from '@material-ui/core';
 import { MainContext } from '../../context/MainContext';
 import "../../css/Houses.css";
 
 import MUIDataTable from "mui-datatables";
 import moment from 'moment';
-
-
-
 
 /* Displays data (name and corresponding data) */
 function DisplayData(props) {
@@ -24,13 +21,12 @@ function DisplayData(props) {
 }
 
 const columns = [
-  { name: 'name_section',label: 'Section', options: {filter: false, sort: true,} },
-  { name: 'name_subject', label: 'Sujet' , options: {filter: false, sort: true,}},
-  { name: 'creator',  label: 'Auteur' , options: {filter: false, sort: true,}},
-  { name: 'message', label: 'message', options: {filter: true, sort: true,} },
-  { name: 'last_update',label: 'Nb Date', options: {filter: false, sort: true,} },
- ];
-
+  { name: 'name_section', label: 'Section', options: { filter: false, sort: true, } },
+  { name: 'name_subject', label: 'Sujet', options: { filter: false, sort: true, } },
+  { name: 'creator', label: 'Auteur', options: { filter: false, sort: true, } },
+  { name: 'message', label: 'message', options: { filter: true, sort: true, } },
+  { name: 'last_update', label: 'Nb Date', options: { filter: false, sort: true, } },
+];
 
 export default function ModalProfile() {
 
@@ -39,6 +35,7 @@ export default function ModalProfile() {
   const [houseInfo, setHouseInfo] = React.useState();
   const [houseBanner, setHouseBanner] = React.useState();
   const [houseColor, setHouseColor] = React.useState();
+  const [houseBgColor, setHouseBgColor] = React.useState();
   const [latestPost, setLatestPost] = React.useState();
   let root = document.documentElement;
 
@@ -46,33 +43,32 @@ export default function ModalProfile() {
     setShowProfile(user);
   }
 
-  var reformatData = function(data) {
-      return data.map(function(data) {
-        // create a new object to store full name.
-        var newObj = {};
-        
-        newObj["name_section"] = data.name_section
-        newObj["creator"] = data.creator.firstname+ ' ' + data.creator.lastname
-        newObj["message"] = data.message
-        newObj["last_update"] = moment(data.last_update).format('DD/MM/YYYY HH:mm')
-        newObj["name_subject"] = data.name_subject
-        // return our new object.
-        return newObj;
-      });
+  var reformatData = function (data) {
+    return data.map(function (data) {
+      // create a new object to store full name.
+      var newObj = {};
+
+      newObj["name_section"] = data.name_section
+      newObj["creator"] = data.creator.firstname + ' ' + data.creator.lastname
+      newObj["message"] = data.message
+      newObj["last_update"] = moment(data.last_update).format('DD/MM/YYYY HH:mm')
+      newObj["name_subject"] = data.name_subject
+      // return our new object.
+      return newObj;
+    });
   };
 
-  const options = {     
-            
+  const options = {
+
     filterType: 'checkbox',
     print: "",
     selectableRows: 'none',
-    filter:"",
-    search:"",
-    download:"",
-    viewColumns:"",
-    pagination:"",
+    filter: "",
+    search: "",
+    download: "",
+    viewColumns: "",
+    pagination: "",
   };
-
 
   const getHouseInfo = (e) => {
     let post_body =
@@ -109,28 +105,40 @@ export default function ModalProfile() {
 
       })
   }
-
-
   useEffect(() => {
-    if(user && user.house ){
-    getHouseInfo(user.house.house_id);
-    getLatestPost(user.house.house_id); 
-    setHouseBanner('url(\'http://localhost:8080/content/' + user.house.name + '.png\')'); 
-    setHouseColor(chooseHouseColor(user.house.house_id));
-  }
+    if (user && user.house) {
+      getHouseInfo(user.house.house_id);
+      getLatestPost(user.house.house_id);
+      setHouseBanner('url(\'http://localhost:8080/content/' + user.house.name + '.png\')');
+      setHouseColor(chooseFontHouseColor(user.house.house_id));
+      setHouseBgColor(chooseBackgroundHouseColor(user.house.house_id));
+    }
   }, [user]);
 
-  if(user && user.house ){
-   houseBanner && root.style.setProperty('--house-banner', houseBanner) ;
-   houseColor && root.style.setProperty('--house-color', houseColor); }
+  if (user && user.house) {
+    houseBanner && root.style.setProperty('--house-banner', houseBanner);
+    houseColor && root.style.setProperty('--house-color', houseColor);
+    houseBgColor && root.style.setProperty('--house-bg-color', houseBgColor);
+  }
 
-  function chooseHouseColor(idOfHouse) {
+  function chooseFontHouseColor(idOfHouse) {
     switch (idOfHouse) {
       case 1: return "#8dcbc1";
       case 2: return "#f0abbe";
       case 3: return "#af92c7";
       case 4: return "#8bd0eb";
       case 5: return "#f0dd8d";
+      default: return "";
+    }
+  }
+
+  function chooseBackgroundHouseColor(idOfHouse) {
+    switch (idOfHouse) {
+      case 1: return "#EEFFFC";
+      case 2: return "#FEEBF0";
+      case 3: return "#F7EEFF";
+      case 4: return "#EBF9FF";
+      case 5: return "#FFFCF2";
       default: return "";
     }
   }
@@ -143,9 +151,9 @@ export default function ModalProfile() {
           {user && user.house && <img src={"http://localhost:8080/content/" + user.house.name + ".png"} width="450px" alt="" />}
           <br />
           {houseInfo && houseInfo.name.toUpperCase()}
-          <br/>
-          <br/>
-          
+          <br />
+          <br />
+
         </h1>
       </Grid>
       {/* INFORMATIONS GÉNÉRALES */}
@@ -170,11 +178,14 @@ export default function ModalProfile() {
           <CardContent>
             <h2 class="house-subtitle">Points</h2>
             <center>
-              <Avatar className={classes.large}>
-                <Typography component="h1" variant="h4" spacing={10}>
+              {
+                /*
+                              <Avatar className={classes.large}>
                   {houseInfo && houseInfo.points_month}
-                </Typography>
               </Avatar>
+                */
+              }
+              <h3 class="points-font">{houseInfo && houseInfo.points_month}</h3>
             </center>
           </CardContent>
         </Card>
@@ -206,10 +217,9 @@ export default function ModalProfile() {
             }
 
             {
-              houseInfo && houseInfo.top_user &&
-              <Typography component="h1" variant="h4" spacing={10}>
-                {houseInfo.top_user.points_month} pts
-              </Typography>
+              houseInfo && houseInfo.top_user && 
+              <h3 class="points-font">{houseInfo.top_user.points_month} pts</h3>
+
             }
 
           </CardContent>
@@ -224,19 +234,14 @@ export default function ModalProfile() {
             <br /><br />
             {
               latestPost && <MUIDataTable
-              data={reformatData(latestPost)}
-              columns={columns}
-              options={options}
+                data={reformatData(latestPost)}
+                columns={columns}
+                options={options}
               />
             }
-
-
           </CardContent>
         </Card>
-
         <center><h1>Événements créés </h1></center>
-        
-
       </Grid>
     </Grid>
   );
