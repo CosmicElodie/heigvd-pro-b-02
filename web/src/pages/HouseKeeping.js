@@ -342,7 +342,6 @@ export default function HouseKeeping() {
                                         id="user-points"
                                         label="Points mensuels"
                                         defaultValue={String(value.points_month)}
-                                        helperText="Points récoltés pendant le mois en cours"
                                         variant="outlined"
                                         {...bindPoints}
                                     />}
