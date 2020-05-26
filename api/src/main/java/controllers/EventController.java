@@ -454,11 +454,6 @@ public class EventController {
                 return Utils.errorJSONObjectBuilder("already_joined").build().toString();
             }
 
-            if (!conn.createStatement().executeQuery(
-                    "SELECT event_id FROM user_participate_event WHERE event_id = '" + event_id + "';"
-            ).next()) {
-                return Utils.errorJSONObjectBuilder("unexisting_event").build().toString();
-            }
 
             String maxParticipant = "SELECT attendees_max as result FROM event WHERE event_id = " + event_id;
             String nbParticipant = "SELECT COUNT(user_id) as result FROM user_participate_event WHERE event_id = " + event_id;
