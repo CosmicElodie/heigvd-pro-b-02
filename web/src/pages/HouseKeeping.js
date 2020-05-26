@@ -338,7 +338,7 @@ export default function HouseKeeping() {
                                     {/* POINTS */}
                                     {<b>{"Points (mois) : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : value.points_month)}
                                     <br /><br />
-                                    {value && value.points_month && <TextField
+                                    {value && <TextField
                                         id="user-points"
                                         label="Points mensuels"
                                         defaultValue={String(value.points_month)}
