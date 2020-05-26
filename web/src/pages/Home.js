@@ -1,36 +1,12 @@
 import React, { useEffect, useContext, useCallback } from 'react';
 import { useHistory } from "react-router-dom";
 import { MainContext } from '../context/MainContext';
-import { makeStyles } from '@material-ui/core/styles';
 import MUIDataTable from "mui-datatables";
 import moment from 'moment';
 import {
     CssBaseline,
     Grid,
 } from '@material-ui/core';
-
-const useStyles = makeStyles(theme => ({
-    card: { //dans la carte
-        minWidth: '350px',
-        display: 'flex',
-        flexDirection: 'column',
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingTop: 10,
-        paddingBottom: 10,
-        height: "100%",
-    },
-    cardMedia: {
-        paddingTop: '0%',
-        flexDirection: 'row',
-        justify: 'space-evenly',
-        width: 'auto',
-        height: 'auto',
-    },
-    cardContent: {
-        flexGrow: 1
-    }
-}));
 
 
    const columns = [

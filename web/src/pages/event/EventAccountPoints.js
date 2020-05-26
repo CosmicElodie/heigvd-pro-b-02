@@ -4,9 +4,9 @@ import { useInput } from '../../hooks/input';
 import {MainContext} from '../../context/MainContext';
 
 const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battleroyale, is_competitive, house } ) => {
-    const { value:firstPlace, setValue:setFirstPlace, bind:bindFirstPlace } = useInput('');
-    const { value:secondPlace, setValue:setSecondPlace, bind:bindSecondPlace } = useInput('');
-    const { value:thirdPlace, setValue:setThirdPlace, bind:bindThirdPlace } = useInput('');
+    const { value:firstPlace,  bind:bindFirstPlace } = useInput('');
+    const { value:secondPlace,  bind:bindSecondPlace } = useInput('');
+    const { value:thirdPlace,  bind:bindThirdPlace } = useInput('');
     const { setDialog } = useContext(MainContext);
     const [ participants, setParticipants] = useState();
 
