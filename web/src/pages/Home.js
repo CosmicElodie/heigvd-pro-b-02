@@ -151,7 +151,7 @@ export default function Home() {
 
                     <Grid item xs>
                         {/*displayJoinedEvents('Événements rejoints par ' + user.firstname, joinedEvents)*/}
-                        <center><h1>Événements rejoints </h1></center>
+                        <center><h2>Événements rejoints </h2></center>
                         {
                             joinedEvents && <MUIDataTable
                             data={reformatData(joinedEvents)}
@@ -163,10 +163,9 @@ export default function Home() {
 
                     <Grid item xs>
                         {/*displayCreatedEvents('Événements créés par ' + user.firstname, createdEvents)*/}
-                        <center><h1>Événements créés </h1></center>
+                        <center><h2>Événements créés </h2></center>
                         {
                             createdEvents && <MUIDataTable
-                            title={"Événements créés par"}
                             data={reformatData(createdEvents)}
                             columns={columns}
                             options={options}
