@@ -20,10 +20,11 @@ const Menu = () => {
     let location = useLocation();
 
     const tabs = {
+        globalstats : 6,
         palmares : 5,
         forum: 4,
         event_welcome: 3,
-        Auditoire: 2,
+        auditoire: 2,
         rules: 1,
         home: 0
     }
@@ -58,8 +59,8 @@ const Menu = () => {
                 />
                 <Tab
                     label="Auditoire"
-                    to="/Auditoire"
-                    onClick={() => handleClick("/Auditoire")}
+                    to="/auditoire"
+                    onClick={() => handleClick("/auditoire")}
                 />
 
                 <Tab
@@ -78,6 +79,12 @@ const Menu = () => {
                     label="Palmarès"
                     to="/palmares"
                     onClick={() => handleClick("/palmares")}
+                />
+
+                <Tab
+                    label="Statistiques"
+                    to="/globalstats"
+                    onClick={() => handleClick("/globalstats")}
                 />
 
             </Tabs>
