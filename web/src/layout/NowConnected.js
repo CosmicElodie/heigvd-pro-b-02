@@ -27,7 +27,7 @@ const NowConnected = () => {
                     
                     <section className="display">
                         <section className="connected_users_icon"> </section>
-                        { connected.length } personne{ connected.length > 1 ? 's' : '' } connecté{ connected.length > 1 ? 's' : '' }
+                        { connected.length } personne{ connected.length > 1 ? 's' : '' } connectée{ connected.length > 1 ? 's' : '' }
                         <section className="arrow"></section>
                     </section>
                     
