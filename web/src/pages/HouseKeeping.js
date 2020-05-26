@@ -53,7 +53,6 @@ export default function HouseKeeping() {
     const { value: points, bind: bindPoints } = useInput('');
     const { value: access_level, bind: bindAccessLevel } = useInput('');
     const { value: status, bind: bindStatus } = useInput('');
-    const { value: activity, bind: bindActivity } = useInput('');
 
     function editLastname() {
         let post_body = "&user_id=" + parseInt(value.user_id) + "&new_lastname=" + lastname;
@@ -125,7 +124,7 @@ export default function HouseKeeping() {
     }
 
     function addPoints() {
-        let post_body = "&user_id=" + parseInt(value.user_id) + "&points=" + points;
+        let post_body = "&user_id=" + parseInt(value.user_id) + "&points=" + parseInt(points);
         fetch('http://localhost:8080/housekeeping/setpoints', {
             method: 'POST',
             credentials: 'include',
@@ -245,6 +244,17 @@ export default function HouseKeeping() {
         return (_user.lastname + ' ' + _user.firstname);
     }
 
+    function displayAccessLevel(level)
+     {
+         switch(level) {
+             case 0 : return "Utilisateur";
+             case 25 : return "Préfet";
+             case 50 : return "Modérateur";
+             case 75 : return "Administrateur";
+             default : return "Erreur niveau accès";
+         }
+     }
+
     function defineAuth() {
 
         if (user.access_level < 75) {
@@ -273,18 +283,6 @@ export default function HouseKeeping() {
 
                             <Grid container spacing={2} direction="row" justify="space-between" alignItems="stretch">
                                 <Grid item xs={12} sm={6}>
-                                    {/* PRENOM */}
-                                    {<b>{"Prénom : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : value.firstname)}
-                                    <br /><br />
-                                    {value && value.firstname && <TextField
-                                        id="user-firstname"
-                                        label="Prénom"
-                                        defaultValue={String(value.firstname)}
-                                        variant="outlined"
-                                    />}
-                                </Grid>
-
-                                <Grid item xs={12} sm={6}>
                                     {/* NOM */}
                                     {<b>{"Nom : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : value.lastname)}
                                     <br /><br />
@@ -303,6 +301,18 @@ export default function HouseKeeping() {
                                 </Grid>
 
                                 <Grid item xs={12} sm={6}>
+                                    {/* ACTIF */}
+                                    {<b>{"Activité : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : value.active)}
+
+                                    <br /><br />
+                                    <p>
+                                        {value && value.active === 1 && myCreationButton("Désactiver", desactivate)}
+                                    </p>
+                                    <br /><br />
+
+                                </Grid>
+
+                                <Grid item xs={12} sm={6}>
                                     {/* MAISON */}
                                     {<b>{"Maison : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : (value.house && value.house.name))}
                                     <br /><br />
@@ -311,7 +321,6 @@ export default function HouseKeeping() {
                                         id="user-house"
                                         label="Maison"
                                         defaultValue={String(value.house && value.house.name)}
-                                        helperText="Maison de l'utilisateur"
                                         variant="outlined"
                                         {...bindHouse}
                                         select>
@@ -358,7 +367,7 @@ export default function HouseKeeping() {
 
                                 <Grid item xs={12} sm={6}>
                                     {/* NIVEAU D'ACCES */}
-                                    {<b>{"Acces level : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : value.access_level)}
+                                    {<b>{"Acces level : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : displayAccessLevel(value.access_level))}
                                     <br /><br />
                                     {value && <TextField
                                         style={{ minWidth: 200 }}
@@ -406,20 +415,6 @@ export default function HouseKeeping() {
                                     <br /><br />
 
                                 </Grid>
-
-                                <Grid item xs={12}>
-                                    {/* ACTIF */}
-                                    {<b>{"Activité : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : value.active)}
-
-                                    <br /><br />
-                                    <p>
-                                        {value && value.active === 1 && myCreationButton("Désactiver", desactivate)}
-                                    </p>
-                                    <br /><br />
-
-                                </Grid>
-
-
                             </Grid>
 
                         </Typography>
