@@ -257,10 +257,7 @@ export default function HouseKeeping() {
 
     function defineAuth() {
 
-        if (user.access_level < 75) {
-            return (<center><img width={'100%'} src={imagePath} alt="err_404" /></center>);
-        }
-        else {
+        if (user.access_level === 75) {
             return (<main>
 
                 <Card className={classes.card}>
@@ -422,6 +419,9 @@ export default function HouseKeeping() {
                 </Card>
 
             </main>);
+        }
+        else {
+            return (<center><img width={'50%'} src={imagePath} alt="err_404" /></center>);
         }
     }
 
