@@ -6,7 +6,7 @@ import PostEdit from './PostEdit';
 import PostDelete from './PostDelete';
 import { useInput } from '../../hooks/input';
 import { ForumContext } from '../../context/ForumContext';
-import { MainContext } from '../../context/MainContext';
+import { MainContext, cleanChars } from '../../context/MainContext';
 import { traverseForums, getSubjectByID  } from './Utility';
 
 const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, forum_subject_id, posts, isOpen } ) => {
@@ -42,7 +42,7 @@ const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, foru
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: "&message=" + message + "&forum_subject_id=" + forum_subject_id 
+            body: "&message=" + cleanChars(message) + "&forum_subject_id=" + forum_subject_id 
         })
         .then(response => response.json())
         .then(({ status, dialog_id, data : new_post }) => {

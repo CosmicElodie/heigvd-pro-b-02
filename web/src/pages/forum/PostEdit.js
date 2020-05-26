@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Icon, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 import { useInput } from '../../hooks/input';
 import { ForumContext } from '../../context/ForumContext';
-import { MainContext } from '../../context/MainContext';
+import { MainContext, cleanChars } from '../../context/MainContext';
 import { traverseSubjects, getPostByID, searchForumByID } from './Utility';
 
 const PostEdit = ( { is_open, forum_post_id , handleCloseEditPost } ) => {
@@ -34,7 +34,7 @@ const PostEdit = ( { is_open, forum_post_id , handleCloseEditPost } ) => {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: "&forum_post_id=" + forum_post_id + "&message=" + message 
+            body: "&forum_post_id=" + forum_post_id + "&message=" + cleanChars(message)
         })
         .then(response => response.json())
         .then(({ status, dialog_id }) => {

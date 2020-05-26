@@ -3,7 +3,7 @@ import { Icon, Button, TextField, Dialog, DialogActions, DialogContent, DialogTi
 import { useInput } from '../../hooks/input';
 import { searchForumByID } from './Utility';
 import { ForumContext } from '../../context/ForumContext';
-import { MainContext } from '../../context/MainContext';
+import { MainContext, cleanChars } from '../../context/MainContext';
 
 const ForumAdd = ( { is_open, handleClose } ) => {
     /*
@@ -45,15 +45,15 @@ const ForumAdd = ( { is_open, handleClose } ) => {
  
         
         let post_body = 
-            "name=" + name + 
-            "&description=" + description + 
+            "name=" + cleanChars(name) +
+            "&description=" + cleanChars(description) + 
             "&help=" + help;
         if(current.selected) post_body += "&parent_forum_section_id=" + current.selected.forum_section_id;
         if(house) post_body += "&house_id=" + house; 
         fetch('http://localhost:8080/forum/insert_section', {
             method: 'POST',
             credentials: 'include',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
             body: post_body
         })
         .then(response => response.json())

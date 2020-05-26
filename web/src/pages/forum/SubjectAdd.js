@@ -3,7 +3,7 @@ import { Icon, Button, TextField, Dialog, DialogActions, DialogContent, DialogTi
 import { useInput } from '../../hooks/input';
 import { searchForumByID } from './Utility';
 import { ForumContext } from '../../context/ForumContext';
-import { MainContext } from '../../context/MainContext';
+import { MainContext, cleanChars } from '../../context/MainContext';
 
 const SubjectAdd = ( { is_open, handleClose } ) => {
     /*
@@ -26,7 +26,7 @@ const SubjectAdd = ( { is_open, handleClose } ) => {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: 'name=' + subject + '&forum_section_id=' + current.selected.forum_section_id 
+            body: 'name=' + cleanChars(subject) + '&forum_section_id=' + current.selected.forum_section_id 
         })
         .then(response => response.json())
         .then(response => {
