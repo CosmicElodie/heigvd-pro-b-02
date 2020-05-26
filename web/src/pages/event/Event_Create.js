@@ -288,7 +288,7 @@ export default function Event_Create() {
                         <br /><br />
                         <Grid container>
                             <Grid item xs>
-                            {parseInt(is_competitive) === 1 && <FormControl component="fieldset">
+                            {!(parseInt(house_id)) && (parseInt(is_competitive) === 1) && <FormControl component="fieldset">
                                     <FormLabel component="legend">Mode Battle Royal</FormLabel>
                                     <RadioGroup
                                         value={battleroyal}
