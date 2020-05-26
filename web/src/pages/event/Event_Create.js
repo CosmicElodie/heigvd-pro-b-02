@@ -106,7 +106,7 @@ export default function Event_Create() {
             "&name=" + name +
             "&description=" + description +
             "&is_competitive=" + (is_competitive.length ? parseInt(is_competitive) : 0) +
-            "&battleroyal=" + (is_competitive ? (battleroyal.length ? battleroyal : 0) : 0) +
+            "&battleroyal=" + (is_competitive ? (!(parseInt(house_id)) ? (battleroyal.length ? battleroyal : 0) : 0) : 0)+
             "&difficulty=" + (difficulty.length ? parseInt(difficulty) : 1) +
             "&price=" + ((price == null || price == 0) ? 0 : price) +
             "&attendees_min=" + attendees_min +

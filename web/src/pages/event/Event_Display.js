@@ -171,7 +171,9 @@ export default function Event() {
                         is_open: true
                     }
                 });
-                 redirectPage("/event_display/" + current.event_id) 
+                if (status === "ok") {
+                    window.location.reload(false) 
+               }
             })
 
         return;
@@ -197,7 +199,9 @@ export default function Event() {
                         is_open: true
                     }
                 });
-                 redirectPage("/event_display/" + current.event_id) 
+                if (status === "ok") {
+                    window.location.reload(false) 
+               }
             })
 
         return;
@@ -217,7 +221,9 @@ export default function Event() {
                         is_open: true
                     }
                 });
-                 redirectPage("/event_display/" + current.event_id) 
+                if (status === "ok") {
+                    window.location.reload(false) 
+               }
             })
 
         return;
@@ -281,7 +287,6 @@ export default function Event() {
         </button></p>);
     }
 
-    //  onClick = { () => handlePersonClick(user) }
     return (
 
         <main>
