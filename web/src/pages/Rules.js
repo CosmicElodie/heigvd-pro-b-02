@@ -251,7 +251,7 @@ export default function Rules() {
                         </ExpansionPanel>
                         <ExpansionPanel square expanded={expanded === 'panel6'} onChange={handleChange('panel6')}>
                             <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header">
-                                <Typography>Je suis délégué-e, professeur-e ou assistant-e à l'HEIG-VD. Comment obtenir ce status</Typography>
+                                <Typography>Je suis délégué-e, professeur-e ou assistant-e à l'HEIG-VD. Comment obtenir ce status ?</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <Typography>

@@ -106,7 +106,7 @@ const Dialog = () => {
                     onClose={() => handleClose({ subject_created: { is_open: false } })}
                     autoHideDuration={6000} >
                     <Alert variant="filled" severity="success">
-                        Le sujet a été crée.
+                        Le sujet a été créé.
                     </Alert>
                 </Snackbar>
             }
@@ -154,7 +154,7 @@ const Dialog = () => {
                     onClose={() => handleClose({ forum_insert_insufficient_permission: { is_open: false } })}
                     autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
-                        Vous n'avez pas assez de permission.
+                        Vous n'avez pas assez de permissions.
                     </Alert>
                 </Snackbar>
             }
@@ -225,7 +225,7 @@ const Dialog = () => {
                     onClose={() => handleClose({ user_avatar_updated: { is_open: false } })}
                     autoHideDuration={6000} >
                     <Alert variant="filled" severity="success">
-                        Image de profile mis à jour.
+                        Image de profil mise à jour.
                     </Alert>
                 </Snackbar>
             }
@@ -237,7 +237,7 @@ const Dialog = () => {
                     onClose={() => handleClose({ same_winner_in_two_or_more_place: { is_open: false } })}
                     autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
-                        Veuilleu choisir un différent gagnant pour chaque place.
+                        Veuillez choisir un différent gagnant pour chaque place.
                     </Alert>
                 </Snackbar>
             }
@@ -297,7 +297,7 @@ const Dialog = () => {
                     onClose={() => handleClose({ same_author_post_subject_solved: { is_open: false } })}
                     autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
-                        Vous ne pouvez pas indiquer votre réponse comme étant la meuilleure. Bien essayé!
+                        Vous ne pouvez pas indiquer votre réponse comme étant la meilleure. Bien essayé!
                     </Alert>
                 </Snackbar>
             }
@@ -310,7 +310,7 @@ const Dialog = () => {
                     onClose={() => handleClose({ solved_post_and_subject: { is_open: false } })}
                     autoHideDuration={6000} >
                     <Alert variant="filled" severity="success">
-                        Vous avec définis la meilleure réponse.
+                        Vous avez défini la meilleure réponse.
                         </Alert>
                 </Snackbar>
             }
@@ -334,7 +334,7 @@ const Dialog = () => {
                     onClose={() => handleClose({ error_min_max_attendees_length: { is_open: false } })}
                     autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
-                        Le minimum de gens participants à l'événement doit être plus petit que le max.
+                        Le minimum de personnes participant à l'événement doit être plus petit que le max.
                     </Alert>
                 </Snackbar>
             }
@@ -382,7 +382,7 @@ const Dialog = () => {
                     onClose={() => handleClose({ error_date_set_in_the_past: { is_open: false } })}
                     autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
-                        Une des dates que vous avez mentionnées sont antérieures à la date actuelle.
+                        Une des dates que vous avez mentionnées est antérieure à la date actuelle.
                     </Alert>
                 </Snackbar>
             }
@@ -394,7 +394,7 @@ const Dialog = () => {
                     onClose={() => handleClose({ incorrect_date_format: { is_open: false } })}
                     autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
-                        Format date incorrect !
+                        Format de date incorrect !
                     </Alert>
                 </Snackbar>
             }
@@ -406,7 +406,7 @@ const Dialog = () => {
                     onClose={() => handleClose({ error_max_attendees_lower_than_nb_attendees: { is_open: false } })}
                     autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
-                        Le nombre participants max doit être plus petit que le nombre de participants min.
+                        Le nombre de participants max doit être plus petit que le nombre de participants min.
                     </Alert>
                 </Snackbar>
             }
@@ -466,7 +466,7 @@ const Dialog = () => {
                     onClose={() => handleClose({ event_delete_insufficient_permission: { is_open: false } })}
                     autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
-                        Vous n'avez pas les droits nécessaire pour supprimer cet événement.
+                        Vous n'avez pas les droits nécessaires pour supprimer cet événement.
                     </Alert>
                 </Snackbar>
             }
