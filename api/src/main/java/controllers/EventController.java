@@ -221,11 +221,11 @@ public class EventController {
             return Utils.errorJSONObjectBuilder("incorrect_date_format").build().toString();
         }
 
-        if (name.length() == 0 || description.length() >= 500) {
+        if (description.length() >= 500) {
             return Utils.errorJSONObjectBuilder("incorrect_input_length").build().toString();
         }
 
-        if(description.length() <= 0 || attendees_max <= 0 || attendees_min <= 0 || location.length() <= 0 ||
+        if(name.length() <= 0 ||description.length() <= 0 || attendees_max <= 0 || attendees_min <= 0 || location.length() <= 0 ||
                 no.length() <= 0 || street.length() <= 0 || postal_code <= 0 || city.length() <= 0)
         {
             return Utils.errorJSONObjectBuilder("error_empty_information").build().toString();
