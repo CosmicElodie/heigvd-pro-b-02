@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect  } from 'react';
 
+export const cleanChars = (string) => string.replace(/&/g, "%26").replace(/>/g, "%3E").replace(/</g, "%3C").replace(/"/g, "%22");
+
 export const MainContext = createContext();
 /*
 MainContext is a global data repository intended to contain the states to be shared 

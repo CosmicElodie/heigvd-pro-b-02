@@ -7,7 +7,7 @@ import SubjectView from './SubjectView';
 import SubjectAdd from './SubjectAdd';
 import SubjectDelete from './SubjectDelete';
 import { ForumContext } from '../../context/ForumContext';
-import { MainContext } from '../../context/MainContext';
+import { MainContext, cleanChars } from '../../context/MainContext';
 import AutosizeInput from 'react-input-autosize';
 import { getSubjectByID, traverseForums } from './Utility';
 
@@ -137,7 +137,7 @@ const SubjectDetails = ( { // Component local non-exporté
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: "&name=" + value + "&forum_subject_id=" + forum_subject_id 
+            body: "&name=" + cleanChars(value) + "&forum_subject_id=" + forum_subject_id 
         })
         .then(response => response.json())
         .then(({ status, dialog_id }) => {
