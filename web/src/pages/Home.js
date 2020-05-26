@@ -9,8 +9,6 @@ import {
     Grid,
 } from '@material-ui/core';
 
-import Moment from 'react-moment';
-
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
         minWidth: '350px',
@@ -52,10 +50,6 @@ const useStyles = makeStyles(theme => ({
 export default function Home() {
     
     const { user } = useContext(MainContext);
-
-    //const {user} = useContext(MainContext);
-    const classes = useStyles();
-
 
     let history = useHistory();
 
@@ -107,8 +101,8 @@ export default function Home() {
     const [createdEvents, setCreatedEvents] = React.useState();
 
     useEffect(() => {
-        { user.user_id && getJoinedEvents(); }
-        { user.user_id && getCreatedEvents(); }
+         user.user_id && getJoinedEvents(); 
+         user.user_id && getCreatedEvents(); 
     }, [user.user_id]);
 
     const getCreatedEvents = () => {

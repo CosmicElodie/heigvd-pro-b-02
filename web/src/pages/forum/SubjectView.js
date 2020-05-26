@@ -4,7 +4,6 @@ import Bubble from '../../layout/Bubble';
 import Person from '../../layout/Person';
 import PostEdit from './PostEdit';
 import PostDelete from './PostDelete';
-import ConsoleLog from '../../ConsoleLog';
 import { useInput } from '../../hooks/input';
 import { ForumContext } from '../../context/ForumContext';
 import { MainContext } from '../../context/MainContext';

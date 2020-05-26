@@ -58,7 +58,7 @@ export default function ModalProfile() {
   }, [user]);
 
 
-  { houseBanner && root.style.setProperty('--house-banner', houseBanner) };
+  houseBanner && root.style.setProperty('--house-banner', houseBanner);
 
   const getUserInfo = (e) => {
     let post_body =
@@ -392,8 +392,5 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
 
 

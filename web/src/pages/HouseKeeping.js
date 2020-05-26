@@ -3,15 +3,12 @@ import { useInput } from '../hooks/input';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {
-    Card, CardContent, CardMedia,
-    CssBaseline,
+    Card, CardContent, 
     Grid,
-    Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
     TextField, MenuItem
 } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 
-import { withStyles } from '@material-ui/core/styles';
 import { MainContext } from '../context/MainContext';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -36,10 +33,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 let imagePath = 'http://localhost:8080/content/404.png';
-const options = ['Option 1', 'Option 2'];
 
 export default function HouseKeeping() {
-    const { user, setUser, setDialog } = useContext(MainContext);
+    const { user, setDialog } = useContext(MainContext);
     const [users, setUsers] = useState();
     const [value, setValue] = React.useState(users);
     const classes = useStyles();
@@ -70,7 +66,7 @@ export default function HouseKeeping() {
                     }
                 });
                 if (status === "ok") {
-                    { window.location.reload(false) }
+                    window.location.reload(false) 
                 }
             })
 
@@ -93,7 +89,7 @@ export default function HouseKeeping() {
                     }
                 });
                 if (status === "ok") {
-                    { window.location.reload(false) }
+                    window.location.reload(false)
                 }
             })
 
@@ -116,7 +112,7 @@ export default function HouseKeeping() {
                     }
                 });
                 if (status === "ok") {
-                    { window.location.reload(false) }
+                    window.location.reload(false)
                 }
             })
 
@@ -139,7 +135,7 @@ export default function HouseKeeping() {
                     }
                 });
                 if (status === "ok") {
-                    { window.location.reload(false) }
+                     window.location.reload(false) 
                 }
             })
 
@@ -162,7 +158,7 @@ export default function HouseKeeping() {
                     }
                 });
                 if (status === "ok") {
-                    { window.location.reload(false) }
+                     window.location.reload(false) 
                 }
             })
 
@@ -185,7 +181,7 @@ export default function HouseKeeping() {
                     }
                 });
                 if (status === "ok") {
-                    { window.location.reload(false) }
+                    window.location.reload(false)
                 }
             })
 
@@ -208,7 +204,7 @@ export default function HouseKeeping() {
                     }
                 });
                 if (status === "ok") {
-                    { window.location.reload(false) }
+                    window.location.reload(false) 
                 }
             })
 
