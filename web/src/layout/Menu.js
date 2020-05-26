@@ -20,9 +20,11 @@ const Menu = () => {
     let location = useLocation();
 
     const tabs = {
+        palmares : 5,
         forum: 4,
-        event: 2,
-        about: 1,
+        event_welcome: 3,
+        Auditoire: 2,
+        rules: 1,
         home: 0
     }
 
