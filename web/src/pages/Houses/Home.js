@@ -156,7 +156,7 @@ export default function ModalProfile() {
             <Typography>
               <DisplayData name="Nombre de membres :" data={houseInfo && houseInfo.nb_members} />
               <DisplayData name="Nombre d'évenements :" data={houseInfo && houseInfo.nb_events} />
-              <DisplayData name="Nombre de victoires :" data={"????"} />
+              <DisplayData name="Nombre de victoires :" data={houseInfo && houseInfo.nb_victory} />
               <DisplayData name="Nombre de sujets" data={houseInfo && houseInfo.nb_subjects} />
               <DisplayData name="Nombre de messages générés :" data={houseInfo && houseInfo.nb_posts} />
             </Typography>
