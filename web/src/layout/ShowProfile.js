@@ -80,16 +80,16 @@ const ShowProfile = () => {
 
                             { showProfile.access_level === 0 && "Utilisateur" }
                             { showProfile.access_level === 25 && "Préfet" }
-                            { showProfile.access_level === 50 && "Moderateur" }
+                            { showProfile.access_level === 50 && "Modérateur" }
                             { showProfile.access_level === 75 && "Administrateur" }
 
                             </section>
                             <Typography >                     
                               <DisplayData name="Nom :" data = {showProfile.lastname}/>    
-                              <DisplayData name="Prenom :" data = {showProfile.firstname}/>    
+                              <DisplayData name="Prénom :" data = {showProfile.firstname}/>    
                               <DisplayDate name="Naissance :" data = {showProfile.birth}/>    
                               <DisplayData name="Maison :" data = {showProfile.house && showProfile.house.name}/>    
-                              <DisplayData name="Email :" data = {showProfile.email}/>    
+                              <DisplayData name="E-mail :" data = {showProfile.email}/>    
                             </Typography>   
                       </CardContent>
                     </Card>

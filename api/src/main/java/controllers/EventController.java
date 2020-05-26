@@ -251,6 +251,10 @@ public class EventController {
             house_id = null;
         }
 
+        if(is_competitive == 1 && difficulty == null) {
+            difficulty = 1;
+        }
+
         Date currentDate = new Date(System.currentTimeMillis());
         if(currentDate.after(date_begin) || currentDate.after(date_end) || currentDate.after(deadline_reservation)) {
             return Utils.errorJSONObjectBuilder("error_date_set_in_the_past").build().toString();
