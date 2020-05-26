@@ -236,11 +236,10 @@ export default function Event() {
 
     function displayDifficulty(level) {
         switch (level) {
-            case 1: return "Facile";
             case 2: return "Moyen";
             case 3: return "Difficile";
             case 4: return "Extrême";
-            default: return "Error";
+            default: return "Facile"; //si pas de difficulté mentionnée, ça met à 'facile'.
         }
     }
 

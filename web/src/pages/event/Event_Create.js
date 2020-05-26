@@ -10,6 +10,11 @@ import {
 
 import { useHistory } from "react-router-dom";
 
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+
 
 //TODO : Pour faire l'upload de l'image
 //https://www.youtube.com/watch?v=sp9r6hSWH_o
@@ -76,6 +81,7 @@ export default function Event_Create() {
         setInputMin(event.target.value);
     };
 
+
     const { value: name, bind: bindName, reset: resetName } = useInput('');
     const { value: description, bind: bindDescription, reset: resetDescription } = useInput('');
     const { value: is_competitive, bind: bindIsCompetitive, reset: resetCompetitive } = useInput('');
@@ -99,9 +105,9 @@ export default function Event_Create() {
         let post_body =
             "&name=" + name +
             "&description=" + description +
-            "&is_competitive=" + is_competitive +
-            "&battleroyal=" + (is_competitive ? battleroyal : 0) +
-            "&difficulty=" + difficulty +
+            "&is_competitive=" + (is_competitive.length ? parseInt(is_competitive) : 0) +
+            "&battleroyal=" + (is_competitive ? (battleroyal.length ? battleroyal : 0) : 0) +
+            "&difficulty=" + (difficulty.length ? parseInt(difficulty) : 1) +
             "&price=" + ((price == null || price == 0) ? 0 : price) +
             "&attendees_min=" + attendees_min +
             "&attendees_max=" + attendees_max +
@@ -113,7 +119,7 @@ export default function Event_Create() {
             "&street=" + street +
             "&postal_code=" + postal_code +
             "&city=" + city +
-            "&house_id=" + house_id;
+            "&house_id=" + (house_id.length ? parseInt(house_id) : 0);
 
         fetch('http://localhost:8080/event/insert_event', {
             method: 'POST',
@@ -149,8 +155,8 @@ export default function Event_Create() {
                             is_open: true
                         }
                     });
-                    //{ window.location.reload(false)}
-                    //{ redirectPage("/event_list") }
+                //{ window.location.reload(false)}
+                //{ redirectPage("/event_list") }
             });
 
 
@@ -158,20 +164,6 @@ export default function Event_Create() {
     const redirectPage = useCallback((link) => {
         history.push(link);
     }, [history]);
-
-    function battleRoyalOn() {
-        return (
-            battleRoyalOn = true
-        );
-    }
-
-    function battleRoyalOff() {
-        return (
-            battleRoyalOn = false
-        );
-    }
-
-    let battleRoyalOnorOff = true;
 
     const MyButton = styled(Button)({
         background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -220,17 +212,18 @@ export default function Event_Create() {
                         <br />
                         <Grid container >
                             <Grid item xs>
-                                <TextField
-                                    id="is_competitive"
-                                    label="Type"
-                                    required="true"
-                                    defaultValue={0}
-                                    style={{ width: 150 }}
-                                    {...bindIsCompetitive}
-                                    select>
-                                    <MenuItem value={1} {...battleRoyalOn}>Compétitif</MenuItem>
-                                    <MenuItem value={0} {...battleRoyalOff}>Non-compétitif</MenuItem>
-                                </TextField>
+                                <FormControl component="fieldset">
+                                    <FormLabel component="legend">Type</FormLabel>
+                                    <RadioGroup
+                                        value={is_competitive}
+                                        defaultValue={0}
+                                        required={true}
+                                        {...bindIsCompetitive}
+                                        select>
+                                        <FormControlLabel value="1" control={<Radio />} label="Compétitif" />
+                                        <FormControlLabel value="0" control={<Radio />} label="Non-compétitif" />
+                                    </RadioGroup>
+                                </FormControl>
                             </Grid>
 
                             <Grid item xs>
@@ -239,17 +232,19 @@ export default function Event_Create() {
                                     aria-haspopup="true"
                                     onMouseEnter={handlePopoverOpen}
                                     onMouseLeave={handlePopoverClose}>
-                                    <TextField
-                                        id="house_id"
-                                        label="Limitation"
-                                        required={true}
-                                        defaultValue={user.house && user.house.house_id}
-                                        style={{ width: 150 }}
-                                        {...bindHouseId}
-                                        select>
-                                        <MenuItem value={user.house && user.house.house_id}>{user.house && user.house.name}</MenuItem>
-                                        <MenuItem value={0}>Global</MenuItem>
-                                    </TextField>
+
+                                    <FormControl component="fieldset">
+                                        <FormLabel component="legend">Limitation</FormLabel>
+                                        <RadioGroup
+                                            value={house_id}
+                                            defaultValue={user.house && user.house.house_id}
+                                            required={true}
+                                            {...bindHouseId}
+                                            select>
+                                            <FormControlLabel value={String(user.house && user.house.house_id)} control={<Radio />} label={user.house && user.house.name} />
+                                            <FormControlLabel value="0" control={<Radio />} label="Global" />
+                                        </RadioGroup>
+                                    </FormControl>
                                 </Typography>
                                 <Popover
                                     id="limitation-popover"
@@ -274,40 +269,37 @@ export default function Event_Create() {
                             </Grid>
 
                             <Grid item xs={3}>
-                                <TextField
-                                    id="difficulty"
-                                    label="Difficulté"
-                                    style={{ width: 150 }}
-                                    defaultValue={1}
-                                    required={true}
-                                    {...bindDifficulty}
-                                    select>
-                                    <MenuItem value={1}>Facile</MenuItem>
-                                    <MenuItem value={2}>Moyen</MenuItem>
-                                    <MenuItem value={3}>Difficile</MenuItem>
-                                    <MenuItem value={4}>Extrême</MenuItem>
-                                </TextField>
-
+                            <FormControl component="fieldset">
+                                    <FormLabel component="legend">Difficulté</FormLabel>
+                                    <RadioGroup
+                                        value={is_competitive}
+                                        defaultValue={0}
+                                        required={true}
+                                        {...bindDifficulty}
+                                        select>
+                                        <FormControlLabel value="1" control={<Radio />} label="Facile" />
+                                        <FormControlLabel value="2" control={<Radio />} label="Moyen" />
+                                        <FormControlLabel value="3" control={<Radio />} label="Difficile" />
+                                        <FormControlLabel value="4" control={<Radio />} label="Extrême" />
+                                    </RadioGroup>
+                                </FormControl>
                             </Grid>
                         </Grid>
                         <br /><br />
                         <Grid container>
                             <Grid item xs>
-                                {is_competitive === 1 && <TextField
-                                    id="battleroyal"
-                                    label="Mode Battle Royal"
-                                    helperText="Oui : Tous vs Tous, Non : Équipe vs Équipe"
-                                    required={false}
-                                    defaultValue={0}
-                                    disabled={false}
-                                    style={{ width: 150 }}
-                                    {...bindBattleRoyal}
-                                    select>
-                                    <MenuItem value={1}>Oui</MenuItem>
-                                    <MenuItem value={0}>Non</MenuItem>
-
-                                </TextField>}
-
+                            {parseInt(is_competitive) === 1 && <FormControl component="fieldset">
+                                    <FormLabel component="legend">Mode Battle Royal</FormLabel>
+                                    <RadioGroup
+                                        value={battleroyal}
+                                        defaultValue="0"
+                                        required={true}
+                                        {...bindBattleRoyal}
+                                        select>
+                                        <FormControlLabel value="1" control={<Radio />} label="Oui" />
+                                        <FormControlLabel value="0" control={<Radio />} label="Non" />
+                                    </RadioGroup>
+                                </FormControl> }
                             </Grid>
                         </Grid>
                         <br /><br />
