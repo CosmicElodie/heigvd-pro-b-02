@@ -1,5 +1,4 @@
-import React, { useContext,useEffect } from 'react';
-import Typography from '@material-ui/core/Typography';
+import React, { useEffect } from 'react';
 import CanvasJSReact from './canvasjs.react';
 import {
   Card, CardContent, CardMedia,
@@ -17,7 +16,6 @@ export default function GlobalStats() {
   const [TRInfo, setTRInfo] = React.useState();
   const [ILInfo, setILInfo] = React.useState();
   const [IDInfo, setIDInfo] = React.useState();  
-  const [reformat, setReformat] = React.useState();
 
   const getHouseInfo = (e) => {
     let post_body =
@@ -64,7 +62,7 @@ export default function GlobalStats() {
   }, []);
   
 
-
+/*
   const data = [
         { name: "Unsatisfied", y: 5 },
         { name: "Very Unsatisfied", y: 31 },
@@ -72,7 +70,7 @@ export default function GlobalStats() {
         { name: "Satisfied", y: 17 },
         { name: "Neutral", y: 7 }
   ];
-  
+  */
 
 
   var option = function(dataIE,dataTS,dataTR,dataIL,dataID, titre) {
@@ -95,7 +93,7 @@ export default function GlobalStats() {
   }
   };
 
-  const { data: chartData } = data;
+  //const { data: chartData } = data;
 
 
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {
@@ -90,8 +90,6 @@ export default function Rules() {
     const classes = useStyles();
 
     //const [ data, setData ] = useState(); //mettre json à la place de useState
-    const [topUserYearly, setTopUserYearly] = React.useState();
-    const [topUserMonthly, setTopUserMonthly] = React.useState();
 
     return (
 
