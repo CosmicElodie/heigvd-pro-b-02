@@ -437,6 +437,400 @@ public class EventController {
         return responseObject.build().toString();
     }
 
+    @PostMapping("/event/update/setName")
+    public String updateName(@RequestParam(value = "event_id") int event_id,
+                              @RequestParam("name") String name) throws SQLException {
+
+        JsonObjectBuilder responseObject;
+
+        if (name.length() == 0) {
+            return Utils.errorJSONObjectBuilder("error_empty_information").build().toString();
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement updateEvent = conn.prepareCall("{call DEV.updateEventName(?,?)}");
+            updateEvent.setInt(1, event_id);
+            updateEvent.setString(2, name);
+
+            updateEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_updated", null);
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/update/setDescription")
+    public String updateEventDescription(@RequestParam(value = "event_id") int event_id,
+                              @RequestParam("description") String description) throws SQLException {
+
+        JsonObjectBuilder responseObject;
+
+        if (description.length() >= 500) {
+            return Utils.errorJSONObjectBuilder("incorrect_input_length").build().toString();
+        } else if(description.length() == 0) {
+            return Utils.errorJSONObjectBuilder("error_empty_information").build().toString();
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement updateEvent = conn.prepareCall("{call DEV.updateEventDescription(?,?)}");
+            updateEvent.setInt(1, event_id);
+            updateEvent.setString(2, description);
+
+            updateEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_updated", null);
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/update/setIsCompetitive")
+    public String updateEventIsCompetitive(@RequestParam(value = "event_id") int event_id,
+                              @RequestParam(value = "is_competitive", required = false) Integer is_competitive) throws SQLException {
+
+        JsonObjectBuilder responseObject;
+
+        try (Connection conn = dataSource.getConnection()) {
+            CallableStatement updateEvent = conn.prepareCall("{call DEV.updateEventIsCompetitive(?,?)}");
+            updateEvent.setInt(1, event_id);
+            if (is_competitive == null) {
+                updateEvent.setNull(2, Types.INTEGER);
+            } else {
+                updateEvent.setInt(2, is_competitive);
+            }
+
+            updateEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_updated", null);
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/update/setDifficulty")
+    public String updateEventDifficulty(@RequestParam(value = "event_id") int event_id,
+                              @RequestParam(value = "difficulty", required = false) Integer difficulty) throws SQLException {
+
+        JsonObjectBuilder responseObject;
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement updateEvent = conn.prepareCall("{call DEV.updateEventDifficulty(?,?)}");
+            updateEvent.setInt(1, event_id);
+            if (difficulty == null) {
+                updateEvent.setNull(2, Types.INTEGER);
+            } else {
+                updateEvent.setInt(2, difficulty);
+            }
+
+            updateEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_updated", null);
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/update/setPrice")
+    public String updateEventPrice(@RequestParam(value = "event_id") int event_id,
+                              @RequestParam(value = "price", required = false) Double price) throws SQLException {
+
+        JsonObjectBuilder responseObject;
+
+        if (price < 0) {
+            return Utils.errorJSONObjectBuilder("error_price_below_zero").build().toString();
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement updateEvent = conn.prepareCall("{call DEV.updateEventPrice(?,?)}");
+            updateEvent.setInt(1, event_id);
+            updateEvent.setDouble(2, price);
+
+            updateEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_updated", null);
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/update/setBattleroyale")
+    public String updateEventBattleroyale(@RequestParam(value = "event_id") int event_id,
+                              @RequestParam(value = "battleroyal", required = false) Integer battleroyale) throws SQLException {
+
+        JsonObjectBuilder responseObject;
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement updateEvent = conn.prepareCall("{call DEV.updateEventBattleroyale(?,?)}");
+            updateEvent.setInt(1, event_id);
+            if (battleroyale == null) {
+                updateEvent.setNull(2, Types.INTEGER);
+            } else {
+                updateEvent.setInt(2, battleroyale);
+            }
+
+            updateEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_updated", null);
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/update/setAttendeesMin")
+    public String updateEventAttendeesMin(@RequestParam(value = "event_id") int event_id,
+                              @RequestParam("attendees_min") int attendees_min) throws SQLException {
+
+        JsonObjectBuilder responseObject;
+
+        if(attendees_min <= 0) {
+            return Utils.errorJSONObjectBuilder("error_empty_information").build().toString();
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+            // check si le nombre d'attendants min est supérieur au nombre d'attendants max. Renvoie une erreur si vrai.
+            Statement stmt = conn.createStatement();
+            ResultSet event = stmt.executeQuery("SELECT attendees_max FROM event WHERE event_id = '" + event_id + "';");
+            event.next();
+
+            if (attendees_min > event.getInt("attendees_max")) {
+                return Utils.errorJSONObjectBuilder("error_attendees_min_higher_than_attendees_max").build().toString();
+            }
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement updateEvent = conn.prepareCall("{call DEV.updateEventAttendeesMin(?,?)}");
+            updateEvent.setInt(1, event_id);
+            updateEvent.setInt(2, attendees_min);
+
+            updateEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_updated", null);
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/update/setAttendeesMax")
+    public String updateEventAttendeesMax(@RequestParam(value = "event_id") int event_id,
+                              @RequestParam("attendees_max") int attendees_max) throws SQLException {
+
+        JsonObjectBuilder responseObject;
+
+        if(attendees_max <= 0) {
+            return Utils.errorJSONObjectBuilder("error_empty_information").build().toString();
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+            // check si nombre d'attendee max ne descend pas en dessous du nombre de participants et le nombre de participant minimum.
+            Statement stmt = conn.createStatement();
+            ResultSet event = stmt.executeQuery("SELECT attendees_min, count(user_participate_event.user_id) as nb_attendees \n" +
+                    "FROM event \n" +
+                    "JOIN user_participate_event USING (event_id)\n" +
+                    "WHERE event_id = '" + event_id + "';");
+            event.next();
+
+            if (attendees_max <= event.getInt("attendees_min")) {
+                return Utils.errorJSONObjectBuilder("error_attendees_min_higher_than_attendees_max").build().toString();
+            } else if (attendees_max < event.getInt("nb_attendees")) {
+                return Utils.errorJSONObjectBuilder("error_attendees_max_lower_than_nb_attendees").build().toString();
+            }
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement updateEvent = conn.prepareCall("{call DEV.updateEventAttendeesMax(?,?)}");
+            updateEvent.setInt(1, event_id);
+            updateEvent.setInt(2, attendees_max);
+
+            updateEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_updated", null);
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/update/setDateBegin")
+    public String updateEventDateBegin(@RequestParam(value = "event_id") int event_id,
+                              @RequestParam("date_begin") String str_date_begin) throws SQLException {
+
+        JsonObjectBuilder responseObject;
+
+        Timestamp date_begin;
+
+        try {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            date_begin = new Timestamp(format.parse(str_date_begin.replace('T', ' ')).getTime());
+        } catch(ParseException e) {
+            return Utils.errorJSONObjectBuilder("incorrect_date_format").build().toString();
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+            // check si la date de reservation est avant la date de début qui est elle-même avant la date de fin.
+            Statement stmt = conn.createStatement();
+            ResultSet event = stmt.executeQuery("SELECT date_begin, date_end, deadline_reservation FROM event WHERE event_id = '" + event_id + "';");
+            event.next();
+
+            if (date_begin.after(event.getTimestamp("date_end"))) {
+                return Utils.errorJSONObjectBuilder("error_dateBegin_after_dateEnd").build().toString();
+            } else if (date_begin.before(event.getTimestamp("date_end"))) {
+                return Utils.errorJSONObjectBuilder("error_deadline_after_dateBegin").build().toString();
+            }
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement updateEvent = conn.prepareCall("{call DEV.updateEventDateBegin(?,?)}");
+            updateEvent.setInt(1, event_id);
+            updateEvent.setTimestamp(2, date_begin);
+
+            updateEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_updated", null);
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/update/setDateEnd")
+    public String updateEventDateEnd(@RequestParam(value = "event_id") int event_id,
+                              @RequestParam("date_end") String str_date_end) throws SQLException {
+
+        JsonObjectBuilder responseObject;
+
+        Timestamp date_end;
+
+        try {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            date_end = new Timestamp(format.parse(str_date_end.replace('T', ' ')).getTime());
+        } catch(ParseException e) {
+            return Utils.errorJSONObjectBuilder("incorrect_date_format").build().toString();
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+            // check si la date de reservation est avant la date de début qui est elle-même avant la date de fin.
+            Statement stmt = conn.createStatement();
+            ResultSet event = stmt.executeQuery("SELECT date_begin, date_end, deadline_reservation FROM event WHERE event_id = '" + event_id + "';");
+            event.next();
+
+            if (date_end.before(event.getTimestamp("date_begin"))) {
+                return Utils.errorJSONObjectBuilder("error_dateBegin_after_dateEnd").build().toString();
+            } else if (date_end.before(event.getTimestamp("deadline_reservation"))) {
+                return Utils.errorJSONObjectBuilder("error_deadline_after_dateEnd").build().toString();
+            }
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement updateEvent = conn.prepareCall("{call DEV.updateEventDateEnd(?,?)}");
+            updateEvent.setInt(1, event_id);
+            updateEvent.setTimestamp(2, date_end);
+
+            updateEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_updated", null);
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/update/setDeadlineReservation")
+    public String updateEventDeadlineReservation(@RequestParam(value = "event_id") int event_id,
+                              @RequestParam("deadline_reservation") String str_deadline_reservation) throws SQLException {
+
+        JsonObjectBuilder responseObject;
+
+        Timestamp deadline_reservation;
+
+        try {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            deadline_reservation = new Timestamp(format.parse(str_deadline_reservation.replace('T', ' ')).getTime());
+        } catch(ParseException e) {
+            return Utils.errorJSONObjectBuilder("incorrect_date_format").build().toString();
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+            // check si la date de reservation est avant la date de début qui est elle-même avant la date de fin.
+            Statement stmt = conn.createStatement();
+            ResultSet event = stmt.executeQuery("SELECT date_begin, date_end, deadline_reservation FROM event WHERE event_id = '" + event_id + "';");
+            event.next();
+
+            if (deadline_reservation.after(event.getTimestamp("date_begin"))) {
+                return Utils.errorJSONObjectBuilder("error_deadline_after_dateBegin").build().toString();
+            } else if (deadline_reservation.after(event.getTimestamp("date_end"))) {
+                return Utils.errorJSONObjectBuilder("error_deadline_after_dateEnd").build().toString();
+            }
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement updateEvent = conn.prepareCall("{call DEV.updateEventDeadlineReservation(?,?)}");
+            updateEvent.setInt(1, event_id);
+            updateEvent.setTimestamp(2, deadline_reservation);
+
+            updateEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_updated", null);
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/update/setLocation")
+    public String updateEventLocation(@RequestParam(value = "event_id") int event_id,
+                              @RequestParam("location") String location) throws SQLException {
+
+        JsonObjectBuilder responseObject;
+
+        if(location.length() <= 0) {
+            return Utils.errorJSONObjectBuilder("error_empty_information").build().toString();
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement updateEvent = conn.prepareCall("{call DEV.updateEventLocation(?,?)}");
+            updateEvent.setInt(1, event_id);
+            updateEvent.setString(2, location);
+
+            updateEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_updated", null);
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/update/setAddress")
+    public String updateEventAddress(@RequestParam(value = "event_id") int event_id,
+                              @RequestParam("address") String address) throws SQLException {
+
+        JsonObjectBuilder responseObject;
+
+        if(address.length() <= 0) {
+            return Utils.errorJSONObjectBuilder("error_empty_information").build().toString();
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement updateEvent = conn.prepareCall("{call DEV.updateEventAddress(?,?)}");
+            updateEvent.setInt(1, event_id);
+            updateEvent.setString(2, address);
+
+            updateEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_updated", null);
+        }
+        return responseObject.build().toString();
+    }
+
+    @PostMapping("/event/update/setHouseId")
+    public String updateEventHouseId(@RequestParam(value = "event_id") int event_id,
+                              @RequestParam(value = "house_id", required = false) Integer house_id) throws SQLException {
+
+        JsonObjectBuilder responseObject;
+
+        if (house_id == 0) {
+            house_id = null;
+        }
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            CallableStatement updateEvent = conn.prepareCall("{call DEV.updateEventHouseId(?,?)}");
+            updateEvent.setInt(1, event_id);
+            if(house_id == null) {
+                updateEvent.setNull(2, Types.INTEGER);
+            } else {
+                updateEvent.setInt(2, house_id);
+            }
+
+            updateEvent.execute();
+            responseObject = Utils.successJSONObjectBuilder("event_updated", null);
+        }
+        return responseObject.build().toString();
+    }
+
     @PostMapping("/event/join_event")
     public String joinEvent(@RequestParam("user_id") int user_id,
                             @RequestParam("event_id") int event_id
