@@ -104,7 +104,7 @@ public class HousekeepingController {
             return Utils.errorJSONObjectBuilder("lastname_length_is_null").build().toString();
         }
 
-        if(!(lastname.matches("[a-zA-Z]+")))
+        if(!(lastname.matches("[A-Z]{1}[a-z]*(([\\']|[\\-])[A-Z]{1}[a-z]+)?")))
         {
             return Utils.errorJSONObjectBuilder("lastname_not_only_letter").build().toString();
         }
