@@ -1,29 +1,30 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useInput } from '../hooks/input';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {
     Card, CardContent, CardMedia,
     CssBaseline,
     Grid,
-    Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
+    Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
+    TextField, MenuItem
 } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 import { withStyles } from '@material-ui/core/styles';
 import { MainContext } from '../context/MainContext';
 
-import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 const useStyles = makeStyles(theme => ({
     card: { //dans la carte
-
+        maxWidth: '1000px',
     },
     cardMedia: {
 
     },
     cardContent: {
-        width: "100%",
 
     },
     root: {
@@ -47,7 +48,186 @@ export default function HouseKeeping() {
         getUsers()
     }, []);
 
+    const { value: lastname, bind: bindLastname } = useInput('');
+    const { value: house, bind: bindHouse } = useInput('');
+    const { value: points, bind: bindPoints } = useInput('');
+    const { value: access_level, bind: bindAccessLevel } = useInput('');
+    const { value: status, bind: bindStatus } = useInput('');
+    const { value: activity, bind: bindActivity } = useInput('');
 
+    function editLastname() {
+        let post_body = "&user_id=" + parseInt(value.user_id) + "&new_lastname=" + lastname;
+        fetch('http://localhost:8080/housekeeping/editlastname', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    { window.location.reload(false) }
+                }
+            })
+
+        return;
+    }
+
+    function editHouse() {
+        let post_body = "&user_id=" + parseInt(value.user_id) + "&new_house_id=" + house;
+        fetch('http://localhost:8080/housekeeping/edithouse', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    { window.location.reload(false) }
+                }
+            })
+
+        return;
+    }
+
+    function editStatus() {
+        let post_body = "&user_id=" + parseInt(value.user_id) + "&new_status_id=" + status;
+        fetch('http://localhost:8080/housekeeping/setstatus', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    { window.location.reload(false) }
+                }
+            })
+
+        return;
+    }
+
+    function addPoints() {
+        let post_body = "&user_id=" + parseInt(value.user_id) + "&points=" + points;
+        fetch('http://localhost:8080/housekeeping/setpoints', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    { window.location.reload(false) }
+                }
+            })
+
+        return;
+    }
+
+    function removePoints() {
+        let post_body = "&user_id=" + parseInt(value.user_id) + "&points=" + parseInt(points * -1);
+        fetch('http://localhost:8080/housekeeping/setpoints', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    { window.location.reload(false) }
+                }
+            })
+
+        return;
+    }
+
+    function editAccessLevel() {
+        let post_body = "&user_id=" + parseInt(value.user_id) + "&new_accesslevel=" + access_level;
+        fetch('http://localhost:8080/housekeeping/setroles', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    { window.location.reload(false) }
+                }
+            })
+
+        return;
+    }
+
+    function desactivate() {
+        let post_body = "&user_id=" + parseInt(value.user_id)
+        fetch('http://localhost:8080/housekeeping/desactivate', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    { window.location.reload(false) }
+                }
+            })
+
+        return;
+    }
+
+    function myCreationButton(text, func) {
+        return (
+            <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={func}>
+                {text}
+            </Button>
+        );
+    }
 
     function getUsers() {
         fetch('http://localhost:8080/housekeeping/all',
@@ -79,7 +259,7 @@ export default function HouseKeeping() {
 
                             <h1>Interface administrateur</h1>
 
-                            <Autocomplete
+                            <p><Autocomplete
                                 value={value}
                                 onChange={(event, newValue) => {
                                     setValue(newValue);
@@ -89,140 +269,158 @@ export default function HouseKeeping() {
                                 getOptionLabel={(option) => displayAndSetValues(option.user)}
                                 style={{ width: 300 }}
                                 renderInput={(params) => <TextField {...params} label="Sélectionner utilisateur" variant="outlined" />}
-                            />
-                            <br />
-                            {<b>{"Nom : "}</b>}{(value == null ? "Non renseigné" : value.lastname)}
-                            <br />
-                            {<b>{"Prénom : "}</b>}{(value == null ? "Non renseigné" : value.firstname)}
-                            <br />
-                            {<b>{"Maison : "}</b>}{(value == null ? "Non renseigné" : (value.house && value.house.name))}
-                            <br />
-                            {<b>{"Acces level : "}</b>}{(value == null ? "Non renseigné" : value.access_level)}
-                            <br />
-                            {<b>{"Statut : "}</b>}{(value == null ? "Non renseigné" : (value.status && value.status.name))}
-                            <br />
-                            {<b>{"Points (mois) : "}</b>}{(value == null ? "Non renseigné" : value.points_month)}
-                            <br />
-                            {<b>{"Activité : "}</b>}{(value == null ? "Non renseigné" : value.active)}
-                            <br /><br />
-                            {/* PRENOM */}
-                            {value && <TextField
-                                id="user-firstname"
-                                label="Prénom"
-                                defaultValue={String(value.firstname)}
-                                helperText="Prénom de l'utilisateur"
-                                variant="outlined"
-                            />}
-                            {!value && <TextField
-                                id="user-firstname"
-                                label="Prénom"
-                                defaultValue="Non renseigné"
-                                helperText="Prénom de l'utilisateur"
-                                variant="outlined"
-                            />}
+                            /></p>
 
-                            <br /><br />
-                            {/* NOM */}
-                            {value && <TextField
-                                id="user-lastname"
-                                label="Nom"
-                                defaultValue={String(value.lastname)}
-                                helperText="Nom de l'utilisateur"
-                                variant="outlined"
-                            />}
-                            {!value && <TextField
-                                id="user-lastname"
-                                label="Nom"
-                                defaultValue="Non renseigné"
-                                helperText="Nom de l'utilisateur"
-                                variant="outlined"
-                            />}
+                            <Grid container spacing={2} direction="row" justify="space-between" alignItems="stretch">
+                                <Grid item xs={12} sm={6}>
+                                    {/* PRENOM */}
+                                    {<b>{"Prénom : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : value.firstname)}
+                                    <br /><br />
+                                    {value && value.firstname && <TextField
+                                        id="user-firstname"
+                                        label="Prénom"
+                                        defaultValue={String(value.firstname)}
+                                        variant="outlined"
+                                    />}
+                                </Grid>
 
-                            <br /><br />
-                            {/* MAISON */}
-                            {value && <TextField
-                                id="user-house"
-                                label="Maison"
-                                defaultValue={String(value.house && value.house.name)}
-                                helperText="Maison de l'utilisateur"
-                                variant="outlined"
-                            />}
-                            {!value && <TextField
-                                id="user-house"
-                                label="Nom"
-                                defaultValue="Non renseigné"
-                                helperText="Maison de l'utilisateur"
-                                variant="outlined"
-                            />}
+                                <Grid item xs={12} sm={6}>
+                                    {/* NOM */}
+                                    {<b>{"Nom : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : value.lastname)}
+                                    <br /><br />
+                                    {value && value.lastname && <TextField
+                                        id="user-lastname"
+                                        label="Nom"
+                                        defaultValue={String(value.lastname)}
+                                        variant="outlined"
+                                        {...bindLastname}
+                                    />}
+                                    <p>
+                                        {value && myCreationButton("Modifier", editLastname)}
+                                    </p>
+                                    <br /><br />
 
-                            <br /><br />
-                            {/* POINTS */}
-                            {value && <TextField
-                                id="user-points"
-                                label="Points mensuels"
-                                defaultValue={String(value.points_month)}
-                                helperText="Points récoltés pendant le mois en cours"
-                                variant="outlined"
-                            />}
-                            {!value && <TextField
-                                id="user-points"
-                                label="Points mensuels"
-                                defaultValue="Non renseigné"
-                                helperText="Points récoltés pendant le mois en cours"
-                                variant="outlined"
-                            />}
+                                </Grid>
 
-                            <br /><br />
-                            {/* NIVEAU D'ACCES */}
-                            {value && <TextField
-                                id="user-acces-lvl"
-                                label="Niveau d'accès"
-                                defaultValue={String(value.access_level)}
-                                helperText="75 : Admin | 50 : Modérateur | 25 : Préfet | 0 : Utilisateur"
-                                variant="outlined"
-                            />}
-                            {!value && <TextField
-                                id="user-acces-lvl"
-                                label="Niveau d'accès"
-                                defaultValue="Non renseigné"
-                                helperText="75 : Admin | 50 : Modérateur | 25 : Préfet | 0 : Utilisateur"
-                                variant="outlined"
-                            />}
+                                <Grid item xs={12} sm={6}>
+                                    {/* MAISON */}
+                                    {<b>{"Maison : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : (value.house && value.house.name))}
+                                    <br /><br />
+                                    {value && value.house && value.house.name && <TextField
+                                        style={{ minWidth: 200 }}
+                                        id="user-house"
+                                        label="Maison"
+                                        defaultValue={String(value.house && value.house.name)}
+                                        helperText="Maison de l'utilisateur"
+                                        variant="outlined"
+                                        {...bindHouse}
+                                        select>
+                                        <MenuItem value={1}>Systèmes informatiques embarqués</MenuItem>
+                                        <MenuItem value={2}>Sécurité informatique</MenuItem>
+                                        <MenuItem value={3}>Réseaux et systèmes</MenuItem>
+                                        <MenuItem value={4}>Informatique logicielle</MenuItem>
+                                        <MenuItem value={5}>Ingénierie des données</MenuItem>
+                                    </TextField>
+                                    }
+                                    <p>
+                                        {value && myCreationButton("Modifier", editHouse)}
+                                    </p>
+                                    <br /><br />
+                                </Grid>
+
+                                <Grid item xs={12} sm={6}>
+                                    {/* POINTS */}
+                                    {<b>{"Points (mois) : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : value.points_month)}
+                                    <br /><br />
+                                    {value && value.points_month && <TextField
+                                        id="user-points"
+                                        label="Points mensuels"
+                                        defaultValue={String(value.points_month)}
+                                        helperText="Points récoltés pendant le mois en cours"
+                                        variant="outlined"
+                                        {...bindPoints}
+                                    />}
+                                    
+                                    <p>
+                                    {
+                                        value && myCreationButton("Ajouter", addPoints)
+                                    }
+                                    {
+                                        " "
+                                    }
+                                    {
+                                        value && myCreationButton("Enlever", removePoints)
+                                    }
+                                    </p>
+                                    <br /><br />
+
+                                </Grid>
+
+                                <Grid item xs={12} sm={6}>
+                                    {/* NIVEAU D'ACCES */}
+                                    {<b>{"Acces level : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : value.access_level)}
+                                    <br /><br />
+                                    {value && <TextField
+                                        style={{ minWidth: 200 }}
+                                        id="user-acces-lvl"
+                                        label="Niveau d'accès"
+                                        defaultValue="Non-renseigné"
+                                        variant="outlined"
+                                        {...bindAccessLevel}
+                                        select>
+                                        <MenuItem value={0}>Utilisateur</MenuItem>
+                                        <MenuItem value={25}>Préfet</MenuItem>
+                                        <MenuItem value={50}>Modérateur</MenuItem>
+                                        <MenuItem value={75}>Administrateur</MenuItem>
+                                    </TextField>
+                                    }
+                                    <p>
+                                        {value && myCreationButton("Modifier", editAccessLevel)}
+                                    </p>
+                                    <br /><br />
+
+                                </Grid>
+
+                                <Grid item xs={12} sm={6}>
+                                    {/* STATUT */}
+                                    {<b>{"Statut : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : (value.status && value.status.name))}
+                                    <br /><br />
+                                    {value && value.status && value.status.name && <TextField
+                                        style={{ minWidth: 200 }}
+                                        id="user-status"
+                                        label="Statut"
+                                        defaultValue={String(value.status && value.status.name)}
+                                        variant="outlined"
+                                        {...bindStatus}
+                                        select>
+                                        <MenuItem value={1}>Étudiant</MenuItem>
+                                        <MenuItem value={2}>Délégué</MenuItem>
+                                        <MenuItem value={3}>Assistant</MenuItem>
+                                        <MenuItem value={4}>Professeur</MenuItem>
+                                        <MenuItem value={5}>Collaborateur</MenuItem>
+                                    </TextField>}
+
+                                    <p>
+                                        { value && myCreationButton("Modifier", editStatus)}
+                                    </p>
+                                    <br /><br />
+
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    {/* ACTIF */}
+                                    {<b>{"Activité : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : value.active)}
+
+                                    <br /><br />
+                                    <p>
+                                        {value && value.active === 1 && myCreationButton("Désactiver", desactivate)}
+                                    </p>
+                                    <br /><br />
+
+                                </Grid>
 
 
-                            <br /><br />
-                            {/* STATUT */}
-                            {value && <TextField
-                                id="user-status"
-                                label="Statut"
-                                defaultValue={String(value.status && value.status.name)}
-                                helperText="1 : Étudiant | 2 : Délégué | 3 : Assistant | 4 : Professeur | 5 : Collaborateur"
-                                variant="outlined"
-                            />}
-                            {!value && <TextField
-                                id="user-status"
-                                label="Statut"
-                                defaultValue="Non renseigné"
-                                helperText="1 : Étudiant | 2 : Délégué | 3 : Assistant | 4 : Professeur | 5 : Collaborateur"
-                                variant="outlined"
-                            />}
-
-                            <br /><br />
-                            {/* ACTIF */}
-                            {value && <TextField
-                                id="user-active"
-                                label="Actif"
-                                defaultValue={String(value.active)}
-                                helperText="0 : inactif, 1 : actif"
-                                variant="outlined"
-                            />}
-                            {!value && <TextField
-                                id="user-active"
-                                label="Actif"
-                                defaultValue="Non renseigné"
-                                helperText="0 : inactif, 1 : actif"
-                                variant="outlined"
-                            />}
+                            </Grid>
 
                         </Typography>
                     </CardContent>

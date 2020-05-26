@@ -74,7 +74,7 @@ public class HousekeepingController {
             editHouseId.setInt(1, accesslevel);
             editHouseId.execute();
         }
-        return Utils.successJSONObjectBuilder("status_edited", null).build().toString();
+        return Utils.successJSONObjectBuilder("access_edited", null).build().toString();
     }
 
     @PostMapping("/housekeeping/setstatus")
@@ -104,6 +104,10 @@ public class HousekeepingController {
             return Utils.errorJSONObjectBuilder("lastname_length_is_null").build().toString();
         }
 
+        if(!(lastname.matches("[a-zA-Z]+")))
+        {
+            return Utils.errorJSONObjectBuilder("lastname_not_only_letter").build().toString();
+        }
         try (Connection conn = dataSource.getConnection()) {
             CallableStatement editHouseId = conn.prepareCall("UPDATE user SET lastname = ? WHERE user_id = " + user_id);
             editHouseId.setString(1, lastname);
