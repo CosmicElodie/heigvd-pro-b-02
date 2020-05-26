@@ -62,11 +62,11 @@ const Signup = ( props ) => {
             if (response.status === 'error') {
               response.dialog_id === 'invalid_email_syntax' && setErrorEmail({
                 error:true,
-                helperText: 'must be prenom.nom@heig-vd.ch'
+                helperText: 'Doit être de la forme prenom.nom@heig-vd.ch'
               }); 
               response.dialog_id === 'email_already_exist' && setErrorEmail({
                 error:true,
-                helperText: 'email already exist'
+                helperText: 'L\'email existe déjà'
               });
             } 
             if(response.status === 'ok') {

@@ -39,18 +39,26 @@ public class HousekeepingController {
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
 
-            String message = points < 0 ? "malus_points" : "bonus_points";
-            String is_desactivated = "SELECT active AS result FROM user WHERE user_id = " + user_id;
-            int active = Utils.getSingletonInt(statement, is_desactivated);
+            int monthPoints = Utils.getSingletonInt(statement,
+                    "SELECT points_month as result FROM userActive where user_id = " + user_id);
+
+
+            if((monthPoints + points) < 0) {
+                return Utils.errorJSONObjectBuilder("negative_result_points").build().toString();
+            }
+
+            int active = Utils.getSingletonInt(statement,
+                    "SELECT active AS result FROM user WHERE user_id = " + user_id);
 
             if(active ==  0) {
                 return Utils.errorJSONObjectBuilder("cannot_set_point_for_inactive_user").build().toString();
             }
 
+
             CallableStatement setPointsToUser = conn.prepareCall("INSERT INTO points_log (points, origin, user_id) " +
                             "VALUES (? , ? , ?)");
             setPointsToUser.setInt(1, points);
-            setPointsToUser.setString(2, message);
+            setPointsToUser.setString(2, points < 0 ? "malus_points" : "bonus_points");
             setPointsToUser.setInt(3, user_id);
             setPointsToUser.execute();
         }

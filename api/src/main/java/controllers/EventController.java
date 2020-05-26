@@ -254,6 +254,7 @@ public class EventController {
         if(is_competitive == 1 && difficulty == null) {
             difficulty = 1;
         }
+        System.out.println();
 
         Date currentDate = new Date(System.currentTimeMillis());
         if(currentDate.after(date_begin) || currentDate.after(date_end) || currentDate.after(deadline_reservation)) {
