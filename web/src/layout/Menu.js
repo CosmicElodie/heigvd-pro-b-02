@@ -20,6 +20,7 @@ const Menu = () => {
     let location = useLocation();
 
     const tabs = {
+        globalstats : 6,
         palmares : 5,
         forum: 4,
         event_welcome: 3,
@@ -78,6 +79,12 @@ const Menu = () => {
                     label="Palmarès"
                     to="/palmares"
                     onClick={() => handleClick("/palmares")}
+                />
+
+                <Tab
+                    label="Statistiques"
+                    to="/globalstats"
+                    onClick={() => handleClick("/globalstats")}
                 />
 
             </Tabs>
