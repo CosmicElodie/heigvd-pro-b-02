@@ -721,6 +721,16 @@ const Dialog = () => {
                         Le nom doit être composé uniquement de lettres. 
                     </Alert>
                 </Snackbar>
+            } 
+            {dialog && dialog.negative_result_points &&
+                <Snackbar
+                    open={dialog.negative_result_points.is_open}
+                    onClose={() => handleClose({ negative_result_points: { is_open: false } })}
+                    autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Vous ne pouvez pas enlever plus de points que l'utilisateur n'en possède.
+                    </Alert>
+                </Snackbar>
             }
 
         </section>
