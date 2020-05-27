@@ -718,10 +718,10 @@ const Dialog = () => {
                     onClose={() => handleClose({ lastname_not_only_letter: { is_open: false } })}
                     autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
-                        Le nom doit être composé uniquement de lettres. 
+                        Le nom doit être composé uniquement de lettres.
                     </Alert>
                 </Snackbar>
-            } 
+            }
             {dialog && dialog.negative_result_points &&
                 <Snackbar
                     open={dialog.negative_result_points.is_open}
@@ -729,6 +729,61 @@ const Dialog = () => {
                     autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
                         Vous ne pouvez pas enlever plus de points que l'utilisateur n'en possède.
+                    </Alert>
+                </Snackbar>
+            }
+
+            {dialog && dialog.error_attendees_min_higher_than_attendees_max &&
+                <Snackbar
+                    open={dialog.error_attendees_min_higher_than_attendees_max.is_open}
+                    onClose={() => handleClose({ error_attendees_min_higher_than_attendees_max: { is_open: false } })}
+                    autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Le min. de participants ne peut être plus élevé que le max. de participants.
+                    </Alert>
+                </Snackbar>
+            }
+
+            {dialog && dialog.error_attendees_max_lower_than_nb_attendees &&
+                <Snackbar
+                    open={dialog.error_attendees_max_lower_than_nb_attendees.is_open}
+                    onClose={() => handleClose({ error_attendees_max_lower_than_nb_attendees: { is_open: false } })}
+                    autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Le max. de participants ne peut être plus bas que le min. de participants.
+                    </Alert>
+                </Snackbar>
+            }
+
+            {dialog && dialog.error_dateBegin_after_dateEnd &&
+                <Snackbar
+                    open={dialog.error_dateBegin_after_dateEnd.is_open}
+                    onClose={() => handleClose({ error_dateBegin_after_dateEnd: { is_open: false } })}
+                    autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        L'événement ne peut commencer après sa date de fin.
+                    </Alert>
+                </Snackbar>
+            }
+
+            {dialog && dialog.error_deadline_after_dateBegin &&
+                <Snackbar
+                    open={dialog.error_deadline_after_dateBegin.is_open}
+                    onClose={() => handleClose({ error_deadline_after_dateBegin: { is_open: false } })}
+                    autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        La date limite d'inscription ne peut être après le début de l'événement.
+                    </Alert>
+                </Snackbar>
+            }
+
+            {dialog && dialog.error_deadline_after_dateEnd &&
+                <Snackbar
+                    open={dialog.error_deadline_after_dateEnd.is_open}
+                    onClose={() => handleClose({ error_deadline_after_dateEnd: { is_open: false } })}
+                    autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        La date limite d'inscription ne peut être après la fin de l'événement.
                     </Alert>
                 </Snackbar>
             }
