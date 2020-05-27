@@ -85,6 +85,25 @@ export default function Event_Modify() {
         }
     }, [data, setCurrent]);
 
+    useEffect(() => {
+        if (current) {
+            setName(current.name);
+            setDescription(current.description);
+            setCompetitive(current.is_competitive);
+            setBattleRoyal(current.battleroyale);
+            setDifficulty(current.difficulty);
+            setPrice(current.price);
+            setAttendeesMin(current.attendees_min);
+            setAttendeesMax(current.attendees_max);
+            setDeadlineReservation(current.deadline_reservation);
+            setDateBegin(current.date_begin);
+            setDateEnd(current.date_end);
+            setLocation(current.location);
+            setAddress(current.address);
+            setHouseId(current.house);
+        }
+    }, [current]);
+
     //SERT POUR LA BULLE D'INFO SUR LE CHAMP LIMITATION
     const [anchorEl, setAnchorEl] = React.useState(null);
     const handlePopoverOpen = (event) => {
@@ -97,24 +116,24 @@ export default function Event_Modify() {
 
     const open = Boolean(anchorEl);
 
-    const { value: name, bind: bindName, reset: resetName } = useInput('');
-    const { value: description, bind: bindDescription, reset: resetDescription } = useInput('');
-    const { value: is_competitive, bind: bindIsCompetitive, reset: resetCompetitive } = useInput('');
-    const { value: battleroyal, bind: bindBattleRoyal, reset: resetBattleRoyal } = useInput('');
-    const { value: difficulty, bind: bindDifficulty, reset: resetDifficulty } = useInput('');
-    const { value: price, bind: bindPrice, reset: resetPrice } = useInput('');
-    const { value: attendees_min, bind: bindAttendeesMin, reset: resetAttendeesMin } = useInput('');
-    const { value: attendees_max, bind: bindAttendeesMax, reset: resetAttendeesMax } = useInput('');
-    const { value: deadline_reservation, bind: bindDeadlineReservation, reset: resetReservation } = useInput('');
-    const { value: date_begin, bind: bindDateBegin, reset: resetDateBegin } = useInput('');
-    const { value: date_end, bind: bindDateEnd, reset: resetDateEnd } = useInput('');
-    const { value: location, bind: bindLocation, reset: resetLocation } = useInput('');
-    const { value: address, bind: bindAddress, reset: resetAddress } = useInput('');
-    const { value: house_id, bind: bindHouseId, reset: resetHouseId } = useInput('');
+    const { value: name, bind: bindName, reset: resetName, setValue:setName } = useInput('');
+    const { value: description, bind: bindDescription, reset: resetDescription, setValue:setDescription } = useInput('');
+    const { value: is_competitive, bind: bindIsCompetitive, reset: resetCompetitive, setValue:setCompetitive } = useInput('');
+    const { value: battleroyal, bind: bindBattleRoyal, reset: resetBattleRoyal, setValue:setBattleRoyal } = useInput('');
+    const { value: difficulty, bind: bindDifficulty, reset: resetDifficulty, setValue:setDifficulty } = useInput('');
+    const { value: price, bind: bindPrice, reset: resetPrice, setValue:setPrice } = useInput('');
+    const { value: attendees_min, bind: bindAttendeesMin, reset: resetAttendeesMin, setValue:setAttendeesMin } = useInput('');
+    const { value: attendees_max, bind: bindAttendeesMax, reset: resetAttendeesMax, setValue:setAttendeesMax } = useInput('');
+    const { value: deadline_reservation, bind: bindDeadlineReservation, reset: resetReservation , setValue:setDeadlineReservation} = useInput('');
+    const { value: date_begin, bind: bindDateBegin, reset: resetDateBegin, setValue:setDateBegin } = useInput('');
+    const { value: date_end, bind: bindDateEnd, reset: resetDateEnd, setValue:setDateEnd } = useInput('');
+    const { value: location, bind: bindLocation, reset: resetLocation, setValue:setLocation } = useInput('');
+    const { value: address, bind: bindAddress, reset: resetAddress, setValue:setAddress } = useInput('');
+    const { value: house_id, bind: bindHouseId, reset: resetHouseId, setValue:setHouseId } = useInput('');
 
     function editName() {
         let post_body = "&event_id=" + parseInt(current.event_id) + "&name=" + (name ? name : current.name);
-        fetch(appConfig.api_url + '/event/update/setName', {
+        fetch(appConfig.api_url + 'event/update/setName', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -137,7 +156,7 @@ export default function Event_Modify() {
 
     function editDescription() {
         let post_body = "&event_id=" + parseInt(current.event_id) + "&description=" + (description ? description : current.description);
-        fetch(appConfig.api_url + '/event/update/setDescription', {
+        fetch(appConfig.api_url + 'event/update/setDescription', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -160,7 +179,7 @@ export default function Event_Modify() {
 
     function editIsCompetitive() {
         let post_body = "&event_id=" + parseInt(current.event_id) + "&is_competitive=" + parseInt(is_competitive);
-        fetch(appConfig.api_url + '/event/update/setIsCompetitive', {
+        fetch(appConfig.api_url + 'event/update/setIsCompetitive', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -183,7 +202,7 @@ export default function Event_Modify() {
 
     function editLimitation() {
         let post_body = "&event_id=" + parseInt(current.event_id) + "&house_id=" + parseInt(house_id);
-        fetch(appConfig.api_url + '/event/update/setHouseId', {
+        fetch(appConfig.api_url + 'event/update/setHouseId', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -206,7 +225,7 @@ export default function Event_Modify() {
 
     function editDifficulty() {
         let post_body = "&event_id=" + parseInt(current.event_id) + "&difficulty=" + parseInt(difficulty);
-        fetch(appConfig.api_url + '/event/update/setDifficulty', {
+        fetch(appConfig.api_url + 'event/update/setDifficulty', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -229,7 +248,7 @@ export default function Event_Modify() {
 
     function editBattleRoyal() {
         let post_body = "&event_id=" + parseInt(current.event_id) + "&battleroyal=" + parseInt(battleroyal);
-        fetch(appConfig.api_url + '/event/update/setBattleroyale', {
+        fetch(appConfig.api_url + 'event/update/setBattleroyale', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -252,7 +271,7 @@ export default function Event_Modify() {
 
     function editAttendeesMin() {
         let post_body = "&event_id=" + parseInt(current.event_id) + "&attendees_min=" + parseInt(attendees_min);
-        fetch(appConfig.api_url + '/event/update/setAttendeesMin', {
+        fetch(appConfig.api_url + 'event/update/setAttendeesMin', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -275,7 +294,7 @@ export default function Event_Modify() {
 
     function editAttendeesMax() {
         let post_body = "&event_id=" + parseInt(current.event_id) + "&attendees_max=" + parseInt(attendees_max);
-        fetch(appConfig.api_url + '/event/update/setAttendeesMax', {
+        fetch(appConfig.api_url + 'event/update/setAttendeesMax', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -298,7 +317,7 @@ export default function Event_Modify() {
 
     function editPrice() {
         let post_body = "&event_id=" + parseInt(current.event_id) + "&price=" + price;
-        fetch(appConfig.api_url + '/event/update/setPrice', {
+        fetch(appConfig.api_url + 'event/update/setPrice', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -321,7 +340,7 @@ export default function Event_Modify() {
 
     function editDeadlineReservation() {
         let post_body = "&event_id=" + parseInt(current.event_id) + "&deadline_reservation=" + deadline_reservation;
-        fetch(appConfig.api_url + '/event/update/setDeadlineReservation', {
+        fetch(appConfig.api_url + 'event/update/setDeadlineReservation', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -344,7 +363,7 @@ export default function Event_Modify() {
 
     function editDateBegin() {
         let post_body = "&event_id=" + parseInt(current.event_id) + "&date_begin=" + date_begin;
-        fetch(appConfig.api_url + '/event/update/setDateBegin', {
+        fetch(appConfig.api_url + 'event/update/setDateBegin', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -367,7 +386,7 @@ export default function Event_Modify() {
 
     function editDateEnd() {
         let post_body = "&event_id=" + parseInt(current.event_id) + "&date_end=" + date_end;
-        fetch(appConfig.api_url + '/event/update/setDateEnd', {
+        fetch(appConfig.api_url + 'event/update/setDateEnd', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -390,7 +409,7 @@ export default function Event_Modify() {
 
     function editLocation() {
         let post_body = "&event_id=" + parseInt(current.event_id) + "&location=" + (location ? location : current.location);
-        fetch(appConfig.api_url + '/event/update/setLocation', {
+        fetch(appConfig.api_url + 'event/update/setLocation', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -413,7 +432,7 @@ export default function Event_Modify() {
 
     function editAddress() {
         let post_body = "&event_id=" + parseInt(current.event_id) + "&address=" + (address ? address : current.address);
-        fetch(appConfig.api_url + '/event/update/setAddress', {
+        fetch(appConfig.api_url + 'event/update/setAddress', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
