@@ -443,7 +443,7 @@ export default function Event() {
                                                     <Fade in={open}>
                                                         <div className={classes.paper}>
                                                             <h2 id="transition-modal-title">Liste des participants</h2>
-                                                            {attendees && attendees.length > 0 && attendees.map(({ participant }) =>
+                                                            {attendees && attendees.length > 0 && attendees.map((participant) =>
                                                                 printAttendee(participant)
                                                             )}
                                                         </div>

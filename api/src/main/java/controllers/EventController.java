@@ -117,7 +117,7 @@ public class EventController {
             result = events.getString("event_result");
 
             if(result == null) {
-                return "{}";
+                return "[]";
             }
         }
         return result;
@@ -132,13 +132,13 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("select DEV.getUserParticipantsEvent(" + event_id + ", \"house\") AS event_result");
+            ResultSet events = stmt.executeQuery("select DEV.getParticipantsEvent(" + event_id + ", \"house\") AS event_result");
 
             events.next();
             result = events.getString("event_result");
 
             if(result == null) {
-                return "{}";
+                return "[]";
             }
         }
         return result;

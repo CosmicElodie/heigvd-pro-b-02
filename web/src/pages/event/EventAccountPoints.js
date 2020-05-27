@@ -63,6 +63,7 @@ const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battle
 
 const HumanSelector = ({ event_id, bindFirstPlace, bindSecondPlace, bindThirdPlace}) => {
     const [ participants, setParticipants] = useState();
+    
     useEffect(() => {
         fetch(appConfig.api_url + 'event/get_user_participants', {
             method: 'POST',
