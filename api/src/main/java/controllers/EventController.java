@@ -872,10 +872,15 @@ public class EventController {
                 return Utils.errorJSONObjectBuilder("already_joined").build().toString();
             }
 
+            // Vérifie qu'un user ne participa pas à 2 events durant les mêmes heures
             ResultSet event = statement.executeQuery("SELECT date_begin, date_end FROM event WHERE event_id = '" + event_id + "';");
             event.next();
             if(conn.createStatement().executeQuery(
-                    "SELECT user_id FROM event INNER JOIN user_participate_event upe on event.event_id = upe.event_id WHERE upe.user_id = "+ user_id +" AND event.date_begin BETWEEN '" + event.getTimestamp("date_begin") + "' AND '" + event.getTimestamp("date_end") + "';"
+                    "SELECT upe.user_id FROM event" +
+                            " INNER JOIN user_participate_event upe on event.event_id = upe.event_id" +
+                            " WHERE upe.user_id = "+ user_id +
+                                " AND (event.date_begin BETWEEN '" + event.getTimestamp("date_begin") + "' AND '" + event.getTimestamp("date_end") + "'" +
+                                        " OR event.date_end BETWEEN '" + event.getTimestamp("date_begin") + "' AND '" + event.getTimestamp("date_end") + "');"
             ).next()) {
                 return Utils.errorJSONObjectBuilder("already_participating_event_during_time").build().toString();
             }
