@@ -175,7 +175,7 @@ export default function Rules() {
                                                 </TableRow>
                                                 <TableRow>
                                                     <TableCell>Meilleure réponse dans un sujet provenant d’une section d’aide.</TableCell>
-                                                    <TableCell>2 points / heure</TableCell>
+                                                    <TableCell>1 points / heure + 2 points si la maison de l'auteur du post est différente de la maison de l'auteur du sujet</TableCell>
                                                 </TableRow>
                                                 <TableRow>
                                                     <TableCell>Participer à un événement.</TableCell>

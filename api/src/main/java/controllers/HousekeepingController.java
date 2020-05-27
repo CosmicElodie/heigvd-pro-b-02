@@ -28,6 +28,7 @@ public class HousekeepingController {
             ResultSet forums = stmt.executeQuery("select DEV.getAllUsersJSON() as result");
             forums.next();
             result = forums.getString("result");
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }

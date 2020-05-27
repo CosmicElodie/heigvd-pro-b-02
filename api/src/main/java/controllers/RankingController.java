@@ -28,6 +28,7 @@ public class RankingController {
 
             forums.next();
             result = forums.getString("result");
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }
@@ -43,6 +44,7 @@ public class RankingController {
 
             forums.next();
             result = forums.getString("result");
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }
@@ -60,6 +62,7 @@ public class RankingController {
 
             housePalmares.next();
             result = housePalmares.getString("result");
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }

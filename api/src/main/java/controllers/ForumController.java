@@ -37,6 +37,7 @@ public class ForumController {
 
             forums.next();
             result = forums.getString("forum_result");
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }

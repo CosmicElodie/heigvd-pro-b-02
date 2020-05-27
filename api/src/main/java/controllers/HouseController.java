@@ -29,6 +29,7 @@ public class HouseController {
 
             houseDetail.next();
             result = houseDetail.getString("result");
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }
@@ -48,6 +49,7 @@ public class HouseController {
 
             houseDetail.next();
             result = houseDetail.getString("result");
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }
@@ -65,6 +67,7 @@ public class HouseController {
 
             houseDetail.next();
             result = houseDetail.getString("result");
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }
@@ -81,6 +84,7 @@ public class HouseController {
 
             houseDetail.next();
             result = houseDetail.getString("result");
+            result = (result == null) ? "[]" : result;
         }
         return result;
     }
