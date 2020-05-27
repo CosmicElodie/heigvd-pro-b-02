@@ -485,7 +485,9 @@ public class EventController {
 
         JsonObjectBuilder responseObject;
 
-        if (name.length() == 0) {
+        if (name.length() >= 50) {
+            return Utils.errorJSONObjectBuilder("incorrect_input_length").build().toString();
+        } else if(name.length() == 0) {
             return Utils.errorJSONObjectBuilder("error_empty_information").build().toString();
         }
 
@@ -886,7 +888,7 @@ public class EventController {
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
 
-            // Test si l'email existe déjà dans la base de donnée.
+            // Test si l'entrée existe déjà dans la base de donnée.
             if (conn.createStatement().executeQuery(
                     "SELECT user_id, event_id FROM user_participate_event WHERE user_id = '" + user_id + "' AND event_id = '" + event_id + "';"
             ).next()) {
