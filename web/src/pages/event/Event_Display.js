@@ -231,7 +231,6 @@ export default function Event() {
     }
 
     const getEventByID = (event_id, data) => {
-        console.log(data);
         for (const event of data) if (event.event_id === event_id) return event;
     }
 
@@ -252,7 +251,7 @@ export default function Event() {
     }
 
     function getParticipants() {
-        fetch(appConfig.api_url + 'event/get_participants',
+        fetch(appConfig.api_url + 'event/get_user_participants',
             {
                 method: 'POST',
                 credentials: 'include',
