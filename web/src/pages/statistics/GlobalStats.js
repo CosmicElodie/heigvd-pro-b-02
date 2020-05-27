@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import CanvasJSReact from './canvasjs.react';
+import { useInput } from '../../hooks/input';
 import {
   Card, CardContent, CardMedia,
   CssBaseline,
-  Grid,
+  Grid,TextField,MenuItem
 } from '@material-ui/core';
 
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+var CanvasJS = CanvasJSReact.CanvasJS;
 
 export default function GlobalStats() {
 
@@ -16,6 +18,11 @@ export default function GlobalStats() {
   const [TRInfo, setTRInfo] = React.useState();
   const [ILInfo, setILInfo] = React.useState();
   const [IDInfo, setIDInfo] = React.useState();  
+
+  const [value, setValue] = React.useState();
+  const { value: house, bind: bindHouse } = useInput('');
+
+
 
   const getHouseInfo = (e) => {
     let post_body =
@@ -53,6 +60,29 @@ export default function GlobalStats() {
   }
 
 
+function houseChoice(e) {
+  switch(e) {
+    case 1:
+      setValue(IEInfo)
+      break;
+    case 2:
+      setValue(TSInfo)
+      break;
+    case 3:
+      setValue(TRInfo)
+      break;
+    case 4:
+      setValue(ILInfo)
+      break;
+    case 5:
+      setValue(IDInfo)
+      break;
+    default:
+      // code block
+  } 
+
+  return;
+}
   useEffect(() => {
     getHouseInfo(1);
     getHouseInfo(2);
@@ -60,6 +90,10 @@ export default function GlobalStats() {
     getHouseInfo(4);
     getHouseInfo(5);
   }, []);
+
+  useEffect(() => {
+    houseChoice(house)
+  }, [house]);
   
 
 /*
@@ -73,15 +107,16 @@ export default function GlobalStats() {
   */
 
 
-  var option = function(dataIE,dataTS,dataTR,dataIL,dataID, titre) {
+  var option = function(dataIE,dataTS,dataTR,dataIL,dataID, titre,) {
     return{
     animationEnabled: true,
     title: {
       text: titre
     },
     data: [{
-      type: "doughnut",
+      type: "doughnut", //change type to bar, line, area, pie, etc
       showInLegend: true,
+		  axisYType: "secondary",
       indexLabel: "{name}: {y}",
       yValueFormatString: "#,###",
       dataPoints:[{name:"IE", y:dataIE},
@@ -93,17 +128,145 @@ export default function GlobalStats() {
   }
   };
 
+  var option1 = function(dataIE,dataTS,dataTR,dataIL,dataID, titre,yName,xName) {
+    return{
+    animationEnabled: true,
+    title: {
+      text: yName
+    },
+    axisX:{
+      title: xName,
+    },
+    axisY:{
+      title: yName,
+    },
+    data: [{
+      type: "column", //change type to bar, line, area, pie, etc
+		  legendMarkerColor: "grey",
+      dataPoints:[{label:"IE", y:dataIE},
+                  {label:"TS", y:dataTS,},
+                  {label:"TR", y:dataTR,},
+                  {label:"IL", y:dataIL,},
+                  {label:"ID", y:dataID,}], 
+    }]
+  }
+  };
+
+  var option2 = function(dataIE,dataTS,dataTR,dataIL,dataID, titre,yName,xName) {
+    return{
+    animationEnabled: true,
+    title: {
+      text: yName
+    },
+    axisX:{
+      title: xName,
+      interval: 1
+    },
+    axisY:{
+      title: yName,
+    },
+    data: [{
+      type: "bar", //change type to bar, line, area, pie, etc
+		  axisYType: "secondary",
+      yValueFormatString: "#,###",
+      dataPoints:[{label:"IE", y:dataIE},
+                  {label:"TS", y:dataTS,},
+                  {label:"TR", y:dataTR,},
+                  {label:"IL", y:dataIL,},
+                  {label:"ID", y:dataID,}], 
+    }]
+  }
+  };
+  
+  var option3 = function( points_month, nb_posts, nb_subjects, nb_participants, nb_victory, nb_members, titre,yName,xName) {
+    return{
+    animationEnabled: true,
+    title: {
+      text: yName
+    },
+    axisX:{
+      title: xName,
+      interval: 1
+    },
+    axisY:{
+      title: yName,
+    },
+    axisY2:{
+      logarithmic: true
+    },
+    data: [{
+      type: "bar", //change type to bar, line, area, pie, etc
+		  axisYType: "secondary",
+      yValueFormatString: "#,###",
+      dataPoints:[{label:"Points", y:points_month},
+                  {label:"posts", y:nb_posts,},
+                  {label:"sujet", y:nb_subjects,},
+                  {label:"participation", y:nb_participants,},
+                  {label:"victoires", y:nb_victory,},                            
+                  {label:"membres", y:nb_members,}, 
+                ],         
+    }]
+  }
+  };
   //const { data: chartData } = data;
 
-
-
-
+  function addSymbols(e){
+    var suffixes = ["", "K", "M", "B"];
+  
+    var order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
+    if(order > suffixes.length - 1)
+      order = suffixes.length - 1;
+  
+    var suffix = suffixes[order];
+    return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
+  }
 
 
   return (
 
     <main>
       <CssBaseline />
+      <br/>
+      <Grid container spacing={5} direction="row" justify="center" alignItems="stretch">  
+        { <TextField
+            style={{ minWidth: 200 }}
+            id="user-house"
+            label="Maison"
+            variant="outlined"
+            {...bindHouse}
+            select>
+            <MenuItem value={1}>Systèmes informatiques embarqués</MenuItem>
+            <MenuItem value={2}>Sécurité informatique</MenuItem>
+            <MenuItem value={3}>Réseaux et systèmes</MenuItem>
+            <MenuItem value={4}>Informatique logicielle</MenuItem>
+            <MenuItem value={5}>Ingénierie des données</MenuItem>
+          </TextField>
+        }
+      </Grid>
+
+      <Grid container spacing={5} direction="row" justify="center" alignItems="stretch"> 
+        {value &&    
+          <Grid item xs={3}>
+            <Card>
+              <div style={{ justifyContent:'center' }}>
+                <CardMedia
+                  image="https://i.imgur.com/NSM8kNK.png"
+                  title="Image title" />
+                <CardContent>
+                {value &&
+                  <CanvasJSChart 
+                  options = {option3(value.points_month,value.nb_posts,value.nb_subjects,value.nb_participants,value.nb_victory, value.nb_members,'House stat',"nombre", "maisons")}     
+                />}
+                </CardContent>
+              </div>  
+            </Card>
+          </Grid>
+        }
+      </Grid>
+      
+      <br/>
+      <br/>
+      <br/>
       <Grid container spacing={5} direction="row" justify="center" alignItems="stretch">
         
           <Grid item xs={3}>
@@ -115,7 +278,7 @@ export default function GlobalStats() {
                 <CardContent>
                 {IEInfo && TSInfo && TRInfo && ILInfo && IDInfo &&
                   <CanvasJSChart 
-                  options = {option(IEInfo.nb_members,TSInfo.nb_members,TRInfo.nb_members,ILInfo.nb_members,IDInfo.nb_members,'Membre')}
+                  options = {option1(IEInfo.nb_members,TSInfo.nb_members,TRInfo.nb_members,ILInfo.nb_members,IDInfo.nb_members,'Membre',"#membres", "maisons")}
                 />}
                 </CardContent>
               </div>  
@@ -133,7 +296,7 @@ export default function GlobalStats() {
                 <CardContent>
                 {IEInfo && TSInfo && TRInfo && ILInfo && IDInfo &&
                   <CanvasJSChart 
-                  options = {option(IEInfo.nb_victory,TSInfo.nb_victory,TRInfo.nb_victory,ILInfo.nb_victory,IDInfo.nb_victory,'Victoire')}
+                  options = {option1(IEInfo.nb_victory,TSInfo.nb_victory,TRInfo.nb_victory,ILInfo.nb_victory,IDInfo.nb_victory,'Victoire',"#victoire", "maisons")}
                 />}
                 </CardContent>
               </div>  
@@ -148,16 +311,16 @@ export default function GlobalStats() {
               <CardContent>
               {IEInfo && TSInfo && TRInfo && ILInfo && IDInfo &&
                 <CanvasJSChart 
-                options = {option(IEInfo.nb_participants,TSInfo.nb_participants,TRInfo.nb_participants,ILInfo.nb_participants,IDInfo.nb_participants,'Participations')}
+                options = {option2(IEInfo.nb_participants,TSInfo.nb_participants,TRInfo.nb_participants,ILInfo.nb_participants,IDInfo.nb_participants,'Participations',"#participation", "maisons")}
               />}
               </CardContent>
             </div>  
           </Card>
         </Grid>
       </Grid>
-                <br/>
-                <br/>
-                <br/>
+      <br/>
+      <br/>
+      <br/>
       <Grid container direction="row" justify="space-evenly" alignItems="center">
         <Grid item xs={3}>
           <Card>
@@ -168,7 +331,7 @@ export default function GlobalStats() {
               <CardContent>
               {IEInfo && TSInfo && TRInfo && ILInfo && IDInfo &&
                 <CanvasJSChart 
-                options = {option(IEInfo.nb_subjects,TSInfo.nb_subjects,TRInfo.nb_subjects,ILInfo.nb_subjects,IDInfo.nb_subjects,'Sujets')}
+                options = {option2(IEInfo.nb_subjects,TSInfo.nb_subjects,TRInfo.nb_subjects,ILInfo.nb_subjects,IDInfo.nb_subjects,'Sujets',"#sujet", "maisons","#sujets", "maisons")}
               />}
               </CardContent>
             </div>  
@@ -208,16 +371,6 @@ export default function GlobalStats() {
         </Grid>
       </Grid>
     
-      
-      
-
-
-
-
-      
-
-
-
 
     </main>
   );
