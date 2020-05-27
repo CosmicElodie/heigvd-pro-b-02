@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { MainContext } from '../context/MainContext';
 
+import {appConfig} from '../config/appConfig'
 import {  Card, Dialog,  CardContent, makeStyles,  Typography, Avatar, Grid } from '@material-ui/core';
 import Moment from 'react-moment';
 import 'moment/locale/fr';  // without this line it didn't work
@@ -60,13 +61,13 @@ const ShowProfile = () => {
                             
                               {
                                 showProfile.avatar &&
-                                <Avatar className={classes.large} src={showProfile.avatar}  > 
+                                <Avatar className={classes.large} src={appConfig.content_url + showProfile.avatar}  > 
                                 </Avatar>
                               }
 
                               {
                                 !showProfile.avatar &&
-                                <Avatar className="avatar"> { showProfile.initials } </Avatar> 
+                                <Avatar className="avatar"> {appConfig.content_url +  showProfile.initials } </Avatar> 
                               }
                               
                             </Avatar>
