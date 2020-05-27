@@ -102,8 +102,8 @@ public class EventController {
         return result;
     }
 
-    @PostMapping("/event/get_participants")
-    public String getEventPartitipants(@RequestParam("event_id") int event_id) throws SQLException {
+    @PostMapping("/event/get_user_participants")
+    public String getEventUserPartitipants(@RequestParam("event_id") int event_id) throws SQLException {
         String result;
 
         if(event_id <= 0)
@@ -111,7 +111,28 @@ public class EventController {
 
         try (Connection conn = dataSource.getConnection()) {
             Statement stmt = conn.createStatement();
-            ResultSet events = stmt.executeQuery("select DEV.getParticipantsEvent(" + event_id + ") AS event_result");
+            ResultSet events = stmt.executeQuery("select DEV.getParticipantsEvent(" + event_id + ", \"user\") AS event_result");
+
+            events.next();
+            result = events.getString("event_result");
+
+            if(result == null) {
+                return "{}";
+            }
+        }
+        return result;
+    }
+
+    @PostMapping("/event/get_house_participants")
+    public String getEventHousePartitipants(@RequestParam("event_id") int event_id) throws SQLException {
+        String result;
+
+        if(event_id <= 0)
+            return Utils.errorJSONObjectBuilder("incorrect_event_id").build().toString();
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet events = stmt.executeQuery("select DEV.getUserParticipantsEvent(" + event_id + ", \"house\") AS event_result");
 
             events.next();
             result = events.getString("event_result");

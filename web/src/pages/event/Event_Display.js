@@ -231,6 +231,7 @@ export default function Event() {
     }
 
     const getEventByID = (event_id, data) => {
+        console.log(data);
         for (const event of data) if (event.event_id === event_id) return event;
     }
 

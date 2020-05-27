@@ -9,7 +9,7 @@ const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battle
     const { value:secondPlace,  bind:bindSecondPlace } = useInput('');
     const { value:thirdPlace,  bind:bindThirdPlace } = useInput('');
     const { setDialog } = useContext(MainContext);
-    const [ participants, setParticipants] = useState();
+    
 
     const handleAccountPointsClick = () => {
         let eventType;
@@ -31,19 +31,6 @@ const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battle
         });  
     }
 
-    useEffect(() => {
-        fetch(appConfig.api_url + 'event/get_participants', {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: "&event_id=" + event_id
-        })
-        .then(response => response.json())
-        .then((data) => {
-            setParticipants(data);
-        }); 
-    }, [setParticipants, event_id]);
-
     return (
         <Dialog
             open={ is_open }
@@ -58,8 +45,8 @@ const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battle
             
             </DialogContent>
             <Box m={1} />
-                { is_competitive === 1 && battleroyale === 1 && <HumanSelector { ...{ participants, bindFirstPlace, bindSecondPlace, bindThirdPlace } } /> }
-                { is_competitive === 1 && battleroyale === 0 && !house && <HouseSelector { ...{ bindFirstPlace, bindSecondPlace, bindThirdPlace } } /> }
+                { is_competitive === 1 && battleroyale === 1 && <HumanSelector { ...{ event_id, bindFirstPlace, bindSecondPlace, bindThirdPlace } } /> }
+                { is_competitive === 1 && battleroyale === 0 && !house && <HouseSelector { ...{ event_id, bindFirstPlace, bindSecondPlace, bindThirdPlace } } /> }
             <DialogActions>
             
             <Button
@@ -74,7 +61,21 @@ const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battle
     )
 }
 
-const HumanSelector = ({ participants, bindFirstPlace, bindSecondPlace, bindThirdPlace}) => {
+const HumanSelector = ({ event_id, bindFirstPlace, bindSecondPlace, bindThirdPlace}) => {
+    const [ participants, setParticipants] = useState();
+    useEffect(() => {
+        fetch(appConfig.api_url + 'event/get_user_participants', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&event_id=" + event_id
+        })
+        .then(response => response.json())
+        .then((data) => {
+            setParticipants(data);
+        }); 
+    }, [setParticipants, event_id]);
+
     return (
         <Fragment>
             <FormControl variant="outlined" style={ styles.DropDown }>
@@ -123,8 +124,20 @@ const HumanSelector = ({ participants, bindFirstPlace, bindSecondPlace, bindThir
         )
 }
 
-const HouseSelector = ({ bindFirstPlace, bindSecondPlace, bindThirdPlace}) => {
-    const { global } = useContext(MainContext);
+const HouseSelector = ({ event_id, bindFirstPlace, bindSecondPlace, bindThirdPlace}) => {
+    const [ participants, setParticipants] = useState();
+    useEffect(() => {
+        fetch(appConfig.api_url + 'event/get_house_participants', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&event_id=" + event_id
+        })
+        .then(response => response.json())
+        .then((data) => {
+            setParticipants(data);
+        }); 
+    }, [setParticipants, event_id]);
     
     return (
         <Fragment>
@@ -136,7 +149,7 @@ const HouseSelector = ({ bindFirstPlace, bindSecondPlace, bindThirdPlace}) => {
                 >
                     <option value={-1}>Choisir la première place</option>
                     {
-                    global && global.houses && global.houses.map(( { house_id, name } ) => 
+                     participants && participants.length > 0 && participants.map(( { house_id, name } ) => 
                         <option value={ house_id }>{ name } </option>
                     )
                     } 
@@ -150,7 +163,7 @@ const HouseSelector = ({ bindFirstPlace, bindSecondPlace, bindThirdPlace}) => {
                 >
                     <option value={-1}>Choisir la deuxième place</option>
                     {
-                    global && global.houses && global.houses.map(( { house_id, name } ) => 
+                    participants && participants.length > 1 && participants.map(( { house_id, name } ) => 
                         <option value={ house_id }>{ name } </option>
                     )
                     } 
@@ -164,7 +177,7 @@ const HouseSelector = ({ bindFirstPlace, bindSecondPlace, bindThirdPlace}) => {
                 >
                     <option value={-1}>Choisir la troisième place</option>
                     {
-                    global && global.houses && global.houses.map(( { house_id, name } ) => 
+                    participants && participants.length > 2 && participants.map(( { house_id, name } ) => 
                         <option value={ house_id }>{ name } </option>
                     )
                     } 
