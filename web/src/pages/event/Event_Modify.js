@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Popover from '@material-ui/core/Popover';
 
 import { useHistory } from "react-router-dom";
-import {appConfig} from "../../config/appConfig"
+import { appConfig } from "../../config/appConfig"
 import Button from '@material-ui/core/Button';
 
 import Card from '@material-ui/core/Card';
@@ -20,6 +20,8 @@ import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
+
+import Moment from 'react-moment';
 
 //TODO : Pour faire l'upload de l'image
 //https://www.youtube.com/watch?v=sp9r6hSWH_o
@@ -108,7 +110,329 @@ export default function Event_Modify() {
     const { value: date_end, bind: bindDateEnd, reset: resetDateEnd } = useInput('');
     const { value: location, bind: bindLocation, reset: resetLocation } = useInput('');
     const { value: address, bind: bindAddress, reset: resetAddress } = useInput('');
-    const { value: house_id, bind: bindHouseId } = useInput('');
+    const { value: house_id, bind: bindHouseId, reset: resetHouseId } = useInput('');
+
+    function editName() {
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&name=" + (name ? name : current.name);
+        fetch(appConfig.api_url + '/event/update/setName', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    resetName();
+                }
+            })
+
+        return;
+    }
+
+    function editDescription() {
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&description=" + (description ? description : current.description);
+        fetch(appConfig.api_url + '/event/update/setDescription', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    resetDescription();
+                }
+            })
+
+        return;
+    }
+
+    function editIsCompetitive() {
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&is_competitive=" + parseInt(is_competitive);
+        fetch(appConfig.api_url + '/event/update/setIsCompetitive', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    resetCompetitive();
+                }
+            })
+
+        return;
+    }
+
+    function editLimitation() {
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&house_id=" + parseInt(house_id);
+        fetch(appConfig.api_url + '/event/update/setHouseId', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    resetHouseId();
+                }
+            })
+
+        return;
+    }
+
+    function editDifficulty() {
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&difficulty=" + parseInt(difficulty);
+        fetch(appConfig.api_url + '/event/update/setDifficulty', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    resetDifficulty();
+                }
+            })
+
+        return;
+    }
+
+    function editBattleRoyal() {
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&battleroyal=" + parseInt(battleroyal);
+        fetch(appConfig.api_url + '/event/update/setBattleroyale', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    resetBattleRoyal();
+                }
+            })
+
+        return;
+    }
+
+    function editAttendeesMin() {
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&attendees_min=" + parseInt(attendees_min);
+        fetch(appConfig.api_url + '/event/update/setAttendeesMin', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    resetAttendeesMin();
+                }
+            })
+
+        return;
+    }
+
+    function editAttendeesMax() {
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&attendees_max=" + parseInt(attendees_max);
+        fetch(appConfig.api_url + '/event/update/setAttendeesMax', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    resetAttendeesMax();
+                }
+            })
+
+        return;
+    }
+
+    function editPrice() {
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&price=" + price;
+        fetch(appConfig.api_url + '/event/update/setPrice', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    resetPrice();
+                }
+            })
+
+        return;
+    }
+
+    function editDeadlineReservation() {
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&deadline_reservation=" + deadline_reservation;
+        fetch(appConfig.api_url + '/event/update/setDeadlineReservation', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    resetReservation();
+                }
+            })
+
+        return;
+    }
+
+    function editDateBegin() {
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&date_begin=" + date_begin;
+        fetch(appConfig.api_url + '/event/update/setDateBegin', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    resetDateBegin();
+                }
+            })
+
+        return;
+    }
+
+    function editDateEnd() {
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&date_end=" + date_end;
+        fetch(appConfig.api_url + '/event/update/setDateEnd', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    resetDateEnd();
+                }
+            })
+
+        return;
+    }
+
+    function editLocation() {
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&location=" + (location ? location : current.location);
+        fetch(appConfig.api_url + '/event/update/setLocation', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    resetLocation();
+                }
+            })
+
+        return;
+    }
+
+    function editAddress() {
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&address=" + (address ? address : current.address);
+        fetch(appConfig.api_url + '/event/update/setAddress', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    resetAddress();
+                }
+            })
+
+        return;
+    }
 
     const buttonModifyEvent = (e) => {
         console.log(current.event_id);
@@ -138,22 +462,22 @@ export default function Event_Modify() {
         })
             .then(response => response.json())
             .then(({ status, dialog_id }) => {
-                if(status === "ok") {
+                if (status === "ok") {
                     resetName();
-                resetDescription();
-                resetCompetitive();
-                resetBattleRoyal();
-                resetDifficulty();
-                resetPrice();
-                resetAttendeesMin();
-                resetAttendeesMax();
-                resetReservation();
-                resetDateBegin();
-                resetDateEnd();
-                resetLocation();
-                resetAddress();
+                    resetDescription();
+                    resetCompetitive();
+                    resetBattleRoyal();
+                    resetDifficulty();
+                    resetPrice();
+                    resetAttendeesMin();
+                    resetAttendeesMax();
+                    resetReservation();
+                    resetDateBegin();
+                    resetDateEnd();
+                    resetLocation();
+                    resetAddress();
                 }
-                
+
                 setDialog({
                     [dialog_id]: {
                         is_open: true
@@ -163,17 +487,16 @@ export default function Event_Modify() {
             });
     }
 
-    function MyCreationButton() {
+    function myCreationButton(text, func) {
         return (
-                <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    onClick={buttonModifyEvent}>
-                    Modifier l'événement
-                </Button>
+            <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={func}>
+                {text}
+            </Button>
         );
     }
 
@@ -181,46 +504,80 @@ export default function Event_Modify() {
         for (const event of data) if (event.event_id === event_id) return event;
     }
 
+    function displayDifficulty(id) {
+        switch (id) {
+            case 2: return "Moyen";
+            case 3: return "Difficile";
+            case 4: return "Extrême";
+            default: return "Facile;"
+        }
+    }
+
     return (
         <React.Fragment>
             <CssBaseline />
             <main>
                 {current && <Card className={classes.card}>
-                    <CardMedia
-                        className={classes.cardMedia}
-                        image="https://i.imgur.com/VDRkKqw.png"
-                        title="Titre_event_create"
-                    />
                     <CardContent className={classes.cardContent}>
                         <Typography gutterBottom variant="h5" component="h2">
                             {titre_créerEvent /*affiche le nom de la maison */}
                         </Typography>
-                        <FormControl className={classes.formControl}>
-                            <TextField
-                                id="name"
-                                label="Nom événement"
-                                placeholder={current.name}
-                                defaultValue={current.name}
-                                variant="outlined"
-                                required={true}
-                                {...bindName}
-                            />
-                            <br />
-                            <TextField
-                                id="description"
-                                label="Description"
-                                placeholder={current.description}
-                                defaultValue={current.description}
-                                multiline
-                                rows={5}
-                                variant="outlined"
-                                required={true}
-                                style={{ minWidth: 600 }}
-                                {...bindDescription}
-                            />
-                            <br />
-                            <Grid container >
-                                <Grid item xs>
+
+
+                        <Grid container spacing={3} direction="row" justify="space-between" alignItems="stretch">
+
+                            {/* NAME */}
+                            <Grid item xs={12} sm={6}>
+                                {<b>{"Nom : "}</b>}{(current == null ? "error" : current.name)}
+                            </Grid>
+                            <Grid item xs={12}>
+                                {current && current.name && <TextField
+                                    id="name"
+                                    label="Nom événement"
+                                    placeholder={current.name}
+                                    defaultValue={current.name}
+                                    variant="outlined"
+                                    required={true}
+                                    {...bindName}
+                                />}
+                            </Grid>
+                            <Grid item xs={12}>
+                                {current && myCreationButton("Modifier", editName)}
+                            </Grid>
+
+
+                            {/* DESCRIPTION */}
+
+                            <Grid item xs={12} sm={6}>
+                                {<b>{"Description : "}</b>}{(current == null ? "error" : current.description)}
+
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    id="description"
+                                    label="Description"
+                                    placeholder={current.description}
+                                    defaultValue={current.description}
+                                    multiline
+                                    rows={5}
+                                    variant="outlined"
+                                    required={true}
+                                    style={{ minWidth: 600 }}
+                                    {...bindDescription}
+                                />
+
+                            </Grid>
+                            <Grid item xs={12}>
+                                {current && myCreationButton("Modifier", editDescription)}
+                            </Grid>
+
+                            {/* IS_COMPETITIVE */}
+                            <Grid item xs={6} sm={4}>
+                                <Grid item xs={12}>
+                                    {<b>{"Type : "}</b>}{(current == null ? "error" : (current.is_competitive ? "Compétitif" : "Non-compétitif"))}
+                                </Grid>
+
+                                <Grid item xs={12}>
                                     <TextField
                                         id="is_competitive"
                                         label="Type"
@@ -234,8 +591,18 @@ export default function Event_Modify() {
                                         <MenuItem value={0} >Non-compétitif</MenuItem>
                                     </TextField>
                                 </Grid>
+                                <Grid item xs={12}>
+                                    <br />{current && myCreationButton("Modifier", editIsCompetitive)}
+                                </Grid>
+                            </Grid>
 
-                                <Grid item xs>
+                            {/* LIMITATION */}
+                            <Grid item xs={6} sm={4}>
+                                <Grid item xs={12}>
+                                    {<b>{"Limitation : "}</b>}{(current == null ? "error" : (current.house_id ? house_id : "Global"))}
+                                </Grid>
+
+                                <Grid item xs={12}>
                                     <Typography
                                         aria-owns={open ? 'limitation-popover' : undefined}
                                         aria-haspopup="true"
@@ -275,8 +642,18 @@ export default function Event_Modify() {
                                         <Typography>Un événement peut être soit adressé aux membres de votre orientation uniquement, ou avoir une portée globale à toutes les orientations.</Typography>
                                     </Popover>
                                 </Grid>
+                                <Grid item xs={12}>
+                                    <br />{current && myCreationButton("Modifier", editLimitation)}
+                                </Grid>
+                            </Grid>
 
-                                <Grid item xs={3}>
+                            {/* DIFFICULTÉ */}
+                            <Grid item xs={6} sm={4}>
+                                <Grid item xs={12}>
+                                    {<b>{"Type : "}</b>}{(current == null ? "error" : displayDifficulty(current.difficulty))}
+                                </Grid>
+
+                                <Grid item xs={12}>
                                     <TextField
                                         id="difficulty"
                                         label="Difficulté"
@@ -291,32 +668,47 @@ export default function Event_Modify() {
                                         <MenuItem value={3}>Difficile</MenuItem>
                                         <MenuItem value={4}>Extrême</MenuItem>
                                     </TextField>
-
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <br />{current && myCreationButton("Modifier", editDifficulty)}
                                 </Grid>
                             </Grid>
-                            <br /><br />
-                            <Grid container>
-                                <Grid item xs>
-                                    <TextField
-                                        id="battleroyal"
-                                        label="Battle Royal Mode"
-                                        helperText="All vs All ou affrontement par équipe."
-                                        required={false}
-                                        placeholder={current.battleroyale}
-                                        defaultValue={current.battleroyale}
-                                        disabled={false} //{battleRoyalOnorOff}
 
-                                        style={{ width: 150 }}
-                                        {...bindBattleRoyal}
-                                        select>
-                                        <MenuItem value={0}>Non</MenuItem>
-                                        <MenuItem value={1}>Oui</MenuItem>
-                                    </TextField>
-                                </Grid>
+                            {/* BATTLE ROYAL */}
+
+                            <Grid item xs={12}>
+                                {<b>{"Mode Battle Royal : "}</b>}{(current == null ? "error" : (current.battleroyal ? "Oui" : "Non"))}
                             </Grid>
-                            <br /><br />
-                            <Grid container >
-                                <Grid item xs>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    id="battleroyal"
+                                    label="Battle Royal Mode"
+                                    helperText="All vs All ou affrontement par équipe."
+                                    required={false}
+                                    placeholder={current.battleroyale}
+                                    defaultValue={current.battleroyale}
+                                    disabled={false} //{battleRoyalOnorOff}
+
+                                    style={{ width: 150 }}
+                                    {...bindBattleRoyal}
+                                    select>
+                                    <MenuItem value={0}>Non</MenuItem>
+                                    <MenuItem value={1}>Oui</MenuItem>
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <br />{current && myCreationButton("Modifier", editBattleRoyal)}
+                            </Grid>
+
+
+                            {/* ATTENDEES_MIN */}
+                            <Grid item xs={6} sm={4}>
+                                <Grid item xs={12}>
+                                    {<b>{"Nb. min. participants : "}</b>}{(current == null ? "error" : current.attendees_min)}
+                                </Grid>
+
+                                <Grid item xs={12}>
                                     <TextField
                                         id="attendees_min"
                                         label="Nb. min participants"
@@ -328,8 +720,63 @@ export default function Event_Modify() {
                                         {...bindAttendeesMin}
                                     />
                                 </Grid>
+                                <Grid item xs={12}>
+                                    <br />{current && myCreationButton("Modifier", editAttendeesMin)}
+                                </Grid>
+                            </Grid>
 
-                                <Grid item xs={4}>
+                            {/* ATTENDEES_MAX */}
+                            <Grid item xs={6} sm={4}>
+                                <Grid item xs={12}>
+                                    {<b>{"Nb. max. participants : "}</b>}{(current == null ? "error" : current.attendees_max)}
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    <TextField
+                                        id="attendees_max"
+                                        label="Nb. max participants"
+                                        placeholder={current.attendees_max}
+                                        defaultValue={current.attendees_max}
+                                        variant="outlined"
+                                        defaultValue={0}
+                                        required={true}
+                                        {...bindAttendeesMax}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <br />{current && myCreationButton("Modifier", editAttendeesMax)}
+                                </Grid>
+                            </Grid>
+
+                            {/* PRICE */}
+                            <Grid item xs={6} sm={4}>
+                                <Grid item xs={12}>
+                                    {<b>{"Tarif : "}</b>}{(current == null ? "error" : current.price)}
+                                </Grid>
+
+                                <Grid item xs={12}>
+                                    <TextField
+                                        id="price"
+                                        label="Tarif"
+                                        placeholder={current.price}
+                                        defaultValue={current.price}
+                                        variant="outlined"
+                                        required={false}
+                                        {...bindPrice}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <br />{current && myCreationButton("Modifier", editPrice)}
+                                </Grid>
+                            </Grid>
+
+                            {/* DEADLINE_RESERVATION */}
+                            <Grid item xs={6} sm={4}>
+                                <Grid item xs={12}>
+                                    {<b>{"Date limite inscription : "}</b>}{(current == null ? "error" : <Moment format="DD/MM/YYYY - HH:mm">{current.deadline_reservation}</Moment>)}
+                                </Grid>
+
+                                <Grid item xs={12}>
                                     <TextField
                                         id="deadline_reservation"
                                         label="Date limite inscription"
@@ -343,22 +790,18 @@ export default function Event_Modify() {
                                         {...bindDeadlineReservation}
                                     />
                                 </Grid>
-                            </Grid>
-                            <br /><br />
-                            <Grid container >
-                                <Grid item xs>
-                                    <TextField
-                                        id="attendees_max"
-                                        label="Nb. max participants"
-                                        placeholder={current.attendees_max}
-                                        defaultValue={current.attendees_max}
-                                        variant="outlined"
-                                        defaultValue={0}
-                                        required={true}
-                                        {...bindAttendeesMax}
-                                    />
+                                <Grid item xs={12}>
+                                    <br />{current && myCreationButton("Modifier", editDeadlineReservation)}
                                 </Grid>
-                                <Grid item xs={4}>
+                            </Grid>
+
+                            {/* DATE_BEGIN */}
+                            <Grid item xs={6} sm={4}>
+                                <Grid item xs={12}>
+                                    {<b>{"Date début : "}</b>}{(current == null ? "error" : <Moment format="DD/MM/YYYY - HH:mm">{current.date_begin}</Moment>)}
+                                </Grid>
+
+                                <Grid item xs={12}>
                                     <TextField
                                         id="date_begin"
                                         label="Date et heure de l'événement"
@@ -372,20 +815,18 @@ export default function Event_Modify() {
                                         {...bindDateBegin}
                                     />
                                 </Grid>
-                            </Grid> <br /><br />
-                            <Grid container>
-                                <Grid item xs>
-                                    <TextField
-                                        id="price"
-                                        label="Tarif"
-                                        placeholder={current.price}
-                                        defaultValue={current.price}
-                                        variant="outlined"
-                                        required={false}
-                                        {...bindPrice}
-                                    />
+                                <Grid item xs={12}>
+                                    <br />{current && myCreationButton("Modifier", editDateBegin)}
                                 </Grid>
-                                <Grid item xs={4}>
+                            </Grid>
+
+                            {/* DATE_END */}
+                            <Grid item xs={6} sm={4}>
+                                <Grid item xs={12}>
+                                    {<b>{"Date fin : "}</b>}{(current == null ? "error" : <Moment format="DD/MM/YYYY - HH:mm">{current.date_end}</Moment>)}
+                                </Grid>
+
+                                <Grid item xs={12}>
                                     <TextField
                                         id="date_end"
                                         label="Date et heure de fin"
@@ -399,11 +840,18 @@ export default function Event_Modify() {
                                         {...bindDateEnd}
                                     />
                                 </Grid>
-                            </Grid><br /><br />
+                                <Grid item xs={12}>
+                                    <br />{current && myCreationButton("Modifier", editDateEnd)}
+                                </Grid>
+                            </Grid>
 
-                            {/* ============== ADRESSE EVENEMENT ============== */}
-                            <Grid container>
-                                <Grid>
+                            {/* LOCATION */}
+                            <Grid item xs={12}>
+                                <Grid item xs={12}>
+                                    {<b>{"Lieu : "}</b>}{(current == null ? "error" : current.location)}
+                                </Grid>
+
+                                <Grid item xs={12}>
                                     <TextField
                                         id="location"
                                         label="Lieu"
@@ -415,10 +863,18 @@ export default function Event_Modify() {
                                         {...bindLocation}
                                     />
                                 </Grid>
+                                <Grid item xs={12}>
+                                    <br />{current && myCreationButton("Modifier", editLocation)}
+                                </Grid>
                             </Grid>
-                            <br />
-                            <Grid container >
-                                <Grid item xs>
+
+                            {/* ADDRESS */}
+                            <Grid item xs={12}>
+                                <Grid item xs={12}>
+                                    {<b>{"Adresse : "}</b>}{(current == null ? "error" : current.address)}
+                                </Grid>
+
+                                <Grid item xs={12}>
                                     <TextField
                                         id="street"
                                         label="Adresse"
@@ -430,14 +886,13 @@ export default function Event_Modify() {
                                         {...bindAddress}
                                     />
                                 </Grid>
+                                <Grid item xs={12}>
+                                    <br />{current && myCreationButton("Modifier", editAddress)}
+                                </Grid>
                             </Grid>
-                            <br />
+                        </Grid >
 
-                        </FormControl>
                     </CardContent>
-                    <CardActions>
-                        <MyCreationButton />
-                    </CardActions>
                 </Card>
                 }
             </main>
