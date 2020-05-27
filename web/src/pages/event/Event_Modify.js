@@ -35,7 +35,6 @@ const useStyles = makeStyles(theme => ({
         minHeight: '90%',
         minWidth: '650px',
         alignItems: 'center',
-        width: '60%',
         display: 'flex',
         flexDirection: 'column',
         padding: '10px 10px'
