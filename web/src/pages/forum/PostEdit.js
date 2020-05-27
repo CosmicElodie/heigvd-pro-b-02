@@ -3,7 +3,8 @@ import { Icon, Button, TextField, Dialog, DialogActions, DialogContent, DialogTi
 import { useInput } from '../../hooks/input';
 import { ForumContext } from '../../context/ForumContext';
 import { MainContext, cleanChars } from '../../context/MainContext';
-import { traverseSubjects, getPostByID, searchForumByID } from './Utility';
+import { traverseSubjects, getPostByID, searchForumByID } from './Utility';import {appConfig} from "../../config/appConfig"
+
 
 const PostEdit = ( { is_open, forum_post_id , handleCloseEditPost } ) => {
     /*
@@ -30,7 +31,7 @@ const PostEdit = ( { is_open, forum_post_id , handleCloseEditPost } ) => {
             return;
         }
 
-        fetch('http://localhost:8080/forum/update_post', {
+        fetch(appConfig.api_url + 'forum/update_post', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

@@ -3,7 +3,7 @@ import { Button, DialogContentText, Dialog, DialogActions, DialogContent, Dialog
 import { getForumByID, traverseForums } from './Utility';
 import { ForumContext } from '../../context/ForumContext';
 import { MainContext } from '../../context/MainContext';
-
+import {appConfig} from "../../config/appConfig"
 const ForumDelete = ( { is_open, handleClose } ) => {
     /*
         Le parent "SubjectList" est le gérant de l'état du modal SubjectAdd
@@ -12,7 +12,7 @@ const ForumDelete = ( { is_open, handleClose } ) => {
     const { setDialog } = useContext(MainContext);
 
     const handleConfirm = () => {
-        fetch('http://localhost:8080/forum/delete_section', {
+        fetch(appConfig.api_url + 'forum/delete_section', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

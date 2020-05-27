@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import {appConfig} from "../config/appConfig"
 import { useInput } from '../hooks/input';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -32,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-let imagePath = 'http://localhost:8080/content/404.png';
+let imagePath = appConfig.content_url + '404.png';
 
 export default function HouseKeeping() {
     const { user, setDialog } = useContext(MainContext);
@@ -52,7 +53,7 @@ export default function HouseKeeping() {
 
     function editLastname() {
         let post_body = "&user_id=" + parseInt(value.user_id) + "&new_lastname=" + lastname;
-        fetch('http://localhost:8080/housekeeping/editlastname', {
+        fetch(appConfig.api_url + 'housekeeping/editlastname', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -75,7 +76,7 @@ export default function HouseKeeping() {
 
     function editHouse() {
         let post_body = "&user_id=" + parseInt(value.user_id) + "&new_house_id=" + house;
-        fetch('http://localhost:8080/housekeeping/edithouse', {
+        fetch(appConfig.api_url + 'housekeeping/edithouse', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -98,7 +99,7 @@ export default function HouseKeeping() {
 
     function editStatus() {
         let post_body = "&user_id=" + parseInt(value.user_id) + "&new_status_id=" + status;
-        fetch('http://localhost:8080/housekeeping/setstatus', {
+        fetch(appConfig.api_url + 'housekeeping/setstatus', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -121,7 +122,7 @@ export default function HouseKeeping() {
 
     function addPoints() {
         let post_body = "&user_id=" + parseInt(value.user_id) + "&points=" + parseInt(points);
-        fetch('http://localhost:8080/housekeeping/setpoints', {
+        fetch(appConfig.api_url + 'housekeeping/setpoints', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -144,7 +145,7 @@ export default function HouseKeeping() {
 
     function removePoints() {
         let post_body = "&user_id=" + parseInt(value.user_id) + "&points=" + parseInt(points * -1);
-        fetch('http://localhost:8080/housekeeping/setpoints', {
+        fetch(appConfig.api_url + 'housekeeping/setpoints', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -167,7 +168,7 @@ export default function HouseKeeping() {
 
     function editAccessLevel() {
         let post_body = "&user_id=" + parseInt(value.user_id) + "&new_accesslevel=" + access_level;
-        fetch('http://localhost:8080/housekeeping/setroles', {
+        fetch(appConfig.api_url + 'housekeeping/setroles', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -190,7 +191,7 @@ export default function HouseKeeping() {
 
     function desactivate() {
         let post_body = "&user_id=" + parseInt(value.user_id)
-        fetch('http://localhost:8080/housekeeping/desactivate', {
+        fetch(appConfig.api_url + 'housekeeping/desactivate', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -225,7 +226,7 @@ export default function HouseKeeping() {
     }
 
     function getUsers() {
-        fetch('http://localhost:8080/housekeeping/all',
+        fetch(appConfig.api_url + 'housekeeping/all',
             {
                 method: 'GET',
                 credentials: 'include'

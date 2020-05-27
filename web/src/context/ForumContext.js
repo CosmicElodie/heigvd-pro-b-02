@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect  } from 'react';
 import { countPosts } from '../pages/forum/Utility';
+import {appConfig} from "../config/appConfig"
 
 export const ForumContext = createContext();
 /*
@@ -21,7 +22,7 @@ export const ForumProvider = ( props ) => {
     });
 
     useEffect(() => {
-        fetch('http://localhost:8080/forum/all', {
+        fetch(appConfig.api_url + 'forum/all', {
             method: 'GET',
             credentials: 'include' // mandatory for every JSON fetch
         })

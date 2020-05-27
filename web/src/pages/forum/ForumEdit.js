@@ -5,6 +5,7 @@ import { useInput } from '../../hooks/input';
 import { searchForumByID } from './Utility';
 import { ForumContext } from '../../context/ForumContext';
 import { MainContext, cleanChars } from '../../context/MainContext';
+import {appConfig} from "../../config/appConfig"
 
 const ForumEdit = ( { is_open, handleClose } ) => {
     /*
@@ -43,7 +44,7 @@ const ForumEdit = ( { is_open, handleClose } ) => {
 
         let pathAfterUpdate = history.location.pathname.split('/').slice(0, -1).join("/") + '/' + name;
         let dialogTimeout = 0;
-        fetch('http://localhost:8080/forum/update_section', {
+        fetch(appConfig.api_url + 'forum/update_section', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

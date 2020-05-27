@@ -7,7 +7,8 @@ import PostDelete from './PostDelete';
 import { useInput } from '../../hooks/input';
 import { ForumContext } from '../../context/ForumContext';
 import { MainContext, cleanChars } from '../../context/MainContext';
-import { traverseForums, getSubjectByID  } from './Utility';
+import { traverseForums, getSubjectByID  } from './Utility';import {appConfig} from "../../config/appConfig"
+
 
 const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, forum_subject_id, posts, isOpen } ) => {
     
@@ -38,7 +39,7 @@ const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, foru
             return;
         }
 
-        fetch('http://localhost:8080/forum/insert_post', {
+        fetch(appConfig.api_url + 'forum/insert_post', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -81,7 +82,7 @@ const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, foru
 
     const handleSetAnswer   = useCallback((post) => {
         
-        fetch('http://localhost:8080/forum/set_best_answer', {
+        fetch(appConfig.api_url + 'forum/set_best_answer', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -109,7 +110,7 @@ const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, foru
     
     const handleUnsetAnswer = useCallback((post) => {
         
-        fetch('http://localhost:8080/forum/unset_best_answer', {
+        fetch(appConfig.api_url + 'forum/unset_best_answer', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

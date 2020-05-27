@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect  } from 'react';
+import {appConfig} from "../config/appConfig"
 
 export const cleanChars = (string) => string.replace(/&/g, "%26").replace(/>/g, "%3E").replace(/</g, "%3C").replace(/"/g, "%22");
 
@@ -37,7 +38,7 @@ export const MainProvider = ( props ) => {
     }, [user.id]);
 
     useEffect(() => { 
-        user && fetch('http://localhost:8080/global/data', {
+        user && fetch(appConfig.api_url + 'global/data', {
             method: 'GET',
             credentials: 'include' // mandatory for every JSON fetch
         })

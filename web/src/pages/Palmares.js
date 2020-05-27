@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import {appConfig} from "../config/appConfig"
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {
@@ -51,7 +52,7 @@ export default function Palmares() {
     const getTopUsersYearly = (e) => {
         let post_body =
             "&house_id=" + e;
-        fetch('http://localhost:8080/auditoire/yearly',
+        fetch(appConfig.api_url + 'auditoire/yearly',
             { //pour l'instant yearly envoie tous les users toutes maisons confondues.
                 method: 'POST',
                 credentials: 'include',
@@ -65,7 +66,7 @@ export default function Palmares() {
     const getTopUsersMonthly = (e) => {
         let post_body =
             "&house_id=" + e;
-        fetch('http://localhost:8080/auditoire/monthly', { //pour l'instant yearly envoie tous les users toutes maisons confondues.
+        fetch(appConfig.api_url + 'auditoire/monthly', { //pour l'instant yearly envoie tous les users toutes maisons confondues.
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -76,7 +77,7 @@ export default function Palmares() {
     }
 
     const getTopHouses = (e) => {
-        fetch('http://localhost:8080/auditoire/palmares', { //pour l'instant yearly envoie tous les users toutes maisons confondues.
+        fetch(appConfig.api_url + 'auditoire/palmares', { //pour l'instant yearly envoie tous les users toutes maisons confondues.
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }

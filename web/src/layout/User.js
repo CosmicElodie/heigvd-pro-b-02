@@ -1,4 +1,6 @@
 import React, { useEffect, useContext, useState, useMemo, useCallback } from 'react';
+
+import {appConfig} from "../config/appConfig"
 import { MainContext } from '../context/MainContext';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -15,7 +17,7 @@ const User = ( ) => {
     useEffect(() => { 
         // useEffect => sort of 'DOM Ready' equivalent 
 
-        fetch('http://localhost:8080/authentication/user_data', {
+        fetch(appConfig.api_url + 'authentication/user_data', {
             method: 'GET',
             credentials: 'include' // mandatory for every JSON fetch
         })
@@ -38,7 +40,7 @@ const User = ( ) => {
 
     const user_logout = useCallback(() => {
 
-       fetch('http://localhost:8080/authentication/user_logout', {
+       fetch(appConfig.api_url + 'authentication/user_logout', {
             method: 'POST',
             credentials: 'include'
         })

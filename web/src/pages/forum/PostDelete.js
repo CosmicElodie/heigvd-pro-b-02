@@ -3,6 +3,7 @@ import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
 import { ForumContext } from '../../context/ForumContext';
 import { MainContext } from '../../context/MainContext';
 import { traverseSubjects, getPostByID, searchForumByID } from './Utility';
+import {appConfig} from "../../config/appConfig"
 
 const PostDelete = ( { is_open, forum_post_id, handleCloseDeletePost } ) => {
     /*
@@ -12,7 +13,7 @@ const PostDelete = ( { is_open, forum_post_id, handleCloseDeletePost } ) => {
     const { setDialog } = useContext(MainContext);
   
     const handleConfirm = () => {               
-        fetch('http://localhost:8080/forum/delete_post', {
+        fetch(appConfig.api_url + 'forum/delete_post', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

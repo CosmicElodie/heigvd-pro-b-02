@@ -1,11 +1,12 @@
 import React, { useEffect, useState, Fragment } from 'react';
+import {appConfig} from "../config/appConfig"
 import Person from './Person';
 const NowConnected = () => {
 
     const [ connected, setConnected ]  = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:8080/authentication/now_online', {
+        fetch(appConfig.api_url + 'authentication/now_online', {
             method: 'GET',
             credentials: 'include' // mandatory for every JSON fetch
         })

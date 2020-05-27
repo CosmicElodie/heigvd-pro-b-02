@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect  } from 'react';
-
+import {appConfig} from "../config/appConfig"
+import { config } from 'react-transition-group';
 export const EventContext = createContext();
 /*
 EventProvider is a data repository intended to contain the states to be shared 
@@ -9,7 +10,7 @@ export const EventProvider = ( props ) => {
     const [ data, setData ] =  useState();
     
     useEffect(() => {
-        fetch('http://localhost:8080/event/all', {
+        fetch(appConfig.api_url + 'event/all', {
             method: 'GET',
             credentials: 'include' // mandatory for every JSON fetch
         })

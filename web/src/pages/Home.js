@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useCallback } from 'react';
+import {appConfig} from "../config/appConfig"
 import { useHistory } from "react-router-dom";
 import { MainContext } from '../context/MainContext';
 import MUIDataTable from "mui-datatables";
@@ -86,7 +87,7 @@ export default function Home() {
         console.log("CREATED");
         console.log(post_body);
 
-        fetch('http://localhost:8080/event/created_by_user',
+        fetch(appConfig.api_url + 'event/created_by_user',
             {
                 method: 'POST',
                 credentials: 'include',
@@ -101,7 +102,7 @@ export default function Home() {
         let post_body = "&user_id=" + parseInt(user.user_id);
         console.log("PARTICIPATED");
         console.log(post_body);
-        fetch('http://localhost:8080/event/participated_by_user', {
+        fetch(appConfig.api_url + 'event/participated_by_user', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

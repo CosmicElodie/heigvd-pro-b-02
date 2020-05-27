@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
+import {appConfig} from "../../config/appConfig"
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { MainContext } from '../../context/MainContext';
@@ -106,7 +107,7 @@ export default function Event() {
     }
 
     function deleteEvent() {
-        fetch('http://localhost:8080/event/delete_event', {
+        fetch(appConfig.api_url + 'event/delete_event', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -158,7 +159,7 @@ export default function Event() {
 
     //Met l'état de l'event à "Annulé"
     function cancel() {
-        fetch('http://localhost:8080/event/cancel_event', {
+        fetch(appConfig.api_url + 'event/cancel_event', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -186,7 +187,7 @@ export default function Event() {
     }
 
     function joinEvent() {
-        fetch('http://localhost:8080/event/join_event', {
+        fetch(appConfig.api_url + 'event/join_event', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -208,7 +209,7 @@ export default function Event() {
     }
 
     function quitEvent() {
-        fetch('http://localhost:8080/event/quit_event', {
+        fetch(appConfig.api_url + 'event/quit_event', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -250,7 +251,7 @@ export default function Event() {
     }
 
     function getParticipants() {
-        fetch('http://localhost:8080/event/get_participants',
+        fetch(appConfig.api_url + 'event/get_participants',
             {
                 method: 'POST',
                 credentials: 'include',

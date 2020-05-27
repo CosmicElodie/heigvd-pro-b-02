@@ -1,4 +1,6 @@
 import React, { useContext } from 'react';
+
+import {appConfig} from "../config/appConfig"
 import { MainContext } from '../context/MainContext';
 import { useInput } from '../hooks/input';
 import { FormControlLabel, TextField, Checkbox, Button, CssBaseline, Link, Paper, Box, Grid, Icon, Typography } from '@material-ui/core';
@@ -24,7 +26,7 @@ const Signin = ( props ) => {
     
     const buttonSignIn = (e) => {
         e.preventDefault();
-        fetch('http://localhost:8080/authentication/user_login', {
+        fetch(appConfig.api_url + 'authentication/user_login', {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

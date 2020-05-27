@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import { ForumContext } from '../../context/ForumContext';
 import { MainContext } from '../../context/MainContext';
-import { getSubjectByID, traverseForums } from './Utility';
+import { getSubjectByID, traverseForums } from './Utility';import {appConfig} from "../../config/appConfig"
+
 
 const SubjectDelete = ( { is_open, forum_subject_id, handleClose } ) => {
     
@@ -10,7 +11,7 @@ const SubjectDelete = ( { is_open, forum_subject_id, handleClose } ) => {
     const { setDialog } = useContext(MainContext);
 
     const handleConfirm = () => {
-        fetch('http://localhost:8080/forum/delete_subject', {
+        fetch(appConfig.api_url + 'forum/delete_subject', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

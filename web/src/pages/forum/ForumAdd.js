@@ -4,6 +4,7 @@ import { useInput } from '../../hooks/input';
 import { searchForumByID } from './Utility';
 import { ForumContext } from '../../context/ForumContext';
 import { MainContext, cleanChars } from '../../context/MainContext';
+import {appConfig} from "../../config/appConfig"
 
 const ForumAdd = ( { is_open, handleClose } ) => {
     /*
@@ -50,7 +51,7 @@ const ForumAdd = ( { is_open, handleClose } ) => {
             "&help=" + help;
         if(current.selected) post_body += "&parent_forum_section_id=" + current.selected.forum_section_id;
         if(house) post_body += "&house_id=" + house; 
-        fetch('http://localhost:8080/forum/insert_section', {
+        fetch(appConfig.api_url + 'forum/insert_section', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },

@@ -21,6 +21,8 @@ import Modal from '@material-ui/core/Modal';
 import { useInput } from '../../hooks/input';
 import { DropzoneDialog } from 'material-ui-dropzone'
 import "../../css/Profile.css";
+import {appConfig} from "../../config/appConfig"
+
 
 const useStyles = makeStyles(styles);
 
@@ -69,7 +71,7 @@ export default function ProfilePage(props) {
 
   useEffect(() => {
     if(user){
-     user.house && setHouseBanner('url(\'http://localhost:8080/content/' + user.house.name + '.png\')') 
+     user.house && setHouseBanner('url(\''+ appConfig.content_url + user.house.name + '.png\')') 
      user.user_id && getUserInfo() }
   }, [user]);
 
@@ -79,7 +81,7 @@ export default function ProfilePage(props) {
   const getUserInfo = (e) => {
     let post_body =
       "&user_id=" + user.user_id;
-    fetch('http://localhost:8080/profile/all', {
+    fetch(appConfig.api_url + 'profile/all', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -99,7 +101,7 @@ export default function ProfilePage(props) {
       "&avatar=" + img.data;
 
 
-    fetch('http://localhost:8080/profile/update_avatar', {
+    fetch(appConfig.api_url + 'profile/update_avatar', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -136,7 +138,7 @@ export default function ProfilePage(props) {
       "&old_password=" + oldPassword +
       "&new_password=" + newPassword
 
-    fetch('http://localhost:8080/profile/update_password', {
+    fetch(appConfig.api_url + 'profile/update_password', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -267,7 +269,7 @@ export default function ProfilePage(props) {
                 <div className={classes.profile}>
                   <div>
                   <IconButton aria-label="edit" size="small" onClick={handlePPEditOpen}>
-                  { userInfo && userInfo.avatar && <img src={userInfo.avatar} alt="..." className={imageClasses} />}  
+                  { userInfo && userInfo.avatar && <img src={appConfig.content_url + userInfo.avatar} alt="..." className={imageClasses} />}  
                 </IconButton>
                   </div>
                   <div className={classes.name}>
@@ -347,7 +349,7 @@ export default function ProfilePage(props) {
                                 <IconButton aria-label="edit" size="small" onClick={handlePPEditOpen}>
                                   {
                                     userInfo && userInfo.avatar &&
-                                    <Avatar className={classes.contour} src={userInfo.avatar}>
+                                    <Avatar className={classes.contour} src={appConfig.content_url + userInfo.avatar}>
                                     </Avatar>
                                   }
 

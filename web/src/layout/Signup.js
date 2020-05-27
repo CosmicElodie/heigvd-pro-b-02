@@ -1,4 +1,6 @@
 import React, { useContext, useEffect } from 'react';
+
+import {appConfig} from "../config/appConfig"
 import { MainContext } from '../context/MainContext';
 import {  TextField, Button, CssBaseline, Paper, Grid, Icon, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -51,7 +53,7 @@ const Signup = ( props ) => {
         "&password=" + password +
         "&house_id=" + house;
 
-        fetch('http://localhost:8080/profile/sign_up', {
+        fetch(appConfig.api_url + 'profile/sign_up', {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment, useContext } from 'react';
 import { Icon, Button, Dialog, DialogActions, DialogContent, DialogTitle, Box, FormControl, Select } from '@material-ui/core';
 import { useInput } from '../../hooks/input';
 import {MainContext} from '../../context/MainContext';
+import {appConfig} from "../../config/appConfig"
 
 const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battleroyale, is_competitive, house } ) => {
     const { value:firstPlace,  bind:bindFirstPlace } = useInput('');
@@ -14,7 +15,7 @@ const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battle
         let eventType;
         eventType = battleroyale ? 'individual' : 'global';
         if(house && house.house_id) eventType = 'house';
-        fetch('http://localhost:8080/event/result/'+eventType, {
+        fetch(appConfig.api_url + 'event/result/'+eventType, {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -31,7 +32,7 @@ const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battle
     }
 
     useEffect(() => {
-        fetch('http://localhost:8080/event/get_participants', {
+        fetch(appConfig.api_url + 'event/get_participants', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

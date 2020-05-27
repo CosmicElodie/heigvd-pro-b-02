@@ -1,6 +1,8 @@
 import React, {useContext} from 'react';
 import { MainContext } from '../context/MainContext';
 import { Avatar, Typography } from '@material-ui/core';
+import {appConfig} from '../config/appConfig'
+import ConsoleLog from "../ConsoleLog";
 
 
 
@@ -29,7 +31,8 @@ const Person = ( { user, variant, collapsed, noExtend , lock}  ) => {
                 { user.access_level === 25 && <section className="person-status person-access-prefet"></section> }
             <Avatar className="avatar"> 
                 
-                { user.avatar && <img height= {'100%'} src={user.avatar} alt="No img" /> }
+                { user.avatar && <img height= {'100%'} src={appConfig.content_url + user.avatar} alt="No img" /> }
+                <ConsoleLog> {appConfig.content_url + user.avatar}</ConsoleLog>
                 {!user.avatar && user.initials }
              </Avatar>
             

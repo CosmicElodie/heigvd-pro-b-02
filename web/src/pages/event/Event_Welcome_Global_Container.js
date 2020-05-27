@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
+import {appConfig} from "../../config/appConfig"
 import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import { MainContext } from '../../context/MainContext';
@@ -92,7 +93,7 @@ const EventWelcomeGlobalContainer = () => {
 
     //remplit l'état
     useEffect(() => {
-        user && user.house && fetch('http://localhost:8080/event/from_house', {
+        user && user.house && fetch(appConfig.api_url + 'event/from_house', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import {appConfig} from "../../config/appConfig"
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {
@@ -60,7 +61,7 @@ export default function Auditoire() {
     const getTopUsers = (e) => {
         let post_body =
             "&house_id=" + e;
-        fetch('http://localhost:8080/auditoire/yearly', { //pour l'instant yearly envoie tous les users toutes maisons confondues.
+        fetch(appConfig.api_url + 'auditoire/yearly', { //pour l'instant yearly envoie tous les users toutes maisons confondues.
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -106,7 +107,7 @@ export default function Auditoire() {
     }
 
     const displayHouse = (name, topUser) => {
-        let imagePath = 'http://localhost:8080/content/' + name + '.png';
+        let imagePath = appConfig.content_url + name + '.png';
 
         return (
 

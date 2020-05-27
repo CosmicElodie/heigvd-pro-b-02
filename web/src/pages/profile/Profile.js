@@ -8,6 +8,8 @@ import Modal from '@material-ui/core/Modal';
 import { useInput } from '../../hooks/input';
 import { DropzoneDialog } from 'material-ui-dropzone'
 import "../../css/Profile.css";
+import {appConfig} from "../../config/appConfig"
+
 
 
 
@@ -53,7 +55,7 @@ export default function ModalProfile() {
 
   useEffect(() => {
     if(user){
-     user.house && setHouseBanner('url(\'http://localhost:8080/content/' + user.house.name + '.png\')') 
+     user.house && setHouseBanner('url(\''+ appConfig.content_url  + user.house.name + '.png\')') 
      user.user_id && getUserInfo() }
   }, [user]);
 
@@ -63,7 +65,7 @@ export default function ModalProfile() {
   const getUserInfo = (e) => {
     let post_body =
       "&user_id=" + user.user_id;
-    fetch('http://localhost:8080/profile/all', {
+    fetch(appConfig.api_url + 'profile/all', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -83,7 +85,7 @@ export default function ModalProfile() {
       "&avatar=" + img.data;
 
 
-    fetch('http://localhost:8080/profile/update_avatar', {
+    fetch(appConfig.api_url + 'profile/update_avatar', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -120,7 +122,7 @@ export default function ModalProfile() {
       "&old_password=" + oldPassword +
       "&new_password=" + newPassword
 
-    fetch('http://localhost:8080/profile/update_password', {
+    fetch(appConfig.api_url + 'profile/update_password', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -234,7 +236,7 @@ export default function ModalProfile() {
       <Grid container spacing={2} direction="row" justify="space-between" alignItems="stretch">
         <Grid item xs={12}>
           <center>
-            {user && user.house && <img src={'http://localhost:8080/content/' + user.house.name + '.png'} width="400px" />}
+            {user && user.house && <img src={appConfig.content_url + user.house.name + '.png'} width="400px" />}
           </center>
         </Grid>
 
@@ -311,7 +313,7 @@ export default function ModalProfile() {
                 <IconButton aria-label="edit" size="small" onClick={handlePPEditOpen}>
                   {
                     userInfo && userInfo.avatar &&
-                    <Avatar className={classes.contour} src={userInfo.avatar}>
+                    <Avatar className={classes.contour} src={appConfig.content_url + userInfo.avatar}>
                     </Avatar>
                   }
 

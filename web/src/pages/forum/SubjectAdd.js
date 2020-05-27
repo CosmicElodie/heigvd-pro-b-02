@@ -3,7 +3,8 @@ import { Icon, Button, TextField, Dialog, DialogActions, DialogContent, DialogTi
 import { useInput } from '../../hooks/input';
 import { searchForumByID } from './Utility';
 import { ForumContext } from '../../context/ForumContext';
-import { MainContext, cleanChars } from '../../context/MainContext';
+import { MainContext, cleanChars } from '../../context/MainContext';import {appConfig} from "../../config/appConfig"
+
 
 const SubjectAdd = ( { is_open, handleClose } ) => {
     /*
@@ -22,7 +23,7 @@ const SubjectAdd = ( { is_open, handleClose } ) => {
             return;
         }
         
-        fetch('http://localhost:8080/forum/insert_subject', {
+        fetch(appConfig.api_url + 'forum/insert_subject', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

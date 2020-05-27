@@ -9,7 +9,8 @@ import SubjectDelete from './SubjectDelete';
 import { ForumContext } from '../../context/ForumContext';
 import { MainContext, cleanChars } from '../../context/MainContext';
 import AutosizeInput from 'react-input-autosize';
-import { getSubjectByID, traverseForums } from './Utility';
+import { getSubjectByID, traverseForums } from './Utility';import {appConfig} from "../../config/appConfig"
+
 
 
 const SubjectList = ( ) => {
@@ -133,7 +134,7 @@ const SubjectDetails = ( { // Component local non-exporté
     const { value, setValue, bind:bindSubject } = useInput();
 
     const handleSubjectEditOkClick = useCallback(( idx, forum_subject_id ) => {
-        fetch('http://localhost:8080/forum/update_subject', {
+        fetch(appConfig.api_url + 'forum/update_subject', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

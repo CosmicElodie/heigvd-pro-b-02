@@ -6,6 +6,8 @@ import {
   CssBaseline,
   Grid,TextField,MenuItem
 } from '@material-ui/core';
+import {appConfig} from "../../config/appConfig"
+
 
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -27,7 +29,7 @@ export default function GlobalStats() {
   const getHouseInfo = (e) => {
     let post_body =
       "&house_id=" + e;
-    fetch('http://localhost:8080/house/detail', {
+    fetch(appConfig.api_url + 'house/detail', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

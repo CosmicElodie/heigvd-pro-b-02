@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import { makeStyles, Card, CardContent, Typography, Avatar, Grid, Button, } from '@material-ui/core';
 import { MainContext } from '../../context/MainContext';
 import "../../css/Houses.css";
+import {appConfig} from "../../config/appConfig"
+
 
 import MUIDataTable from "mui-datatables";
 import moment from 'moment';
@@ -73,7 +75,7 @@ export default function ModalProfile() {
   const getHouseInfo = (e) => {
     let post_body =
       "&house_id=" + e;
-    fetch('http://localhost:8080/house/detail', {
+    fetch(appConfig.api_url + 'house/detail', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -92,7 +94,7 @@ export default function ModalProfile() {
       "&house_id=" + e +
       "&nbPosts= " + 5;
 
-    fetch('http://localhost:8080/house/latestPost', {
+    fetch(appConfig.api_url + 'house/latestPost', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -109,7 +111,7 @@ export default function ModalProfile() {
     if (user && user.house) {
       getHouseInfo(user.house.house_id);
       getLatestPost(user.house.house_id);
-      setHouseBanner('url(\'http://localhost:8080/content/' + user.house.name + '.png\')');
+      setHouseBanner('url(\''+ appConfig.content_url + user.house.name + '.png\')');
       setHouseColor(chooseFontHouseColor(user.house.house_id));
       setHouseBgColor(chooseBackgroundHouseColor(user.house.house_id));
     }
@@ -148,7 +150,7 @@ export default function ModalProfile() {
       {/*IMAGE ORIENTATION + TITRE */}
       <Grid item xs={12}>
         <h1 class="house-title">
-          {user && user.house && <img src={"http://localhost:8080/content/" + user.house.name + ".png"} width="450px" alt="" />}
+          {user && user.house && <img src={appConfig.content_url  + user.house.name + ".png"} width="450px" alt="" />}
           <br />
           {houseInfo && houseInfo.name.toUpperCase()}
           <br />
@@ -204,7 +206,7 @@ export default function ModalProfile() {
               <center>
                 <Button size="small" onClick={() => handlePersonClick(houseInfo.top_user)} >
                   <Avatar className={classes.large}>
-                    {<img height={'100%'} src={houseInfo.top_user.avatar} alt={houseInfo.top_user.initials} />}
+                    {<img height={'100%'} src={appConfig.content_url + houseInfo.top_user.avatar} alt={houseInfo.top_user.initials} />}
                   </Avatar>
                 </Button></center>
             }

@@ -1,5 +1,6 @@
 import React, { useContext, useCallback } from 'react';
 import { MainContext } from '../../context/MainContext';
+import {appConfig} from "../../config/appConfig"
 import { useInput } from '../../hooks/input';
 import { styled } from '@material-ui/core/styles';
 import {
@@ -121,7 +122,7 @@ export default function Event_Create() {
             "&city=" + city +
             "&house_id=" + (house_id.length ? parseInt(house_id) : 0);
 
-        fetch('http://localhost:8080/event/insert_event', {
+        fetch(appConfig.api_url + 'event/insert_event', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

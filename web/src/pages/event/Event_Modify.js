@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Popover from '@material-ui/core/Popover';
 
 import { useHistory } from "react-router-dom";
-
+import {appConfig} from "../../config/appConfig"
 import Button from '@material-ui/core/Button';
 
 import Card from '@material-ui/core/Card';
@@ -130,7 +130,7 @@ export default function Event_Modify() {
             "&address=" + address +
             "&house_id=" + house_id;
 
-        fetch('http://localhost:8080/event/update_event', {
+        fetch(appConfig.api_url + 'event/update_event', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
