@@ -9,6 +9,7 @@ import Event_Display from '../pages/event/Event_Display';
 import Event_Modify from '../pages/event/Event_Modify';
 import Event_List from '../pages/event/Event_List';
 
+
 import Forum from '../pages/forum/Forum';
 import { ForumProvider } from '../context/ForumContext';
 import { EventProvider } from '../context/EventContext';
@@ -21,10 +22,10 @@ import HouseKeeping from '../pages/HouseKeeping';
 import Menu from './Menu';
 import Palmares from '../pages/Palmares';
 import Profile from '../pages/profile/Profile';
+import ModalProfile from '../pages/profile/ModalProfile';
 import Rules from '../pages/Rules';
 import ShowProfile from './ShowProfile';
 import User from './User';
-
 
 
 import '../css/App.css';
@@ -55,7 +56,7 @@ const AppLayout = () => {
                     <Route path="/profile" component={Profile} />
                     <Route path="/house_home" component={Houses} />
                     <Route path="/housekeeping" component={HouseKeeping} />
-                    <Route path="/test" component={Houses} />
+                    <Route path="/test" component={ModalProfile} />
                     <Route path="/forum"><ForumProvider><Forum /></ForumProvider></Route>
                     <Route path="*" component={() => "404 NOT FOUND"} />
                 </Switch>
