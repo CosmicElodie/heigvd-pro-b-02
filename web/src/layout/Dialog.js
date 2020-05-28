@@ -52,6 +52,18 @@ const Dialog = () => {
             }
 
             {
+                dialog && dialog.singup_password_insufficient_length &&
+                <Snackbar
+                    open={dialog.singup_password_insufficient_length.is_open}
+                    onClose={() => handleClose({ singup_password_insufficient_length: { is_open: false } })}
+                    autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Password trop court!
+                    </Alert>
+                </Snackbar>
+            }
+
+            {
                 dialog && dialog.user_created &&
                 <Snackbar
                     open={dialog.user_created.is_open}

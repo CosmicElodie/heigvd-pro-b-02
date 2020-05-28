@@ -213,15 +213,15 @@ public class EventController {
                               @RequestParam(value = "difficulty", required = false) Integer difficulty,
                               @RequestParam(value = "price", required = false) Double price,
                               @RequestParam(value = "battleroyal", required = false) Integer battleroyale,
-                              @RequestParam("attendees_min") int attendees_min,
-                              @RequestParam("attendees_max") int attendees_max,
+                              @RequestParam("attendees_min") Integer attendees_min,
+                              @RequestParam("attendees_max") Integer attendees_max,
                               @RequestParam("date_begin") String str_date_begin,
                               @RequestParam("date_end") String str_date_end,
                               @RequestParam("deadline_reservation") String str_deadline_reservation,
                               @RequestParam("location") String location,
                               @RequestParam("no") String no,
                               @RequestParam("street") String street,
-                              @RequestParam("postal_code") int postal_code,
+                              @RequestParam("postal_code") Integer postal_code,
                               @RequestParam("city") String city,
                               @RequestParam(value = "house_id", required = false) Integer house_id)
             throws SQLException {
@@ -234,23 +234,19 @@ public class EventController {
         Timestamp date_end;
         Timestamp deadline_reservation;
 
-        String patternString = "[A-Za-z0-9àèéêïëüùÿßç\\'\\(\\)\\.\\-\\,\\ ]*";
-        Pattern pattern = Pattern.compile(patternString);
-        Matcher matcher = pattern.matcher(name);
-
-        /*
-        if(!matcher.matches()) {
-            System.out.println("test1");
-
-            return Utils.errorJSONObjectBuilder("illegal_character").build().toString();
+        if(attendees_min < 2) {
+            return Utils.errorJSONObjectBuilder("error_minimum_two_participants").build().toString();
         }
-        System.out.println("test3");
 
-        matcher = pattern.matcher(description);
-        if(!matcher.matches()) {
-            return Utils.errorJSONObjectBuilder("illegal_character").build().toString();
+        if(name.length() <= 0 ||description.length() <= 0 || attendees_max <= 0 || attendees_min <= 0 || location.length() <= 0 ||
+                no.length() <= 0 || street.length() <= 0 || postal_code <= 0 || city.length() <= 0)
+        {
+            return Utils.errorJSONObjectBuilder("error_empty_information").build().toString();
         }
-        */
+
+        if (description.length() >= 500) {
+            return Utils.errorJSONObjectBuilder("incorrect_input_length").build().toString();
+        }
 
         try {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -260,21 +256,6 @@ public class EventController {
 
         } catch(ParseException e) {
             return Utils.errorJSONObjectBuilder("incorrect_date_format").build().toString();
-        }
-
-        if (description.length() >= 500) {
-            return Utils.errorJSONObjectBuilder("incorrect_input_length").build().toString();
-        }
-
-        if(name.length() <= 0 ||description.length() <= 0 || attendees_max <= 0 || attendees_min <= 0 || location.length() <= 0 ||
-                no.length() <= 0 || street.length() <= 0 || postal_code <= 0 || city.length() <= 0)
-        {
-            return Utils.errorJSONObjectBuilder("error_empty_information").build().toString();
-        }
-
-
-        if(attendees_min < 2) {
-            return Utils.errorJSONObjectBuilder("error_minimum_two_participants").build().toString();
         }
 
         if (attendees_min > attendees_max) {
@@ -289,7 +270,7 @@ public class EventController {
             return Utils.errorJSONObjectBuilder("error_min_max_between_dateBegin_deadline").build().toString();
         }
 
-        if (price < 0) {
+        if (price < 0 || price == null) {
             return Utils.errorJSONObjectBuilder("error_price_below_zero").build().toString();
         }
 
@@ -713,7 +694,7 @@ public class EventController {
 
             if (date_begin.after(event.getTimestamp("date_end"))) {
                 return Utils.errorJSONObjectBuilder("error_dateBegin_after_dateEnd").build().toString();
-            } else if (date_begin.before(event.getTimestamp("date_end"))) {
+            } else if (date_begin.before(event.getTimestamp("deadline_reservation"))) {
                 return Utils.errorJSONObjectBuilder("error_deadline_after_dateBegin").build().toString();
             }
         }
