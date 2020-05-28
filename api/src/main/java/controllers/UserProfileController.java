@@ -111,8 +111,7 @@ public class UserProfileController {
     @PostMapping("profile/update_avatar")
     public String updateUserAvatar(@RequestParam("user_id") int user_id,
                                    @RequestParam("img_name") String img_name,
-                                   @RequestParam("avatar") String img,
-                                   @RequestParam("link") String link
+                                   @RequestParam("avatar") String img
     ) throws SQLException {
 
 
@@ -153,7 +152,7 @@ public class UserProfileController {
             return responseObject.build().toString();
         }
 
-        String avatar = link + img_name + extension;
+        String avatar = img_name + extension;
 
         System.out.println(avatar);
         /*****************************************************************************/
