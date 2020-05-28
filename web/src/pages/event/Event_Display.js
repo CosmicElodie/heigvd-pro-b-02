@@ -103,7 +103,7 @@ export default function Event() {
 
     //Affiche le bouton "Supprimer"
     function printDeleteButton(permission) {
-        if (permission === 75 || permission === 25) {
+        if (permission === 75 || permission === 50) {
             return <Button variant="contained" size="small" color="primary" onClick={deleteEvent} className={classes.margin}> Supprimer </Button>
         }
 
