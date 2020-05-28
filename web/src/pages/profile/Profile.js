@@ -96,7 +96,7 @@ export default function ProfilePage(props) {
 
   const submitImage = (e) => {
     let post_body =
-      "&user_id=" + user.email +
+      "&user_id=" + user.user_id  +
       "&img_name=" + img.name +
       "&avatar=" + img.data +
       "&link=" + appConfig.content_url;
@@ -195,7 +195,7 @@ export default function ProfilePage(props) {
     const reader = new FileReader()
     reader.addEventListener("load", () => {
       setImg({
-        name: user.lastname,
+        name: user.email,
         data: reader.result
       })
       setUser((latest) => ({ ...latest, avatar: reader.result }))
