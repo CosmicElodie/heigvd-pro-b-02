@@ -15,11 +15,19 @@ const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battle
         let eventType;
         eventType = battleroyale ? 'individual' : 'global';
         if(house && house.house_id) eventType = 'house';
+
+        let post_data = 
+            "&event_id=" + parseInt(event_id) + 
+            "&difficulty=" + ( difficulty ? difficulty : -1 ) +
+            "&first_id=" + parseInt(firstPlace) + 
+            ( Number.isInteger(secondPlace) ? "&second_id=" + parseInt(secondPlace) : "" ) +
+            ( Number.isInteger(thirdPlace) ? "&third_id=" + parseInt(thirdPlace) : "" )            
+
         fetch(appConfig.api_url + 'event/result/'+eventType, {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: "&first_id=" + parseInt(firstPlace) + "&second_id=" + parseInt(secondPlace) + "&third_id=" + parseInt(thirdPlace) + "&event_id=" + parseInt(event_id) + "&difficulty=" + ( difficulty ? difficulty : -1 )
+            body: post_data
         })
         .then(response => response.json())
         .then(({status, dialog_id}) => {
@@ -54,7 +62,7 @@ const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battle
                     endIcon={<Icon>send</Icon>}
                     onClick={ handleAccountPointsClick } 
                 >
-                    Clôturer2
+                    Clôturer
                 </Button>
             </DialogActions>
         </Dialog>
