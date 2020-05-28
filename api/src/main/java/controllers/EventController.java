@@ -188,9 +188,6 @@ public class EventController {
     public String eventFromHouseList(@RequestParam("house_id") int house_id, @RequestParam("limit_nb") int limit_nb) throws SQLException {
 
         String result;
-
-        System.out.println(house_id);
-
         if(house_id < 0)
             return Utils.errorJSONObjectBuilder("incorrect_house_id").build().toString();
 
@@ -275,6 +272,11 @@ public class EventController {
             return Utils.errorJSONObjectBuilder("error_empty_information").build().toString();
         }
 
+
+        if(attendees_min < 2) {
+            return Utils.errorJSONObjectBuilder("error_minimum_two_participants").build().toString();
+        }
+
         if (attendees_min > attendees_max) {
             return Utils.errorJSONObjectBuilder("error_min_max_attendees_length").build().toString();
         }
@@ -298,7 +300,7 @@ public class EventController {
         if(is_competitive == 1 && difficulty == null) {
             difficulty = 1;
         }
-        System.out.println();
+
 
         Date currentDate = new Date(System.currentTimeMillis());
         if(currentDate.after(date_begin) || currentDate.after(date_end) || currentDate.after(deadline_reservation)) {
@@ -483,7 +485,7 @@ public class EventController {
 
     @PostMapping("/event/update/setName")
     public String updateName(@RequestParam(value = "event_id") int event_id,
-                              @RequestParam("name") String name) throws SQLException {
+                             @RequestParam("name") String name) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
@@ -507,7 +509,7 @@ public class EventController {
 
     @PostMapping("/event/update/setDescription")
     public String updateEventDescription(@RequestParam(value = "event_id") int event_id,
-                              @RequestParam("description") String description) throws SQLException {
+                                         @RequestParam("description") String description) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
@@ -531,13 +533,14 @@ public class EventController {
 
     @PostMapping("/event/update/setIsCompetitive")
     public String updateEventIsCompetitive(@RequestParam(value = "event_id") int event_id,
-                              @RequestParam(value = "is_competitive", required = false) Integer is_competitive) throws SQLException {
+                                           @RequestParam(value = "is_competitive", required = false) Integer is_competitive) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
         try (Connection conn = dataSource.getConnection()) {
             CallableStatement updateEvent = conn.prepareCall("{call DEV.updateEventIsCompetitive(?,?)}");
             updateEvent.setInt(1, event_id);
+
             if (is_competitive == null) {
                 updateEvent.setNull(2, Types.INTEGER);
             } else {
@@ -552,7 +555,7 @@ public class EventController {
 
     @PostMapping("/event/update/setDifficulty")
     public String updateEventDifficulty(@RequestParam(value = "event_id") int event_id,
-                              @RequestParam(value = "difficulty", required = false) Integer difficulty) throws SQLException {
+                                        @RequestParam(value = "difficulty", required = false) Integer difficulty) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
@@ -574,7 +577,7 @@ public class EventController {
 
     @PostMapping("/event/update/setPrice")
     public String updateEventPrice(@RequestParam(value = "event_id") int event_id,
-                              @RequestParam(value = "price", required = false) Double price) throws SQLException {
+                                   @RequestParam(value = "price", required = false) Double price) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
@@ -596,7 +599,7 @@ public class EventController {
 
     @PostMapping("/event/update/setBattleroyale")
     public String updateEventBattleroyale(@RequestParam(value = "event_id") int event_id,
-                              @RequestParam(value = "battleroyal", required = false) Integer battleroyale) throws SQLException {
+                                          @RequestParam(value = "battleroyal", required = false) Integer battleroyale) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
@@ -618,7 +621,7 @@ public class EventController {
 
     @PostMapping("/event/update/setAttendeesMin")
     public String updateEventAttendeesMin(@RequestParam(value = "event_id") int event_id,
-                              @RequestParam("attendees_min") int attendees_min) throws SQLException {
+                                          @RequestParam("attendees_min") int attendees_min) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
@@ -651,7 +654,7 @@ public class EventController {
 
     @PostMapping("/event/update/setAttendeesMax")
     public String updateEventAttendeesMax(@RequestParam(value = "event_id") int event_id,
-                              @RequestParam("attendees_max") int attendees_max) throws SQLException {
+                                          @RequestParam("attendees_max") int attendees_max) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
@@ -689,7 +692,7 @@ public class EventController {
 
     @PostMapping("/event/update/setDateBegin")
     public String updateEventDateBegin(@RequestParam(value = "event_id") int event_id,
-                              @RequestParam("date_begin") String str_date_begin) throws SQLException {
+                                       @RequestParam("date_begin") String str_date_begin) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
@@ -729,7 +732,7 @@ public class EventController {
 
     @PostMapping("/event/update/setDateEnd")
     public String updateEventDateEnd(@RequestParam(value = "event_id") int event_id,
-                              @RequestParam("date_end") String str_date_end) throws SQLException {
+                                     @RequestParam("date_end") String str_date_end) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
@@ -769,7 +772,7 @@ public class EventController {
 
     @PostMapping("/event/update/setDeadlineReservation")
     public String updateEventDeadlineReservation(@RequestParam(value = "event_id") int event_id,
-                              @RequestParam("deadline_reservation") String str_deadline_reservation) throws SQLException {
+                                                 @RequestParam("deadline_reservation") String str_deadline_reservation) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
@@ -809,7 +812,7 @@ public class EventController {
 
     @PostMapping("/event/update/setLocation")
     public String updateEventLocation(@RequestParam(value = "event_id") int event_id,
-                              @RequestParam("location") String location) throws SQLException {
+                                      @RequestParam("location") String location) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
@@ -831,7 +834,7 @@ public class EventController {
 
     @PostMapping("/event/update/setAddress")
     public String updateEventAddress(@RequestParam(value = "event_id") int event_id,
-                              @RequestParam("address") String address) throws SQLException {
+                                     @RequestParam("address") String address) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
@@ -853,7 +856,7 @@ public class EventController {
 
     @PostMapping("/event/update/setHouseId")
     public String updateEventHouseId(@RequestParam(value = "event_id") int event_id,
-                              @RequestParam(value = "house_id", required = false) Integer house_id) throws SQLException {
+                                     @RequestParam(value = "house_id", required = false) Integer house_id) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
@@ -880,7 +883,7 @@ public class EventController {
     @PostMapping("/event/join_event")
     public String joinEvent(@RequestParam("user_id") int user_id,
                             @RequestParam("event_id") int event_id
-                            ) throws SQLException {
+    ) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
@@ -904,8 +907,8 @@ public class EventController {
                     "SELECT upe.user_id FROM event" +
                             " INNER JOIN user_participate_event upe on event.event_id = upe.event_id" +
                             " WHERE upe.user_id = "+ user_id +
-                                " AND (event.date_begin BETWEEN '" + event.getTimestamp("date_begin") + "' AND '" + event.getTimestamp("date_end") + "'" +
-                                        " OR event.date_end BETWEEN '" + event.getTimestamp("date_begin") + "' AND '" + event.getTimestamp("date_end") + "');"
+                            " AND (event.date_begin BETWEEN '" + event.getTimestamp("date_begin") + "' AND '" + event.getTimestamp("date_end") + "'" +
+                            " OR event.date_end BETWEEN '" + event.getTimestamp("date_begin") + "' AND '" + event.getTimestamp("date_end") + "');"
             ).next()) {
                 return Utils.errorJSONObjectBuilder("already_participating_event_during_time").build().toString();
             }
@@ -976,7 +979,7 @@ public class EventController {
     @PostMapping("/event/result/individual")
     public String eventResultIndividual(@RequestParam("first_id") int first_place,
                                         @RequestParam("second_id") int second_place,
-                                        @RequestParam("third_id") int third_place,
+                                        @RequestParam(value = "third_id", required = false) Integer third_place,
                                         @RequestParam("event_id") int event_id,
                                         @RequestParam("difficulty") int difficulty
     ) throws SQLException {
@@ -987,7 +990,7 @@ public class EventController {
     @PostMapping("/event/result/house")
     public String eventResultHouse(@RequestParam("first_id") int first_place,
                                    @RequestParam("second_id") int second_place,
-                                   @RequestParam("third_id") int third_place,
+                                   @RequestParam(value = "third_id", required = false) Integer third_place,
                                    @RequestParam("event_id") int event_id,
                                    @RequestParam("difficulty") int difficulty
     ) throws SQLException {
@@ -995,25 +998,41 @@ public class EventController {
         return setWinnerPoints(first_place, second_place, third_place, event_id, difficulty);
     }
 
-    private String setWinnerPoints(@RequestParam("first_id") int first_place, @RequestParam("second_id") int second_place,
-                                   @RequestParam("third_id") int third_place, @RequestParam("event_id") int event_id,
+
+    private String setWinnerPoints(@RequestParam("first_id") Integer first_place, @RequestParam("second_id") Integer second_place,
+                                   @RequestParam(value = "third_id", required = false) Integer third_place, @RequestParam("event_id") int event_id,
                                    @RequestParam("difficulty") int difficulty) throws SQLException {
         JsonObjectBuilder responseObject;
-
-        if(first_place == -1 ||second_place  == -1 || third_place == -1) {
-            return Utils.errorJSONObjectBuilder("no_valid_user_id").build().toString();
-        }
-
-        if(first_place == second_place || second_place == third_place || third_place == first_place) {
-            return Utils.errorJSONObjectBuilder("same_winner_in_two_or_more_place").build().toString();
-        }
-
-        String sqlFirstPoint = Utils.getPointsEvents(difficulty, 1);
-        String sqlSecondPoint = Utils.getPointsEvents(difficulty, 2);
-        String sqlThirdPoint = Utils.getPointsEvents(difficulty, 3);
-
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
+
+            String getNbParticipant = "SELECT COUNT(user_id) as result FROM user_participate_event\n" +
+                    "WHERE event_id = " + event_id;
+
+            int nbParticipant = Utils.getSingletonInt(statement, getNbParticipant);
+
+            if(nbParticipant == 2) {
+                if(first_place == -1 ||second_place  == -1) {
+                    return Utils.errorJSONObjectBuilder("no_valid_user_id").build().toString();
+                }
+
+                if(first_place == second_place) {
+                    return Utils.errorJSONObjectBuilder("same_winner_in_two_or_more_place").build().toString();
+                }
+            }
+            if(nbParticipant >= 3) {
+                if((first_place == -1 ||second_place  == -1 || third_place == -1) && nbParticipant > 2) {
+                    return Utils.errorJSONObjectBuilder("no_valid_user_id").build().toString();
+                }
+
+                if(first_place == second_place || second_place == third_place || third_place == first_place) {
+                    return Utils.errorJSONObjectBuilder("same_winner_in_two_or_more_place").build().toString();
+                }
+            }
+
+            String sqlFirstPoint = Utils.getPointsEvents(difficulty, 1);
+            String sqlSecondPoint = Utils.getPointsEvents(difficulty, 2);
+            String sqlThirdPoint = Utils.getPointsEvents(difficulty, 3);
 
             int first_point = Utils.getSingletonInt(statement, sqlFirstPoint);
             int second_point = Utils.getSingletonInt(statement, sqlSecondPoint);
@@ -1029,18 +1048,6 @@ public class EventController {
             firstPlaceProcedure.setInt(3, first_point);
             firstPlaceProcedure.execute();
 
-            CallableStatement secondPlaceProcedure = conn.prepareCall("{CALL insertPointsFromEvent(?, ?, ?)}");
-            secondPlaceProcedure.setInt(1, event_id);
-            secondPlaceProcedure.setInt(2, second_place);
-            secondPlaceProcedure.setInt(3, second_point);
-            secondPlaceProcedure.execute();
-
-            CallableStatement thirdPlaceProcedure = conn.prepareCall("{CALL insertPointsFromEvent(?, ?, ?)}");
-            thirdPlaceProcedure.setInt(1, event_id);
-            thirdPlaceProcedure.setInt(2, third_place);
-            thirdPlaceProcedure.setInt(3, third_point);
-            thirdPlaceProcedure.execute();
-
             CallableStatement setFirstWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
             setFirstWinnerEvent.setInt(1, first_place);
             setFirstWinnerEvent.setNull(2, Types.INTEGER);
@@ -1048,19 +1055,35 @@ public class EventController {
             setFirstWinnerEvent.setInt(4, event_id);
             setFirstWinnerEvent.execute();
 
-            CallableStatement setSecondWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
-            setSecondWinnerEvent.setInt(1, second_place);
-            setSecondWinnerEvent.setNull(2, Types.INTEGER);
-            setSecondWinnerEvent.setInt(3, 2);
-            setSecondWinnerEvent.setInt(4, event_id);
-            setSecondWinnerEvent.execute();
+            if(nbParticipant >= 2) {
+                CallableStatement secondPlaceProcedure = conn.prepareCall("{CALL insertPointsFromEvent(?, ?, ?)}");
+                secondPlaceProcedure.setInt(1, event_id);
+                secondPlaceProcedure.setInt(2, second_place);
+                secondPlaceProcedure.setInt(3, second_point);
+                secondPlaceProcedure.execute();
 
-            CallableStatement setThirdWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
-            setThirdWinnerEvent.setInt(1, third_place);
-            setThirdWinnerEvent.setNull(2, Types.INTEGER);
-            setThirdWinnerEvent.setInt(3, 3);
-            setThirdWinnerEvent.setInt(4, event_id);
-            setThirdWinnerEvent.execute();
+                CallableStatement setSecondWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
+                setSecondWinnerEvent.setInt(1, second_place);
+                setSecondWinnerEvent.setNull(2, Types.INTEGER);
+                setSecondWinnerEvent.setInt(3, 2);
+                setSecondWinnerEvent.setInt(4, event_id);
+                setSecondWinnerEvent.execute();
+            }
+
+            if(nbParticipant >= 3) {
+                CallableStatement thirdPlaceProcedure = conn.prepareCall("{CALL insertPointsFromEvent(?, ?, ?)}");
+                thirdPlaceProcedure.setInt(1, event_id);
+                thirdPlaceProcedure.setInt(2, third_place);
+                thirdPlaceProcedure.setInt(3, third_point);
+                thirdPlaceProcedure.execute();
+
+                CallableStatement setThirdWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
+                setThirdWinnerEvent.setInt(1, third_place);
+                setThirdWinnerEvent.setNull(2, Types.INTEGER);
+                setThirdWinnerEvent.setInt(3, 3);
+                setThirdWinnerEvent.setInt(4, event_id);
+                setThirdWinnerEvent.execute();
+            }
 
             CallableStatement endStatusEvent = conn.prepareCall("{CALL endStatusEvent(?)}");
             endStatusEvent.setInt(1, event_id);
@@ -1073,89 +1096,112 @@ public class EventController {
     }
 
     @PostMapping("/event/result/global")
-    public String eventResultGlobal(@RequestParam("first_id") int first_place,
-                                    @RequestParam("second_id") int second_place,
-                                    @RequestParam("third_id") int third_place,
+    public String eventResultGlobal(@RequestParam("first_id") Integer first_place,
+                                    @RequestParam(value = "second_id", required = false) Integer second_place,
+                                    @RequestParam(value = "third_id", required = false) Integer third_place,
                                     @RequestParam("event_id") int event_id,
                                     @RequestParam("difficulty") int difficulty) throws SQLException {
 
         JsonObjectBuilder responseObject;
 
-
-
-        if(first_place == second_place || second_place == third_place || third_place == first_place) {
-            return Utils.errorJSONObjectBuilder("same_winner_in_two_or_more_place").build().toString();
-        }
-        if(first_place > 5 || first_place < 1 || second_place > 5 || second_place < 1 || third_place > 5 || third_place < 1 ) {
-            return Utils.errorJSONObjectBuilder("house_id_out_of_bonds").build().toString();
-        }
-
         try (Connection conn = dataSource.getConnection()) {
             Statement statement = conn.createStatement();
+            String getNumberHouse = "SELECT COUNT( DISTINCT house_id) as result FROM user_participate_event\n" +
+                    "INNER JOIN user USING(user_id)\n" +
+                    "WHERE event_id = " + event_id;
 
-            int first_point = Utils.getSingletonInt(statement, Utils.getPointsEvents(difficulty, 1));
-            int second_point = Utils.getSingletonInt(statement, Utils.getPointsEvents(difficulty, 2));
-            int third_point = Utils.getSingletonInt(statement, Utils.getPointsEvents(difficulty, 3));
+            int numberHouse = Utils.getSingletonInt(statement, getNumberHouse);
+            System.out.println(numberHouse);
 
-            int nbFirst = Utils.getSingletonInt(statement, Utils.getNbParticipant(first_place, event_id));
-            int nbSecond = Utils.getSingletonInt(statement, Utils.getNbParticipant(second_place, event_id));
-            int nbThird = Utils.getSingletonInt(statement, Utils.getNbParticipant(third_place, event_id));
+            if(numberHouse == 2) {
+                if(first_place == second_place) {
+                    return Utils.errorJSONObjectBuilder("same_winner_in_two_or_more_place").build().toString();
+                }
+                if(first_place > 5 || first_place < 1 || second_place > 5 || second_place < 1) {
+                    return Utils.errorJSONObjectBuilder("house_id_out_of_bonds").build().toString();
+                }
 
-            int pointPerMemberFirst = (int) Math.ceil(first_point/nbFirst);
-            int pointPerMemberSecond = (int) Math.ceil(second_point/nbSecond);
-            int pointPerMemberThird = (int) Math.ceil(third_point/nbThird);
+            } else if (numberHouse >= 3) {
+                if(first_place == second_place || second_place == third_place || third_place == first_place) {
+                    return Utils.errorJSONObjectBuilder("same_winner_in_two_or_more_place").build().toString();
+                }
+
+                if(first_place > 5 || first_place < 1 || second_place > 5 || second_place < 1 || third_place > 5 || third_place < 1 ) {
+                    return Utils.errorJSONObjectBuilder("house_id_out_of_bonds").build().toString();
+                }
+            }
+
+            int first_point, nbFirst, pointPerMemberFirst;
+            int second_point, nbSecond, pointPerMemberSecond;
+            int third_point, nbThird, pointPerMemberThird;
+
+            if(numberHouse >= 1) {
+                first_point = Utils.getSingletonInt(statement, Utils.getPointsEvents(difficulty, 1));
+                nbFirst = Utils.getSingletonInt(statement, Utils.getNbParticipant(first_place, event_id));
+                System.out.println(first_point + " " + nbFirst);
+                pointPerMemberFirst = (int) Math.ceil(first_point/nbFirst);
+
+                CallableStatement firstPlaceProcedure = conn.prepareCall("{CALL insertPointsGroupFromEvent(?, ?, ?)}");
+                firstPlaceProcedure.setInt(1, event_id);
+                firstPlaceProcedure.setInt(2, pointPerMemberFirst);
+                firstPlaceProcedure.setInt(3, first_place);
+                firstPlaceProcedure.execute();
+
+                CallableStatement setFirstWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
+                setFirstWinnerEvent.setNull(1, Types.INTEGER);
+                setFirstWinnerEvent.setInt(2, first_place);
+                setFirstWinnerEvent.setInt(3, 1);
+                setFirstWinnerEvent.setInt(4, event_id);
+                setFirstWinnerEvent.execute();
+            }
+
+            if (numberHouse >= 2) {
+                second_point = Utils.getSingletonInt(statement, Utils.getPointsEvents(difficulty, 2));
+                nbSecond = Utils.getSingletonInt(statement, Utils.getNbParticipant(second_place, event_id));
+                pointPerMemberSecond = (int) Math.ceil(second_point/nbSecond);
+
+                CallableStatement secondPlaceProcedure = conn.prepareCall("{CALL insertPointsGroupFromEvent(?, ?, ?)}");
+                secondPlaceProcedure.setInt(1, event_id);
+                secondPlaceProcedure.setInt(2, pointPerMemberSecond);
+                secondPlaceProcedure.setInt(3, second_place);
+                secondPlaceProcedure.execute();
+
+                CallableStatement setSecondWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
+                setSecondWinnerEvent.setNull(1, Types.INTEGER);
+                setSecondWinnerEvent.setInt(2, second_place);
+                setSecondWinnerEvent.setInt(3, 2);
+                setSecondWinnerEvent.setInt(4, event_id);
+                setSecondWinnerEvent.execute();
+            }
+
+            if(numberHouse >= 3) {
+                third_point = Utils.getSingletonInt(statement, Utils.getPointsEvents(difficulty, 3));
+                nbThird = Utils.getSingletonInt(statement, Utils.getNbParticipant(third_place, event_id));
+                pointPerMemberThird = (int) Math.ceil(third_point/nbThird);
+
+                CallableStatement thirdPlaceProcedure = conn.prepareCall("{CALL insertPointsGroupFromEvent(?, ?, ?)}");
+                thirdPlaceProcedure.setInt(1, event_id);
+                thirdPlaceProcedure.setInt(2, pointPerMemberThird);
+                thirdPlaceProcedure.setInt(3, third_place);
+                thirdPlaceProcedure.execute();
+
+                CallableStatement setThirdWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
+                setThirdWinnerEvent.setNull(1, Types.INTEGER);
+                setThirdWinnerEvent.setInt(2, third_place);
+                setThirdWinnerEvent.setInt(3, 3);
+                setThirdWinnerEvent.setInt(4, event_id);
+                setThirdWinnerEvent.execute();
+            }
 
             CallableStatement pointsParticipation = conn.prepareCall("{CALL insertPointsBasedFromEvent(?)}");
             pointsParticipation.setInt(1, event_id);
             pointsParticipation.execute();
 
-            CallableStatement firstPlaceProcedure = conn.prepareCall("{CALL insertPointsGroupFromEvent(?, ?, ?)}");
-            firstPlaceProcedure.setInt(1, event_id);
-            firstPlaceProcedure.setInt(2, pointPerMemberFirst);
-            firstPlaceProcedure.setInt(3, first_place);
-            firstPlaceProcedure.execute();
-
-            CallableStatement secondPlaceProcedure = conn.prepareCall("{CALL insertPointsGroupFromEvent(?, ?, ?)}");
-            secondPlaceProcedure.setInt(1, event_id);
-            secondPlaceProcedure.setInt(2, pointPerMemberSecond);
-            secondPlaceProcedure.setInt(3, second_place);
-            secondPlaceProcedure.execute();
-
-            CallableStatement thirdPlaceProcedure = conn.prepareCall("{CALL insertPointsGroupFromEvent(?, ?, ?)}");
-            thirdPlaceProcedure.setInt(1, event_id);
-            thirdPlaceProcedure.setInt(2, pointPerMemberThird);
-            thirdPlaceProcedure.setInt(3, third_place);
-            thirdPlaceProcedure.execute();
-
-            CallableStatement setFirstWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
-
-            setFirstWinnerEvent.setNull(1, Types.INTEGER);
-            setFirstWinnerEvent.setInt(2, first_place);
-            setFirstWinnerEvent.setInt(3, 1);
-            setFirstWinnerEvent.setInt(4, event_id);
-            setFirstWinnerEvent.execute();
-
-            CallableStatement setSecondWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
-            setSecondWinnerEvent.setNull(1, Types.INTEGER);
-            setSecondWinnerEvent.setInt(2, second_place);
-            setSecondWinnerEvent.setInt(3, 2);
-            setSecondWinnerEvent.setInt(4, event_id);
-            setSecondWinnerEvent.execute();
-
-            CallableStatement setThirdWinnerEvent = conn.prepareCall("{CALL insertWinnerEvent(?, ?, ?, ?)}");
-            setThirdWinnerEvent.setNull(1, Types.INTEGER);
-            setThirdWinnerEvent.setInt(2, third_place);
-            setThirdWinnerEvent.setInt(3, 3);
-            setThirdWinnerEvent.setInt(4, event_id);
-            setThirdWinnerEvent.execute();
-
             CallableStatement endStatusEvent = conn.prepareCall("{CALL endStatusEvent(?)}");
             endStatusEvent.setInt(1, event_id);
             endStatusEvent.execute();
 
-
             responseObject = Utils.successJSONObjectBuilder("points_from_group_event_added", null);
-
         }
         return responseObject.build().toString();
     }
