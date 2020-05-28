@@ -148,6 +148,7 @@ export default function Event_Create() {
                     resetNo();
                     resetPostalCode();
                     resetCity();
+                    window.setTimeout(function () { redirectPage("/event_list"); window.location.reload(); }, 3000)
                 }
 
                 setDialog
@@ -156,7 +157,7 @@ export default function Event_Create() {
                             is_open: true
                         }
                     });
-                    window.setTimeout(function () { redirectPage("/event_list"); window.location.reload(); }, 3000)
+                    
                 //{ window.location.reload(false)}
                 //{ redirectPage("/event_list") }
             });
