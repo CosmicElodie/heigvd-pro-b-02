@@ -177,7 +177,7 @@ export default function Event_Modify() {
     }
 
     function editIsCompetitive() {
-        let post_body = "&event_id=" + parseInt(current.event_id) + "&is_competitive=" + parseInt((is_competitive ? current.is_competitive : 0));
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&is_competitive=" + parseInt((is_competitive ? is_competitive : current.is_competitive));
         fetch(appConfig.api_url + 'event/update/setIsCompetitive', {
             method: 'POST',
             credentials: 'include',
@@ -469,7 +469,7 @@ export default function Event_Modify() {
             "&deadline_reservation=" + (deadline_reservation ? deadline_reservation : current.deadline_reservation) +
             "&location=" + (location ? location : current.location) +
             "&address=" + (address ? address : current.address) +
-            "&house_id=" + (user.house_id ? user.house_id : 0);
+            "&house_id=" + (house_id ? house_id : 0);
 
         fetch(appConfig.api_url + 'event/update_event', {
             method: 'POST',
@@ -513,7 +513,7 @@ export default function Event_Modify() {
             case 2: return "Moyen";
             case 3: return "Difficile";
             case 4: return "Extrême";
-            default: return "Facile;"
+            default: return "Facile"
         }
     }
 
