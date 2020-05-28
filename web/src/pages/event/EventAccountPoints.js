@@ -19,9 +19,11 @@ const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battle
         let post_data = 
             "&event_id=" + parseInt(event_id) + 
             "&difficulty=" + ( difficulty ? difficulty : -1 ) +
-            "&first_id=" + parseInt(firstPlace) + 
-            ( Number.isInteger(secondPlace) ? "&second_id=" + parseInt(secondPlace) : "" ) +
-            ( Number.isInteger(thirdPlace) ? "&third_id=" + parseInt(thirdPlace) : "" )            
+            "&first_id=" + parseInt(firstPlace) ;
+
+            post_data += ( Number.isInteger(secondPlace) ? "&second_id=" + parseInt(secondPlace) : "" );
+            post_data += ( Number.isInteger(thirdPlace) ? "&third_id=" + parseInt(thirdPlace) : "" );
+ 
 
         fetch(appConfig.api_url + 'event/result/'+eventType, {
             method: 'POST',
