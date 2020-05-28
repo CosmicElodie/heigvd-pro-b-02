@@ -147,6 +147,7 @@ const SubjectView = ( { creator:subject_creator, resolved:subject_resolved, foru
                             <Person user = { post.creator } />
                             {( 
                                     post.creator.user_id === user.user_id || 
+                                    user.user_id == subject_creator.user_id ||
                                     user.access_level >= 50 || 
                                     ( user.access_level === 25 && user.house.house_id === current.selected.house_id )
                              ) && <section class="post-actions forum-post-actions" onClick={ (event) => handleActionsClick(event, post, index) }></section> }

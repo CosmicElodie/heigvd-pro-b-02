@@ -2,9 +2,6 @@ import React, {useContext} from 'react';
 import { MainContext } from '../context/MainContext';
 import { Avatar, Typography } from '@material-ui/core';
 import {appConfig} from '../config/appConfig'
-import ConsoleLog from "../ConsoleLog";
-
-
 
 const Person = ( { user, variant, collapsed, noExtend , lock}  ) => {
     
@@ -32,7 +29,6 @@ const Person = ( { user, variant, collapsed, noExtend , lock}  ) => {
             <Avatar className="avatar"> 
                 
                 { user.avatar && <img height= {'100%'} src={appConfig.content_url + user.avatar} alt={user.initials} /> }
-                <ConsoleLog> {appConfig.content_url + user.avatar}</ConsoleLog>
                 {!user.avatar && user.initials }
              </Avatar>
             
