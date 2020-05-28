@@ -20,12 +20,29 @@ Development team:
 | Stefan Teofanovic 					  | stefan.teofanovic@heig-vd.ch | Ovich |
 
 ## Dependencies
-...
+###
+Running the react website requires you to havethese programs installed beforehand
+
+- Maven
+- NodeJS
+
+IntelliJ can be used instead of maven
 
 ## Build and install
+###
+1. Clone the repository
+2. Open a terminal window in the "api" folder
+3. Run the api with Maven using the following command (preferably in backgroud):
+	mvn clean spring-boot:run
+4. Open an other terminal (if you didn't run the previous command in background) and browse to "/web/src" and run the following commands:
+	npm install
+	npm start
 
-...
-
+5. if everything's done right, 
+	the website should run on http://localhost:3000,
+	and the API on http://localhost:8080,
+	by default.
+	
 ## Run
 
 ...
