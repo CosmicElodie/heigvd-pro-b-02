@@ -66,4 +66,20 @@ public class RankingController {
         }
         return result;
     }
+
+
+    @PostMapping("/getuser")
+    public String getUser(@RequestParam("user_id") int user_id) throws SQLException {
+
+        String result;
+
+        try (Connection conn = dataSource.getConnection()) {
+            Statement stmt = conn.createStatement();
+            ResultSet userId = stmt.executeQuery("select DEV.getUserJSON(" + user_id + ") AS user_result");
+
+            userId.next();
+            result = userId.getString("user_result");
+        }
+        return result;
+    }
 }

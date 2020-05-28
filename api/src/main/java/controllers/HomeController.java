@@ -23,25 +23,4 @@ public class HomeController {
         return "index.html";
     }
 
-    @Autowired
-    private DataSource dataSource;
-
-    @GetMapping("/home/user")
-    public String getUser() throws SQLException {
-
-        JsonObjectBuilder responseObject;
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int user_id = user.getId();
-        String result;
-
-
-        try (Connection conn = dataSource.getConnection()) {
-            Statement stmt = conn.createStatement();
-            ResultSet userId = stmt.executeQuery("select DEV.getUserJSON(" + user_id + ") AS user_result");
-
-            userId.next();
-            result = userId.getString("user_result");
-        }
-        return result;
-    }
 }
