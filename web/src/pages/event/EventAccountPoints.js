@@ -38,7 +38,7 @@ const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battle
                     is_open: true
                 }
             });
-            if(status === 'success') handleClose();
+            if(status === 'ok') handleClose();
         });  
     }
 
