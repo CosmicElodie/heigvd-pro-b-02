@@ -157,34 +157,34 @@ const HouseSelector = ({ event_id, bindFirstPlace, bindSecondPlace, bindThirdPla
                     
                 </Select>
             </FormControl> 
-            <FormControl variant="outlined" style={ styles.DropDown }>
+            { participants && participants.length > 1 && <FormControl variant="outlined" style={ styles.DropDown }>
                 <Select
                     native
                     { ...bindSecondPlace }
                 >
                     <option value={-1}>Choisir la deuxième place</option>
                     {
-                    participants && participants.length > 1 && participants.map(( { house_id, name } ) => 
+                    participants.map(( { house_id, name } ) => 
                         <option value={ house_id }>{ name } </option>
                     )
                     } 
                     
                 </Select>
-            </FormControl> 
-            <FormControl variant="outlined" style={ styles.DropDown }>
+                </FormControl> }
+                {  participants && participants.length > 2 && <FormControl variant="outlined" style={ styles.DropDown }>
                 <Select
                     native
                     { ...bindThirdPlace }
                 >
                     <option value={-1}>Choisir la troisième place</option>
                     {
-                    participants && participants.length > 2 && participants.map(( { house_id, name } ) => 
+                    participants.map(( { house_id, name } ) => 
                         <option value={ house_id }>{ name } </option>
                     )
                     } 
                     
                 </Select>
-            </FormControl> 
+                </FormControl> }
                 
         </Fragment>
         )
