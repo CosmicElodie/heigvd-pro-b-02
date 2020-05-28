@@ -98,8 +98,7 @@ export default function ProfilePage(props) {
     let post_body =
       "&user_id=" + user.user_id  +
       "&img_name=" + img.name +
-      "&avatar=" + img.data +
-      "&link=" + appConfig.content_url;
+      "&avatar=" + img.data;
 
 
     fetch(appConfig.api_url + 'profile/update_avatar', {
