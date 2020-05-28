@@ -58,7 +58,7 @@ const Dialog = () => {
                     onClose={() => handleClose({ singup_password_insufficient_length: { is_open: false } })}
                     autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
-                        Password trop court!
+                        Votre mot de passe nécessite 8 caractères minimum.
                     </Alert>
                 </Snackbar>
             }

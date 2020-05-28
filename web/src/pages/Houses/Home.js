@@ -154,7 +154,7 @@ export default function ModalProfile() {
       {/*IMAGE ORIENTATION + TITRE */}
       <Grid item xs={12}>
         <h1 class="house-title">
-          {user && user.house && <img src={appConfig.content_url  + user.house.name + ".png"} width="450px" alt="" />}
+          {user && user.house && <img src={appConfig.content_url   + 'b-' + user.house.name + ".png"} width="950px" alt="" />}
           <br />
           {houseInfo && houseInfo.name.toUpperCase()}
           <br /><br />
