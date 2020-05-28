@@ -6,7 +6,7 @@ import { styled } from '@material-ui/core/styles';
 import {
     Typography, Popover, Button,
     Card, CardActions, CardContent, CardMedia,
-    CssBaseline, Grid, FormControl, TextField, MenuItem
+    Grid, FormControl, TextField, MenuItem
 } from '@material-ui/core';
 
 import { useHistory } from "react-router-dom";
@@ -179,7 +179,6 @@ export default function Event_Create() {
     return (
 
         <main>
-            <CssBaseline />
             <Card className={classes.card}>
                 <CardMedia
                     className={classes.cardMedia}

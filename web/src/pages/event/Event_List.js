@@ -11,7 +11,6 @@ import {
     Button,
     Card,
     CardContent,
-    CssBaseline,
     Grid,
 } from '@material-ui/core';
 
@@ -116,7 +115,6 @@ export default function Event_List() {
 
     return (
         <main>
-            <CssBaseline />
             <Grid>
             <br/>
             <br/>

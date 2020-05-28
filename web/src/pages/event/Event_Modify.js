@@ -14,7 +14,6 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 
 import FormControl from '@material-ui/core/FormControl';
@@ -115,20 +114,20 @@ export default function Event_Modify() {
 
     const open = Boolean(anchorEl);
 
-    const { value: name, bind: bindName, reset: resetName, setValue:setName } = useInput('');
-    const { value: description, bind: bindDescription, reset: resetDescription, setValue:setDescription } = useInput('');
-    const { value: is_competitive, bind: bindIsCompetitive, reset: resetCompetitive, setValue:setCompetitive } = useInput('');
-    const { value: battleroyal, bind: bindBattleRoyal, reset: resetBattleRoyal, setValue:setBattleRoyal } = useInput('');
-    const { value: difficulty, bind: bindDifficulty, reset: resetDifficulty, setValue:setDifficulty } = useInput('');
-    const { value: price, bind: bindPrice, reset: resetPrice, setValue:setPrice } = useInput('');
-    const { value: attendees_min, bind: bindAttendeesMin, reset: resetAttendeesMin, setValue:setAttendeesMin } = useInput('');
-    const { value: attendees_max, bind: bindAttendeesMax, reset: resetAttendeesMax, setValue:setAttendeesMax } = useInput('');
-    const { value: deadline_reservation, bind: bindDeadlineReservation, reset: resetReservation , setValue:setDeadlineReservation} = useInput('');
-    const { value: date_begin, bind: bindDateBegin, reset: resetDateBegin, setValue:setDateBegin } = useInput('');
-    const { value: date_end, bind: bindDateEnd, reset: resetDateEnd, setValue:setDateEnd } = useInput('');
-    const { value: location, bind: bindLocation, reset: resetLocation, setValue:setLocation } = useInput('');
-    const { value: address, bind: bindAddress, reset: resetAddress, setValue:setAddress } = useInput('');
-    const { value: house_id, bind: bindHouseId, reset: resetHouseId, setValue:setHouseId } = useInput('');
+    const { value: name, bind: bindName, reset: resetName, setValue: setName } = useInput('');
+    const { value: description, bind: bindDescription, reset: resetDescription, setValue: setDescription } = useInput('');
+    const { value: is_competitive, bind: bindIsCompetitive, reset: resetCompetitive, setValue: setCompetitive } = useInput('');
+    const { value: battleroyal, bind: bindBattleRoyal, reset: resetBattleRoyal, setValue: setBattleRoyal } = useInput('');
+    const { value: difficulty, bind: bindDifficulty, reset: resetDifficulty, setValue: setDifficulty } = useInput('');
+    const { value: price, bind: bindPrice, reset: resetPrice, setValue: setPrice } = useInput('');
+    const { value: attendees_min, bind: bindAttendeesMin, reset: resetAttendeesMin, setValue: setAttendeesMin } = useInput('');
+    const { value: attendees_max, bind: bindAttendeesMax, reset: resetAttendeesMax, setValue: setAttendeesMax } = useInput('');
+    const { value: deadline_reservation, bind: bindDeadlineReservation, reset: resetReservation, setValue: setDeadlineReservation } = useInput('');
+    const { value: date_begin, bind: bindDateBegin, reset: resetDateBegin, setValue: setDateBegin } = useInput('');
+    const { value: date_end, bind: bindDateEnd, reset: resetDateEnd, setValue: setDateEnd } = useInput('');
+    const { value: location, bind: bindLocation, reset: resetLocation, setValue: setLocation } = useInput('');
+    const { value: address, bind: bindAddress, reset: resetAddress, setValue: setAddress } = useInput('');
+    const { value: house_id, bind: bindHouseId, reset: resetHouseId, setValue: setHouseId } = useInput('');
 
     function editName() {
         let post_body = "&event_id=" + parseInt(current.event_id) + "&name=" + (name ? name : current.name);
@@ -146,7 +145,7 @@ export default function Event_Modify() {
                     }
                 });
                 if (status === "ok") {
-                    resetName();
+                    window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
 
@@ -169,7 +168,7 @@ export default function Event_Modify() {
                     }
                 });
                 if (status === "ok") {
-                    resetDescription();
+                    window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
 
@@ -177,7 +176,7 @@ export default function Event_Modify() {
     }
 
     function editIsCompetitive() {
-        let post_body = "&event_id=" + parseInt(current.event_id) + "&is_competitive=" + parseInt(is_competitive);
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&is_competitive=" + parseInt((is_competitive ? current.is_competitive : 0));
         fetch(appConfig.api_url + 'event/update/setIsCompetitive', {
             method: 'POST',
             credentials: 'include',
@@ -192,7 +191,7 @@ export default function Event_Modify() {
                     }
                 });
                 if (status === "ok") {
-                    resetCompetitive();
+                    window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
 
@@ -200,7 +199,7 @@ export default function Event_Modify() {
     }
 
     function editLimitation() {
-        let post_body = "&event_id=" + parseInt(current.event_id) + "&house_id=" + parseInt(house_id);
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&house_id=" + parseInt((house_id ? house_id : current.house_id));
         fetch(appConfig.api_url + 'event/update/setHouseId', {
             method: 'POST',
             credentials: 'include',
@@ -215,7 +214,7 @@ export default function Event_Modify() {
                     }
                 });
                 if (status === "ok") {
-                    resetHouseId();
+                    window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
 
@@ -223,7 +222,7 @@ export default function Event_Modify() {
     }
 
     function editDifficulty() {
-        let post_body = "&event_id=" + parseInt(current.event_id) + "&difficulty=" + parseInt(difficulty);
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&difficulty=" + parseInt((difficulty ? difficulty : current.difficulty));
         fetch(appConfig.api_url + 'event/update/setDifficulty', {
             method: 'POST',
             credentials: 'include',
@@ -238,7 +237,7 @@ export default function Event_Modify() {
                     }
                 });
                 if (status === "ok") {
-                    resetDifficulty();
+                    window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
 
@@ -246,7 +245,7 @@ export default function Event_Modify() {
     }
 
     function editBattleRoyal() {
-        let post_body = "&event_id=" + parseInt(current.event_id) + "&battleroyal=" + parseInt(battleroyal);
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&battleroyal=" + parseInt((battleroyal ? battleroyal : current.battleroyal));
         fetch(appConfig.api_url + 'event/update/setBattleroyale', {
             method: 'POST',
             credentials: 'include',
@@ -261,7 +260,7 @@ export default function Event_Modify() {
                     }
                 });
                 if (status === "ok") {
-                    resetBattleRoyal();
+                    window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
 
@@ -269,7 +268,7 @@ export default function Event_Modify() {
     }
 
     function editAttendeesMin() {
-        let post_body = "&event_id=" + parseInt(current.event_id) + "&attendees_min=" + parseInt(attendees_min);
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&attendees_min=" + parseInt((attendees_min ? attendees_min : current.attendees_min));
         fetch(appConfig.api_url + 'event/update/setAttendeesMin', {
             method: 'POST',
             credentials: 'include',
@@ -284,7 +283,7 @@ export default function Event_Modify() {
                     }
                 });
                 if (status === "ok") {
-                    resetAttendeesMin();
+                    window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
 
@@ -292,7 +291,7 @@ export default function Event_Modify() {
     }
 
     function editAttendeesMax() {
-        let post_body = "&event_id=" + parseInt(current.event_id) + "&attendees_max=" + parseInt(attendees_max);
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&attendees_max=" + parseInt((attendees_max ? attendees_max : current.attendees_max));
         fetch(appConfig.api_url + 'event/update/setAttendeesMax', {
             method: 'POST',
             credentials: 'include',
@@ -307,7 +306,7 @@ export default function Event_Modify() {
                     }
                 });
                 if (status === "ok") {
-                    resetAttendeesMax();
+                    window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
 
@@ -315,7 +314,7 @@ export default function Event_Modify() {
     }
 
     function editPrice() {
-        let post_body = "&event_id=" + parseInt(current.event_id) + "&price=" + price;
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&price=" + (price ? price : current.price);
         fetch(appConfig.api_url + 'event/update/setPrice', {
             method: 'POST',
             credentials: 'include',
@@ -330,7 +329,7 @@ export default function Event_Modify() {
                     }
                 });
                 if (status === "ok") {
-                    resetPrice();
+                    window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
 
@@ -353,7 +352,7 @@ export default function Event_Modify() {
                     }
                 });
                 if (status === "ok") {
-                    resetReservation();
+                    window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
 
@@ -376,7 +375,7 @@ export default function Event_Modify() {
                     }
                 });
                 if (status === "ok") {
-                    resetDateBegin();
+                    window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
 
@@ -399,7 +398,7 @@ export default function Event_Modify() {
                     }
                 });
                 if (status === "ok") {
-                    resetDateEnd();
+                    window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
 
@@ -422,7 +421,7 @@ export default function Event_Modify() {
                     }
                 });
                 if (status === "ok") {
-                    resetLocation();
+                    window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
 
@@ -445,7 +444,7 @@ export default function Event_Modify() {
                     }
                 });
                 if (status === "ok") {
-                    resetAddress();
+                    window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
 
@@ -453,24 +452,23 @@ export default function Event_Modify() {
     }
 
     const buttonModifyEvent = (e) => {
-        console.log(current.event_id);
 
         let post_body =
             "&event_id=" + parseInt(current.event_id) +
-            "&name=" + name +
-            "&description=" + description +
-            "&is_competitive=" + is_competitive +
-            "&battleroyal=" + battleroyal +
-            "&difficulty=" + difficulty +
-            "&price=" + ((price == null || price == 0) ? 0 : price) +
-            "&attendees_min=" + attendees_min +
-            "&attendees_max=" + attendees_max +
-            "&date_begin=" + date_begin +
-            "&date_end=" + date_end +
-            "&deadline_reservation=" + deadline_reservation +
-            "&location=" + location +
-            "&address=" + address +
-            "&house_id=" + house_id;
+            "&name=" + (name ? name : current.name) +
+            "&description=" + (description ? description : current.description) +
+            "&is_competitive=" + (is_competitive ? is_competitive : current.is_competitive) +
+            "&battleroyal=" + (battleroyal ? battleroyal : 0) +
+            "&difficulty=" + (difficulty ? difficulty : current.difficulty) +
+            "&price=" + (price ? price : current.price) +
+            "&attendees_min=" + (attendees_min ? attendees_min : current.attendees_min) +
+            "&attendees_max=" + (attendees_max ? attendees_max : current.attendees_max) +
+            "&date_begin=" + (date_begin ? date_begin : current.date_begin) +
+            "&date_end=" + (date_end ? date_end : current.date_end) +
+            "&deadline_reservation=" + (deadline_reservation ? deadline_reservation : current.deadline_reservation) +
+            "&location=" + (location ? location : current.location) +
+            "&address=" + (address ? address : current.address) +
+            "&house_id=" + (user.house_id ? user.house_id : 0);
 
         fetch(appConfig.api_url + 'event/update_event', {
             method: 'POST',
@@ -480,28 +478,15 @@ export default function Event_Modify() {
         })
             .then(response => response.json())
             .then(({ status, dialog_id }) => {
-                if (status === "ok") {
-                    resetName();
-                    resetDescription();
-                    resetCompetitive();
-                    resetBattleRoyal();
-                    resetDifficulty();
-                    resetPrice();
-                    resetAttendeesMin();
-                    resetAttendeesMax();
-                    resetReservation();
-                    resetDateBegin();
-                    resetDateEnd();
-                    resetLocation();
-                    resetAddress();
-                }
-
                 setDialog({
                     [dialog_id]: {
                         is_open: true
                     }
                 });
-                { redirectPage("/event_display/" + current.event_id) }
+
+                if (status === "ok") {
+                    window.setTimeout(function () { window.location.reload() }, 3000)
+                }
             });
     }
 
@@ -533,7 +518,6 @@ export default function Event_Modify() {
 
     return (
         <React.Fragment>
-            <CssBaseline />
             <main>
                 {current && <Card className={classes.card}>
                     <CardContent className={classes.cardContent}>
@@ -694,30 +678,31 @@ export default function Event_Modify() {
 
                             {/* BATTLE ROYAL */}
 
-                            <Grid item xs={12}>
-                                {<b>{"Mode Battle Royal : "}</b>}{(current == null ? "error" : (current.battleroyal ? "Oui" : "Non"))}
-                            </Grid>
+                            {!(parseInt(house_id)) && (parseInt(is_competitive) === 1) && <Grid item xs={12}>
+                                    {<b>{"Mode Battle Royal : "}</b>}{(current == null ? "error" : (current.battleroyal ? "Oui" : "Non"))}
+                                </Grid>}
 
-                            <Grid item xs={12}>
-                                <TextField
-                                    id="battleroyal"
-                                    label="Battle Royal Mode"
-                                    helperText="All vs All ou affrontement par équipe."
-                                    required={false}
-                                    placeholder={current.battleroyale}
-                                    defaultValue={current.battleroyale}
-                                    disabled={false} //{battleRoyalOnorOff}
+                                {!(parseInt(house_id)) && (parseInt(is_competitive) === 1) && <Grid item xs={12}>
+                                    <TextField
+                                        id="battleroyal"
+                                        label="Battle Royal Mode"
+                                        helperText="All vs All ou affrontement par équipe."
+                                        required={false}
+                                        placeholder={current.battleroyale}
+                                        defaultValue={current.battleroyale}
+                                        disabled={false} //{battleRoyalOnorOff}
 
-                                    style={{ width: 150 }}
-                                    {...bindBattleRoyal}
-                                    select>
-                                    <MenuItem value={0}>Non</MenuItem>
-                                    <MenuItem value={1}>Oui</MenuItem>
-                                </TextField>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <br />{current && myCreationButton("Modifier", editBattleRoyal)}
-                            </Grid>
+                                        style={{ width: 150 }}
+                                        {...bindBattleRoyal}
+                                        select>
+                                        <MenuItem value={0}>Non</MenuItem>
+                                        <MenuItem value={1}>Oui</MenuItem>
+                                    </TextField>
+                                </Grid>}
+                                {!(parseInt(house_id)) && (parseInt(is_competitive) === 1) && <Grid item xs={12}>
+                                    <br />{current && myCreationButton("Modifier", editBattleRoyal)}
+                                </Grid>}
+                           
 
 
                             {/* ATTENDEES_MIN */}
@@ -909,7 +894,11 @@ export default function Event_Modify() {
                                 </Grid>
                             </Grid>
                         </Grid >
-
+                        <center>
+                            <Grid item xs={12}>
+                                <br />{current && myCreationButton("Modifier tout", buttonModifyEvent)}
+                            </Grid>
+                        </center>
                     </CardContent>
                 </Card>
                 }

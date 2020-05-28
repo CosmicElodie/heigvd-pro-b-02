@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {
     Card, CardContent, CardMedia,
-    CssBaseline,
     Grid,
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 } from '@material-ui/core';
@@ -94,7 +93,6 @@ export default function Rules() {
     return (
 
         <main>
-            <CssBaseline />
             <Grid container direction="row" justify="space-evenly" alignItems="center">
                 <Card className={classes.card}>
                     <Typography gutterBottom variant="h6" align="center">

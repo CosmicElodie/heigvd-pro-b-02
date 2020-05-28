@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {
     Card, CardContent, CardMedia,
-    CssBaseline,
     Grid,
     Table, TableBody, TableCell, TableHead, TableContainer, TableRow,
     Paper
@@ -174,7 +173,6 @@ export default function Auditoire() {
 
     return (
         <main>
-            <CssBaseline />
             <center>
                 <Grid container spacing={5} direction="row" justify="center" alignItems="stretch">
                     <Grid item xs>

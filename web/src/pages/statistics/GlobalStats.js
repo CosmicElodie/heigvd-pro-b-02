@@ -3,7 +3,6 @@ import CanvasJSReact from './canvasjs.react';
 import { useInput } from '../../hooks/input';
 import {
   Card, CardContent, CardMedia,
-  CssBaseline,
   Grid,TextField,MenuItem
 } from '@material-ui/core';
 import {appConfig} from "../../config/appConfig"
@@ -227,7 +226,6 @@ function houseChoice(e) {
   return (
 
     <main>
-      <CssBaseline />
       <br/>
       <Grid container spacing={5} direction="row" justify="center" alignItems="stretch">  
         { <TextField

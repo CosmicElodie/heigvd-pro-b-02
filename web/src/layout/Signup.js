@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 
 import {appConfig} from "../config/appConfig"
 import { MainContext } from '../context/MainContext';
-import {  TextField, Button, CssBaseline, Paper, Grid, Icon, Typography } from '@material-ui/core';
+import {  TextField, Button, Paper, Grid, Icon, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useInput } from '../hooks/input';
 import { useHistory } from "react-router-dom";
@@ -83,7 +83,7 @@ const Signup = ( props ) => {
 
     return (
         <Grid container={true} component="section" className={ classes.root }>
-          <CssBaseline />
+
           <Grid className={classes.grid_container} item component={Paper} elevation={0} square>
             <div className={classes.paper}>
               

@@ -20,7 +20,6 @@ import {
     Card,
     CardContent,
     CardMedia,
-    CssBaseline,
     Table,
     TableBody,
     TableCell,
@@ -292,7 +291,6 @@ export default function Event() {
 
         <main>
             {current && <EventAccountPoints {...{ ...accountPointDialogState, ...current, ...{ handleClose: handleAccountPointDialogClose } }} />}
-            <CssBaseline />
             {current &&
                 <center>
                     <Card className={classes.card}>

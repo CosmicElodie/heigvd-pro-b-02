@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import {appConfig} from "../config/appConfig"
 import { MainContext } from '../context/MainContext';
 import { useInput } from '../hooks/input';
-import { FormControlLabel, TextField, Checkbox, Button, CssBaseline, Link, Paper, Box, Grid, Icon, Typography } from '@material-ui/core';
+import { FormControlLabel, TextField, Checkbox, Button, Link, Paper, Box, Grid, Icon, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from "react-router-dom";
 
@@ -54,7 +54,6 @@ const Signin = ( props ) => {
 
     return (
         <Grid container={true} component="section" className={ classes.root }>
-          <CssBaseline />
           <Grid className={classes.grid_container} item component={Paper} elevation={0} square>
             <div className={classes.paper}>
               

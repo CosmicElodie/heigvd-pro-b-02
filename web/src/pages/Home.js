@@ -115,7 +115,6 @@ export default function Home() {
 
     return (
         <React.Fragment>
-            <CssBaseline />
             <main>
                 <h1>Bienvenue, {user.firstname} !</h1>
                 <Grid spacing={2} container direction="row" justify="space-evenly" alignItems="stretch">

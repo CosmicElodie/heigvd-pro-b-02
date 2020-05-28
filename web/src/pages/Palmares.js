@@ -5,7 +5,6 @@ import Typography from '@material-ui/core/Typography';
 import {
     Card, CardContent, CardMedia,
     TablePagination,
-    CssBaseline,
     Grid,
     Table, TableBody, TableCell, TableHead, TableContainer, TableRow,
     Paper
@@ -253,7 +252,6 @@ export default function Palmares() {
 
     return (
         <main>
-            <CssBaseline />
             <Grid container spacing={2} direction="row" justify="space-evenly" alignItems="stretch">
 
                 <Grid item xs={12} sm={6}>

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { styled } from '@material-ui/core/styles';
-import { Button, CssBaseline, Grid } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import EventWelcomeHouseContainer from './Event_Welcome_House_Container';
 import EventWelcomeGlobalContainer from './Event_Welcome_Global_Container';
 import { makeStyles } from '@material-ui/core/styles';
@@ -47,7 +47,6 @@ export default function Event() {
 
     return (
         <React.Fragment>
-            <CssBaseline />
             <main>
                 <Grid container direction="row" justify="space-evenly" alignItems="center">
                     <center>
