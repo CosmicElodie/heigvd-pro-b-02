@@ -282,8 +282,8 @@ export default function Event() {
     }
 
     function printAttendee(participant) {
-        return (<p align="center"><button color="primary" onClick={() => handlePersonClick(participant)}>
-            {participant.firstname + " " + participant.lastname}
+        return ( <p align="center"><button color="primary" onClick={() => handlePersonClick(participant)}>
+            {participant && participant.firstname + " " + participant && participant.lastname}
         </button></p>);
     }
 
@@ -291,6 +291,7 @@ export default function Event() {
 
         <main>
             {current && <EventAccountPoints {...{ ...accountPointDialogState, ...current, ...{ handleClose: handleAccountPointDialogClose } }} />}
+
             {current &&
                 <center>
                     <Card className={classes.card}>
