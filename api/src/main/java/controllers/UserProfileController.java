@@ -110,6 +110,7 @@ public class UserProfileController {
 
     @PostMapping("profile/update_avatar")
     public String updateUserAvatar(@RequestParam("user_id") int user_id,
+                                   @RequestParam("link") String link,
                                    @RequestParam("img_name") String img_name,
                              @RequestParam("avatar") String img
                              ) throws SQLException {
@@ -151,7 +152,7 @@ public class UserProfileController {
             return responseObject.build().toString();
         }
 
-        String avatar = "http://localhost:8080/content/"+ img_name + extension;
+        String avatar = link + img_name + extension;
         /*****************************************************************************/
 
         try (Connection conn = dataSource.getConnection()) {
