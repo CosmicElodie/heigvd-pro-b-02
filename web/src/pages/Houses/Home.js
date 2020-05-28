@@ -114,7 +114,7 @@ export default function ModalProfile() {
     {
       getHouseInfo(user.house.house_id);
       getLatestPost(user.house.house_id);
-      setHouseBanner('url(\''+ appConfig.content_url + user.house.name + '.png\')');
+      setHouseBanner('url(\''+ appConfig.content_url + 'b-' + user.house.name + '.png\')');
       setHouseColor(chooseFontHouseColor(user.house.house_id));
       setHouseBgColor(chooseBackgroundHouseColor(user.house.house_id));
     }
