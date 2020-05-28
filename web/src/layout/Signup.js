@@ -39,7 +39,7 @@ const Signup = ( props ) => {
 
     const buttonSignUP = (e) => {
 
-        //e.preventDefault();
+        e.preventDefault();
         // Pour que required fonctionne sur les champs
         // il ne faut pas preventDefault sur le bouton car il doit effectuer un submit. 
         // L'attribut required necessite que le form soit submit 
