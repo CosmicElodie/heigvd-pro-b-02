@@ -1,5 +1,11 @@
 :root {
     --house-banner: ;
+    --house-color: ;
+    --house-bg-color: ;
+}
+
+body {
+    background:#ededed;
 }
 
 .parent {
@@ -10,16 +16,39 @@
     grid-row-gap: 0px;
 }
 
+.house-title {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: var(--house-color);
+    font-size: 50px;
+    text-align: center;
+    text-shadow: -2px 0 rgb(63, 63, 63), 0 5px rgb(63, 63, 63), 2px 0 rgb(63, 63, 63), 0 -2px rgb(63, 63, 63);
+    animation: slidingFadeIn 1s 1;
+}
 
-.TopBanner {
-    grid-area: 1 / 1 / 3 / 8; 
-    
-    border-radius: 5px;
-    background: transparent;
-    /* background-color: lightblue; */      
-    /*background-image: var(--house-banner); */ 
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position-x: right;             
-      
+.house-subtitle {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: var(--house-color);
+    font-size: 2em;
+    text-align: center;
+    text-shadow: -2px 0 rgb(63, 63, 63), 0 2px rgb(63, 63, 63), 2px 0 rgb(63, 63, 63), 0 -2px rgb(63, 63, 63);
+    animation: slidingFadeIn 1s 1;
+}
+
+.points-font {
+    font-family: Calibri, Geneva, Tahoma, sans-serif;
+    color: #4B4B4B;
+    font-size: 2.2em;
+    text-align: center;
+}
+
+.points {
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.info {
+    margin-bottom: 10px;
 }

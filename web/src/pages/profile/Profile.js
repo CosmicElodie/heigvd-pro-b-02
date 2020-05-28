@@ -10,7 +10,6 @@ import GridItem from "../../components/Grid/GridItem.js";
 import Parallax from "../../components/Parallax/Parallax.js";
 
 import styles from "../../assets/jss/material-kit-react/views/profilePage.js";
-import profile from "../../assets/img/faces/christian.jpg"
 
 import { blue, blueGrey } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
@@ -41,9 +40,6 @@ function DisplayData(props) {
   )
 }
 
-
-
-
 export default function ProfilePage(props) {
   const classes = useStyles();
   const [openPwdEdit, setOpenPwdEdit] = React.useState(false);
@@ -57,9 +53,10 @@ export default function ProfilePage(props) {
   const [img, setImg] = React.useState('');
   const { user, setUser, setDialog } = useContext(MainContext);
   const [houseBanner, setHouseBanner] = React.useState();
+  const [houseColor, setHouseColor] = React.useState();
+  const [houseBgColor, setHouseBgColor] = React.useState();
   const [userInfo, setUserInfo] = React.useState();
   let root = document.documentElement;
-
 
   useEffect(() => {
     if (img) {
@@ -69,14 +66,42 @@ export default function ProfilePage(props) {
   }, [img]);
 
   useEffect(() => {
-    if (user) {
+    if (user && user.house) {
       user.house && setHouseBanner('url(\'' + appConfig.content_url + user.house.name + '.png\')')
       user.user_id && getUserInfo()
+      setHouseBanner('url(\''+ appConfig.content_url + user.house.name + '.png\')');
+      setHouseColor(chooseFontHouseColor(user.house.house_id));
+      setHouseBgColor(chooseBackgroundHouseColor(user.house.house_id));
     }
   }, [user]);
 
+  if (user && user.house) {
+    houseBanner && root.style.setProperty('--house-banner', houseBanner);
+    houseColor && root.style.setProperty('--house-color', houseColor);
+    houseBgColor && root.style.setProperty('--house-bg-color', houseBgColor);
+  }
 
-  houseBanner && root.style.setProperty('--house-banner', houseBanner);
+  function chooseFontHouseColor(idOfHouse) {
+    switch (idOfHouse) {
+      case 1: return "#8dcbc1";
+      case 2: return "#f0abbe";
+      case 3: return "#af92c7";
+      case 4: return "#8bd0eb";
+      case 5: return "#f0dd8d";
+      default: return "";
+    }
+  }
+
+  function chooseBackgroundHouseColor(idOfHouse) {
+    switch (idOfHouse) {
+      case 1: return "#EEFFFC";
+      case 2: return "#FEEBF0";
+      case 3: return "#F7EEFF";
+      case 4: return "#EBF9FF";
+      case 5: return "#FFFCF2";
+      default: return "";
+    }
+  }
 
   const getUserInfo = (e) => {
     let post_body =
@@ -96,11 +121,10 @@ export default function ProfilePage(props) {
 
   const submitImage = (e) => {
     let post_body =
-      "&user_id=" + user.user_id  +
+      "&user_id=" + user.user_id +
       "&img_name=" + img.name +
       "&avatar=" + img.data +
       "&link=" + appConfig.content_url;
-
 
     fetch(appConfig.api_url + 'profile/update_avatar', {
       method: 'POST',
@@ -119,7 +143,6 @@ export default function ProfilePage(props) {
       })
 
   }
-
 
   const submitPassword = (e) => {
 
@@ -261,7 +284,7 @@ export default function ProfilePage(props) {
 
     <main>
 
-      <Parallax /*small */ filter image={require("../../assets/img/profile-bg.jpg")} />
+      <Parallax small filter image={require("../../assets/img/profile-bg.jpg")} />
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div>
           <div className={classes.container}>
@@ -274,16 +297,18 @@ export default function ProfilePage(props) {
                     </IconButton>
                   </div>
                   <div className={classes.name}>
-                    <h3 className={classes.title}>{user.firstname + ' ' + user.lastname}</h3>
-                    <h6><section className={classes.status}>
-                      {user.access_level === 25 && <section className={classes.personStatus + " person-status person-access-prefet"} />}
-                      {user.access_level === 50 && <section className={classes.personStatus + " person-status person-access-moderator"} />}
-                      {user.access_level === 75 && <section className={classes.personStatus + " person-status person-access-admin"} />}
-                      {user.access_level === 0 && "Utilisateur"}
-                      {user.access_level === 25 && "Préfet"}
-                      {user.access_level === 50 && "Moderateur"}
-                      {user.access_level === 75 && "Administrateur"}
-                    </section></h6>
+                    <h1>{user.firstname + ' ' + user.lastname}</h1>
+                    <h2>
+                      <section className={classes.status}>
+                        {user.access_level === 25 && <section className={classes.personStatus + " person-status person-access-prefet"} />}
+                        {user.access_level === 50 && <section className={classes.personStatus + " person-status person-access-moderator"} />}
+                        {user.access_level === 75 && <section className={classes.personStatus + " person-status person-access-admin"} />}
+                        {user.access_level === 0 && "Utilisateur"}
+                        {user.access_level === 25 && "Préfet"}
+                        {user.access_level === 50 && "Moderateur"}
+                        {user.access_level === 75 && "Administrateur"}
+                      </section>
+                    </h2>
                     <Grid container spacing={2} direction="row" justify="space-between" alignItems="stretch">
                       {/* INFORMATIONS */}
                       <Grid item xs={12}>
@@ -334,7 +359,7 @@ export default function ProfilePage(props) {
           </div>
         </div>
       </div>
-      </main>
-    
+    </main>
+
   );
 }
