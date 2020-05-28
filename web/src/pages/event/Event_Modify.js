@@ -459,7 +459,7 @@ export default function Event_Modify() {
             "&name=" + (name ? name : current.name) +
             "&description=" + (description ? description : current.description) +
             "&is_competitive=" + (is_competitive ? is_competitive : current.is_competitive) +
-            "&battleroyal=" + (battleroyal ? battleroyal : 0) +
+            "&battleroyal=" + (battleroyal ? battleroyal : current.battleroyal) +
             "&difficulty=" + (difficulty ? difficulty : current.difficulty) +
             "&price=" + (price ? price : current.price) +
             "&attendees_min=" + (attendees_min ? attendees_min : current.attendees_min) +
@@ -469,7 +469,7 @@ export default function Event_Modify() {
             "&deadline_reservation=" + (deadline_reservation ? deadline_reservation : current.deadline_reservation) +
             "&location=" + (location ? location : current.location) +
             "&address=" + (address ? address : current.address) +
-            "&house_id=" + (house_id ? house_id : 0);
+            "&house_id=" + (((house_id == 0 || house_id) ? house_id : current.house_id));
 
         fetch(appConfig.api_url + 'event/update_event', {
             method: 'POST',
@@ -602,7 +602,7 @@ export default function Event_Modify() {
                             {/* LIMITATION */}
                             <Grid item xs={6} sm={4}>
                                 <Grid item xs={12}>
-                                    {<b>{"Limitation : "}</b>}{(current == null ? "error" : current.house_id)}
+                                    {<b>{"Limitation : "}</b>}{(current == null ? "error" : (current.house_id ? current.house_id : "Global"))}
                                 </Grid>
 
                                 <Grid item xs={12}>
@@ -615,8 +615,8 @@ export default function Event_Modify() {
                                             id="house_id"
                                             label="Limitation"
                                             required={true}
-                                            placeholder={current.limitation}
-                                            defaultValue={current.limitation}
+                                            placeholder={current.house_id}
+                                            defaultValue={current.house_id}
                                             style={{ width: 150 }}
                                             {...bindHouseId}
                                             select>
