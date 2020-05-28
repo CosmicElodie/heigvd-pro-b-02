@@ -189,7 +189,9 @@ public class EventController {
 
         String result;
 
-        if(house_id <= 0)
+        System.out.println(house_id);
+
+        if(house_id < 0)
             return Utils.errorJSONObjectBuilder("incorrect_house_id").build().toString();
 
         if(limit_nb < 0)
