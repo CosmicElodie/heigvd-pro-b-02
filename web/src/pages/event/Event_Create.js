@@ -368,7 +368,7 @@ export default function Event_Create() {
                                     placeholder="Veuillez indiquer le tarif éventuel de l'événement."
                                     variant="outlined"
                                     defaultValue={0}
-                                    required={false}
+                                    required={true}
                                     {...bindPrice}
                                 />
                             </Grid>
