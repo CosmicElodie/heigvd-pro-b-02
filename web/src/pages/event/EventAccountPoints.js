@@ -21,8 +21,8 @@ const EventAccountPoints = ({ is_open, handleClose, event_id, difficulty, battle
             "&difficulty=" + ( difficulty ? difficulty : -1 ) +
             "&first_id=" + parseInt(firstPlace) ;
 
-            post_data += ( Number.isInteger(secondPlace) ? "&second_id=" + parseInt(secondPlace) : "" );
-            post_data += ( Number.isInteger(thirdPlace) ? "&third_id=" + parseInt(thirdPlace) : "" );
+            post_data += ( Number.isInteger(parseInt(secondPlace)) ? "&second_id=" + parseInt(secondPlace) : "" );
+            post_data += ( Number.isInteger(parseInt(thirdPlace)) ? "&third_id=" + parseInt(thirdPlace) : "" );
  
 
         fetch(appConfig.api_url + 'event/result/'+eventType, {
