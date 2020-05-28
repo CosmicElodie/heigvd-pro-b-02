@@ -97,7 +97,7 @@ const HumanSelector = ({ event_id, bindFirstPlace, bindSecondPlace, bindThirdPla
                 >
                     <option value={-1}>Choisir la première place</option>
                     {
-                    participants && participants.length > 0 && participants.map(( { participant : { user_id, firstname, lastname }} ) => 
+                    participants && participants.length > 0 && participants.map(( { user_id, firstname, lastname } ) => 
                         <option value={ user_id }>{ firstname + ' ' + lastname } </option>
                     )
                     } 
@@ -111,7 +111,7 @@ const HumanSelector = ({ event_id, bindFirstPlace, bindSecondPlace, bindThirdPla
                 >
                     <option value={-1}>Choisir la deuxième place</option>
                     {
-                    participants && participants.length > 0 && participants.map(( { participant : { user_id, firstname, lastname }} ) => 
+                    participants && participants.length > 0 && participants.map(( { user_id, firstname, lastname } ) => 
                         <option value={ user_id }>{ firstname + ' ' + lastname } </option>
                     )
                     } 
@@ -125,7 +125,7 @@ const HumanSelector = ({ event_id, bindFirstPlace, bindSecondPlace, bindThirdPla
                 >
                     <option value={-1}>Choisir la troisième place</option>
                     {
-                    participants.map(( { participant : { user_id, firstname, lastname }} ) => 
+                    participants.map(( { user_id, firstname, lastname } ) => 
                         <option value={ user_id }>{ firstname + ' ' + lastname } </option>
                     )
                     } 
