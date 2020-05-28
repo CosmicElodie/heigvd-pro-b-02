@@ -110,29 +110,17 @@ public class UserProfileController {
 
     @PostMapping("profile/update_avatar")
     public String updateUserAvatar(@RequestParam("user_id") int user_id,
-                                   @RequestParam("link") String link,
+                                   @RequestParam("img_name") String img_name,
                                    @RequestParam("avatar") String img
     ) throws SQLException {
 
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
-        if ( img.isEmpty() || img.equals("undefined") ){
+        if ( img_name.isEmpty() || img.isEmpty() || img.equals("undefined") || img_name.equals("undefined")){
             responseObject.add("status", "failed");
             return responseObject.build().toString();
         }
-        String img_name;
 
-        try (Connection conn = dataSource.getConnection()) {
-            String getEmailString = "SELECT email as result FROM user WHERE user_id = " + user_id;
-            Statement statement = conn.createStatement();
-
-            ResultSet getEmail = statement.executeQuery(getEmailString);
-            getEmail.next();
-            String temp = getEmail.getString("result");
-            temp.replace("@heig-vd.ch", "");
-            temp.replace(".", "_");
-            img_name = temp;
-        }
 
         /*****************************************************************************/
         String base64Image = img.split(",")[1];
@@ -164,7 +152,9 @@ public class UserProfileController {
             return responseObject.build().toString();
         }
 
-        String avatar = link + img_name + extension;
+        String avatar = img_name + extension;
+
+        System.out.println(avatar);
         /*****************************************************************************/
 
         try (Connection conn = dataSource.getConnection()) {
