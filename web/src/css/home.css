@@ -16,6 +16,57 @@
     font-weight: bold;
     text-align: center;
 }
+.numberCircle {
+  border-radius: 100%;
+  width: 72px;
+  height: 72px;
+  padding: 16px;
+
+  background: #fff;
+  border: 2px solid #666;
+  color: #666;
+  text-align: center;
+
+
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+.icon {
+  border-radius: 500%;
+  background-color:transparent;
+  border: 2px solid grey;
+  font-size: 25px;
+  color: black;
+  padding: 0.25em;
+  
+  /* Center the text contents */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon__value {
+  /* Set the height to 0 and overflow to visible to not interfere with the square styles */
+  overflow: visible;
+  height: 0;
+  
+  /* Vertically center text since we set its height to 0 */
+  margin-top: -1em;
+}
+
+.icon:after {
+  content: '';
+  display: block;
+  
+  /* Ensure the element is a square */
+  height: 0;
+  width: 100%;
+  padding-bottom: 100%;
+}
+
 
 body {
   background : #fff;
