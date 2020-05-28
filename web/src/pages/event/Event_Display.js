@@ -320,14 +320,14 @@ export default function Event() {
                             {printDeleteButton(user.access_level)}
 
                             {printAccountPointsButton(current)}
-                            <h1>{current.name}</h1>
+                            <h1 className="h1-title">{current.name}</h1>
                             <center><i>{current.status}</i></center>
 
                             <Table>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>
-                                            <h2>Description</h2>
+                                            <h2 className="h2-title">Description</h2>
                                         </TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -341,13 +341,13 @@ export default function Event() {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell style={{ width: 210 }}>
-                                            <h2>Date limite d'inscription</h2>
+                                            <h2 className="h2-title">Date limite d'inscription</h2>
                                         </TableCell>
                                         <TableCell style={{ width: 210 }}>
-                                            <h2>Début de l'événement</h2>
+                                            <h2 className="h2-title">Début de l'événement</h2>
                                         </TableCell>
                                         <TableCell style={{ width: 210 }}>
-                                            <h2>Fin de l'événement</h2>
+                                            <h2 className="h2-title">Fin de l'événement</h2>
                                         </TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -376,13 +376,13 @@ export default function Event() {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell style={{ width: 210 }}>
-                                            <h2>Compétitif</h2>
+                                            <h2 className="h2-title">Compétitif</h2>
                                         </TableCell>
                                         <TableCell style={{ width: 210 }}>
-                                            <h2>Battle Royal</h2>
+                                            <h2 className="h2-title">Battle Royal</h2>
                                         </TableCell>
                                         <TableCell style={{ width: 210 }}>
-                                            <h2>Difficulté</h2>
+                                            <h2 className="h2-title">Difficulté</h2>
                                         </TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -405,13 +405,13 @@ export default function Event() {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell style={{ width: 210 }}>
-                                            <h2>Limitation</h2>
+                                            <h2 className="h2-title">Limitation</h2>
                                         </TableCell>
                                         <TableCell style={{ width: 210 }}>
-                                            <h2>Nombre de participants</h2>
+                                            <h2 className="h2-title">Nombre de participants</h2>
                                         </TableCell>
                                         <TableCell style={{ width: 210 }}>
-                                            <h2>Prix</h2>
+                                            <h2 className="h2-title">Prix</h2>
                                         </TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -458,7 +458,7 @@ export default function Event() {
                                 </TableBody>
                             </Table>
                             <br />
-                            <center><h2>Adresse</h2></center>
+                            <center><h2 className="h2-title">Adresse</h2></center>
                             <Table>
                                 <TableBody>
                                     <TableRow>
