@@ -192,7 +192,7 @@ export default function Event_Modify() {
                     }
                 });
                 if (status === "ok") {
-                    //window.setTimeout(function () { window.location.reload() }, 3000)
+                    window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
 
@@ -458,10 +458,10 @@ export default function Event_Modify() {
             "&event_id=" + parseInt(current.event_id) +
             "&name=" + (name ? name : current.name) +
             "&description=" + (description ? description : current.description) +
-            "&is_competitive=" + (is_competitive ? is_competitive : current.is_competitive) +
-            "&battleroyal=" + (battleroyal ? battleroyal : current.battleroyal) +
-            "&difficulty=" + (difficulty ? difficulty : current.difficulty) +
-            "&price=" + (price ? price : current.price) +
+            "&is_competitive=" + (is_competitive ? is_competitive : 0) +
+            "&battleroyal=" + (battleroyal ? battleroyal : 0) +
+            "&difficulty=" + (difficulty ? difficulty : 0) +
+            "&price=" + (price ? price : 0) +
             "&attendees_min=" + (attendees_min ? attendees_min : current.attendees_min) +
             "&attendees_max=" + (attendees_max ? attendees_max : current.attendees_max) +
             "&date_begin=" + (date_begin ? date_begin : current.date_begin) +
@@ -469,7 +469,7 @@ export default function Event_Modify() {
             "&deadline_reservation=" + (deadline_reservation ? deadline_reservation : current.deadline_reservation) +
             "&location=" + (location ? location : current.location) +
             "&address=" + (address ? address : current.address) +
-            "&house_id=" + (((house_id == 0 || house_id) ? house_id : current.house_id));
+            "&house_id=" + (house_id ? house_id : 0);
 
         fetch(appConfig.api_url + 'event/update_event', {
             method: 'POST',
@@ -602,7 +602,7 @@ export default function Event_Modify() {
                             {/* LIMITATION */}
                             <Grid item xs={6} sm={4}>
                                 <Grid item xs={12}>
-                                    {<b>{"Limitation : "}</b>}{(current == null ? "error" : (current.house_id ? current.house_id : "Global"))}
+                                    {<b>{"Limitation : "}</b>}{(current == null ? "error" : current.house_id )}
                                 </Grid>
 
                                 <Grid item xs={12}>
