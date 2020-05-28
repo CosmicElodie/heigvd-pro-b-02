@@ -118,20 +118,20 @@ const HumanSelector = ({ event_id, bindFirstPlace, bindSecondPlace, bindThirdPla
                     
                 </Select>
             </FormControl> 
-            <FormControl variant="outlined" style={ styles.DropDown }>
+            { participants && participants.length > 2 && <FormControl variant="outlined" style={ styles.DropDown }>
                 <Select
                     native
                     { ...bindThirdPlace }
                 >
                     <option value={-1}>Choisir la troisième place</option>
                     {
-                    participants && participants.length > 0 && participants.map(( { participant : { user_id, firstname, lastname }} ) => 
+                    participants.map(( { participant : { user_id, firstname, lastname }} ) => 
                         <option value={ user_id }>{ firstname + ' ' + lastname } </option>
                     )
                     } 
                     
                 </Select>
-            </FormControl> 
+                </FormControl> }
         </Fragment>
         )
 }
