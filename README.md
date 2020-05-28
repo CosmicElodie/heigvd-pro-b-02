@@ -19,7 +19,7 @@ Development team:
 | Dalia Maillefer (deputy project lead)   | dalia.maillefer@heig-vd.ch   | AliceThunderWind |
 | Stefan Teofanovic 					  | stefan.teofanovic@heig-vd.ch | Ovich |
 
-## Dependencies
+## `Dependencies`
 ###
 Running the react website requires you to havethese programs installed beforehand
 
@@ -28,7 +28,7 @@ Running the react website requires you to havethese programs installed beforehan
 
 IntelliJ can be used instead of maven
 
-## Build and install
+## `Build and install`
 ###
 1. Clone the repository
 2. Open a terminal window in the "api" folder
@@ -38,15 +38,17 @@ IntelliJ can be used instead of maven
 	npm install
 	npm start
 
-5. if everything's done right, 
+
+	
+## `Run`
+###
+	If everything's done right, 
 	the website should run on http://localhost:3000,
 	and the API on http://localhost:8080,
 	by default.
-	
-## Run
 
-...
 
-## Documentation
+## `Documentation`
 
-...
+Documents Available https://drive.google.com/drive/u/0/folders/1S5gchS3lko_X4oZgnsGqHrhlc9-seslg
+Online website Available on http://heigforum.wanarie.com/
