@@ -131,7 +131,7 @@ export default function Event() {
 
         if (statutEvent === "En attente d'autres participants" || statutEvent === "Planifié") {
 
-            if (permission === 75 || permission === 25 || IDutilisateurCourant === IDorganisateur) {
+            if (permission === 75 || permission === 50 || IDutilisateurCourant === IDorganisateur) {
 
                 if (text === "Modifier") {
                     return <Button variant="contained" size="small" color="primary" onClick={modifyEvent} className={classes.margin}> {text} </Button>;
