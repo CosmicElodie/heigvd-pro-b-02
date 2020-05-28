@@ -41,7 +41,7 @@ public class UserProfileController {
                                 @RequestParam("lastname") String lastname,
                                 @RequestParam("password") String password,
                                 @RequestParam("house_id") int house_id
-                                ) throws SQLException {
+    ) throws SQLException {
 
         JsonObjectBuilder responseObjectError = Json.createObjectBuilder();
         JsonObjectBuilder responseObjectSuccess = Json.createObjectBuilder();
@@ -110,16 +110,29 @@ public class UserProfileController {
 
     @PostMapping("profile/update_avatar")
     public String updateUserAvatar(@RequestParam("user_id") int user_id,
-                                   @RequestParam("img_name") String img_name,
-                             @RequestParam("avatar") String img
-                             ) throws SQLException {
+                                   @RequestParam("link") String link,
+                                   @RequestParam("avatar") String img
+    ) throws SQLException {
 
 
         JsonObjectBuilder responseObject = Json.createObjectBuilder();
-    if ( img_name.isEmpty() || img.isEmpty() || img.equals("undefined") || img_name.equals("undefined")){
-        responseObject.add("status", "failed");
-        return responseObject.build().toString();
-    }
+        if ( img.isEmpty() || img.equals("undefined") ){
+            responseObject.add("status", "failed");
+            return responseObject.build().toString();
+        }
+        String img_name;
+
+        try (Connection conn = dataSource.getConnection()) {
+            String getEmailString = "SELECT email as result FROM user WHERE user_id = " + user_id;
+            Statement statement = conn.createStatement();
+
+            ResultSet getEmail = statement.executeQuery(getEmailString);
+            getEmail.next();
+            String temp = getEmail.getString("result");
+            temp.replace("@heig-vd.ch", "");
+            temp.replace(".", "_");
+            img_name = temp;
+        }
 
         /*****************************************************************************/
         String base64Image = img.split(",")[1];
@@ -151,7 +164,7 @@ public class UserProfileController {
             return responseObject.build().toString();
         }
 
-        String avatar = "http://localhost:8080/content/"+ img_name + extension;
+        String avatar = link + img_name + extension;
         /*****************************************************************************/
 
         try (Connection conn = dataSource.getConnection()) {
@@ -171,8 +184,8 @@ public class UserProfileController {
 
     @PostMapping("profile/update_password")
     public String updateUserPassword(@RequestParam("user_id") int user_id,
-                             @RequestParam("old_password") String old_password,
-                             @RequestParam("new_password") String new_password
+                                     @RequestParam("old_password") String old_password,
+                                     @RequestParam("new_password") String new_password
     ) throws SQLException {
 
         try (Connection conn = dataSource.getConnection()) {
