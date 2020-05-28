@@ -44,7 +44,15 @@ const Signup = ( props ) => {
         // il ne faut pas preventDefault sur le bouton car il doit effectuer un submit. 
         // L'attribut required necessite que le form soit submit 
         // submit est en comportement par default du bouton submit
-
+        if(password.length < 8) {
+          setDialog
+          ({
+              singup_password_insufficient_length: {
+                  is_open: true
+              }
+          });
+          return;
+        }
         let post_body = 
         "&email=" + email + "@heig-vd.ch" +
         "&birth=" + birth + 
@@ -72,10 +80,11 @@ const Signup = ( props ) => {
               });
             } 
             if(response.status === 'ok') {
-              setDialog((latest) => ({
-                ...latest,
-                [response.dialog_id] : { is_open : true }
-              }));
+              setDialog({
+                [response.dialog_id]: {
+                    is_open: true
+                }
+            });
               redirectPage("/Signin")
             }
         })
