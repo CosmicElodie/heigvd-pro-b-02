@@ -195,7 +195,7 @@ export default function ProfilePage(props) {
     const reader = new FileReader()
     reader.addEventListener("load", () => {
       setImg({
-        name: user.email,
+        name: user.firstname + '_' +user.lastname,
         data: reader.result
       })
       setUser((latest) => ({ ...latest, avatar: reader.result }))
