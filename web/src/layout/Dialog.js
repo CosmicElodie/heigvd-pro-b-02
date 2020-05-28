@@ -777,7 +777,7 @@ const Dialog = () => {
                 </Snackbar>
             }
 
-            {dialog && dialog.error_deadline_after_dateEnd &&
+{dialog && dialog.error_deadline_after_dateEnd &&
                 <Snackbar
                     open={dialog.error_deadline_after_dateEnd.is_open}
                     onClose={() => handleClose({ error_deadline_after_dateEnd: { is_open: false } })}
@@ -787,6 +787,17 @@ const Dialog = () => {
                     </Alert>
                 </Snackbar>
             }
+            {dialog && dialog.already_participating_event_during_time &&
+                <Snackbar
+                    open={dialog.already_participating_event_during_time.is_open}
+                    onClose={() => handleClose({ already_participating_event_during_time: { is_open: false } })}
+                    autoHideDuration={6000} >
+                    <Alert variant="filled" severity="error">
+                        Vous ne pouvez pas participer à cet événement, car vous participez déjà à un événement se déroulant au même moment.
+                    </Alert>
+                </Snackbar>
+            }
+            
 
         </section>
     )
