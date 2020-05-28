@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {appConfig} from "../config/appConfig"
+import { appConfig } from "../config/appConfig"
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {
@@ -253,19 +253,18 @@ export default function Palmares() {
     return (
         <main>
             <Grid container spacing={2} direction="row" justify="space-evenly" alignItems="stretch">
+                    <Grid item xs={12} sm={6}>
+                        {displayMonthlyRank('Top utilisateur (mensuel)', topUserMonthly)}
+                    </Grid>
 
-                <Grid item xs={12} sm={6}>
-                    {displayMonthlyRank('Top utilisateur (mensuel)', topUserMonthly)}
+                    <Grid item xs={12} sm={6}>
+                        {displayAnnualRank('Top utilisateur (annuel)', topUserYearly)}
+                    </Grid>
                 </Grid>
-
-                <Grid item xs={12} sm={6}>
-                    {displayAnnualRank('Top utilisateur (annuel)', topUserYearly)}
-                </Grid>
-
                 <Grid item xs={12}>
                     {displayHouseRank('Coupe des 5 maisons', topHouses)}
                 </Grid>
-            </Grid>
+    
         </main>
     );
 }
