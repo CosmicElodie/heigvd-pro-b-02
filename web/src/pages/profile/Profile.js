@@ -2,7 +2,8 @@ import React, { useContext, useEffect } from 'react';
 // nodejs library that concatenates classes
 import classNames from "classnames";
 
-import { TextField, makeStyles, Card, CardContent, Button, Typography, Avatar, Grid } from '@material-ui/core';
+
+import { TextField, makeStyles, Card, CardContent, Button, Typography, Avatar,ButtonBase , Grid } from '@material-ui/core';
 
 import GridContainer from "../../components/Grid/GridContainer.js";
 import GridItem from "../../components/Grid/GridItem.js";
@@ -291,13 +292,15 @@ export default function ProfilePage(props) {
               <GridItem xs={12} sm={12} md={6}>
                 <div className={classes.profile}>
                   <div>
-                    <IconButton aria-label="edit" size="medium" onClick={handlePPEditOpen}>
-                      {userInfo && userInfo.avatar && <img src={appConfig.content_url + userInfo.avatar} alt={userInfo.initials} className={imageClasses} />}
-                    </IconButton>
+                    <ButtonBase  onClick={handlePPEditOpen} variant = {'text'} >
+                      {userInfo && userInfo.avatar && <img src={appConfig.content_url + userInfo.avatar} alt={''} className={imageClasses} />}
+                    </ButtonBase >
                   </div>
                   <div className={classes.name}>
-                  <br /><br />
-                    <h1 className="h1-title">{user.firstname + ' ' + user.lastname}</h1>
+                    <br/><br/>
+                    <p>
+                      <h1 className="h1-title">{user.firstname + ' ' + user.lastname}</h1>
+                    </p>
                     <h2 className="h2-title">
                       <section className={classes.status}>
                         {user.access_level === 25 && <section className={classes.personStatus + " person-status person-access-prefet"} />}
@@ -305,7 +308,7 @@ export default function ProfilePage(props) {
                         {user.access_level === 75 && <section className={classes.personStatus + " person-status person-access-admin"} />}
                         {user.access_level === 0 && "Utilisateur"}
                         {user.access_level === 25 && "Préfet"}
-                        {user.access_level === 50 && "Modérateur"}
+                        {user.access_level === 50 && "Moderateur"}
                         {user.access_level === 75 && "Administrateur"}
                       </section>
                     </h2>
@@ -319,6 +322,13 @@ export default function ProfilePage(props) {
                           <DisplayData name="E-mail :" data={user.email} />
                           <DisplayData name="Mot de passe :" data={
                             <IconButton aria-label="edit" size="small" onClick={handlePwdEditOpen}>
+                              Modifier
+                                  <EditIcon style={{ fontSize: 10, color: blue[500] }} />
+
+                            </IconButton>
+                          } />
+                          <DisplayData name="Avatar :" data={
+                            <IconButton aria-label="edit" size="small" onClick={handlePPEditOpen}>
                               Modifier
                                   <EditIcon style={{ fontSize: 10, color: blue[500] }} />
 
