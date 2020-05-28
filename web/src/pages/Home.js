@@ -4,6 +4,8 @@ import { useHistory } from "react-router-dom";
 import { MainContext } from '../context/MainContext';
 import MUIDataTable from "mui-datatables";
 import moment from 'moment';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import {
     Grid,
 } from '@material-ui/core';
@@ -113,7 +115,8 @@ export default function Home() {
             .then(response => { setJoinedEvents(response) })
     }
 
-    function getTopUser() {
+
+    const getTopUser = () => {
         let post_body = "&user_id=" + parseInt(user.user_id)
         fetch(appConfig.api_url + 'getuser', {
             method: 'POST',
@@ -122,7 +125,7 @@ export default function Home() {
             body: post_body
         })
             .then(response => response.json())
-        return;
+            .then(response => { setTopUser(response)})
     }
 
     return (
@@ -132,11 +135,19 @@ export default function Home() {
             <Grid spacing={2} container direction="row" justify="space-evenly" alignItems="stretch">
                 <Grid xs={12}>
                     <center><h2 className="h2-title">Rank</h2></center>
-                    <center><h3>Rank</h3></center>
-                    {
-                        topUser && topUser.rank_year_global
-                    }
+                    {/*<center><h1 className="numberCircle">{topUser && topUser.rank_year_global}</h1> </center>*/}
+                    
                 </Grid>
+                <div class="nav-table">
+                    <div class="nav-row">
+                        <div class="nav-col">
+                            <div class="icon">
+                                <center>{topUser && topUser.rank_year_global}</center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
                 <Grid item xs={12}>
                     {/*displayJoinedEvents('Événements rejoints par ' + user.firstname, joinedEvents)*/}
@@ -152,7 +163,7 @@ export default function Home() {
 
                 <Grid item xs={12}>
                     {/*displayCreatedEvents('Événements créés par ' + user.firstname, createdEvents)*/}
-                    <center><h2 className="h2-title">Événements créés </h2></center>
+                    <center><h2 className="h1-title">Événements créés </h2></center>
                     {
                         createdEvents && <MUIDataTable
                             data={reformatData(createdEvents)}

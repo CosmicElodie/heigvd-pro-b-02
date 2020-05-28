@@ -127,7 +127,7 @@ export default function Event() {
 
 
     //Affiche les boutons "Modifier" ou "Annuler"
-    function printButton(permission, IDutilisateurCourant, IDorganisateur, statutEvent, text) {
+    function printButton(permission, IDutilisateurCourant, IDorganisateur, statutEvent, text, limitationEvent, userHouseName) {
 
         if (statutEvent === "En attente d'autres participants" || statutEvent === "Planifié") {
 
@@ -143,13 +143,18 @@ export default function Event() {
                 }
             }
 
-            if (text === "Rejoindre") {
-                return <Button variant="contained" size="small" color="primary" onClick={joinEvent} className={classes.margin}> {text} </Button>;
-            }
-            else if (text === "Quitter") {
-                return <Button variant="contained" size="small" color="primary" onClick={quitEvent} className={classes.margin}> {text} </Button>;
+            if(!limitationEvent || limitationEvent.name === userHouseName.name ){
+                if (text === "Rejoindre") {
+                    return <Button variant="contained" size="small" color="primary" onClick={joinEvent} className={classes.margin}> {text} </Button>;
+                }
+                else if (text === "Quitter") {
+                    return <Button variant="contained" size="small" color="primary" onClick={quitEvent} className={classes.margin}> {text} </Button>;
+                }
             }
 
+        }else{
+            if (text === "Gagnant")
+            return <div>test</div>
         }
 
 
@@ -304,18 +309,20 @@ export default function Event() {
                         <CardContent className={classes.cardContent}>
                             {/* Bouton "/modifier/annuler", uniquement visible pour l'admin/modo + l'organisateur de l'event */}
                             {
-                                printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Rejoindre")
+                                printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Rejoindre", current.house, user.house)
                             }
                             {
-                                printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Quitter")
+                                printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Quitter", current.house, user.house)
                             }
                             {
-                                printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Modifier")
+                                printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Modifier", current.house, user.house)
                             }
                             {
-                                printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Annuler")
+                                printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Annuler", current.house, user.house)
                             }
-
+                            {
+                                printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Gagnant", current.house, user.house)
+                            }
                             {/* Bouton "supprimer", uniquement visible pour l'admin/modo */}
                             {printDeleteButton(user.access_level)}
 
