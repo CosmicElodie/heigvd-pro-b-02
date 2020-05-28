@@ -177,7 +177,7 @@ export default function Event_Modify() {
     }
 
     function editIsCompetitive() {
-        let post_body = "&event_id=" + parseInt(current.event_id) + "&is_competitive=" + parseInt((is_competitive ? is_competitive : current.is_competitive));
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&is_competitive=" + parseInt(is_competitive);
         fetch(appConfig.api_url + 'event/update/setIsCompetitive', {
             method: 'POST',
             credentials: 'include',
