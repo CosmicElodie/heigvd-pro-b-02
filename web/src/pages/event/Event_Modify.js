@@ -192,7 +192,7 @@ export default function Event_Modify() {
                     }
                 });
                 if (status === "ok") {
-                    window.setTimeout(function () { window.location.reload() }, 3000)
+                    //window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
 
