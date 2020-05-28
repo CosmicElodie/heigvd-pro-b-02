@@ -171,10 +171,10 @@ export default function Event() {
                     <h2 className="h2-title"><br />Gagnants</h2>
                     {winner.map(({ place, user_id, event_id }) =>
                         <div>
-                            <Button color="primary"  onClick={() => handlePersonClick(user_id)}>
-                                {place}{'. '}{user_id.firstname}{' '}{user_id.lastname}                            
+                            <Button color="primary" onClick={() => handlePersonClick(user_id)}>
+                                {place}{'. '}{user_id.firstname}{' '}{user_id.lastname}
                             </Button>
-                            <br/>
+                            <br />
                         </div>
                     )}
                 </div>
@@ -343,10 +343,10 @@ export default function Event() {
 
     function printAttendee(participant) {
 
-        return(
+        return (
             <p align="center">
-                <Button color="primary"  onClick={() => handlePersonClick(participant)}>
-                    {participant && (participant.firstname + " " + participant.lastname)}                         
+                <Button color="primary" onClick={() => handlePersonClick(participant)}>
+                    {participant && (participant.firstname + " " + participant.lastname)}
                 </Button>
             </p>
         );
@@ -395,13 +395,13 @@ export default function Event() {
                             <Table>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>
+                                        <TableCell >
                                             <h2 className="h2-title">Description</h2>
                                         </TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    <TableCell align='justify'>
+                                    <TableCell align='center'>
                                         {current.description} </TableCell>
                                 </TableBody>
                             </Table>
@@ -422,17 +422,17 @@ export default function Event() {
                                 </TableHead>
                                 <TableBody>
                                     <TableRow>
-                                        <TableCell>
+                                        <TableCell align="center">
                                             <Moment format="DD/MM/YYYY - HH:mm">
                                                 {current.deadline_reservation}
                                             </Moment>
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell align="center">
                                             <Moment format="DD/MM/YYYY - HH:mm">
                                                 {current.date_begin}
                                             </Moment>
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell align="center">
                                             <Moment format="DD/MM/YYYY - HH:mm">
                                                 {current.date_end}
                                             </Moment>
@@ -457,13 +457,13 @@ export default function Event() {
                                 </TableHead>
                                 <TableBody>
                                     <TableRow>
-                                        <TableCell>
+                                        <TableCell align="center">
                                             {current.is_competitive ? "Oui" : "Non"}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell align="center">
                                             {current.battleroyale ? "Oui" : "Non"}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell align="center">
                                             {displayDifficulty(current.difficulty)}
                                         </TableCell>
                                     </TableRow>
@@ -486,12 +486,12 @@ export default function Event() {
                                 </TableHead>
                                 <TableBody>
                                     <TableRow>
-                                        <TableCell>
+                                        <TableCell align="center">
                                             {displayLimitation(current.limitation)}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell align="center">
                                             <div>
-                                                
+
                                                 <Button variant="contained" onClick={handleOpen}>
                                                     {current.nb_attendees} / {current.attendees_max}
                                                 </Button>
@@ -521,9 +521,9 @@ export default function Event() {
                                             </div>
 
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell align="center">
                                             {current.price} CHF
-                                            </TableCell>
+                                        </TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
