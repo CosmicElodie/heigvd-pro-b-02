@@ -8,30 +8,31 @@ body {
     background:#ededed;
 }
 
+.h1-title
+{
+  font-family: 'Century Gothic';
+  color: rgba(30, 136, 109, 0.87);
+  font-size: 25px;
+  letter-spacing: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.h2-title {
+    font-family: 'Century Gothic';
+    color: rgba(58, 58, 58, 0.87);
+    font-size: 18px;
+    letter-spacing: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
 .parent {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(7, 1fr);
     grid-column-gap: 0px;
     grid-row-gap: 0px;
-}
-
-.house-title {
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    color: var(--house-color);
-    font-size: 50px;
-    text-align: center;
-    text-shadow: -2px 0 rgb(63, 63, 63), 0 5px rgb(63, 63, 63), 2px 0 rgb(63, 63, 63), 0 -2px rgb(63, 63, 63);
-    animation: slidingFadeIn 1s 1;
-}
-
-.house-subtitle {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: var(--house-color);
-    font-size: 2em;
-    text-align: center;
-    text-shadow: -2px 0 rgb(63, 63, 63), 0 2px rgb(63, 63, 63), 2px 0 rgb(63, 63, 63), 0 -2px rgb(63, 63, 63);
-    animation: slidingFadeIn 1s 1;
 }
 
 .points-font {

@@ -12,6 +12,8 @@ import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
+import "../css/rules.css";
+
 const ExpansionPanel = withStyles({
     root: {
         border: '1px solid rgba(0, 0, 0, .125)',
@@ -95,8 +97,6 @@ export default function Rules() {
         <main>
             <Grid container direction="row" justify="space-evenly" alignItems="center">
                 <Card className={classes.card}>
-                    <Typography gutterBottom variant="h6" align="center">
-                    </Typography>
                     <CardMedia
                         className={classes.cardMedia}
                         image=""

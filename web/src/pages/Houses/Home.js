@@ -107,8 +107,11 @@ export default function ModalProfile() {
 
       })
   }
-  useEffect(() => {
-    if (user && user.house) {
+
+  useEffect(() => 
+  {
+    if (user && user.house) 
+    {
       getHouseInfo(user.house.house_id);
       getLatestPost(user.house.house_id);
       setHouseBanner('url(\''+ appConfig.content_url + user.house.name + '.png\')');
@@ -117,7 +120,8 @@ export default function ModalProfile() {
     }
   }, [user]);
 
-  if (user && user.house) {
+  if (user && user.house) 
+  {
     houseBanner && root.style.setProperty('--house-banner', houseBanner);
     houseColor && root.style.setProperty('--house-color', houseColor);
     houseBgColor && root.style.setProperty('--house-bg-color', houseBgColor);
@@ -153,8 +157,7 @@ export default function ModalProfile() {
           {user && user.house && <img src={appConfig.content_url  + user.house.name + ".png"} width="450px" alt="" />}
           <br />
           {houseInfo && houseInfo.name.toUpperCase()}
-          <br />
-          <br />
+          <br /><br />
 
         </h1>
       </Grid>
@@ -180,13 +183,6 @@ export default function ModalProfile() {
           <CardContent>
             <h2 class="house-subtitle">Points</h2>
             <center>
-              {
-                /*
-                              <Avatar className={classes.large}>
-                  {houseInfo && houseInfo.points_month}
-              </Avatar>
-                */
-              }
               <h3 class="points-font">{houseInfo && houseInfo.points_month}</h3>
             </center>
           </CardContent>

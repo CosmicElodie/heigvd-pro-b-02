@@ -111,7 +111,7 @@ export default function Auditoire() {
         return (
 
             <Card className={classes.card}>
-                <h1>{name}</h1>
+                <h1 className="h1-title">{name}</h1>
                 <CardMedia
                     className={classes.cardMedia}
                     title="Image title"

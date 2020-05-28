@@ -85,12 +85,14 @@ export default function Event_List() {
       };
 
     const MyButton = styled(Button)({
-        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+        background: 'linear-gradient(45deg, #43b6a2 30%, #81b87d 90%)',
         border: 0,
         borderRadius: 3,
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        boxShadow: '0 3px 5px 2px rgba(124, 124, 124, .3)',
         color: 'white',
         height: 48,
+        padding: '0px 20px',
+        margin: '30px 30px',
     });
 
 

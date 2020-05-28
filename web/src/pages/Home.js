@@ -8,6 +8,7 @@ import {
     Grid,
 } from '@material-ui/core';
 
+import "../css/home.css";
 
    const columns = [
     { name: 'name', label: 'Nom' , options: {filter: false, sort: true,}},
@@ -114,7 +115,7 @@ export default function Home() {
 
     return (
             <main>
-                <h1>Bienvenue, {user.firstname} !</h1>
+                <h1 className="h1-title">Bienvenue, {user.firstname} !</h1>
                 <Grid spacing={2} container direction="row" justify="space-evenly" alignItems="stretch">
                     <Grid xs={12} sm={6}>
 
@@ -125,7 +126,7 @@ export default function Home() {
                     </Grid>
                     <Grid item xs={12}>
                         {/*displayJoinedEvents('Événements rejoints par ' + user.firstname, joinedEvents)*/}
-                        <center><h2>Événements rejoints </h2></center>
+                        <center><h2 className="h2-title">Événements rejoints </h2></center>
                         {
                             joinedEvents && <MUIDataTable
                             data={reformatData(joinedEvents)}
@@ -137,7 +138,7 @@ export default function Home() {
 
                     <Grid item xs={12}>
                         {/*displayCreatedEvents('Événements créés par ' + user.firstname, createdEvents)*/}
-                        <center><h2>Événements créés </h2></center>
+                        <center><h2 className="h2-title">Événements créés </h2></center>
                         {
                             createdEvents && <MUIDataTable
                             data={reformatData(createdEvents)}

@@ -296,8 +296,8 @@ export default function ProfilePage(props) {
                     </IconButton>
                   </div>
                   <div className={classes.name}>
-                    <h1>{user.firstname + ' ' + user.lastname}</h1>
-                    <h2>
+                    <h1 className="h1-title">{user.firstname + ' ' + user.lastname}</h1>
+                    <h2 className="h2-title">
                       <section className={classes.status}>
                         {user.access_level === 25 && <section className={classes.personStatus + " person-status person-access-prefet"} />}
                         {user.access_level === 50 && <section className={classes.personStatus + " person-status person-access-moderator"} />}
@@ -312,8 +312,6 @@ export default function ProfilePage(props) {
                       {/* INFORMATIONS */}
                       <Grid item xs={12}>
                         <p align="justify">
-                          <DisplayData name="Nom :" data={user.lastname} />
-                          <DisplayData name="Prénom :" data={user.firstname} />
                           <DisplayData name="Statut :" data={userInfo && userInfo.status.name} />
                           <DisplayData name="Naissance :" data={user.birth} />
                           <DisplayData name="Maison :" data={user.house && user.house.name} />
