@@ -97,11 +97,6 @@ export default function Rules() {
         <main>
             <Grid container direction="row" justify="space-evenly" alignItems="center">
                 <Card className={classes.card}>
-                    <CardMedia
-                        className={classes.cardMedia}
-                        image=""
-                        title="Image title"
-                    />
                     <CardContent className={classes.cardContent}>
                         <h1>Conditions générales d'utilisation</h1>
                         <ul>
@@ -128,7 +123,7 @@ export default function Rules() {
                         <h1>Frequently Asked Questions</h1>
                         <ExpansionPanel square expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                             <ExpansionPanelSummary aria-controls="panel2d-content" id="panel2d-header">
-                                <Typography>Quelle est la période de compétition pour élire la meilleure orientation ?</Typography>
+                                <Typography><b>Quelle est la période de compétition pour élire la meilleure orientation ?</b></Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <Typography>
@@ -138,7 +133,7 @@ export default function Rules() {
                         </ExpansionPanel>
                         <ExpansionPanel square expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
                             <ExpansionPanelSummary aria-controls="panel2d-content" id="panel2d-header">
-                                <Typography>J'ai envie de parler de chats mais il n'y a aucune section à ce sujet, que faire?</Typography>
+                                <Typography><b>J'ai envie de parler de chats mais il n'y a aucune section à ce sujet, que faire ?</b></Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <Typography>
@@ -148,7 +143,7 @@ export default function Rules() {
                         </ExpansionPanel>
                         <ExpansionPanel square expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
                             <ExpansionPanelSummary aria-controls="panel3d-content" id="panel3d-header">
-                                <Typography>Comment peut-on rapporter des points à sa maison ?</Typography>
+                                <Typography><b>Comment peut-on rapporter des points à sa maison ?</b></Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <Typography>
@@ -229,7 +224,7 @@ export default function Rules() {
                         </ExpansionPanel>
                         <ExpansionPanel square expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
                             <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header">
-                                <Typography>Qui peut créer des événements ?</Typography>
+                                <Typography><b>Qui peut créer des événements ?</b></Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <Typography>
@@ -239,7 +234,7 @@ export default function Rules() {
                         </ExpansionPanel>
                         <ExpansionPanel square expanded={expanded === 'panel5'} onChange={handleChange('panel5')}>
                             <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header">
-                                <Typography>Que faire en cas d'égalité au cours d'un événement ? </Typography>
+                                <Typography><b>Que faire en cas d'égalité au cours d'un événement ?</b></Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <Typography>
@@ -249,7 +244,7 @@ export default function Rules() {
                         </ExpansionPanel>
                         <ExpansionPanel square expanded={expanded === 'panel6'} onChange={handleChange('panel6')}>
                             <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header">
-                                <Typography>Je suis délégué-e, professeur-e ou assistant-e à l'HEIG-VD. Comment obtenir ce status ?</Typography>
+                                <Typography><b>Je suis délégué-e, professeur-e ou assistant-e à l'HEIG-VD. Comment obtenir ce status ?</b></Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <Typography>
@@ -259,7 +254,7 @@ export default function Rules() {
                         </ExpansionPanel>
                         <ExpansionPanel square expanded={expanded === 'panel7'} onChange={handleChange('panel7')}>
                             <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header">
-                                <Typography>Que représentent les status de Préfet, Modérateur et Administrateur ?</Typography>
+                                <Typography><b>Que représentent les status de Préfet, Modérateur et Administrateur ?</b></Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <Typography>

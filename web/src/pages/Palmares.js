@@ -124,7 +124,7 @@ export default function Palmares() {
 
         return (
             <Card className={classes.card}>
-                <h1>{name}</h1>
+                <center><h1>{name}</h1></center>
                 <CardMedia
                     className={classes.cardMedia}
                     image=""
@@ -161,12 +161,7 @@ export default function Palmares() {
 
         return (
             <Card className={classes.card}>
-                <h1>{name}</h1>
-                <CardMedia
-                    className={classes.cardMedia}
-                    image=""
-                    title="Image title"
-                />
+                <center><h1>{name}</h1></center>
 
                 <CardContent className={classes.cardContent}>
                     <Typography>
@@ -198,7 +193,7 @@ export default function Palmares() {
         return (
 
             <Card className={classes.card}>
-                <h1>{name}</h1>
+                <center><h1>{name}</h1></center>
                 <CardMedia
                     className={classes.cardMedia}
                     image=""
@@ -253,18 +248,22 @@ export default function Palmares() {
     return (
         <main>
             <Grid container spacing={2} direction="row" justify="space-evenly" alignItems="stretch">
-                    <Grid item xs={12} sm={6}>
-                        {displayMonthlyRank('Top utilisateur (mensuel)', topUserMonthly)}
-                    </Grid>
+                <Grid item xs={12} sm={6}>
+                    {displayMonthlyRank('Top utilisateur (mensuel)', topUserMonthly)}
+                </Grid>
 
-                    <Grid item xs={12} sm={6}>
-                        {displayAnnualRank('Top utilisateur (annuel)', topUserYearly)}
-                    </Grid>
+                <Grid item xs={12} sm={6}>
+                    {displayAnnualRank('Top utilisateur (annuel)', topUserYearly)}
                 </Grid>
-                <Grid item xs={12}>
-                    {displayHouseRank('Coupe des 5 maisons', topHouses)}
-                </Grid>
-    
+            </Grid>
+
+            <br /><br />
+
+            <Grid item xs={12}>
+                {displayHouseRank('Coupe des 5 maisons', topHouses)}
+            </Grid>
+
+
         </main>
     );
 }

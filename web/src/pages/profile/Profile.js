@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react';
 // nodejs library that concatenates classes
 import classNames from "classnames";
 
-
 import { TextField, makeStyles, Card, CardContent, Button, Typography, Avatar, Grid } from '@material-ui/core';
 
 import GridContainer from "../../components/Grid/GridContainer.js";
@@ -297,6 +296,7 @@ export default function ProfilePage(props) {
                     </IconButton>
                   </div>
                   <div className={classes.name}>
+                  <br /><br />
                     <h1 className="h1-title">{user.firstname + ' ' + user.lastname}</h1>
                     <h2 className="h2-title">
                       <section className={classes.status}>
