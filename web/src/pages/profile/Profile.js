@@ -96,7 +96,7 @@ export default function ProfilePage(props) {
 
   const submitImage = (e) => {
     let post_body =
-      "&user_id=" + user.user_id +
+      "&user_id=" + user.email +
       "&img_name=" + img.name +
       "&avatar=" + img.data +
       "&link=" + appConfig.content_url;
