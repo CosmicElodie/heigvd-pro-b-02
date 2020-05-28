@@ -138,6 +138,7 @@ export default function ProfilePage(props) {
             ...latest,
             [response.dialog_id]: { is_open: true }
           }));
+        window.setTimeout(function () { window.location.reload() }, 300)
         }
       })
 
@@ -292,7 +293,7 @@ export default function ProfilePage(props) {
                 <div className={classes.profile}>
                   <div>
                     <IconButton aria-label="edit" size="medium" onClick={handlePPEditOpen}>
-                      {userInfo && userInfo.avatar && <img src={appConfig.content_url + userInfo.avatar} alt="..." className={imageClasses} />}
+                      {userInfo && userInfo.avatar && <img src={appConfig.content_url + userInfo.avatar} alt={userInfo.initials} className={imageClasses} />}
                     </IconButton>
                   </div>
                   <div className={classes.name}>
