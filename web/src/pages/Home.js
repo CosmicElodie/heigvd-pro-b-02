@@ -5,7 +5,6 @@ import { MainContext } from '../context/MainContext';
 import MUIDataTable from "mui-datatables";
 import moment from 'moment';
 import {
-    CssBaseline,
     Grid,
 } from '@material-ui/core';
 
@@ -114,12 +113,17 @@ export default function Home() {
 
 
     return (
-        <React.Fragment>
             <main>
                 <h1>Bienvenue, {user.firstname} !</h1>
                 <Grid spacing={2} container direction="row" justify="space-evenly" alignItems="stretch">
+                    <Grid xs={12} sm={6}>
 
-                    <Grid item xs>
+                    </Grid>
+
+                    <Grid xs={12} sm={6}>
+
+                    </Grid>
+                    <Grid item xs={12}>
                         {/*displayJoinedEvents('Événements rejoints par ' + user.firstname, joinedEvents)*/}
                         <center><h2>Événements rejoints </h2></center>
                         {
@@ -131,7 +135,7 @@ export default function Home() {
                         }
                     </Grid>
 
-                    <Grid item xs>
+                    <Grid item xs={12}>
                         {/*displayCreatedEvents('Événements créés par ' + user.firstname, createdEvents)*/}
                         <center><h2>Événements créés </h2></center>
                         {
@@ -145,6 +149,5 @@ export default function Home() {
 
                 </Grid>
             </main>
-        </React.Fragment>
     );
 }

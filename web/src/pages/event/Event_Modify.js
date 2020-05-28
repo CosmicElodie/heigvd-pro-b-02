@@ -33,10 +33,11 @@ const useStyles = makeStyles(theme => ({
     card: { //dans la carte
         minHeight: '90%',
         minWidth: '650px',
+        width: '80%',
         alignItems: 'center',
         display: 'flex',
         flexDirection: 'column',
-        padding: '10px 10px'
+        padding: '10px 10px',
     },
     cardMedia: {
         paddingTop: '55px', //height de l'image
@@ -776,7 +777,7 @@ export default function Event_Modify() {
                             {/* DEADLINE_RESERVATION */}
                             <Grid item xs={6} sm={4}>
                                 <Grid item xs={12}>
-                                    {<b>{"Date limite inscription : "}</b>}{(current == null ? "error" : <Moment format="DD/MM/YYYY - HH:mm">{current.deadline_reservation}</Moment>)}
+                                    {<b>{"Date limite inscription : "}</b>}<br />{(current == null ? "error" : <Moment format="DD/MM/YYYY - HH:mm">{current.deadline_reservation}</Moment>)}
                                 </Grid>
 
                                 <Grid item xs={12}>
@@ -801,13 +802,13 @@ export default function Event_Modify() {
                             {/* DATE_BEGIN */}
                             <Grid item xs={6} sm={4}>
                                 <Grid item xs={12}>
-                                    {<b>{"Date début : "}</b>}{(current == null ? "error" : <Moment format="DD/MM/YYYY - HH:mm">{current.date_begin}</Moment>)}
+                                    {<b>{"Date début : "}</b>}<br />{(current == null ? "error" : <Moment format="DD/MM/YYYY - HH:mm">{current.date_begin}</Moment>)}
                                 </Grid>
 
                                 <Grid item xs={12}>
                                     <TextField
                                         id="date_begin"
-                                        label="Date et heure de l'événement"
+                                        label="Date et heure de début"
                                         type="datetime-local"
                                         placeholder={current.date_begin}
                                         defaultValue={current.date_begin}
@@ -826,7 +827,7 @@ export default function Event_Modify() {
                             {/* DATE_END */}
                             <Grid item xs={6} sm={4}>
                                 <Grid item xs={12}>
-                                    {<b>{"Date fin : "}</b>}{(current == null ? "error" : <Moment format="DD/MM/YYYY - HH:mm">{current.date_end}</Moment>)}
+                                    {<b>{"Date fin : "}</b>}<br />{(current == null ? "error" : <Moment format="DD/MM/YYYY - HH:mm">{current.date_end}</Moment>)}
                                 </Grid>
 
                                 <Grid item xs={12}>
@@ -902,6 +903,7 @@ export default function Event_Modify() {
                     </CardContent>
                 </Card>
                 }
+                
             </main>
         </React.Fragment>
     );
