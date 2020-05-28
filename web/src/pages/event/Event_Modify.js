@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
-import { MainContext } from '../../context/MainContext';
+import { MainContext, cleanChars } from '../../context/MainContext';
 import { EventContext } from '../../context/EventContext';
 import { useInput } from '../../hooks/input';
 import { useLocation } from "react-router-dom";
@@ -131,7 +131,7 @@ export default function Event_Modify() {
     const { value: house_id, bind: bindHouseId, reset: resetHouseId, setValue: setHouseId } = useInput('');
 
     function editName() {
-        let post_body = "&event_id=" + parseInt(current.event_id) + "&name=" + (name ? name : current.name);
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&name=" + cleanChars((name ? name : current.name));
         fetch(appConfig.api_url + 'event/update/setName', {
             method: 'POST',
             credentials: 'include',
@@ -154,7 +154,7 @@ export default function Event_Modify() {
     }
 
     function editDescription() {
-        let post_body = "&event_id=" + parseInt(current.event_id) + "&description=" + (description ? description : current.description);
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&description=" + cleanChars((description ? description : current.description));
         fetch(appConfig.api_url + 'event/update/setDescription', {
             method: 'POST',
             credentials: 'include',
@@ -407,7 +407,7 @@ export default function Event_Modify() {
     }
 
     function editLocation() {
-        let post_body = "&event_id=" + parseInt(current.event_id) + "&location=" + (location ? location : current.location);
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&location=" + cleanChars((location ? location : current.location));
         fetch(appConfig.api_url + 'event/update/setLocation', {
             method: 'POST',
             credentials: 'include',
@@ -430,7 +430,7 @@ export default function Event_Modify() {
     }
 
     function editAddress() {
-        let post_body = "&event_id=" + parseInt(current.event_id) + "&address=" + (address ? address : current.address);
+        let post_body = "&event_id=" + parseInt(current.event_id) + "&address=" + cleanChars((address ? address : current.address));
         fetch(appConfig.api_url + 'event/update/setAddress', {
             method: 'POST',
             credentials: 'include',
@@ -456,8 +456,8 @@ export default function Event_Modify() {
 
         let post_body =
             "&event_id=" + parseInt(current.event_id) +
-            "&name=" + (name ? name : current.name) +
-            "&description=" + (description ? description : current.description) +
+            "&name=" + cleanChars((name ? name : current.name)) +
+            "&description=" + cleanChars((description ? description : current.description)) +
             "&is_competitive=" + (is_competitive ? is_competitive : 0) +
             "&battleroyal=" + (battleroyal ? battleroyal : 0) +
             "&difficulty=" + (difficulty ? difficulty : 0) +
@@ -467,8 +467,8 @@ export default function Event_Modify() {
             "&date_begin=" + (date_begin ? date_begin : current.date_begin) +
             "&date_end=" + (date_end ? date_end : current.date_end) +
             "&deadline_reservation=" + (deadline_reservation ? deadline_reservation : current.deadline_reservation) +
-            "&location=" + (location ? location : current.location) +
-            "&address=" + (address ? address : current.address) +
+            "&location=" + cleanChars((location ? location : current.location)) +
+            "&address=" + cleanChars((address ? address : current.address)) +
             "&house_id=" + (house_id ? house_id : 0);
 
         fetch(appConfig.api_url + 'event/update_event', {

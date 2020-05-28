@@ -1,5 +1,5 @@
 import React, { useContext, useCallback } from 'react';
-import { MainContext } from '../../context/MainContext';
+import { MainContext, cleanChars } from '../../context/MainContext';
 import {appConfig} from "../../config/appConfig"
 import { useInput } from '../../hooks/input';
 import { styled } from '@material-ui/core/styles';
@@ -104,8 +104,8 @@ export default function Event_Create() {
     const buttonCreateEvent = (e) => {
 
         let post_body =
-            "&name=" + name +
-            "&description=" + description +
+            "&name=" + cleanChars(name) +
+            "&description=" + cleanChars(description) +
             "&is_competitive=" + (is_competitive.length ? parseInt(is_competitive) : 0) +
             "&battleroyal=" + (is_competitive ? (!(parseInt(house_id)) ? (battleroyal.length ? battleroyal : 0) : 0) : 0)+
             "&difficulty=" + (difficulty.length ? parseInt(difficulty) : 1) +
@@ -115,11 +115,11 @@ export default function Event_Create() {
             "&date_begin=" + date_begin +
             "&date_end=" + date_end +
             "&deadline_reservation=" + deadline_reservation +
-            "&location=" + location +
+            "&location=" + cleanChars(location) +
             "&no=" + no +
-            "&street=" + street +
+            "&street=" + cleanChars(street) +
             "&postal_code=" + postal_code +
-            "&city=" + city +
+            "&city=" + cleanChars(city) +
             "&house_id=" + (house_id.length ? parseInt(house_id) : 0);
 
         fetch(appConfig.api_url + 'event/insert_event', {
