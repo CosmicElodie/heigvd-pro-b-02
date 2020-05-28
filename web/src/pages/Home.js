@@ -23,12 +23,12 @@ const columns = [
 ];
 
 
-
 export default function Home() {
 
     const { user } = useContext(MainContext);
-    const [topUser, setTopUser] = useState();
     let history = useHistory();
+    const [topUser, setTopUser] = useState();
+
 
     const redirectPage = useCallback((link) => {
         // Will change the URL, behaves like a link
@@ -85,6 +85,8 @@ export default function Home() {
 
     const getCreatedEvents = () => {
         let post_body = "&user_id=" + parseInt(user.user_id);
+        console.log("CREATED");
+        console.log(post_body);
 
         fetch(appConfig.api_url + 'event/created_by_user',
             {
@@ -112,14 +114,15 @@ export default function Home() {
     }
 
     function getTopUser() {
-        fetch(appConfig.api_url + 'home/user',
-            {
-                method: 'GET',
-                credentials: 'include'
-            })
+        let post_body = "&user_id=" + parseInt(user.user_id)
+        fetch(appConfig.api_url + 'getuser', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: post_body
+        })
             .then(response => response.json())
-            .then(response => { setTopUser(response); }
-            )
+        return;
     }
 
     return (
@@ -129,8 +132,9 @@ export default function Home() {
             <Grid spacing={2} container direction="row" justify="space-evenly" alignItems="stretch">
                 <Grid xs={12}>
                     <center><h2 className="h2-title">Rank</h2></center>
+                    <center><h3>Rank</h3></center>
                     {
-                         topUser && topUser.rank_month_global
+                        topUser && topUser.rank_year_global
                     }
                 </Grid>
 

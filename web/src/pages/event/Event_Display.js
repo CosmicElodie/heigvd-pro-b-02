@@ -119,7 +119,7 @@ export default function Event() {
                         is_open: true
                     }
                 });
-                redirectPage("/event_list") 
+                window.setTimeout(function () { redirectPage("/event_list"); window.location.reload(); }, 3000)
             })
 
         return;

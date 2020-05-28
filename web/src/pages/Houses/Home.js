@@ -4,7 +4,7 @@ import { MainContext } from '../../context/MainContext';
 import "../../css/Houses.css";
 import {appConfig} from "../../config/appConfig"
 
-
+import Moment from 'react-moment';
 import MUIDataTable from "mui-datatables";
 import moment from 'moment';
 
@@ -53,7 +53,7 @@ export default function ModalProfile() {
       newObj["name_section"] = data.name_section
       newObj["creator"] = data.creator.firstname + ' ' + data.creator.lastname
       newObj["message"] = data.message
-      newObj["last_update"] = moment(data.last_update).format('DD/MM/YYYY HH:mm')
+      newObj["last_update"] = data.last_update
       newObj["name_subject"] = data.name_subject
       // return our new object.
       return newObj;
@@ -239,7 +239,6 @@ export default function ModalProfile() {
             }
           </CardContent>
         </Card>
-        <center><h1>Événements créés </h1></center>
       </Grid>
     </Grid>
   );

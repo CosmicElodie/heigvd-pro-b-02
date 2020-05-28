@@ -305,7 +305,7 @@ export default function ProfilePage(props) {
                         {user.access_level === 75 && <section className={classes.personStatus + " person-status person-access-admin"} />}
                         {user.access_level === 0 && "Utilisateur"}
                         {user.access_level === 25 && "Préfet"}
-                        {user.access_level === 50 && "Moderateur"}
+                        {user.access_level === 50 && "Modérateur"}
                         {user.access_level === 75 && "Administrateur"}
                       </section>
                     </h2>
