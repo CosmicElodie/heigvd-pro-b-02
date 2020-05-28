@@ -26,7 +26,7 @@ public class HomeController {
     @Autowired
     private DataSource dataSource;
 
-    @GetMapping("/profile/all")
+    @GetMapping("/home/user")
     public String getUser() throws SQLException {
 
         JsonObjectBuilder responseObject;
