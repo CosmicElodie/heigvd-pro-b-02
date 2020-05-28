@@ -25,6 +25,7 @@ const ForumDelete = ( { is_open, handleClose } ) => {
                 parent && parent.forums && parent.forums.splice(index, 1);
                 !parent && data.splice(index, 1); // Est une section root
                 setData(data.length > 0 ? JSON.parse(JSON.stringify(data)) : []);
+                handleClose();
             }
             setDialog( { [dialog_id] : {
                 is_open: true
