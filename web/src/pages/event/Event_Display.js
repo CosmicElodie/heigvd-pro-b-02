@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
-import {appConfig} from "../../config/appConfig"
+import { appConfig } from "../../config/appConfig"
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { MainContext } from '../../context/MainContext';
@@ -70,6 +70,7 @@ export default function Event() {
     const { data } = useContext(EventContext);
     const location = useLocation();
     const [current, setCurrent] = useState();
+    const [winner, setWinner] = useState();
     const [attendees, setAttendees] = useState();
     let history = useHistory();
     const [accountPointDialogState, setAccountPointDialogState] = useState({ is_open: false });
@@ -80,7 +81,11 @@ export default function Event() {
             let event = getEventByID(eventId, data);
             setCurrent(event);
         }
-    }, [data,location.pathname,getParticipants]);
+    }, [data, location.pathname, getParticipants]);
+
+    useEffect(() => {
+        current && getWinner();
+    }, [current]);
 
     const classes = useStyles();
 
@@ -143,7 +148,7 @@ export default function Event() {
                 }
             }
 
-            if(!limitationEvent || limitationEvent.name === userHouseName.name ){
+            if (!limitationEvent || limitationEvent.name === userHouseName.name) {
                 if (text === "Rejoindre") {
                     return <Button variant="contained" size="small" color="primary" onClick={joinEvent} className={classes.margin}> {text} </Button>;
                 }
@@ -152,13 +157,29 @@ export default function Event() {
                 }
             }
 
-        }else{
-            if (text === "Gagnant")
-            return <div>test</div>
         }
 
 
         return;
+    }
+
+    //Affiche les gagnants
+    function printWinner(status, winner) {
+        if (status === "Terminé") {
+            return (
+                <div>
+                    <h2 className="h2-title"><br />Gagnants</h2>
+                    {winner.map(({ place, user_id, event_id }) =>
+                        <div>
+                            <Button color="primary"  onClick={() => handlePersonClick(user_id)}>
+                                {place}{'. '}{user_id.firstname}{' '}{user_id.lastname}                            
+                            </Button>
+                            <br/>
+                        </div>
+                    )}
+                </div>
+            )
+        }
     }
 
     //Met l'état de l'event à "Annulé"
@@ -177,8 +198,8 @@ export default function Event() {
                     }
                 });
                 if (status === "ok") {
-                    window.location.reload(false) 
-               }
+                    window.location.reload(false)
+                }
             })
 
         return;
@@ -205,8 +226,8 @@ export default function Event() {
                     }
                 });
                 if (status === "ok") {
-                    window.location.reload(false) 
-               }
+                    window.location.reload(false)
+                }
             })
 
         return;
@@ -227,8 +248,42 @@ export default function Event() {
                     }
                 });
                 if (status === "ok") {
-                    window.location.reload(false) 
-               }
+                    window.location.reload(false)
+                }
+            })
+
+        return;
+    }
+
+    function getWinner() {
+        fetch(appConfig.api_url + 'event/result/winner', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&event_id=" + parseInt(current.event_id)
+        })
+            .then(response => response.json())
+            .then(response => { setWinner(response) })
+
+    }
+
+    function quitEvent() {
+        fetch(appConfig.api_url + 'event/quit_event', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: "&user_id=" + parseInt(user.user_id) + "&event_id=" + parseInt(current.event_id)
+        })
+            .then(response => response.json())
+            .then(({ status, dialog_id }) => {
+                setDialog({
+                    [dialog_id]: {
+                        is_open: true
+                    }
+                });
+                if (status === "ok") {
+                    window.location.reload(false)
+                }
             })
 
         return;
@@ -278,7 +333,7 @@ export default function Event() {
         }
     }
 
-    useEffect(() => {   
+    useEffect(() => {
         current && getParticipants()
     }, [current]);
 
@@ -287,9 +342,14 @@ export default function Event() {
     }
 
     function printAttendee(participant) {
-        return ( <p align="center"><button color="primary" onClick={() => handlePersonClick(participant)}>
-            {participant && participant.firstname + " " + participant && participant.lastname}
-        </button></p>);
+
+        return(
+            <p align="center">
+                <Button color="primary"  onClick={() => handlePersonClick(participant)}>
+                    {participant && (participant.firstname + " " + participant.lastname)}                         
+                </Button>
+            </p>
+        );
     }
 
     return (
@@ -320,15 +380,17 @@ export default function Event() {
                             {
                                 printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Annuler", current.house, user.house)
                             }
-                            {
-                                printButton(user.access_level, user.user_id, current.organisator.user_id, current.status, "Gagnant", current.house, user.house)
-                            }
+
                             {/* Bouton "supprimer", uniquement visible pour l'admin/modo */}
                             {printDeleteButton(user.access_level)}
 
                             {printAccountPointsButton(current)}
                             <h1 className="h1-title">{current.name}</h1>
                             <center><i>{current.status}</i></center>
+
+                            {
+                                winner && printWinner(current.status, winner)
+                            }
 
                             <Table>
                                 <TableHead>
@@ -429,9 +491,10 @@ export default function Event() {
                                         </TableCell>
                                         <TableCell>
                                             <div>
-                                                <button type="button" onClick={handleOpen}>
+                                                
+                                                <Button variant="contained" onClick={handleOpen}>
                                                     {current.nb_attendees} / {current.attendees_max}
-                                                </button>
+                                                </Button>
 
                                                 <Modal
                                                     aria-labelledby="transition-modal-title"
@@ -485,3 +548,6 @@ export default function Event() {
         </main>
     );
 }
+
+
+
