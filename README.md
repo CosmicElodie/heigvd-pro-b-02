@@ -55,11 +55,10 @@ Development team:
 ### Without maven installation
 
 	1. Clone the repository.
-	2. From IntelliJ Ultimate, open the pom.xml found in the "/api" folder.
-	3. Once the project is imported, create a new run configuration.
-	4. Select spring-boot and use "entry.DevApplication" as main class.
-	5. Build and run the program.
-	6. Open a terminal and browse to "/web/src" then run the following commands:
+	2. Open a terminal window in the "/Jar file" folder.
+	3. Run the "dev-0.0.1-SNAPSHOT.jar" jar, located in the "/Jar file" folder (preferably in backgroud) with the following command:
+		java -jar dev-0.0.1-SNAPSHOT.jar 
+	4. Open an other terminal (if you didn't run the previous command in background) and browse to "/web/src" then run the following commands:
 		npm install
 		npm start
 	
