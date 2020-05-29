@@ -91,7 +91,8 @@ const ShowProfile = () => {
                               <DisplayData name="Prénom :" data = {showProfile.firstname}/>    
                               <DisplayDate name="Naissance :" data = {showProfile.birth}/>                             
                               <DisplayData name="Points :" data = {showProfile.points_year}/>  
-                              <DisplayData name="Forum post :" data = {showProfile.nb_subject_participate }/>  
+                              <DisplayData name="Forum post :" data = {showProfile.nb_subject_participate }/> 
+                              <DisplayData name="Victoires :" data = {showProfile.nb_victory }/>  
                               <DisplayData name="Maison :" data = {showProfile.house && showProfile.house.name}/>    
                               <DisplayData name="E-mail :" data = {showProfile.email}/>    
                             </Typography>   
