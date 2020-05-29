@@ -52,14 +52,14 @@ IntelliJ Ultimate can be used instead of maven to run the API but won't support 
 	npm start
 	
 ## Run
-###
+
 	If everything's done right, 
 	the website should run on http://localhost:3000,
 	and the API on http://localhost:8080,
 	by default.
 
 
-## `Documentation`
+## Documentation
 
 Documents Available https://drive.google.com/drive/u/0/folders/1S5gchS3lko_X4oZgnsGqHrhlc9-seslg
 Online website Available on http://heigforum.wanarie.com/
