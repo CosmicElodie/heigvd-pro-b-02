@@ -85,10 +85,12 @@ const ShowProfile = () => {
                             { showProfile.access_level === 75 && "Administrateur" }
 
                             </section>
-                            <Typography >                     
+                            <Typography >  
+                              {console.log(showProfile)}                   
                               <DisplayData name="Nom :" data = {showProfile.lastname}/>    
                               <DisplayData name="Prénom :" data = {showProfile.firstname}/>    
-                              <DisplayDate name="Naissance :" data = {showProfile.birth}/>    
+                              <DisplayDate name="Naissance :" data = {showProfile.birth}/>                             
+                              <DisplayData name="Points :" data = {showProfile.points_year}/>     
                               <DisplayData name="Maison :" data = {showProfile.house && showProfile.house.name}/>    
                               <DisplayData name="E-mail :" data = {showProfile.email}/>    
                             </Typography>   
