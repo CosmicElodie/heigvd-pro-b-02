@@ -32,7 +32,7 @@ Development team:
 
 ## Build and install
 	Choose only one of the following installation steps depending on your needs.
-	The "whithout maven installation" is the easyest one, one nodejs is needed.
+	The "whithout maven installation" is the easyest one, only nodejs is needed.
 
 
 ### Standard installation (maven needed)
