@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import {appConfig} from "../config/appConfig"
 import { useInput } from '../hooks/input';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 
 import { MainContext } from '../context/MainContext';
 
+import { useHistory } from "react-router-dom";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
@@ -36,10 +37,12 @@ const useStyles = makeStyles(theme => ({
 let imagePath = appConfig.content_url + '404.png';
 
 export default function HouseKeeping() {
-    const { user, setDialog } = useContext(MainContext);
+    const { user,setUser, setDialog } = useContext(MainContext);
     const [users, setUsers] = useState();
     const [value, setValue] = React.useState(users);
     const classes = useStyles();
+
+    let history = useHistory(); // hook that allows URL change -> navigation
 
     useEffect(() => {
         getUsers()
@@ -50,6 +53,27 @@ export default function HouseKeeping() {
     const { value: points, bind: bindPoints } = useInput('');
     const { value: access_level, bind: bindAccessLevel } = useInput('');
     const { value: status, bind: bindStatus } = useInput('');
+
+    const user_logout = useCallback(() => {
+
+        fetch(appConfig.api_url + 'authentication/user_logout', {
+             method: 'POST',
+             credentials: 'include'
+         })
+         .then(response => response.json())
+         .then(response => {            
+             setUser(response.data);
+             setDialog({
+                 [response.dialog_id]: {
+                     is_open: true
+                 }
+             });  
+             localStorage.setItem("User", JSON.stringify(response.data));
+             setTimeout(() => history.push("/signin"), 2000);
+    
+         })
+    
+     }, [setUser, setDialog, history]);        
 
     function editLastname() {
         let post_body = "&user_id=" + parseInt(value.user_id) + "&new_lastname=" + lastname;
@@ -205,6 +229,7 @@ export default function HouseKeeping() {
                     }
                 });
                 if (status === "ok") {
+                    user_logout()
                     window.setTimeout(function () { window.location.reload() }, 3000)
                 }
             })
@@ -298,8 +323,10 @@ export default function HouseKeeping() {
 
                                 </Grid>
 
+                                {/* ACTIF */}
+                                {/*
                                 <Grid item xs={12} sm={6}>
-                                    {/* ACTIF */}
+                                    
                                     {<b>{"Activité : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : value.active)}
 
                                     <br /><br />
@@ -309,6 +336,7 @@ export default function HouseKeeping() {
                                     <br /><br />
 
                                 </Grid>
+                                */}
 
                                 <Grid item xs={12} sm={6}>
                                     {/* MAISON */}
