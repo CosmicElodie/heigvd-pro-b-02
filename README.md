@@ -23,8 +23,9 @@ Development team:
 
 	Running the react website requires you to have these programs installed beforehand
 
-	- Maven
+	- Maven (if you want ressource refreshing)
 	- NodeJS
+	- Java jdk
 
 	IntelliJ Ultimate can be used instead of maven to run the API but won't support ressource refreshing
 
@@ -41,6 +42,17 @@ Development team:
 		npm start
 
 ### IntelliJ Ultimate installation
+
+	1. Clone the repository.
+	2. From IntelliJ Ultimate, open the pom.xml found in the "/api" folder.
+	3. Once the project is imported, create a new run configuration.
+	4. Select spring-boot and use "entry.DevApplication" as main class.
+	5. Build and run the program.
+	6. Open a terminal and browse to "/web/src" then run the following commands:
+		npm install
+		npm start
+
+### Without maven installation
 
 	1. Clone the repository.
 	2. From IntelliJ Ultimate, open the pom.xml found in the "/api" folder.
