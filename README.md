@@ -57,7 +57,7 @@ Development team:
 	the website should run on http://localhost:3000,
 	and the API on http://localhost:8080,
 	by default.
-
+	An online version is available on http://heigforum.wanarie.com/
 
 ## Documentation
 
