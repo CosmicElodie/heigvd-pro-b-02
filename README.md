@@ -31,8 +31,11 @@ Development team:
 
 
 ## Build and install
+	Choose only one of the following installation steps depending on your needs.
+	The "whithout maven installation" is the easyest one, one nodejs is needed.
 
-### Standard installation
+
+### Standard installation (maven needed)
 	1. Clone the repository.
 	2. Open a terminal window in the "/api" folder.
 	3. Run the api with Maven using the following command (preferably in backgroud):
