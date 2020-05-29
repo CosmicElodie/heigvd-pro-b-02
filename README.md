@@ -46,8 +46,8 @@ Development team:
 	2. From IntelliJ Ultimate, open the pom.xml found in the "/api" folder.
 	3. Once the project is imported, create a new run configuration.
 	4. Select spring-boot and use "entry.DevApplication" as main class.
-	3. Build and run the program.
-	4. Open a terminal and browse to "/web/src" then run the following commands:
+	5. Build and run the program.
+	6. Open a terminal and browse to "/web/src" then run the following commands:
 		npm install
 		npm start
 	
