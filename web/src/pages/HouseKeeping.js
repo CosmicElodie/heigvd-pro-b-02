@@ -232,7 +232,11 @@ export default function HouseKeeping() {
                 credentials: 'include'
             })
             .then(response => response.json())
-            .then(response => { setUsers(response); }
+            .then(response => { 
+                let users = [];
+                for (const obj of response) users.push(obj.user);
+                setUsers(users); 
+            }
             )
     }
 
@@ -270,7 +274,7 @@ export default function HouseKeeping() {
                                 }}
                                 id="select-user"
                                 options={users}
-                                getOptionLabel={(option) => displayAndSetValues(option.user)}
+                                getOptionLabel={(option) => displayAndSetValues(option)}
                                 style={{ width: 300 }}
                                 renderInput={(params) => <TextField {...params} label="Sélectionner utilisateur" variant="outlined" />}
                             /></p>
