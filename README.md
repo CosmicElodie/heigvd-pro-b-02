@@ -20,36 +20,36 @@ Development team:
 | Stefan Teofanovic 					  | stefan.teofanovic@heig-vd.ch | Ovich |
 
 ## Dependencies
-###
-Running the react website requires you to have these programs installed beforehand
 
-- Maven
-- NodeJS
+	Running the react website requires you to have these programs installed beforehand
 
-IntelliJ Ultimate can be used instead of maven to run the API but won't support ressource refreshing
+	- Maven
+	- NodeJS
+
+	IntelliJ Ultimate can be used instead of maven to run the API but won't support ressource refreshing
 
 
 ## Build and install
 
 ### Standard installation
-1. Clone the repository.
-2. Open a terminal window in the "/api" folder.
-3. Run the api with Maven using the following command (preferably in backgroud):
-	mvn clean spring-boot:run
-4. Open an other terminal (if you didn't run the previous command in background) and browse to "/web/src" then run the following commands:
-	npm install
-	npm start
+	1. Clone the repository.
+	2. Open a terminal window in the "/api" folder.
+	3. Run the api with Maven using the following command (preferably in backgroud):
+		mvn clean spring-boot:run
+	4. Open an other terminal (if you didn't run the previous command in background) and browse to "/web/src" then run the following commands:
+		npm install
+		npm start
 
 ### IntelliJ Ultimate installation
 
-1. Clone the repository.
-2. From IntelliJ Ultimate, open the pom.xml found in the "/api" folder.
-3. Once the project is imported, create a new run configuration.
-4. Select spring-boot and use "entry.DevApplication" as main class.
-3. Build and run the program.
-4. Open a terminal and browse to "/web/src" then run the following commands:
-	npm install
-	npm start
+	1. Clone the repository.
+	2. From IntelliJ Ultimate, open the pom.xml found in the "/api" folder.
+	3. Once the project is imported, create a new run configuration.
+	4. Select spring-boot and use "entry.DevApplication" as main class.
+	3. Build and run the program.
+	4. Open a terminal and browse to "/web/src" then run the following commands:
+		npm install
+		npm start
 	
 ## Run
 
