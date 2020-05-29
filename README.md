@@ -21,7 +21,7 @@ Development team:
 
 ## Dependencies
 ###
-Running the react website requires you to havethese programs installed beforehand
+Running the react website requires you to have these programs installed beforehand
 
 - Maven
 - NodeJS
