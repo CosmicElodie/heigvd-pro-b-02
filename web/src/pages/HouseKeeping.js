@@ -323,8 +323,10 @@ export default function HouseKeeping() {
 
                                 </Grid>
 
+                                {/* ACTIF */}
+                                {/*
                                 <Grid item xs={12} sm={6}>
-                                    {/* ACTIF */}
+                                    
                                     {<b>{"Activité : "}</b>}{(value == null ? "Veuillez choisir un utilisateur" : value.active)}
 
                                     <br /><br />
@@ -334,6 +336,7 @@ export default function HouseKeeping() {
                                     <br /><br />
 
                                 </Grid>
+                                */}
 
                                 <Grid item xs={12} sm={6}>
                                     {/* MAISON */}
