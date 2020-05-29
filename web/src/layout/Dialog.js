@@ -730,7 +730,7 @@ const Dialog = () => {
                     onClose={() => handleClose({ lastname_not_only_letter: { is_open: false } })}
                     autoHideDuration={6000} >
                     <Alert variant="filled" severity="error">
-                        Le nom doit être composé uniquement de lettres.
+                        Le nom doit commencer par une majuscule, être composé de lettres et éventuellement un caractère - ou '.
                     </Alert>
                 </Snackbar>
             }
