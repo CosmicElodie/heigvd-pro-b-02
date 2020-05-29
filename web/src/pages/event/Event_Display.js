@@ -169,11 +169,22 @@ export default function Event() {
             return (
                 <div>
                     <h2 className="h2-title"><br />Gagnants</h2>
-                    {winner.map(({ place, user_id, event_id }) =>
+
+                    {winner.map(({ place, house_id , user_id, event_id }) =>
                         <div>
-                            <Button color="primary" onClick={() => handlePersonClick(user_id)}>
-                                {place}{'. '}{user_id.firstname}{' '}{user_id.lastname}
-                            </Button>
+
+                            {house_id &&
+                                <Button color="primary" onClick={() => handlePersonClick(user_id)}>                                
+                                    {place}{'. '}{house_id.name}
+                                </Button>
+                            }
+
+                            {user_id &&
+                                <Button color="primary" onClick={() => handlePersonClick(user_id)}>                                
+                                    {place}{'. '}{user_id.firstname}{' '}{user_id.lastname}
+                                </Button>
+                            }
+                            
                             <br />
                         </div>
                     )}

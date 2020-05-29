@@ -56,7 +56,7 @@ const EventWelcomeHouseContainer = () => {
     let counterHouse = 1;
     let history = useHistory();
 
-    function printHouseEvent(houseEvent, name, date_begin, nb_attendees, event_id) {
+    function printHouseEvent(houseEvent, name, created, nb_attendees, event_id) {
         if (houseEvent == null) {
             return;
         }
@@ -72,7 +72,7 @@ const EventWelcomeHouseContainer = () => {
                 </TableCell>
                 <TableCell component="th" scope="row">
                     <Moment format="DD/MM/YYYY - HH:mm">
-                        {date_begin}
+                        {created}
                     </Moment>
 
                 </TableCell>
@@ -123,7 +123,7 @@ const EventWelcomeHouseContainer = () => {
                             {events && events.length > 0 && events.map(({ event_id, name, description, is_competitive, difficulty, battleroyale,
                                 status, price, attendees_min, attendees_max, created, deadline_reservation,
                                 date_begin, date_end, location, address, house, organisator, participants, nb_attendees }, index) =>
-                                printHouseEvent(house, name, date_begin, nb_attendees, event_id)
+                                printHouseEvent(house, name, created, nb_attendees, event_id)
                             )}
                         </TableBody>
                     </Table>

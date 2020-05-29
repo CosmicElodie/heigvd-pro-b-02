@@ -60,7 +60,7 @@ const EventWelcomeGlobalContainer = () => {
 
     let history = useHistory();
 
-    function printGlobalEvent(houseEvent, name, date_begin, nb_attendees, event_id) {
+    function printGlobalEvent(houseEvent, name, created, nb_attendees, event_id) {
         if (counterGlobal <= 5) {
             counterGlobal++;
             return (<TableRow>
@@ -75,7 +75,7 @@ const EventWelcomeGlobalContainer = () => {
 
                 <TableCell component="th" scope="row">
                     <Moment format="DD/MM/YYYY - HH:mm">
-                        {date_begin}
+                        {created}
                     </Moment>
                 </TableCell>
                 <TableCell component="th" scope="row">
@@ -128,7 +128,7 @@ const EventWelcomeGlobalContainer = () => {
                             {events && events.length > 0 && events.map(({ event_id, name, description, is_competitive, difficulty, battleroyale,
                                 status, price, attendees_min, attendees_max, created, deadline_reservation,
                                 date_begin, date_end, location, address, house, organisator, participants, nb_attendees }, index) =>
-                                printGlobalEvent(house, name, date_begin, nb_attendees, event_id)
+                                printGlobalEvent(house, name, created, nb_attendees, event_id)
                             )}
                         </TableBody>
                     </Table>
